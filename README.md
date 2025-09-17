@@ -232,22 +232,33 @@ module.exports = {
 gantt
     title Ultra AI Platform Deployment Plan
     dateFormat YYYY-MM-DD
-    section Prototype
-    Basic UI Design      :active, 2025-01-01, 45d
-    AI Engine Development  :2025-02-15, 60d
-    Authentication & Security :2025-03-01, 30d
-    section Distributed System
-    Network Architecture :2025-04-01, 45d
-    Chunking & Encryption :2025-05-15, 60d
-    Performance & Security Testing :2025-07-01, 45d
-    section Integrations
-    Gata-OS Integration :2025-08-15, 60d
-    Rewards System Development :2025-09-01, 45d
-    Multi-language Support :2025-10-15, 30d
-    section Production
-    Limited Beta Testing :2025-11-01, 60d
-    Gradual Expansion :2026-01-01, 90d
-    Global Launch :2026-04-01, 60d
+    section Phase 1: Foundation (Q1-Q2 2025)
+    Technical Architecture    :done, arch, 2025-01-01, 30d
+    Core AI Engine           :active, core, after arch, 60d
+    Basic UI & APIs          :ui, after arch, 45d
+    Authentication System    :auth, after ui, 30d
+    Basic Security Layer     :sec1, after auth, 30d
+    
+    section Phase 2: Distributed Network (Q2-Q3 2025)
+    Node Network Setup       :net, after core, 45d
+    Chunking Algorithm       :chunk, after sec1, 45d
+    P2P Communication        :p2p, after net, 60d
+    Encryption Implementation :enc, after chunk, 45d
+    Basic Rewards System     :reward1, after p2p, 45d
+    
+    section Phase 3: Integration & Testing (Q3-Q4 2025)
+    Gata-OS Integration      :gata, after enc, 60d
+    Advanced Security        :sec2, after reward1, 45d
+    Performance Testing      :perf, after gata, 30d
+    Beta User Testing        :beta, after sec2, 60d
+    Bug Fixes & Optimization :fix, after perf, 30d
+    
+    section Phase 4: Launch & Scale (Q4 2025 - Q2 2026)
+    Soft Launch              :launch1, after beta, 30d
+    User Feedback Integration :feedback, after fix, 30d
+    Full Public Launch       :launch2, after feedback, 30d
+    Geographic Expansion     :expand, after launch2, 90d
+    Enterprise Features      :enterprise, after launch1, 120d
 ```
 
 ## 🤝 Contributing to the Project
