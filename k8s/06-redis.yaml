@@ -1,0 +1,267 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: redis
+  namespace: ultra-ai
+  labels:
+    app: redis
+    version: "7"
+spec:
+  serviceName: redis
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+        version: "7"
+    spec:
+      securityContext:
+        fsGroup: 999
+        runAsUser: 999
+        runAsNonRoot: true
+      
+      containers:
+        - name: redis
+          image: redis:7-alpine
+          imagePullPolicy: IfNotPresent
+          
+          command:
+            - redis-server
+            - /usr/local/etc/redis/redis.conf
+          
+          ports:
+            - containerPort: 6379
+              name: redis
+              protocol: TCP
+          
+          env:
+            - name: REDIS_REPLICATION_MODE
+              value: "master"
+          
+          volumeMounts:
+            - name: redis-storage
+              mountPath: /data
+            - name: redis-config
+              mountPath: /usr/local/etc/redis
+          
+          livenessProbe:
+            tcpSocket:
+              port: 6379
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          
+          readinessProbe:
+            exec:
+              command:
+                - redis-cli
+                - ping
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 2
+          
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "256Mi"
+            limits:
+              cpu: "1000m"
+              memory: "2Gi"
+          
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: false
+            capabilities:
+              drop:
+                - ALL
+      
+      volumes:
+        - name: redis-config
+          configMap:
+            name: redis-config
+  
+  volumeClaimTemplates:
+    - metadata:
+        name: redis-storage
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        storageClassName: fast-ssd
+        resources:
+          requests:
+            storage: 20Gi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+  namespace: ultra-ai
+  labels:
+    app: redis
+spec:
+  clusterIP: None
+  selector:
+    app: redis
+  ports:
+    - name: redis
+      port: 6379
+      targetPort: 6379
+      protocol: TCP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-headless
+  namespace: ultra-ai
+  labels:
+    app: redis
+spec:
+  type: ClusterIP
+  selector:
+    app: redis
+  ports:
+    - name: redis
+      port: 6379
+      targetPort: 6379
+      protocol: TCP
+
+---
+# Redis Sentinel for High Availability (optional)
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: redis-sentinel
+  namespace: ultra-ai
+  labels:
+    app: redis-sentinel
+spec:
+  serviceName: redis-sentinel
+  replicas: 3
+  selector:
+    matchLabels:
+      app: redis-sentinel
+  template:
+    metadata:
+      labels:
+        app: redis-sentinel
+    spec:
+      securityContext:
+        fsGroup: 999
+        runAsUser: 999
+        runAsNonRoot: true
+      
+      containers:
+        - name: sentinel
+          image: redis:7-alpine
+          imagePullPolicy: IfNotPresent
+          
+          command:
+            - redis-sentinel
+            - /etc/redis/sentinel.conf
+          
+          ports:
+            - containerPort: 26379
+              name: sentinel
+              protocol: TCP
+          
+          volumeMounts:
+            - name: sentinel-config
+              mountPath: /etc/redis
+            - name: sentinel-storage
+              mountPath: /data
+          
+          livenessProbe:
+            tcpSocket:
+              port: 26379
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+      
+      volumes:
+        - name: sentinel-config
+          configMap:
+            name: redis-config
+  
+  volumeClaimTemplates:
+    - metadata:
+        name: sentinel-storage
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        storageClassName: fast-ssd
+        resources:
+          requests:
+            storage: 5Gi
+
+---
+# Sentinel Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-sentinel
+  namespace: ultra-ai
+  labels:
+    app: redis-sentinel
+spec:
+  clusterIP: None
+  selector:
+    app: redis-sentinel
+  ports:
+    - name: sentinel
+      port: 26379
+      targetPort: 26379
+      protocol: TCP
+
+---
+# Cache Preloader Job
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: redis-cache-preload
+  namespace: ultra-ai
+spec:
+  template:
+    spec:
+      serviceAccountName: default
+      containers:
+        - name: redis-preload
+          image: redis:7-alpine
+          command:
+            - /bin/sh
+            - -c
+            - |
+              # Wait for Redis to be ready
+              until redis-cli -h redis ping | grep -q PONG; do
+                echo "Waiting for Redis..."
+                sleep 2
+              done
+              echo "Redis is ready, preloading cache..."
+              # Preload basic cache keys
+              redis-cli -h redis SET health:check "ok" EX 3600
+              redis-cli -h redis SET config:loaded "1" EX 86400
+              echo "Cache preload complete"
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "256Mi"
+      restartPolicy: Never
+  backoffLimit: 3

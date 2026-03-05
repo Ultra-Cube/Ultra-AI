@@ -1,0 +1,244 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: api-config
+  namespace: ultra-ai
+data:
+  # Database Configuration
+  DATABASE_URL: "postgresql://postgres:postgres@postgres:5432/ultra_ai"
+  DATABASE_REPLICA_URL: "postgresql://postgres:postgres@postgres-replica-1:5432/ultra_ai"
+  
+  # Cache Configuration
+  REDIS_URL: "redis://redis:6379/0"
+  REDIS_CLUSTER_NODES: "redis:6379"
+  
+  # MongoDB Configuration
+  MONGODB_URL: "mongodb://mongodb:27017/ultra_ai"
+  MONGODB_REPLICA_SET: "rs0"
+  
+  # API Configuration
+  API_HOST: "0.0.0.0"
+  API_PORT: "5555"
+  API_WORKERS: "4"
+  
+  # Features Configuration
+  FEATURE_GRAPHQL: "true"
+  FEATURE_ANALYTICS: "true"
+  FEATURE_AUDIT_LOG: "true"
+  FEATURE_WEBHOOKS: "true"
+  FEATURE_WEBHOOK_ENCRYPTION: "true"
+  
+  # CORS Configuration
+  CORS_ORIGINS: "http://localhost:3000,https://app.ultra-ai.local"
+  CORS_CREDENTIALS: "true"
+  
+  # Monitoring
+  ENABLE_METRICS: "true"
+  METRICS_PORT: "9090"
+  LOG_LEVEL: "info"
+  
+  # Cache Settings
+  CACHE_TTL: "3600"
+  CACHE_MAX_SIZE: "1000"
+  
+  # Pagination
+  DEFAULT_PAGE_SIZE: "20"
+  MAX_PAGE_SIZE: "100"
+  
+  # File Upload
+  MAX_FILE_SIZE: "104857600" # 100MB
+  ALLOWED_FILE_TYPES: "pdf,doc,docx,xls,xlsx,jpg,jpeg,png,gif"
+  
+  # Search Configuration
+  SEARCH_INDEX_REFRESH_INTERVAL: "30s"
+  SEARCH_BATCH_SIZE: "100"
+  
+  # Rate Limiting
+  RATE_LIMIT_WINDOW: "900" # 15 minutes
+  RATE_LIMIT_MAX_REQUESTS: "1000"
+  
+  # Session Configuration
+  SESSION_TIMEOUT: "86400" # 24 hours
+  SESSION_RENEWAL: "3600" # 1 hour
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: web-config
+  namespace: ultra-ai
+data:
+  # Frontend Configuration
+  NEXT_PUBLIC_API_URL: "https://api.ultra-ai.local"
+  NEXT_PUBLIC_APP_NAME: "Ultra AI Platform"
+  NEXT_PUBLIC_APP_VERSION: "1.0.0"
+  
+  # Feature Flags
+  NEXT_PUBLIC_FEATURE_DARK_MODE: "true"
+  NEXT_PUBLIC_FEATURE_MULTI_LANGUAGE: "true"
+  NEXT_PUBLIC_FEATURE_NOTIFICATIONS: "true"
+  
+  # Analytics
+  NEXT_PUBLIC_ANALYTICS_ENABLED: "true"
+  NEXT_PUBLIC_ANALYTICS_ID: "ga-ultra-ai"
+  
+  # Telemetry
+  NEXT_PUBLIC_TELEMETRY_DISABLED: "false"
+  
+  # Timeout Configuration
+  NEXT_PUBLIC_REQUEST_TIMEOUT: "30000" # 30 seconds
+  
+  # Environment
+  NEXT_PUBLIC_ENVIRONMENT: "production"
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-config
+  namespace: ultra-ai
+data:
+  # PostgreSQL Configuration
+  POSTGRES_DB: "ultra_ai"
+  POSTGRES_USER: "postgres"
+  # Password is in Secret
+  
+  # Pool Configuration
+  POSTGRES_INIT_ARGS: "-c shared_buffers=256MB -c max_connections=100"
+  
+  # Replication
+  REPLICATION_MODE: "async"
+  REPLICATION_USER: "replicator"
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: redis-config
+  namespace: ultra-ai
+data:
+  redis.conf: |
+    # Redis Configuration
+    port 6379
+    bind 0.0.0.0
+    
+    # Memory Configuration
+    maxmemory 2gb
+    maxmemory-policy allkeys-lru
+    
+    # Persistence
+    save 900 1
+    save 300 10
+    save 60 10000
+    
+    # AOF (Append Only File)
+    appendonly yes
+    appendfsync everysec
+    
+    # Replication
+    slave-read-only yes
+    
+    # Cluster Configuration
+    cluster-enabled no
+    
+    # Security
+    requirepass ""  # Set via Secret
+    
+    # Databases
+    databases 16
+    
+    # Timeout
+    timeout 0
+    tcp-backlog 511
+    
+    # Logging
+    loglevel notice
+    
+    # Slow Log
+    slowlog-log-slower-than 10000
+    slowlog-max-len 128
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mongodb-config
+  namespace: ultra-ai
+data:
+  mongod.conf: |
+    # MongoDB Configuration
+    net:
+      port: 27017
+      bindIp: 0.0.0.0
+    
+    storage:
+      engine: wiredTiger
+      dbPath: /data/db
+      wiredTiger:
+        cacheSizeGB: 2
+    
+    replication:
+      replSetName: rs0
+    
+    security:
+      keyFile: /etc/mongod.conf.keyfile
+    
+    processManagement:
+      timeZoneInfo: /usr/share/zoneinfo
+    
+    systemLog:
+      destination: file
+      path: /var/log/mongod/mongod.log
+      logAppend: true
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-config
+  namespace: ultra-ai
+data:
+  nginx.conf: |
+    user nginx;
+    worker_processes auto;
+    error_log /var/log/nginx/error.log warn;
+    pid /var/run/nginx.pid;
+    
+    events {
+      worker_connections 1024;
+      use epoll;
+    }
+    
+    http {
+      include /etc/nginx/mime.types;
+      default_type application/octet-stream;
+      
+      log_format main '$remote_addr - $remote_user [$time_local] "$request" '
+                      '$status $body_bytes_sent "$http_referer" '
+                      '"$http_user_agent" "$http_x_forwarded_for"';
+      
+      access_log /var/log/nginx/access.log main;
+      
+      sendfile on;
+      tcp_nopush on;
+      tcp_nodelay on;
+      keepalive_timeout 65;
+      types_hash_max_size 2048;
+      client_max_body_size 100M;
+      
+      # Gzip Compression
+      gzip on;
+      gzip_vary on;
+      gzip_proxied any;
+      gzip_comp_level 6;
+      gzip_types text/plain text/css text/xml text/javascript 
+                 application/json application/javascript application/xml+rss;
+      
+      server {
+        listen 80;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+      }
+    }

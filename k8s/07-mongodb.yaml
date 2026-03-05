@@ -1,0 +1,273 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mongodb
+  namespace: ultra-ai
+  labels:
+    app: mongodb
+    version: "7"
+spec:
+  serviceName: mongodb
+  replicas: 3
+  selector:
+    matchLabels:
+      app: mongodb
+  template:
+    metadata:
+      labels:
+        app: mongodb
+        version: "7"
+    spec:
+      securityContext:
+        fsGroup: 999
+        runAsUser: 999
+        runAsNonRoot: true
+      
+      initContainers:
+        # Initialize replica set
+        - name: init-replica-set
+          image: mongo:7
+          command:
+            - /bin/sh
+            - -c
+            - |
+              if [ -f /data/db/init-done.txt ]; then
+                echo "Replica set already initialized"
+              else
+                sleep 30
+                mongosh --host mongodb-0.mongodb,mongodb-1.mongodb,mongodb-2.mongodb --eval "
+                  rs.initiate({
+                    _id: 'rs0',
+                    members: [
+                      { _id: 0, host: 'mongodb-0.mongodb:27017', priority: 3 },
+                      { _id: 1, host: 'mongodb-1.mongodb:27017', priority: 2 },
+                      { _id: 2, host: 'mongodb-2.mongodb:27017', priority: 1 }
+                    ]
+                  })
+                " || true
+                touch /data/db/init-done.txt
+              fi
+          volumeMounts:
+            - name: mongodb-storage
+              mountPath: /data/db
+      
+      containers:
+        - name: mongodb
+          image: mongo:7
+          imagePullPolicy: IfNotPresent
+          
+          command:
+            - mongod
+            - --replSet=rs0
+            - --bind_ip_all
+            - --wiredTigerCacheSizeGB=2
+          
+          ports:
+            - containerPort: 27017
+              name: mongodb
+              protocol: TCP
+          
+          env:
+            - name: MONGO_INITDB_DATABASE
+              value: ultra_ai
+            - name: MONGO_INITDB_ROOT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: db-credentials
+                  key: mongodb-username
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-credentials
+                  key: mongodb-password
+          
+          volumeMounts:
+            - name: mongodb-storage
+              mountPath: /data/db
+            - name: mongodb-config
+              mountPath: /etc/mongo
+          
+          livenessProbe:
+            exec:
+              command:
+                - mongosh
+                - --eval
+                - "db.adminCommand('ping')"
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          
+          readinessProbe:
+            exec:
+              command:
+                - mongosh
+                - --eval
+                - "db.adminCommand('ping')"
+            initialDelaySeconds: 30
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 2
+          
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "512Mi"
+            limits:
+              cpu: "2000m"
+              memory: "2Gi"
+          
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: false
+            capabilities:
+              drop:
+                - ALL
+      
+      volumes:
+        - name: mongodb-config
+          configMap:
+            name: mongodb-config
+  
+  volumeClaimTemplates:
+    - metadata:
+        name: mongodb-storage
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        storageClassName: fast-ssd
+        resources:
+          requests:
+            storage: 100Gi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongodb
+  namespace: ultra-ai
+  labels:
+    app: mongodb
+spec:
+  clusterIP: None
+  selector:
+    app: mongodb
+  ports:
+    - name: mongodb
+      port: 27017
+      targetPort: 27017
+      protocol: TCP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongodb-headless
+  namespace: ultra-ai
+  labels:
+    app: mongodb
+spec:
+  type: ClusterIP
+  selector:
+    app: mongodb
+  ports:
+    - name: mongodb
+      port: 27017
+      targetPort: 27017
+      protocol: TCP
+
+---
+# MongoDB Backup CronJob
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: mongodb-backup
+  namespace: ultra-ai
+spec:
+  schedule: "0 3 * * *"  # Daily at 3 AM
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: default
+          containers:
+            - name: mongodb-backup
+              image: mongo:7
+              env:
+                - name: MONGO_USERNAME
+                  valueFrom:
+                    secretKeyRef:
+                      name: db-credentials
+                      key: mongodb-username
+                - name: MONGO_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: db-credentials
+                      key: mongodb-password
+              command:
+                - /bin/sh
+                - -c
+                - |
+                  mongodump --uri="mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@mongodb-0.mongodb:27017/ultra_ai" \
+                    --out=/backup/backup-$(date +%Y%m%d-%H%M%S) && \
+                  cd /backup && tar -czf backup-$(date +%Y%m%d-%H%M%S).tar.gz backup-*/ && \
+                  find /backup -maxdepth 1 -type d -name "backup-*" -exec rm -rf {} + &&
+                  find /backup -name "backup-*.tar.gz" -mtime +7 -delete
+              volumeMounts:
+                - name: backup-storage
+                  mountPath: /backup
+              resources:
+                requests:
+                  cpu: "200m"
+                  memory: "512Mi"
+                limits:
+                  cpu: "1000m"
+                  memory: "2Gi"
+          volumes:
+            - name: backup-storage
+              persistentVolumeClaim:
+                claimName: mongodb-pvc
+          restartPolicy: OnFailure
+
+---
+# MongoDB Replica Set Monitor
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: mongodb-monitor
+  namespace: ultra-ai
+spec:
+  schedule: "*/5 * * * *"  # Every 5 minutes
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: default
+          containers:
+            - name: monitor
+              image: mongo:7
+              env:
+                - name: MONGO_USERNAME
+                  valueFrom:
+                    secretKeyRef:
+                      name: db-credentials
+                      key: mongodb-username
+                - name: MONGO_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: db-credentials
+                      key: mongodb-password
+              command:
+                - /bin/sh
+                - -c
+                - |
+                  mongosh --uri="mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@mongodb-0.mongodb:27017/admin" \
+                    --eval "rs.status()" | grep -i "stateStr\|members"
+              resources:
+                requests:
+                  cpu: "100m"
+                  memory: "256Mi"
+                limits:
+                  cpu: "500m"
+                  memory: "512Mi"
+          restartPolicy: OnFailure

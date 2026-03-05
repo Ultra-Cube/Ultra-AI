@@ -1,0 +1,88 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: ultra-ai
+
+resources:
+  - 01-namespace.yaml
+  - 02-configmap.yaml
+  - 03-secrets.yaml
+  - 04-storage.yaml
+  - 05-postgres.yaml
+  - 06-redis.yaml
+  - 07-mongodb.yaml
+  - 08-api-deployment.yaml
+  - 09-web-deployment.yaml
+  - 10-services.yaml
+  - 11-ingress.yaml
+  - 12-hpa-and-policies.yaml
+
+# Default namespace
+commonLabels:
+  app.kubernetes.io/name: ultra-ai
+  app.kubernetes.io/version: "1.0.0"
+  app.kubernetes.io/managed-by: kustomize
+
+commonAnnotations:
+  deployment.kubernetes.io/timestamp: "2026-03-05"
+  deployment.kubernetes.io/environment: "production"
+
+# Images
+images:
+  - name: ultra-ai-api
+    newName: registry.example.com/ultra-ai-api
+    newTag: latest
+  - name: ultra-ai-web
+    newName: registry.example.com/ultra-ai-web
+    newTag: latest
+  - name: postgres
+    newTag: "15-alpine"
+  - name: redis
+    newTag: "7-alpine"
+  - name: mongo
+    newTag: "7"
+
+# Replicas
+replicas:
+  - name: api
+    count: 3
+  - name: web
+    count: 2
+
+# Service account patches
+serviceAccountName: ultra-ai-sa
+
+# Common patches
+patches:
+  - target:
+      kind: Deployment
+      name: api
+    patch: |-
+      - op: add
+        path: /spec/template/spec/securityContext
+        value:
+          runAsNonRoot: true
+          runAsUser: 1001
+      - op: add
+        path: /spec/template/spec/automountServiceAccountToken
+        value: true
+
+# ConfigMap generator for dynamic configs
+configMapGenerator:
+  - name: app-config-generated
+    namespace: ultra-ai
+    literals:
+      - LOG_LEVEL=info
+      - METRICS_ENABLED=true
+
+# Secret generator
+secretGenerator:
+  - name: app-secrets-generated
+    namespace: ultra-ai
+    literals:
+      - DATABASE_PASSWORD=changeme
+      - JWT_SECRET=changeme
+
+# Resource limits
+commonLabels:
+  version: "1.0"
