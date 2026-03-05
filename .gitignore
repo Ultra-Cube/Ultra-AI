@@ -38,6 +38,7 @@ htmlcov/
 # Production
 /build
 /.next/
+**/.next/
 /out/
 .vercel
 
