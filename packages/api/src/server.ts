@@ -35,7 +35,12 @@ async function main() {
     process.on('SIGTERM', shutdown);
     process.on('SIGINT', shutdown);
   } catch (error) {
-    appLogger.error('Failed to start server', error);
+    // Keep a direct stderr fallback so startup failures are always visible.
+    console.error('Server startup error:', error);
+    appLogger.error(
+      'Failed to start server',
+      error instanceof Error ? error : String(error)
+    );
     process.exit(1);
   }
 }

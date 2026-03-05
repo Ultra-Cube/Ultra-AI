@@ -81,7 +81,6 @@ describe('NotificationService', () => {
       const mockNotification = {
         id: 'notif_123',
         tenantId,
-        userId,
         ...notificationData,
         status: NotificationStatus.PENDING,
         isRead: false,

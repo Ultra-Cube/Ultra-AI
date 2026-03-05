@@ -73,7 +73,8 @@ export async function registerHttpCachingMiddleware(
       : `http:${request.method}:${request.url}`;
 
     try {
-      await cache.set(cacheKey, reply.payload, config.ttl || 3600, config.tags);
+      const payload = (reply as any).getPayload?.() || JSON.stringify({});
+      await cache.set(cacheKey, payload, config.ttl || 3600, config.tags);
     } catch (error) {
       console.error('Error caching HTTP response:', error);
     }

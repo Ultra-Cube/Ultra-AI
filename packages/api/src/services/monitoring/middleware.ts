@@ -35,22 +35,23 @@ export async function registerMonitoringMiddleware(app: FastifyInstance): Promis
   });
 
   // Track request duration and metrics
-  app.addHook('onRequest', async (request, reply) => {
-    request.startTime = Date.now();
+  app.addHook('onRequest', async (request) => {
+    (request as any).startTime = Date.now();
   });
 
   // Log response and record metrics
   app.addHook('onResponse', async (request, reply) => {
-    if (!request.startTime) return;
+    const startTime = (request as any).startTime;
+    if (!startTime) return;
 
-    const duration = Date.now() - request.startTime;
+    const duration = Date.now() - startTime;
     const method = request.method;
     const route = request.routeOptions.url || request.url;
     const statusCode = reply.statusCode;
 
     // Get sizes
     const requestSize = getSize(request.body);
-    const responseSize = getSize(reply.payload);
+    const responseSize = getSize((reply as any)._payload || '');
 
     // Record metrics
     metricsCollector.recordHttpRequest(
@@ -63,7 +64,7 @@ export async function registerMonitoringMiddleware(app: FastifyInstance): Promis
     );
 
     // Log the request
-    const userId = (request.user as any)?.id;
+    const userId = (request as any).user?.id;
     appLogger.logHttpRequest(method, route, statusCode, duration, userId);
   });
 

@@ -37,6 +37,9 @@ export class DatabaseUserService {
       data: {
         email: normalizedEmail,
         passwordHash,
+        tenant: {
+          connect: { id: 'default-tenant' },
+        },
       },
     });
     return user as UserRecord;

@@ -3,7 +3,7 @@
  * Phase 15
  */
 
-import { PrismaClient, File, User, AnalyticsEvent } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 
 export interface SearchQuery {
   q: string;
@@ -71,7 +71,7 @@ export class AdvancedSearchService {
           id: f.id,
           type: 'file',
           title: f.name,
-          description: f.description,
+          description: f.description ?? undefined,
           score: 0.9,
           metadata: { size: f.size, mimeType: f.mimeType },
         }))

@@ -172,7 +172,7 @@ export class MemoryCache {
    */
   stop(): void {
     if (this.cleanupInterval) {
-      clearInterval(this.cleanupInterval);
+      clearInterval(this.cleanupInterval as any);
     }
   }
 }
@@ -461,7 +461,7 @@ export function Cacheable(ttlSeconds?: number, tags?: string[]) {
     const cacheKey = `${target.constructor.name}:${propertyKey}`;
 
     descriptor.value = async function(...args: any[]) {
-      const cache = this.cache as MultiLayerCache;
+      const cache = (this as any).cache as MultiLayerCache;
       if (!cache) {
         return originalMethod.apply(this, args);
       }

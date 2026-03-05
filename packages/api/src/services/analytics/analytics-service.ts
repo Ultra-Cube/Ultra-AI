@@ -151,9 +151,9 @@ export class AnalyticsService {
         tenantId_metricName_dimension1_dimension2_dimension3_windowStart: {
           tenantId,
           metricName: metricData.metricName,
-          dimension1: metricData.dimension1 || null,
-          dimension2: metricData.dimension2 || null,
-          dimension3: metricData.dimension3 || null,
+          dimension1: metricData.dimension1 ?? '',
+          dimension2: metricData.dimension2 ?? '',
+          dimension3: metricData.dimension3 ?? '',
           windowStart,
         },
       },

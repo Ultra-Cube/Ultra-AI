@@ -3,7 +3,21 @@
  * Manage webhook subscriptions and event delivery
  */
 
-import { PrismaClient, Webhook } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
+
+export interface StoredWebhook {
+  id: string;
+  tenantId: string;
+  url: string;
+  events: string[];
+  active: boolean;
+  headers: Record<string, string> | null;
+  retryPolicy: { maxRetries: number; backoffMs: number } | null;
+  failureCount: number;
+  lastFailedAt: Date | null;
+  createdAt: Date;
+  updatedAt: Date;
+}
 
 export interface WebhookConfig {
   url: string;
@@ -31,7 +45,7 @@ export class WebhookService {
   async registerWebhook(
     tenantId: string,
     config: WebhookConfig
-  ): Promise<Webhook> {
+  ): Promise<StoredWebhook> {
     // In production, this would use actual Webhook model from Prisma
     // For now, we'll return a mock
     return {
@@ -46,14 +60,14 @@ export class WebhookService {
       retryPolicy: config.retryPolicy as any,
       failureCount: 0,
       lastFailedAt: null,
-    } as Webhook;
+    };
   }
 
   /**
    * Send webhook event
    */
   async sendWebhook(
-    webhook: Webhook,
+    webhook: StoredWebhook,
     event: WebhookEvent
   ): Promise<{ success: boolean; statusCode?: number; error?: string }> {
     // In production, implement actual HTTP delivery logic
@@ -78,7 +92,7 @@ export class WebhookService {
     data: Record<string, any>
   ): Promise<void> {
     // Find webhooks subscribed to this event
-    const webhooks: Webhook[] = []; // In production: await this.prisma.webhook.findMany()
+    const webhooks: StoredWebhook[] = []; // In production: await this.prisma.webhook.findMany()
 
     const event: WebhookEvent = {
       type: eventType,
@@ -122,7 +136,8 @@ export class WebhookService {
   /**
    * Get tenant webhooks
    */
-  async getTenantWebhooks(tenantId: string): Promise<Webhook[]> {
+  async getTenantWebhooks(tenantId: string): Promise<StoredWebhook[]> {
+    void tenantId;
     // In production: return await this.prisma.webhook.findMany()
     return [];
   }

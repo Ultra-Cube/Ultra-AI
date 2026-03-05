@@ -65,7 +65,9 @@ if (process.env.NODE_ENV !== 'production') {
   });
 
   // Add to all loggers
-  winston.loggers.options.transports?.push(consoleTransport);
+  if (Array.isArray(winston.loggers.options.transports)) {
+    (winston.loggers.options.transports as any[]).push(consoleTransport);
+  }
 }
 
 /**
@@ -238,7 +240,7 @@ export class StructuredLogger {
     };
     
     const level = levelMap[severity];
-    this.logger[level](`Security: ${event}`, {
+    (this.logger as any)[level](`Security: ${event}`, {
       ...this.context,
       severity,
       ...details,
