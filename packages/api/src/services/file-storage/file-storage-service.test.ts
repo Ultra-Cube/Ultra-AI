@@ -2,39 +2,38 @@
  * File Storage Service Tests
  */
 
-import { describe, it, expect, beforeAll, afterEach } from 'vitest';
 import { FileStorageService } from './file-storage-service';
 import { FileStatus, FileStorageType } from '@prisma/client';
 
 // Mock Prisma
 const mockPrisma = {
   file: {
-    create: undefined as any,
-    findMany: undefined as any,
-    findFirst: undefined as any,
-    findUnique: undefined as any,
-    update: undefined as any,
-    delete: undefined as any,
-    deleteMany: undefined as any,
-    groupBy: undefined as any,
-    count: undefined as any,
+    create: jest.fn(),
+    findMany: jest.fn(),
+    findFirst: jest.fn(),
+    findUnique: jest.fn(),
+    update: jest.fn(),
+    delete: jest.fn(),
+    deleteMany: jest.fn(),
+    groupBy: jest.fn(),
+    count: jest.fn(),
   },
   fileBackup: {
-    create: undefined as any,
-    findMany: undefined as any,
-    findFirst: undefined as any,
-    findUnique: undefined as any,
-    deleteMany: undefined as any,
+    create: jest.fn(),
+    findMany: jest.fn(),
+    findFirst: jest.fn(),
+    findUnique: jest.fn(),
+    deleteMany: jest.fn(),
   },
   fileAccessLog: {
-    create: undefined as any,
-    findMany: undefined as any,
-    deleteMany: undefined as any,
+    create: jest.fn(),
+    findMany: jest.fn(),
+    deleteMany: jest.fn(),
   },
   storageQuota: {
-    findUnique: undefined as any,
-    create: undefined as any,
-    update: undefined as any,
+    findUnique: jest.fn(),
+    create: jest.fn(),
+    update: jest.fn(),
   },
 };
 
@@ -43,12 +42,9 @@ describe('FileStorageService', () => {
   const tenantId = 'tenant-123';
   const userId = 'user-123';
 
-  beforeAll(() => {
+  beforeEach(() => {
     service = new FileStorageService(mockPrisma as any);
-  });
-
-  afterEach(() => {
-    vi.clearAllMocks();
+    jest.clearAllMocks();
   });
 
   describe('uploadFile', () => {
@@ -104,7 +100,8 @@ describe('FileStorageService', () => {
         isPublic: false,
       });
 
-      expect(result.id).toBe('file-123');
+      expect(result).toBeTruthy();
+      expect(result?.id).toBe('file-123');
       expect(result.name).toBe('test.pdf');
       expect(result.size).toBe(1024000);
       expect(mockPrisma.file.create).toHaveBeenCalled();
@@ -306,10 +303,12 @@ describe('FileStorageService', () => {
       };
 
       mockPrisma.file.findFirst.mockResolvedValue(mockFile);
+      mockPrisma.file.findUnique.mockResolvedValue(mockFile);
       mockPrisma.file.update.mockResolvedValue({
         ...mockFile,
         status: FileStatus.DELETED,
       });
+      mockPrisma.fileBackup.findFirst.mockResolvedValue(null);
       mockPrisma.fileBackup.create.mockResolvedValue({});
       mockPrisma.fileAccessLog.create.mockResolvedValue({});
       mockPrisma.storageQuota.findUnique.mockResolvedValue({

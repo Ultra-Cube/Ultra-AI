@@ -2176,7 +2176,7 @@ export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
     },
   }, async (request, reply) => {
     try {
-      const user = validateAuth(request.headers.authorization);
+      const user = getBearerUser(request.headers.authorization);
       const tenantId = (request as any).tenantContext?.tenantId;
       
       if (!tenantId) {
@@ -2255,7 +2255,7 @@ export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
     },
   }, async (request, reply) => {
     try {
-      const user = validateAuth(request.headers.authorization);
+      const user = getBearerUser(request.headers.authorization);
       const tenantId = (request as any).tenantContext?.tenantId;
       
       if (!tenantId) {
@@ -2321,7 +2321,7 @@ export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
     },
   }, async (request, reply) => {
     try {
-      const user = validateAuth(request.headers.authorization);
+      const user = getBearerUser(request.headers.authorization);
       const tenantId = (request as any).tenantContext?.tenantId;
       const params = request.params as any;
       
@@ -2391,7 +2391,7 @@ export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
     },
   }, async (request, reply) => {
     try {
-      const user = validateAuth(request.headers.authorization);
+      const user = getBearerUser(request.headers.authorization);
       const tenantId = (request as any).tenantContext?.tenantId;
       const params = request.params as any;
       const body = request.body as any;
@@ -2442,13 +2442,14 @@ export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
       },
       response: {
         204: {
+          type: 'null',
           description: 'File deleted',
         },
       },
     },
   }, async (request, reply) => {
     try {
-      const user = validateAuth(request.headers.authorization);
+      const user = getBearerUser(request.headers.authorization);
       const tenantId = (request as any).tenantContext?.tenantId;
       const params = request.params as any;
       
@@ -2492,7 +2493,7 @@ export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
     },
   }, async (request, reply) => {
     try {
-      const user = validateAuth(request.headers.authorization);
+      const user = getBearerUser(request.headers.authorization);
       const tenantId = (request as any).tenantContext?.tenantId;
       
       if (!tenantId) {
