@@ -20,6 +20,8 @@ import {
   registerMetricsEndpoint,
   registerHealthCheckEndpoint,
 } from './services/monitoring/middleware';
+import { MultiLayerCache, MemoryCache, RedisCache } from './services/caching/cache';
+import { registerHttpCachingMiddleware } from './services/caching/invalidation';
 import { AuthRequest, WorkspaceRecommendationRequest } from './types';
 import { swaggerOptions, swaggerUiOptions } from './config/swagger.config';
 
@@ -33,6 +35,7 @@ export interface AppContext {
   rateLimiter?: RateLimiter;
   complianceManager?: ComplianceManager;
   auditLogger?: AuditLogger;
+  cache?: MultiLayerCache;
 }
 
 export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
@@ -55,6 +58,18 @@ export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
       }
     },
   });
+
+  // Initialize caching layer (L1: in-memory, L2: Redis)
+  const memoryCache = new MemoryCache({ maxSize: 100 * 1024 * 1024 }); // 100MB
+  const redisCache = new RedisCache({
+    host: process.env.REDIS_HOST || 'localhost',
+    port: parseInt(process.env.REDIS_PORT || '6379'),
+  });
+  
+  const cache = context?.cache || new MultiLayerCache(memoryCache, redisCache);
+  
+  // Register HTTP response caching middleware
+  await registerHttpCachingMiddleware(app, cache);
 
   const prisma = context?.prisma || new PrismaClient();
   const aiCore = context?.aiCore || new AICore({
@@ -114,12 +129,22 @@ export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
 
   function getBearerUser(
     authorizationHeader: string | undefined,
-  ): { userId: string; email: string } {
+  ): { userId: string; email: string; role: string } {
     if (!authorizationHeader?.startsWith('Bearer ')) {
       throw new Error('Missing bearer token');
     }
 
     return authService.verifyToken(authorizationHeader.replace('Bearer ', ''));
+  }
+
+  function requireRole(...allowedRoles: string[]) {
+    return (authHeader: string | undefined) => {
+      const user = getBearerUser(authHeader);
+      if (!allowedRoles.includes(user.role)) {
+        throw new Error(`Insufficient permissions. Required: ${allowedRoles.join(' or ')}`);
+      }
+      return user;
+    };
   }
 
   // Health Check Endpoint
@@ -648,6 +673,209 @@ export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
       return {
         error: error instanceof Error ? error.message : 'Service unavailable',
       };
+    }
+  });
+
+  // ==================== ADMIN ENDPOINTS (RBAC Protected) ====================
+  
+  /**
+   * Admin Dashboard - Requires ADMIN or SUPER_ADMIN role
+   * GET /admin/dashboard
+   */
+  app.get('/admin/dashboard', {
+    schema: {
+      tags: ['Admin'],
+      summary: 'Admin dashboard statistics',
+      description: 'Get dashboard statistics (requires ADMIN or SUPER_ADMIN role)',
+      security: [{ BearerAuth: [] }],
+      response: {
+        200: {
+          type: 'object',
+          properties: {
+            message: { type: 'string' },
+            user: {
+              type: 'object',
+              properties: {
+                userId: { type: 'string' },
+                email: { type: 'string' },
+                role: { type: 'string' },
+              },
+            },
+            stats: {
+              type: 'object',
+              properties: {
+                totalUsers: { type: 'number' },
+                activeUsers: { type: 'number' },
+                cacheStats: { type: 'object' },
+              },
+            },
+          },
+        },
+        401: { type: 'object', properties: { error: { type: 'string' } } },
+        403: { type: 'object', properties: { error: { type: 'string' } } },
+      },
+    },
+  }, async (request, reply) => {
+    try {
+      const checkAdmin = requireRole('ADMIN', 'SUPER_ADMIN');
+      const user = checkAdmin(request.headers.authorization);
+      
+      // Get system statistics
+      const totalUsers = await prisma.user.count();
+      const cacheStats = cache.getStats();
+      
+      return {
+        message: 'Admin dashboard data',
+        user,
+        stats: {
+          totalUsers,
+          activeUsers: Math.floor(totalUsers * 0.4), // Mock active users
+          cacheStats,
+        },
+      };
+    } catch (error) {
+      if (error instanceof Error && error.message.includes('Insufficient permissions')) {
+        reply.status(403);
+        return { error: error.message };
+      }
+      reply.status(401);
+      return { error: 'Unauthorized' };
+    }
+  });
+
+  /**
+   * List All Users - Requires ADMIN role
+   * GET /admin/users
+   */
+  app.get('/admin/users', {
+    schema: {
+      tags: ['Admin'],
+      summary: 'List all users',
+      description: 'Get list of all users (requires ADMIN or SUPER_ADMIN role)',
+      security: [{ BearerAuth: [] }],
+      querystring: {
+        type: 'object',
+        properties: {
+          page: { type: 'number', default: 1, minimum: 1 },
+          limit: { type: 'number', default: 10, minimum: 1, maximum: 100 },
+        },
+      },
+      response: {
+        200: {
+          type: 'object',
+          properties: {
+            users: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  id: { type: 'string' },
+                  email: { type: 'string' },
+                  role: { type: 'string' },
+                  createdAt: { type: 'string' },
+                },
+              },
+            },
+            pagination: {
+              type: 'object',
+              properties: {
+                page: { type: 'number' },
+                limit: { type: 'number' },
+                total: { type: 'number' },
+              },
+            },
+          },
+        },
+        401: { type: 'object', properties: { error: { type: 'string' } } },
+        403: { type: 'object', properties: { error: { type: 'string' } } },
+      },
+    },
+  }, async (request, reply) => {
+    try {
+      const checkAdmin = requireRole('ADMIN', 'SUPER_ADMIN');
+      checkAdmin(request.headers.authorization);
+      
+      const query = request.query as { page?: number; limit?: number };
+      const page = query.page || 1;
+      const limit = query.limit || 10;
+      const skip = (page - 1) * limit;
+      
+      const [users, total] = await Promise.all([
+        prisma.user.findMany({
+          skip,
+          take: limit,
+          select: {
+            id: true,
+            email: true,
+            role: true,
+            createdAt: true,
+          },
+          orderBy: { createdAt: 'desc' },
+        }),
+        prisma.user.count(),
+      ]);
+      
+      return {
+        users,
+        pagination: {
+          page,
+          limit,
+          total,
+          totalPages: Math.ceil(total / limit),
+        },
+      };
+    } catch (error) {
+      if (error instanceof Error && error.message.includes('Insufficient permissions')) {
+        reply.status(403);
+        return { error: error.message };
+      }
+      reply.status(401);
+      return { error: 'Unauthorized' };
+    }
+  });
+
+  /**
+   * System Statistics - Requires MODERATOR or higher
+   * GET /admin/stats
+   */
+  app.get('/admin/stats', {
+    schema: {
+      tags: ['Admin'],
+      summary: 'System statistics',
+      description: 'Get system statistics (requires MODERATOR, ADMIN, or SUPER_ADMIN role)',
+      security: [{ BearerAuth: [] }],
+      response: {
+        200: {
+          type: 'object',
+          properties: {
+            cache: { type: 'object' },
+            memory: { type: 'object' },
+            uptime: { type: 'number' },
+            timestamp: { type: 'string' },
+          },
+        },
+        401: { type: 'object', properties: { error: { type: 'string' } } },
+        403: { type: 'object', properties: { error: { type: 'string' } } },
+      },
+    },
+  }, async (request, reply) => {
+    try {
+      const checkModerator = requireRole('MODERATOR', 'ADMIN', 'SUPER_ADMIN');
+      checkModerator(request.headers.authorization);
+      
+      return {
+        cache: cache.getStats(),
+        memory: process.memoryUsage(),
+        uptime: process.uptime(),
+        timestamp: new Date().toISOString(),
+      };
+    } catch (error) {
+      if (error instanceof Error && error.message.includes('Insufficient permissions')) {
+        reply.status(403);
+        return { error: error.message };
+      }
+      reply.status(401);
+      return { error: 'Unauthorized' };
     }
   });
 

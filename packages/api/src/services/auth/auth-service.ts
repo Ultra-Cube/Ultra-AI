@@ -53,20 +53,22 @@ export class AuthService {
     };
   }
 
-  verifyToken(token: string): { userId: string; email: string } {
+  verifyToken(token: string): { userId: string; email: string; role: string } {
     const payload = jwt.verify(token, this.jwtSecret) as {
       sub: string;
       email: string;
+      role: string;
     };
 
     return {
       userId: payload.sub,
       email: payload.email,
+      role: payload.role,
     };
   }
 
   private issueToken(user: UserRecord): string {
-    return jwt.sign({ email: user.email }, this.jwtSecret, {
+    return jwt.sign({ email: user.email, role: user.role }, this.jwtSecret, {
       subject: user.id,
       expiresIn: '12h',
     });
