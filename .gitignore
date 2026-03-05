@@ -122,6 +122,7 @@ terraform.tfvars
 # Build artifacts
 *.tgz
 .turbo
+*.tsbuildinfo
 
 # Package managers
 .yarn/
