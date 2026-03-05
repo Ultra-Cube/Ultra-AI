@@ -1,6 +1,8 @@
 import Fastify, { FastifyInstance } from 'fastify';
 import { PrismaClient } from '@prisma/client';
 import { AICore } from '@ultra-ai/ai-core';
+import fastifySwagger from '@fastify/swagger';
+import fastifySwaggerUi from '@fastify/swagger-ui';
 import { AuthService } from './services/auth/auth-service';
 import { DatabaseUserService } from './services/auth/db-user-service';
 import { WorkspaceProfileStore } from './services/profile/workspace-profile-store';
@@ -14,6 +16,7 @@ import {
   AuditLogger,
 } from './services/security/security-hardening';
 import { AuthRequest, WorkspaceRecommendationRequest } from './types';
+import { swaggerOptions, swaggerUiOptions } from './config/swagger.config';
 
 export interface AppContext {
   prisma: PrismaClient;
@@ -27,8 +30,12 @@ export interface AppContext {
   auditLogger?: AuditLogger;
 }
 
-export function buildApp(context?: AppContext): FastifyInstance {
+export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
   const app = Fastify({ logger: false });
+
+  // Register Swagger plugins for API documentation
+  await app.register(fastifySwagger, swaggerOptions);
+  await app.register(fastifySwaggerUi, swaggerUiOptions);
 
   const prisma = context?.prisma || new PrismaClient();
   const aiCore = context?.aiCore || new AICore({
@@ -96,7 +103,24 @@ export function buildApp(context?: AppContext): FastifyInstance {
     return authService.verifyToken(authorizationHeader.replace('Bearer ', ''));
   }
 
-  app.get('/health', async () => {
+  // Health Check Endpoint
+  app.get('/health', {
+    schema: {
+      tags: ['Health'],
+      summary: 'Health check endpoint',
+      description: 'Returns the health status of the API server',
+      response: {
+        200: {
+          type: 'object',
+          properties: {
+            status: { type: 'string', example: 'ok' },
+            service: { type: 'string', example: '@ultra-ai/api' },
+            timestamp: { type: 'string', format: 'date-time' },
+          },
+        },
+      },
+    },
+  }, async () => {
     return {
       status: 'ok',
       service: '@ultra-ai/api',
@@ -105,7 +129,37 @@ export function buildApp(context?: AppContext): FastifyInstance {
   });
 
   // GDPR/CCPA Compliance Endpoints
-  app.post('/compliance/consent', async (request, reply) => {
+  app.post('/compliance/consent', {
+    schema: {
+      tags: ['Compliance'],
+      summary: 'Record user consent',
+      description: 'Record GDPR/CCPA user consent preference',
+      body: {
+        type: 'object',
+        required: ['userId'],
+        properties: {
+          userId: { type: 'string', description: 'User identifier' },
+          given: { type: 'boolean', description: 'Consent status (default: true)', default: true },
+        },
+      },
+      response: {
+        200: {
+          type: 'object',
+          properties: {
+            userId: { type: 'string' },
+            consentGiven: { type: 'boolean' },
+            timestamp: { type: 'string', format: 'date-time' },
+          },
+        },
+        400: {
+          type: 'object',
+          properties: {
+            error: { type: 'string', example: 'userId is required' },
+          },
+        },
+      },
+    },
+  }, async (request, reply) => {
     const body = request.body as { userId: string; given: boolean };
     
     if (!body?.userId) {
@@ -125,7 +179,35 @@ export function buildApp(context?: AppContext): FastifyInstance {
     };
   });
 
-  app.get('/compliance/consent/:userId', async (request, reply) => {
+  app.get('/compliance/consent/:userId', {
+    schema: {
+      tags: ['Compliance'],
+      summary: 'Check user consent',
+      description: 'Retrieve GDPR/CCPA consent status for a user',
+      params: {
+        type: 'object',
+        properties: {
+          userId: { type: 'string', description: 'User identifier' },
+        },
+      },
+      response: {
+        200: {
+          type: 'object',
+          properties: {
+            userId: { type: 'string' },
+            hasConsent: { type: 'boolean' },
+            timestamp: { type: 'string', format: 'date-time' },
+          },
+        },
+        400: {
+          type: 'object',
+          properties: {
+            error: { type: 'string', example: 'userId is required' },
+          },
+        },
+      },
+    },
+  }, async (request, reply) => {
     const params = request.params as { userId: string };
     
     if (!params?.userId) {
@@ -143,7 +225,37 @@ export function buildApp(context?: AppContext): FastifyInstance {
     };
   });
 
-  app.post('/compliance/data-export', async (request, reply) => {
+  app.post('/compliance/data-export', {
+    schema: {
+      tags: ['Compliance'],
+      summary: 'Request user data export',
+      description: 'Export all user data in GDPR/CCPA compliant format (requires authentication)',
+      security: [{ BearerAuth: [] }],
+      response: {
+        200: {
+          type: 'object',
+          properties: {
+            userId: { type: 'string' },
+            email: { type: 'string' },
+            createdAt: { type: 'string', format: 'date-time' },
+            exportDate: { type: 'string', format: 'date-time' },
+          },
+        },
+        401: {
+          type: 'object',
+          properties: {
+            error: { type: 'string', example: 'Unauthorized' },
+          },
+        },
+        403: {
+          type: 'object',
+          properties: {
+            error: { type: 'string', example: 'Data export not allowed' },
+          },
+        },
+      },
+    },
+  }, async (request, reply) => {
     let user: { userId: string; email: string };
     try {
       user = getBearerUser(request.headers.authorization);
@@ -538,7 +650,7 @@ export async function startServer(port = 4000, context?: AppContext): Promise<{ 
     modelGateway: createModelGateway(),
   };
 
-  const app = buildApp(finalContext);
+  const app = await buildApp(finalContext);
 
   await app.listen({ port, host: '0.0.0.0' });
 

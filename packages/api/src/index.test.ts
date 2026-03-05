@@ -32,7 +32,7 @@ describe('@ultra-ai/api', () => {
       modelGateway,
     };
 
-    app = buildApp(context);
+    app = await buildApp(context);
   });
 
   afterEach(async () => {
