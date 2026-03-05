@@ -6,8 +6,10 @@
   "types": "src/index.ts",
   "scripts": {
     "dev": "tsup src/index.ts --format esm,cjs --watch",
-    "build": "tsup src/index.ts --format esm,cjs",
-    "start": "node -e \"require('./dist/index.js').startServer().catch((e)=>{console.error(e);process.exit(1);})\"",
+    "dev:server": "tsx watch src/server.ts",
+    "build": "tsup src/index.ts src/server.ts --format esm,cjs",
+    "start": "node dist/server.js",
+    "start:dev": "tsx src/server.ts",
     "test": "jest --config jest.config.cjs",
     "test:watch": "jest --config jest.config.cjs --watch",
     "test:coverage": "jest --config jest.config.cjs --coverage",
