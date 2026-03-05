@@ -161,8 +161,9 @@ gantt
 #### Objectives:
 1. Build basic AI Core Engine
 2. Implement user authentication system
-3. Create basic user interface
+3. Create adaptive user interface with manual customization mode
 4. Implement simple processing system (not distributed yet)
+5. Implement external AI provider API gateway and model routing policy
 
 #### Required Deliverables:
 
@@ -188,6 +189,8 @@ interface MVPFeatures {
     mobileResponsive: boolean;
     basicDashboard: boolean;
     taskHistory: boolean;
+    adaptiveWorkspace: boolean;
+    manualCustomization: boolean;
   };
   
   processing: {
@@ -195,6 +198,12 @@ interface MVPFeatures {
     asyncProcessing: boolean;
     resultCaching: boolean;
     queueSystem: boolean; // Bull/BullMQ
+  };
+
+  modelGateway: {
+    externalProviders: ['openai', 'anthropic'];
+    fallbackRouting: boolean;
+    providerHealthChecks: boolean;
   };
 }
 ```
@@ -241,12 +250,14 @@ git commit -m "feat(ui): create main chat interface"
 git commit -m "feat(ui): implement real-time message updates"
 git commit -m "feat(ui): add user dashboard and profile"
 git commit -m "feat(ui): implement task history and management"
+git commit -m "feat(ui): add adaptive workspace generator by user role"
 
 # Week 11
 git commit -m "feat(ui): add settings and preferences"
 git commit -m "feat(ui): implement dark/light theme toggle"
 git commit -m "feat(ui): add bilingual UI (Arabic/English)"
 git commit -m "a11y(ui): improve accessibility features"
+git commit -m "feat(ui): add manual workspace customization and pinned layout"
 
 # Week 12
 git commit -m "feat(ui): add loading states and error boundaries"
@@ -262,12 +273,14 @@ git commit -m "feat(backend): implement user management service"
 git commit -m "feat(backend): add PostgreSQL models and migrations"
 git commit -m "feat(backend): implement session management"
 git commit -m "security(backend): add SQL injection prevention"
+git commit -m "feat(ai): add external model gateway (OpenAI/Anthropic adapters)"
 
 # Week 14
 git commit -m "feat(backend): implement task queue with Bull"
 git commit -m "feat(backend): add Redis caching layer"
 git commit -m "feat(backend): implement rate limiting per user"
 git commit -m "feat(backend): add request/response logging"
+git commit -m "feat(ai): implement provider fallback routing and health checks"
 
 # Week 15
 git commit -m "feat(backend): implement file upload system (S3)"

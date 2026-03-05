@@ -258,6 +258,46 @@ journey
     section Client Work
       Pitches AI services      : 4: Emma
       Delivers first project   : 3: Emma
+
+---
+
+## 🎬 Journey Map: Omar Haddad (Video Designer)
+
+### Journey Overview
+
+**Goal**: Get a personalized video-design workspace that adapts to editing style and project type.
+
+**Timeline**: 1 week from first onboarding to stable personalized setup.
+
+**Key Need**: Fast access to relevant tools (timeline, asset panel, captioning, export presets) with optional manual control.
+
+```mermaid
+journey
+    title Omar's Adaptive Workspace Journey
+    section Onboarding
+      Signs in and picks role         : 5: Omar
+      Selects "Video Designer" profile: 5: Omar
+      Gets initial workspace          : 4: Omar
+    section First Projects
+      Edits short-form video          : 4: Omar
+      Uses AI caption tool            : 5: Omar
+      Exports social presets          : 4: Omar
+    section Adaptation
+      System tracks usage patterns    : 4: Omar
+      Reorders tools automatically    : 5: Omar
+      Suggests domain plugins         : 4: Omar
+    section Control
+      Pins preferred layout manually  : 5: Omar
+      Disables unwanted suggestions   : 4: Omar
+      Saves custom workspace template : 5: Omar
+```
+
+### Critical Product Requirements
+
+* Workspace starts role-specific on first session.
+* AI suggests tools based on usage and context, not generic defaults.
+* User can manually override, pin, and lock interface elements.
+* Every adaptation is reversible through workspace history.
       Measures client results  : 5: Emma
       Refines service offering : 4: Emma
     section Growth
