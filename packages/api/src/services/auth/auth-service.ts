@@ -1,11 +1,6 @@
 import crypto from 'node:crypto';
 import jwt from 'jsonwebtoken';
-
-interface UserRecord {
-  id: string;
-  email: string;
-  passwordHash: string;
-}
+import { DatabaseUserService, UserRecord } from './db-user-service';
 
 export interface AuthResult {
   token: string;
@@ -16,28 +11,27 @@ export interface AuthResult {
 }
 
 export class AuthService {
-  private readonly usersByEmail = new Map<string, UserRecord>();
-  private readonly usersById = new Map<string, UserRecord>();
+  private readonly dbService: DatabaseUserService;
   private readonly jwtSecret: string;
 
-  constructor(jwtSecret = process.env.ULTRA_AI_JWT_SECRET ?? 'ultra-ai-dev-secret') {
+  constructor(
+    dbService: DatabaseUserService,
+    jwtSecret = process.env.ULTRA_AI_JWT_SECRET ?? 'ultra-ai-dev-secret',
+  ) {
+    this.dbService = dbService;
     this.jwtSecret = jwtSecret;
   }
 
-  register(email: string, password: string): AuthResult {
+  async register(email: string, password: string): Promise<AuthResult> {
     const normalizedEmail = email.trim().toLowerCase();
-    if (this.usersByEmail.has(normalizedEmail)) {
+    const existingUser = await this.dbService.getUserByEmail(normalizedEmail);
+
+    if (existingUser) {
       throw new Error('User already exists');
     }
 
-    const user: UserRecord = {
-      id: crypto.randomUUID(),
-      email: normalizedEmail,
-      passwordHash: this.hashPassword(password),
-    };
-
-    this.usersByEmail.set(normalizedEmail, user);
-    this.usersById.set(user.id, user);
+    const passwordHash = this.hashPassword(password);
+    const user = await this.dbService.createUser(normalizedEmail, passwordHash);
 
     return {
       token: this.issueToken(user),
@@ -45,9 +39,9 @@ export class AuthService {
     };
   }
 
-  login(email: string, password: string): AuthResult {
+  async login(email: string, password: string): Promise<AuthResult> {
     const normalizedEmail = email.trim().toLowerCase();
-    const user = this.usersByEmail.get(normalizedEmail);
+    const user = await this.dbService.getUserByEmail(normalizedEmail);
 
     if (!user || user.passwordHash !== this.hashPassword(password)) {
       throw new Error('Invalid credentials');

@@ -1,22 +1,34 @@
 import Fastify, { FastifyInstance } from 'fastify';
+import { PrismaClient } from '@prisma/client';
 import { AICore } from '@ultra-ai/ai-core';
 import { AuthService } from './services/auth/auth-service';
+import { DatabaseUserService } from './services/auth/db-user-service';
 import { WorkspaceProfileStore } from './services/profile/workspace-profile-store';
 import { WorkspaceRecommender } from './services/workspace-recommender';
 import { AuthRequest, WorkspaceRecommendationRequest } from './types';
 
-export function buildApp(): FastifyInstance {
+export interface AppContext {
+  prisma: PrismaClient;
+  authService: AuthService;
+  aiCore: AICore;
+  profileStore: WorkspaceProfileStore;
+  recommender: WorkspaceRecommender;
+}
+
+export function buildApp(context?: AppContext): FastifyInstance {
   const app = Fastify({ logger: false });
 
-  const aiCore = new AICore({
+  const prisma = context?.prisma || new PrismaClient();
+  const aiCore = context?.aiCore || new AICore({
     models: ['gpt-4o-mini', 'claude-3-haiku'],
     defaultModel: 'gpt-4o-mini',
     language: 'en',
   });
 
-  const recommender = new WorkspaceRecommender();
-  const authService = new AuthService();
-  const profileStore = new WorkspaceProfileStore();
+  const recommender = context?.recommender || new WorkspaceRecommender();
+  const dbUserService = new DatabaseUserService(prisma);
+  const authService = context?.authService || new AuthService(dbUserService);
+  const profileStore = context?.profileStore || new WorkspaceProfileStore();
 
   function getBearerUser(
     authorizationHeader: string | undefined,
@@ -44,7 +56,7 @@ export function buildApp(): FastifyInstance {
     }
 
     try {
-      return authService.register(body.email, body.password);
+      return await authService.register(body.email, body.password);
     } catch (error) {
       reply.status(409);
       return { error: error instanceof Error ? error.message : 'Unable to register' };
@@ -59,7 +71,7 @@ export function buildApp(): FastifyInstance {
     }
 
     try {
-      return authService.login(body.email, body.password);
+      return await authService.login(body.email, body.password);
     } catch (error) {
       reply.status(401);
       return { error: error instanceof Error ? error.message : 'Invalid credentials' };
@@ -157,7 +169,23 @@ export function buildApp(): FastifyInstance {
   return app;
 }
 
-export async function startServer(port = 4000): Promise<void> {
-  const app = buildApp();
+export async function startServer(port = 4000, context?: AppContext): Promise<{ app: FastifyInstance; prisma: PrismaClient }> {
+  const prisma = context?.prisma || new PrismaClient();
+  const finalContext: AppContext = context || {
+    prisma,
+    authService: new AuthService(new DatabaseUserService(prisma)),
+    aiCore: new AICore({
+      models: ['gpt-4o-mini', 'claude-3-haiku'],
+      defaultModel: 'gpt-4o-mini',
+      language: 'en',
+    }),
+    profileStore: new WorkspaceProfileStore(),
+    recommender: new WorkspaceRecommender(),
+  };
+
+  const app = buildApp(finalContext);
+
   await app.listen({ port, host: '0.0.0.0' });
+
+  return { app, prisma };
 }

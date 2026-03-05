@@ -1,7 +1,41 @@
-import { buildApp } from './index';
+import { buildApp, AppContext } from './index';
+import { AuthService } from './services/auth/auth-service';
+import { InMemoryUserService } from './services/auth/in-memory-user-service';
+import { WorkspaceProfileStore } from './services/profile/workspace-profile-store';
+import { WorkspaceRecommender } from './services/workspace-recommender';
+import { AICore } from '@ultra-ai/ai-core';
 
 describe('@ultra-ai/api', () => {
-  const app = buildApp();
+  let app: any;
+  let userService: InMemoryUserService;
+
+  beforeAll(async () => {
+    // Use in-memory user service for tests (no database required)
+    userService = new InMemoryUserService();
+    const authService = new AuthService(userService as any);
+    const aiCore = new AICore({
+      models: ['gpt-4o-mini', 'claude-3-haiku'],
+      defaultModel: 'gpt-4o-mini',
+      language: 'en',
+    });
+    const profileStore = new WorkspaceProfileStore();
+    const recommender = new WorkspaceRecommender();
+
+    const context: AppContext = {
+      prisma: null as any, // Not needed for in-memory service
+      authService,
+      aiCore,
+      profileStore,
+      recommender,
+    };
+
+    app = buildApp(context);
+  });
+
+  afterEach(async () => {
+    // Clear user data between tests
+    userService.clear();
+  });
 
   afterAll(async () => {
     await app.close();
