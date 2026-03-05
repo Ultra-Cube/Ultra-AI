@@ -15,3 +15,6 @@ export type {
 
 export { DataEncryption, SecureChunker } from './encryption/data-encryption';
 export type { EncryptedChunk, EncryptionKey, DecryptionResult } from './encryption/data-encryption';
+
+export { BlockchainRewardManager, RewardDistributionEngine } from './blockchain/reward-system';
+export type { RewardConfig, UserReward, TaskReward, SmartContractConfig } from './blockchain/reward-system';
