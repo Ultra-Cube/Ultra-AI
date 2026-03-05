@@ -15,6 +15,11 @@ import {
   ComplianceManager,
   AuditLogger,
 } from './services/security/security-hardening';
+import {
+  registerMonitoringMiddleware,
+  registerMetricsEndpoint,
+  registerHealthCheckEndpoint,
+} from './services/monitoring/middleware';
 import { AuthRequest, WorkspaceRecommendationRequest } from './types';
 import { swaggerOptions, swaggerUiOptions } from './config/swagger.config';
 
@@ -36,6 +41,20 @@ export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
   // Register Swagger plugins for API documentation
   await app.register(fastifySwagger, swaggerOptions);
   await app.register(fastifySwaggerUi, swaggerUiOptions);
+
+  // Register monitoring and observability middleware
+  await registerMonitoringMiddleware(app);
+  await registerMetricsEndpoint(app);
+  await registerHealthCheckEndpoint(app, {
+    database: async () => {
+      try {
+        await prisma.$queryRaw`SELECT 1`;
+        return true;
+      } catch {
+        return false;
+      }
+    },
+  });
 
   const prisma = context?.prisma || new PrismaClient();
   const aiCore = context?.aiCore || new AICore({
