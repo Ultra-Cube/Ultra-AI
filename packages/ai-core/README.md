@@ -21,10 +21,10 @@ import { AICore } from '@ultra-ai/ai-core';
 
 const aiCore = new AICore({
   models: ['gpt-4', 'claude-3'],
-  language: 'ar', // or 'en'
+  language: 'en', // or 'ar'
 });
 
-const result = await aiCore.process('أريد تحليل هذا الملف');
+const result = await aiCore.process('I want to analyze this file.');
 ```
 
 ## Development
