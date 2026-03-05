@@ -278,7 +278,8 @@ describe('FileStorageService', () => {
 
       const result = await service.getFile(tenantId, 'file-123', userId);
 
-      expect(result.id).toBe('file-123');
+      expect(result).toBeTruthy();
+      expect(result?.id).toBe('file-123');
       expect(mockPrisma.file.findFirst).toHaveBeenCalled();
     });
 

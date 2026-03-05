@@ -20,7 +20,7 @@ import {
   registerMetricsEndpoint,
   registerHealthCheckEndpoint,
 } from './services/monitoring/middleware';
-import { MultiLayerCache, MemoryCache, RedisCache } from './services/caching/cache';
+import { MultiLayerCache } from './services/caching/cache';
 import { registerHttpCachingMiddleware } from './services/caching/invalidation';
 import { 
   TenantService, 
@@ -83,13 +83,7 @@ export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
   });
 
   // Initialize caching layer (L1: in-memory, L2: Redis)
-  const memoryCache = new MemoryCache({ maxSize: 100 * 1024 * 1024 }); // 100MB
-  const redisCache = new RedisCache({
-    host: process.env.REDIS_HOST || 'localhost',
-    port: parseInt(process.env.REDIS_PORT || '6379'),
-  });
-  
-  const cache = context?.cache || new MultiLayerCache(memoryCache, redisCache);
+  const cache = context?.cache || new MultiLayerCache(100 * 1024 * 1024); // 100MB L1
   
   // Register HTTP response caching middleware
   await registerHttpCachingMiddleware(app, cache);
