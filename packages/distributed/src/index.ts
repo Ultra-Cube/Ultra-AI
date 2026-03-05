@@ -12,3 +12,6 @@ export type {
   TaskChunk,
   NodeHealth,
 } from './p2p-node';
+
+export { DataEncryption, SecureChunker } from './encryption/data-encryption';
+export type { EncryptedChunk, EncryptionKey, DecryptionResult } from './encryption/data-encryption';
