@@ -17,14 +17,62 @@ enum UserRole {
   SUPER_ADMIN
 }
 
+enum TenantStatus {
+  ACTIVE
+  SUSPENDED
+  TRIAL
+  CANCELLED
+}
+
+enum TenantPlan {
+  FREE
+  STARTER
+  PROFESSIONAL
+  ENTERPRISE
+}
+
+model Tenant {
+  id          String       @id @default(cuid())
+  name        String
+  slug        String       @unique
+  domain      String?      @unique // Custom domain support
+  status      TenantStatus @default(TRIAL)
+  plan        TenantPlan   @default(FREE)
+  
+  // Subscription & Billing
+  maxUsers    Int          @default(5)
+  maxStorage  Int          @default(1073741824) // 1GB in bytes
+  
+  // Configuration
+  settings    Json?        @db.JsonB
+  
+  // Metadata
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  
+  // Relations
+  users       User[]
+  
+  @@index([slug])
+  @@index([domain])
+  @@index([status])
+}
+
 model User {
-  id        String     @id @default(cuid())
-  email     String     @unique
+  id           String     @id @default(cuid())
+  email        String     @unique
   passwordHash String
-  role      UserRole   @default(USER)
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
+  role         UserRole   @default(USER)
+  
+  // Multi-tenancy
+  tenantId     String
+  tenant       Tenant     @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
 
   @@index([email])
   @@index([role])
+  @@index([tenantId])
+  @@unique([email, tenantId]) // Email unique per tenant
 }

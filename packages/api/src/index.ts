@@ -22,6 +22,14 @@ import {
 } from './services/monitoring/middleware';
 import { MultiLayerCache, MemoryCache, RedisCache } from './services/caching/cache';
 import { registerHttpCachingMiddleware } from './services/caching/invalidation';
+import { 
+  TenantService, 
+  TenantContextManager, 
+  createTenantMiddleware,
+  requireTenantMiddleware,
+  createTenantScopedPrisma,
+  type TenantContext 
+} from './services/multi-tenancy';
 import { AuthRequest, WorkspaceRecommendationRequest } from './types';
 import { swaggerOptions, swaggerUiOptions } from './config/swagger.config';
 
@@ -71,7 +79,16 @@ export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
   // Register HTTP response caching middleware
   await registerHttpCachingMiddleware(app, cache);
 
+  // Initialize Prisma client (needed for tenant service and auth)
   const prisma = context?.prisma || new PrismaClient();
+  
+  // Initialize multi-tenancy system
+  const tenantService = new TenantService(prisma);
+  const tenantContextManager = new TenantContextManager(tenantService);
+  
+  // Register tenant middleware (optional - extracts tenant context if available)
+  app.addHook('preHandler', createTenantMiddleware(tenantContextManager));
+
   const aiCore = context?.aiCore || new AICore({
     models: ['gpt-4o-mini', 'claude-3-haiku'],
     defaultModel: 'gpt-4o-mini',
@@ -869,6 +886,317 @@ export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
         uptime: process.uptime(),
         timestamp: new Date().toISOString(),
       };
+    } catch (error) {
+      if (error instanceof Error && error.message.includes('Insufficient permissions')) {
+        reply.status(403);
+        return { error: error.message };
+      }
+      reply.status(401);
+      return { error: 'Unauthorized' };
+    }
+  });
+
+  // ==================== TENANT MANAGEMENT ENDPOINTS (Multi-Tenancy) ====================
+  
+  /**
+   * Create New Tenant - Requires SUPER_ADMIN
+   * POST /tenants
+   */
+  app.post('/tenants', {
+    schema: {
+      tags: ['Tenants'],
+      summary: 'Create new tenant',
+      description: 'Create a new tenant organization (requires SUPER_ADMIN role)',
+      security: [{ BearerAuth: [] }],
+      body: {
+        type: 'object',
+        required: ['name'],
+        properties: {
+          name: { type: 'string', description: 'Tenant name' },
+          slug: { type: 'string', description: 'Tenant URL slug (auto-generated if not provided)' },
+          domain: { type: 'string', description: 'Custom domain' },
+          plan: { type: 'string', enum: ['FREE', 'STARTER', 'PROFESSIONAL', 'ENTERPRISE'] },
+          maxUsers: { type: 'number', description: 'Maximum users allowed' },
+          maxStorage: { type: 'number', description: 'Maximum storage in bytes' },
+        },
+      },
+      response: {
+        201: {
+          type: 'object',
+          properties: {
+            id: { type: 'string' },
+            name: { type: 'string' },
+            slug: { type: 'string' },
+            domain: { type: 'string' },
+            status: { type: 'string' },
+            plan: { type: 'string' },
+          },
+        },
+        401: { type: 'object', properties: { error: { type: 'string' } } },
+        403: { type: 'object', properties: { error: { type: 'string' } } },
+      },
+    },
+  }, async (request, reply) => {
+    try {
+      const checkSuperAdmin = requireRole('SUPER_ADMIN');
+      checkSuperAdmin(request.headers.authorization);
+
+      const body = request.body as any;
+      const tenant = await tenantService.createTenant({
+        name: body.name,
+        slug: body.slug,
+        domain: body.domain,
+        plan: body.plan,
+        maxUsers: body.maxUsers,
+        maxStorage: body.maxStorage,
+        settings: body.settings,
+      });
+
+      reply.status(201);
+      return tenant;
+    } catch (error) {
+      if (error instanceof Error && error.message.includes('Insufficient permissions')) {
+        reply.status(403);
+        return { error: error.message };
+      }
+      if (error instanceof Error && error.message.includes('already exists')) {
+        reply.status(400);
+        return { error: error.message };
+      }
+      reply.status(401);
+      return { error: 'Unauthorized' };
+    }
+  });
+
+  /**
+   * List All Tenants - Requires SUPER_ADMIN
+   * GET /tenants
+   */
+  app.get('/tenants', {
+    schema: {
+      tags: ['Tenants'],
+      summary: 'List all tenants',
+      description: 'Get list of all tenant organizations (requires SUPER_ADMIN role)',
+      security: [{ BearerAuth: [] }],
+      querystring: {
+        type: 'object',
+        properties: {
+          status: { type: 'string', enum: ['ACTIVE', 'SUSPENDED', 'TRIAL', 'CANCELLED'] },
+          plan: { type: 'string', enum: ['FREE', 'STARTER', 'PROFESSIONAL', 'ENTERPRISE'] },
+          skip: { type: 'number', default: 0 },
+          take: { type: 'number', default: 50 },
+        },
+      },
+      response: {
+        200: {
+          type: 'object',
+          properties: {
+            tenants: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  id: { type: 'string' },
+                  name: { type: 'string' },
+                  slug: { type: 'string' },
+                  status: { type: 'string' },
+                  plan: { type: 'string' },
+                },
+              },
+            },
+          },
+        },
+        401: { type: 'object', properties: { error: { type: 'string' } } },
+        403: { type: 'object', properties: { error: { type: 'string' } } },
+      },
+    },
+  }, async (request, reply) => {
+    try {
+      const checkSuperAdmin = requireRole('SUPER_ADMIN');
+      checkSuperAdmin(request.headers.authorization);
+
+      const query = request.query as any;
+      const tenants = await tenantService.listTenants({
+        status: query.status,
+        plan: query.plan,
+        skip: query.skip,
+        take: query.take,
+      });
+
+      return { tenants };
+    } catch (error) {
+      if (error instanceof Error && error.message.includes('Insufficient permissions')) {
+        reply.status(403);
+        return { error: error.message };
+      }
+      reply.status(401);
+      return { error: 'Unauthorized' };
+    }
+  });
+
+  /**
+   * Get Tenant Details - Requires SUPER_ADMIN or tenant membership
+   * GET /tenants/:tenantId
+   */
+  app.get('/tenants/:tenantId', {
+    schema: {
+      tags: ['Tenants'],
+      summary: 'Get tenant details',
+      description: 'Get detailed information about a tenant',
+      security: [{ BearerAuth: [] }],
+      params: {
+        type: 'object',
+        properties: {
+          tenantId: { type: 'string' },
+        },
+      },
+      response: {
+        200: {
+          type: 'object',
+          properties: {
+            tenant: { type: 'object' },
+            stats: {
+              type: 'object',
+              properties: {
+                userCount: { type: 'number' },
+                storageUsed: { type: 'number' },
+                isOverLimit: { type: 'boolean' },
+              },
+            },
+          },
+        },
+      },
+    },
+  }, async (request, reply) => {
+    try {
+      getBearerUser(request.headers.authorization); // Verify auth
+
+      const params = request.params as { tenantId: string };
+      const tenant = await tenantService.getTenantById(params.tenantId);
+      
+      if (!tenant) {
+        reply.status(404);
+        return { error: 'Tenant not found' };
+      }
+
+      const stats = await tenantService.getTenantStats(params.tenantId);
+
+      return { tenant, stats };
+    } catch (error) {
+      reply.status(401);
+      return { error: 'Unauthorized' };
+    }
+  });
+
+  /**
+   * Update Tenant - Requires SUPER_ADMIN
+   * PATCH /tenants/:tenantId
+   */
+  app.patch('/tenants/:tenantId', {
+    schema: {
+      tags: ['Tenants'],
+      summary: 'Update tenant',
+      description: 'Update tenant configuration (requires SUPER_ADMIN role)',
+      security: [{ BearerAuth: [] }],
+      params: {
+        type: 'object',
+        properties: {
+          tenantId: { type: 'string' },
+        },
+      },
+      body: {
+        type: 'object',
+        properties: {
+          name: { type: 'string' },
+          domain: { type: 'string' },
+          plan: { type: 'string' },
+          maxUsers: { type: 'number' },
+          maxStorage: { type: 'number' },
+        },
+      },
+    },
+  }, async (request, reply) => {
+    try {
+      const checkSuperAdmin = requireRole('SUPER_ADMIN');
+      checkSuperAdmin(request.headers.authorization);
+
+      const params = request.params as { tenantId: string };
+      const body = request.body as any;
+
+      const tenant = await tenantService.updateTenant(params.tenantId, body);
+      return tenant;
+    } catch (error) {
+      if (error instanceof Error && error.message.includes('Insufficient permissions')) {
+        reply.status(403);
+        return { error: error.message };
+      }
+      reply.status(401);
+      return { error: 'Unauthorized' };
+    }
+  });
+
+  /**
+   * Suspend Tenant - Requires SUPER_ADMIN
+   * POST /tenants/:tenantId/suspend
+   */
+  app.post('/tenants/:tenantId/suspend', {
+    schema: {
+      tags: ['Tenants'],
+      summary: 'Suspend tenant',
+      description: 'Suspend tenant access (requires SUPER_ADMIN role)',
+      security: [{ BearerAuth: [] }],
+      params: {
+        type: 'object',
+        properties: {
+          tenantId: { type: 'string' },
+        },
+      },
+    },
+  }, async (request, reply) => {
+    try {
+      const checkSuperAdmin = requireRole('SUPER_ADMIN');
+      checkSuperAdmin(request.headers.authorization);
+
+      const params = request.params as { tenantId: string };
+      const tenant = await tenantService.suspendTenant(params.tenantId);
+      
+      return { message: 'Tenant suspended', tenant };
+    } catch (error) {
+      if (error instanceof Error && error.message.includes('Insufficient permissions')) {
+        reply.status(403);
+        return { error: error.message };
+      }
+      reply.status(401);
+      return { error: 'Unauthorized' };
+    }
+  });
+
+  /**
+   * Activate Tenant - Requires SUPER_ADMIN
+   * POST /tenants/:tenantId/activate
+   */
+  app.post('/tenants/:tenantId/activate', {
+    schema: {
+      tags: ['Tenants'],
+      summary: 'Activate tenant',
+      description: 'Activate suspended tenant (requires SUPER_ADMIN role)',
+      security: [{ BearerAuth: [] }],
+      params: {
+        type: 'object',
+        properties: {
+          tenantId: { type: 'string' },
+        },
+      },
+    },
+  }, async (request, reply) => {
+    try {
+      const checkSuperAdmin = requireRole('SUPER_ADMIN');
+      checkSuperAdmin(request.headers.authorization);
+
+      const params = request.params as { tenantId: string };
+      const tenant = await tenantService.activateTenant(params.tenantId);
+      
+      return { message: 'Tenant activated', tenant };
     } catch (error) {
       if (error instanceof Error && error.message.includes('Insufficient permissions')) {
         reply.status(403);
