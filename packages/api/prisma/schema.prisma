@@ -78,6 +78,7 @@ model User {
   notificationPreference NotificationPreference?
   files        File[]
   fileAccessLogs FileAccessLog[]
+  auditLogs    AuditLog[]
 
   @@index([email])
   @@index([role])
@@ -497,4 +498,86 @@ model StorageQuota {
   @@index([tenantId])
 }
 
-// File Status - Already defined in File schema section
+// ============================================================================
+// Audit Logging System (Phase 14)
+// ============================================================================
+
+enum AuditAction {
+  CREATE
+  READ
+  UPDATE
+  DELETE
+  EXPORT
+  IMPORT
+  LOGIN
+  LOGOUT
+  SUSPEND
+  ACTIVATE
+  DOWNLOAD
+  UPLOAD
+  SHARE
+  UNSHARE
+  RESTORE
+  BACKUP
+  PERMISSION_CHANGE
+  SETTING_CHANGE
+}
+
+enum AuditResource {
+  USER
+  TENANT
+  FILE
+  NOTIFICATION
+  REPORT
+  SETTING
+  AUDIT_LOG
+  WEBHOOK
+  API_KEY
+  ROLE
+  PERMISSION
+}
+
+enum AuditSeverity {
+  INFO
+  WARNING
+  HIGH
+  CRITICAL
+}
+
+model AuditLog {
+  id            String         @id @default(cuid())
+  tenantId      String?
+  userId        String?
+  user          User?          @relation(fields: [userId], references: [id], onDelete: SetNull)
+  
+  // Action details
+  action        AuditAction
+  resource      AuditResource
+  resourceId    String
+  severity      AuditSeverity  @default(INFO)
+  
+  // Metadata
+  description   String?
+  changes       Json?          @db.JsonB // Before/after values
+  ipAddress     String?
+  userAgent     String?
+  
+  // Status
+  success       Boolean        @default(true)
+  errorMessage  String?
+  
+  // Timestamp
+  createdAt     DateTime       @default(now())
+  
+  @@index([tenantId])
+  @@index([userId])
+  @@index([action])
+  @@index([resource])
+  @@index([severity])
+  @@index([createdAt])
+  @@index([tenantId, createdAt])
+  @@index([userId, createdAt])
+}
+
+// Update User model to include audit logs relation
+// auditLogs AuditLog[]

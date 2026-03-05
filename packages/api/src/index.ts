@@ -45,6 +45,10 @@ import {
   type UpdatePreferencesData,
 } from './services/notifications';
 import { FileStorageService } from './services/file-storage';
+import { AuditLoggingService } from './services/audit-logging';
+import { AdvancedSearchService } from './services/search';
+import { WebhookService } from './services/webhooks';
+import { typeDefs, resolvers } from './graphql';
 import { AuthRequest, WorkspaceRecommendationRequest } from './types';
 import { swaggerOptions, swaggerUiOptions } from './config/swagger.config';
 
@@ -109,6 +113,15 @@ export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
 
   // Initialize file storage system
   const fileStorageService = new FileStorageService(prisma);
+
+  // Initialize audit logging system
+  const auditLoggingService = new AuditLoggingService(prisma);
+
+  // Initialize advanced search system
+  const advancedSearchService = new AdvancedSearchService(prisma);
+
+  // Initialize webhook system
+  const webhookService = new WebhookService(prisma);
 
   const aiCore = context?.aiCore || new AICore({
     models: ['gpt-4o-mini', 'claude-3-haiku'],
@@ -2549,7 +2562,212 @@ export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
     }
   });
 
+  // ========== Audit Logging Endpoints (Phase 14) ==========
+
+  app.get('/audit-logs', {
+    schema: {
+      tags: ['Audit'],
+      summary: 'Query audit logs',
+      description: 'Get audit logs with optional filtering',
+    },
+  }, async (request, reply) => {
+    try {
+      const query = request.query as any;
+      const tenantId = (request as any).tenantContext?.tenantId;
+      
+      const logs = await auditLoggingService.queryLogs({
+        tenantId,
+        userId: query.userId,
+        action: query.action,
+        resource: query.resource,
+        severity: query.severity,
+        startDate: query.startDate ? new Date(query.startDate) : undefined,
+        endDate: query.endDate ? new Date(query.endDate) : undefined,
+      });
+
+      return { success: true, data: logs };
+    } catch (error) {
+      reply.status(400);
+      return { error: error instanceof Error ? error.message : 'Query failed' };
+    }
+  });
+
+  app.get('/audit-summary', {
+    schema: {
+      tags: ['Audit'],
+      summary: 'Get audit summary',
+      description: 'Get audit summary for tenant',
+    },
+  }, async (request, reply) => {
+    try {
+      const tenantId = (request as any).tenantContext?.tenantId;
+      const days = (request.query as any).days || 30;
+      
+      const summary = await auditLoggingService.getTenantSummary(tenantId, days);
+      return { success: true, data: summary };
+    } catch (error) {
+      reply.status(400);
+      return { error: error instanceof Error ? error.message : 'Summary fetch failed' };
+    }
+  });
+
+  app.post('/audit-export', {
+    schema: {
+      tags: ['Audit'],
+      summary: 'Export audit logs',
+      description: 'Export audit logs as CSV',
+    },
+  }, async (request, reply) => {
+    try {
+      const tenantId = (request as any).tenantContext?.tenantId;
+      const body = request.body as any;
+      
+      const csv = await auditLoggingService.exportLogs(
+        tenantId,
+        body.startDate ? new Date(body.startDate) : undefined,
+        body.endDate ? new Date(body.endDate) : undefined
+      );
+
+      reply.header('Content-Type', 'text/csv');
+      reply.header('Content-Disposition', 'attachment; filename="audit-logs.csv"');
+      return csv;
+    } catch (error) {
+      reply.status(400);
+      return { error: error instanceof Error ? error.message : 'Export failed' };
+    }
+  });
+
+  app.delete('/audit-cleanup', {
+    schema: {
+      tags: ['Audit'],
+      summary: 'Clean up old audit logs',
+      description: 'Delete audit logs older than specified days',
+    },
+  }, async (request, reply) => {
+    try {
+      const body = request.body as any;
+      const result = await auditLoggingService.cleanupOldLogs(body.daysToKeep || 90);
+      return { success: true, data: result };
+    } catch (error) {
+      reply.status(400);
+      return { error: error instanceof Error ? error.message : 'Cleanup failed' };
+    }
+  });
+
+  // ========== Advanced Search Endpoints (Phase 15) ==========
+
+  app.get('/search', {
+    schema: {
+      tags: ['Search'],
+      summary: 'Search across files, users, and events',
+      description: 'Perform full-text search with tenant filtering',
+    },
+  }, async (request, reply) => {
+    try {
+      const tenantId = (request as any).tenantContext?.tenantId;
+      const query = request.query as any;
+      
+      const results = await advancedSearchService.search({
+        q: query.q || '',
+        type: query.type || 'all',
+        tenantId,
+        limit: parseInt(query.limit || '50'),
+        offset: parseInt(query.offset || '0'),
+      });
+
+      return { success: true, data: results };
+    } catch (error) {
+      reply.status(400);
+      return { error: error instanceof Error ? error.message : 'Search failed' };
+    }
+  });
+
+  app.get('/search/suggest', {
+    schema: {
+      tags: ['Search'],
+      summary: 'Get search suggestions',
+      description: 'Get autocomplete suggestions for search',
+    },
+  }, async (request, reply) => {
+    try {
+      const query = request.query as any;
+      
+      const suggestions = await advancedSearchService.getSuggestions(
+        query.prefix || '',
+        query.type
+      );
+
+      return { success: true, data: suggestions };
+    } catch (error) {
+      reply.status(400);
+      return { error: error instanceof Error ? error.message : 'Suggestions failed' };
+    }
+  });
+
+  // ========== Webhook Endpoints (Phase 16) ==========
+
+  app.post('/webhooks', {
+    schema: {
+      tags: ['Webhooks'],
+      summary: 'Register a webhook',
+      description: 'Register a new webhook for event subscriptions',
+    },
+  }, async (request, reply) => {
+    try {
+      const tenantId = (request as any).tenantContext?.tenantId;
+      const body = request.body as any;
+      
+      const webhook = await webhookService.registerWebhook(tenantId, {
+        url: body.url,
+        events: body.events,
+        headers: body.headers,
+        retryPolicy: body.retryPolicy,
+      });
+
+      reply.status(201);
+      return { success: true, data: webhook };
+    } catch (error) {
+      reply.status(400);
+      return { error: error instanceof Error ? error.message : 'Registration failed' };
+    }
+  });
+
+  app.get('/webhooks', {
+    schema: {
+      tags: ['Webhooks'],
+      summary: 'List webhooks',
+      description: 'Get all webhooks for tenant',
+    },
+  }, async (request, reply) => {
+    try {
+      const tenantId = (request as any).tenantContext?.tenantId;
+      const webhooks = await webhookService.getTenantWebhooks(tenantId);
+      return { success: true, data: webhooks };
+    } catch (error) {
+      reply.status(400);
+      return { error: error instanceof Error ? error.message : 'Listing failed' };
+    }
+  });
+
+  app.delete('/webhooks/:id', {
+    schema: {
+      tags: ['Webhooks'],
+      summary: 'Delete webhook',
+      description: 'Delete a webhook subscription',
+    },
+  }, async (request, reply) => {
+    try {
+      const { id } = request.params as any;
+      await webhookService.deleteWebhook(id);
+      return { success: true };
+    } catch (error) {
+      reply.status(400);
+      return { error: error instanceof Error ? error.message : 'Deletion failed' };
+    }
+  });
+
   return app;
+
 }
 
 export async function startServer(port = 4000, context?: AppContext): Promise<{ app: FastifyInstance; prisma: PrismaClient }> {
