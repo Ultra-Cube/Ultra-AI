@@ -48,7 +48,7 @@ describe('@ultra-ai/api', () => {
     const response = await app.inject({
       method: 'POST',
       url: '/auth/register',
-      payload: { email, password: 'pass1234' },
+      payload: { email, password: 'TestPassword123!' },
     });
 
     expect(response.statusCode).toBe(200);
@@ -70,7 +70,7 @@ describe('@ultra-ai/api', () => {
     const register = await app.inject({
       method: 'POST',
       url: '/auth/register',
-      payload: { email: 'login-test@ultra.ai', password: 'pass1234' },
+      payload: { email: 'login-test@ultra.ai', password: 'LoginTest123!' },
     });
 
     expect(register.statusCode).toBe(200);
@@ -78,7 +78,7 @@ describe('@ultra-ai/api', () => {
     const login = await app.inject({
       method: 'POST',
       url: '/auth/login',
-      payload: { email: 'login-test@ultra.ai', password: 'pass1234' },
+      payload: { email: 'login-test@ultra.ai', password: 'LoginTest123!' },
     });
 
     expect(login.statusCode).toBe(200);

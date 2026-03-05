@@ -6,6 +6,13 @@ import { DatabaseUserService } from './services/auth/db-user-service';
 import { WorkspaceProfileStore } from './services/profile/workspace-profile-store';
 import { WorkspaceRecommender } from './services/workspace-recommender';
 import { ModelGateway, createModelGateway } from './services/ai/model-gateway';
+import {
+  RateLimiter,
+  SecurityHeadersGenerator,
+  InputValidator,
+  ComplianceManager,
+  AuditLogger,
+} from './services/security/security-hardening';
 import { AuthRequest, WorkspaceRecommendationRequest } from './types';
 
 export interface AppContext {
@@ -15,6 +22,9 @@ export interface AppContext {
   profileStore: WorkspaceProfileStore;
   recommender: WorkspaceRecommender;
   modelGateway: ModelGateway;
+  rateLimiter?: RateLimiter;
+  complianceManager?: ComplianceManager;
+  auditLogger?: AuditLogger;
 }
 
 export function buildApp(context?: AppContext): FastifyInstance {
@@ -32,6 +42,49 @@ export function buildApp(context?: AppContext): FastifyInstance {
   const dbUserService = new DatabaseUserService(prisma);
   const authService = context?.authService || new AuthService(dbUserService);
   const profileStore = context?.profileStore || new WorkspaceProfileStore();
+  
+  // Security services
+  const rateLimiter = context?.rateLimiter || new RateLimiter({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    maxRequests: 100, // 100 requests per window
+    keyPrefix: 'api-rate-limit',
+  });
+  
+  const complianceManager = context?.complianceManager || new ComplianceManager({
+    gdprEnabled: true,
+    ccpaEnabled: true,
+    dataRetentionDays: 90,
+    requireConsentBefore: false,
+    allowDataExport: true,
+    allowDataDeletion: true,
+  });
+  
+  const auditLogger = context?.auditLogger || new AuditLogger();
+
+  // Apply security headers to all responses
+  app.addHook('onSend', async (request, reply) => {
+    const headers = SecurityHeadersGenerator.getHeaders();
+    Object.entries(headers).forEach(([key, value]) => {
+      reply.header(key, value);
+    });
+  });
+
+  // Apply rate limiting to non-health endpoints
+  app.addHook('preHandler', async (request, reply) => {
+    if (request.url === '/health') {
+      return;
+    }
+
+    const clientKey = request.ip;
+    if (!rateLimiter.isAllowed(clientKey)) {
+      auditLogger.log('rate_limit_exceeded', 'api', 'failure', undefined, { 
+        ip: clientKey,
+        endpoint: request.url,
+      });
+      reply.status(429);
+      return { error: 'Too many requests, please try again later' };
+    }
+  });
 
   function getBearerUser(
     authorizationHeader: string | undefined,
@@ -51,17 +104,198 @@ export function buildApp(context?: AppContext): FastifyInstance {
     };
   });
 
+  // GDPR/CCPA Compliance Endpoints
+  app.post('/compliance/consent', async (request, reply) => {
+    const body = request.body as { userId: string; given: boolean };
+    
+    if (!body?.userId) {
+      reply.status(400);
+      return { error: 'userId is required' };
+    }
+
+    complianceManager.recordConsent(body.userId, body.given ?? true);
+    auditLogger.log('consent_recorded', 'compliance', 'success', body.userId, {
+      consentGiven: body.given,
+    });
+
+    return {
+      userId: body.userId,
+      consentGiven: body.given ?? true,
+      timestamp: new Date().toISOString(),
+    };
+  });
+
+  app.get('/compliance/consent/:userId', async (request, reply) => {
+    const params = request.params as { userId: string };
+    
+    if (!params?.userId) {
+      reply.status(400);
+      return { error: 'userId is required' };
+    }
+
+    const hasConsent = complianceManager.hasConsent(params.userId);
+    auditLogger.log('consent_check', 'compliance', 'success', params.userId);
+
+    return {
+      userId: params.userId,
+      hasConsent,
+      timestamp: new Date().toISOString(),
+    };
+  });
+
+  app.post('/compliance/data-export', async (request, reply) => {
+    let user: { userId: string; email: string };
+    try {
+      user = getBearerUser(request.headers.authorization);
+    } catch {
+      reply.status(401);
+      return { error: 'Unauthorized' };
+    }
+
+    if (!complianceManager.getComplianceStatus().allowDataExport) {
+      reply.status(403);
+      return { error: 'Data export not allowed' };
+    }
+
+    try {
+      const userData = await prisma.user.findUnique({
+        where: { id: user.userId },
+        select: {
+          id: true,
+          email: true,
+          createdAt: true,
+          updatedAt: true,
+        },
+      });
+
+      if (!userData) {
+        reply.status(404);
+        return { error: 'User not found' };
+      }
+
+      const exportData = complianceManager.generateDataExport(user.userId, userData);
+      auditLogger.log('data_export', 'gdpr', 'success', user.userId);
+
+      return JSON.parse(exportData);
+    } catch (error) {
+      reply.status(500);
+      return {
+        error: error instanceof Error ? error.message : 'Unable to export data',
+      };
+    }
+  });
+
+  app.post('/compliance/data-delete', async (request, reply) => {
+    let user: { userId: string; email: string };
+    try {
+      user = getBearerUser(request.headers.authorization);
+    } catch {
+      reply.status(401);
+      return { error: 'Unauthorized' };
+    }
+
+    if (!complianceManager.canDeleteUserData(user.userId)) {
+      reply.status(403);
+      return {
+        error: 'User data deletion not allowed. Please ensure consent is given.',
+      };
+    }
+
+    try {
+      // Delete user and all associated data
+      const deletedUser = await prisma.user.delete({
+        where: { id: user.userId },
+      });
+
+      auditLogger.log('user_deletion', 'gdpr', 'success', user.userId, {
+        email: deletedUser.email,
+      });
+
+      return {
+        success: true,
+        message: 'User data successfully deleted',
+        deletedUserId: user.userId,
+        timestamp: new Date().toISOString(),
+      };
+    } catch (error) {
+      reply.status(500);
+      return {
+        error: error instanceof Error ? error.message : 'Unable to delete user data',
+      };
+    }
+  });
+
+  app.get('/compliance/access-log', async (request, reply) => {
+    let user: { userId: string; email: string };
+    try {
+      user = getBearerUser(request.headers.authorization);
+    } catch {
+      reply.status(401);
+      return { error: 'Unauthorized' };
+    }
+
+    const accessLog = complianceManager.getAccessLog(user.userId);
+    return {
+      userId: user.userId,
+      accessLog,
+      totalAccessEvents: accessLog.length,
+    };
+  });
+
+  app.get('/compliance/status', async () => {
+    const status = complianceManager.getComplianceStatus();
+    return {
+      gdpr: { enabled: status.gdprEnabled },
+      ccpa: { enabled: status.ccpaEnabled },
+      dataRetentionDays: status.dataRetentionDays,
+      features: {
+        consentRequired: status.requireConsentBefore,
+        dataExportAllowed: status.allowDataExport,
+        dataDeletionAllowed: status.allowDataDeletion,
+      },
+      timestamp: new Date().toISOString(),
+    };
+  });
+
   app.post('/auth/register', async (request, reply) => {
     const body = request.body as AuthRequest;
+    
     if (!body?.email || !body?.password) {
       reply.status(400);
       return { error: 'email and password are required' };
     }
 
+    // Validate input
+    if (!InputValidator.isValidEmail(body.email)) {
+      reply.status(400);
+      auditLogger.log('invalid_email', 'auth', 'failure', undefined, { email: body.email });
+      return { error: 'Invalid email format' };
+    }
+
+    if (!InputValidator.isStrongPassword(body.password)) {
+      reply.status(400);
+      auditLogger.log('weak_password', 'auth', 'failure', undefined, { email: body.email });
+      return {
+        error: 'Password must be at least 12 characters with uppercase, lowercase, number, and special character',
+      };
+    }
+
+    // Check for injection attempts
+    if (InputValidator.isSQLInjectionAttempt(body.email)) {
+      reply.status(400);
+      auditLogger.log('sql_injection_attempt', 'auth', 'failure', undefined, { input: 'email' });
+      return { error: 'Invalid input detected' };
+    }
+
     try {
-      return await authService.register(body.email, body.password);
+      const result = await authService.register(body.email, body.password);
+      auditLogger.log('user_registration', 'auth', 'success', result.user.id);
+      return result;
     } catch (error) {
       reply.status(409);
+      auditLogger.log('registration_failed', 'auth', 'failure', undefined, {
+        error: error instanceof Error ? error.message : 'Unknown error',
+      });
       return { error: error instanceof Error ? error.message : 'Unable to register' };
     }
   });
@@ -73,10 +307,32 @@ export function buildApp(context?: AppContext): FastifyInstance {
       return { error: 'email and password are required' };
     }
 
+    // Validate input
+    if (!InputValidator.isValidEmail(body.email)) {
+      reply.status(400);
+      auditLogger.log('invalid_email_login', 'auth', 'failure', undefined, { email: body.email });
+      return { error: 'Invalid email format' };
+    }
+
+    // Check for injection attempts
+    if (InputValidator.isSQLInjectionAttempt(body.email) ||
+        InputValidator.isSQLInjectionAttempt(body.password)) {
+      reply.status(400);
+      auditLogger.log('sql_injection_attempt', 'auth', 'failure', undefined, { 
+        action: 'login' 
+      });
+      return { error: 'Invalid input detected' };
+    }
+
     try {
-      return await authService.login(body.email, body.password);
+      const result = await authService.login(body.email, body.password);
+      auditLogger.log('user_login', 'auth', 'success', result.user.id);
+      return result;
     } catch (error) {
       reply.status(401);
+      auditLogger.log('login_failed', 'auth', 'failure', undefined, {
+        email: body.email,
+      });
       return { error: error instanceof Error ? error.message : 'Invalid credentials' };
     }
   });
@@ -89,8 +345,33 @@ export function buildApp(context?: AppContext): FastifyInstance {
       return { error: 'input is required' };
     }
 
-    const result = await aiCore.process(body.input);
-    return { result };
+    // Validate input length (max 10000 characters)
+    if (!InputValidator.isValidLength(body.input, 1, 10000)) {
+      reply.status(400);
+      return { error: 'Input must be between 1 and 10000 characters' };
+    }
+
+    // Check for injection attempts
+    if (InputValidator.isSQLInjectionAttempt(body.input)) {
+      auditLogger.log('sql_injection_attempt', 'ai/process', 'failure');
+      reply.status(400);
+      return { error: 'Invalid input detected' };
+    }
+
+    // Sanitize the input
+    const sanitizedInput = InputValidator.sanitize(body.input);
+
+    try {
+      const result = await aiCore.process(sanitizedInput);
+      auditLogger.log('ai_process', 'ai', 'success');
+      return { result };
+    } catch (error) {
+      auditLogger.log('ai_process_error', 'ai', 'failure', undefined, {
+        error: error instanceof Error ? error.message : 'Unknown error',
+      });
+      reply.status(500);
+      return { error: 'Unable to process request' };
+    }
   });
 
   app.post('/ai/workspace/recommend', async (request, reply) => {
