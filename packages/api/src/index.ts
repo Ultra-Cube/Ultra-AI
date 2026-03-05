@@ -44,6 +44,7 @@ import {
   type NotificationQuery,
   type UpdatePreferencesData,
 } from './services/notifications';
+import { FileStorageService } from './services/file-storage';
 import { AuthRequest, WorkspaceRecommendationRequest } from './types';
 import { swaggerOptions, swaggerUiOptions } from './config/swagger.config';
 
@@ -111,6 +112,9 @@ export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
 
   // Initialize notification system
   const notificationService = new NotificationService(prisma);
+
+  // Initialize file storage system
+  const fileStorageService = new FileStorageService(prisma);
 
   const aiCore = context?.aiCore || new AICore({
     models: ['gpt-4o-mini', 'claude-3-haiku'],
@@ -2138,6 +2142,415 @@ export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
       }
       reply.status(401);
       return { error: 'Unauthorized' };
+    }
+  });
+
+  // ============================================================================
+  // File Storage Endpoints (Phase 13)
+  // ============================================================================
+
+  /**
+   * Upload File
+   * POST /files
+   */
+  app.post('/files', {
+    schema: {
+      tags: ['Files'],
+      summary: 'Upload a file',
+      description: 'Upload a file to storage with optional metadata and description',
+      security: [{ BearerAuth: [] }],
+      consumes: ['multipart/form-data'],
+      response: {
+        200: {
+          description: 'File uploaded successfully',
+          type: 'object',
+          properties: {
+            id: { type: 'string' },
+            name: { type: 'string' },
+            size: { type: 'number' },
+            mimeType: { type: 'string' },
+            storageUrl: { type: 'string' },
+          },
+        },
+      },
+    },
+  }, async (request, reply) => {
+    try {
+      const user = validateAuth(request.headers.authorization);
+      const tenantId = (request as any).tenantContext?.tenantId;
+      
+      if (!tenantId) {
+        reply.status(403);
+        return { error: 'Tenant context required' };
+      }
+
+      // TODO: Handle multipart form data
+      // This is a placeholder - implement proper file handling
+      const body = request.body as any;
+      
+      const file = await fileStorageService.uploadFile(
+        tenantId,
+        user.userId,
+        {
+          name: body.name,
+          mimeType: body.mimeType,
+          content: Buffer.from(body.content || ''),
+          description: body.description,
+          isPublic: body.isPublic || false,
+          metadata: body.metadata,
+        }
+      );
+      
+      reply.status(201);
+      return {
+        id: file.id,
+        name: file.name,
+        size: file.size,
+        mimeType: file.mimeType,
+        storageUrl: file.storageUrl,
+      };
+    } catch (error) {
+      reply.status(400);
+      return { error: error instanceof Error ? error.message : 'Upload failed' };
+    }
+  });
+
+  /**
+   * List Files
+   * GET /files
+   */
+  app.get('/files', {
+    schema: {
+      tags: ['Files'],
+      summary: 'List files',
+      description: 'Get list of files for current user with optional filters',
+      security: [{ BearerAuth: [] }],
+      querystring: {
+        type: 'object',
+        properties: {
+          status: { type: 'string' },
+          limit: { type: 'number' },
+          offset: { type: 'number' },
+          startDate: { type: 'string' },
+          endDate: { type: 'string' },
+        },
+      },
+      response: {
+        200: {
+          description: 'List of files',
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              id: { type: 'string' },
+              name: { type: 'string' },
+              size: { type: 'number' },
+              mimeType: { type: 'string' },
+              status: { type: 'string' },
+              createdAt: { type: 'string' },
+            },
+          },
+        },
+      },
+    },
+  }, async (request, reply) => {
+    try {
+      const user = validateAuth(request.headers.authorization);
+      const tenantId = (request as any).tenantContext?.tenantId;
+      
+      if (!tenantId) {
+        reply.status(403);
+        return { error: 'Tenant context required' };
+      }
+
+      const query = request.query as any;
+      const files = await fileStorageService.getFiles(tenantId, {
+        userId: user.userId,
+        limit: query.limit || 50,
+        offset: query.offset || 0,
+        startDate: query.startDate ? new Date(query.startDate) : undefined,
+        endDate: query.endDate ? new Date(query.endDate) : undefined,
+      });
+      
+      return files.map(f => ({
+        id: f.id,
+        name: f.name,
+        size: f.size,
+        mimeType: f.mimeType,
+        status: f.status,
+        createdAt: f.createdAt,
+      }));
+    } catch (error) {
+      reply.status(400);
+      return { error: error instanceof Error ? error.message : 'Failed to list files' };
+    }
+  });
+
+  /**
+   * Get File
+   * GET /files/:id
+   */
+  app.get('/files/:id', {
+    schema: {
+      tags: ['Files'],
+      summary: 'Get file details',
+      description: 'Get detailed information about a specific file',
+      security: [{ BearerAuth: [] }],
+      params: {
+        type: 'object',
+        required: ['id'],
+        properties: {
+          id: { type: 'string' },
+        },
+      },
+      response: {
+        200: {
+          description: 'File details',
+          type: 'object',
+          properties: {
+            id: { type: 'string' },
+            name: { type: 'string' },
+            size: { type: 'number' },
+            mimeType: { type: 'string' },
+            status: { type: 'string' },
+            description: { type: 'string' },
+            createdAt: { type: 'string' },
+          },
+        },
+      },
+    },
+  }, async (request, reply) => {
+    try {
+      const user = validateAuth(request.headers.authorization);
+      const tenantId = (request as any).tenantContext?.tenantId;
+      const params = request.params as any;
+      
+      if (!tenantId) {
+        reply.status(403);
+        return { error: 'Tenant context required' };
+      }
+
+      const file = await fileStorageService.getFile(tenantId, params.id, user.userId);
+      
+      if (!file) {
+        reply.status(404);
+        return { error: 'File not found' };
+      }
+      
+      return {
+        id: file.id,
+        name: file.name,
+        size: file.size,
+        mimeType: file.mimeType,
+        status: file.status,
+        description: file.description,
+        createdAt: file.createdAt,
+      };
+    } catch (error) {
+      reply.status(400);
+      return { error: error instanceof Error ? error.message : 'Failed to get file' };
+    }
+  });
+
+  /**
+   * Update File
+   * PATCH /files/:id
+   */
+  app.patch('/files/:id', {
+    schema: {
+      tags: ['Files'],
+      summary: 'Update file metadata',
+      description: 'Update file name, description, or visibility settings',
+      security: [{ BearerAuth: [] }],
+      params: {
+        type: 'object',
+        required: ['id'],
+        properties: {
+          id: { type: 'string' },
+        },
+      },
+      body: {
+        type: 'object',
+        properties: {
+          name: { type: 'string' },
+          description: { type: 'string' },
+          isPublic: { type: 'boolean' },
+        },
+      },
+      response: {
+        200: {
+          description: 'File updated',
+          type: 'object',
+          properties: {
+            id: { type: 'string' },
+            name: { type: 'string' },
+            updatedAt: { type: 'string' },
+          },
+        },
+      },
+    },
+  }, async (request, reply) => {
+    try {
+      const user = validateAuth(request.headers.authorization);
+      const tenantId = (request as any).tenantContext?.tenantId;
+      const params = request.params as any;
+      const body = request.body as any;
+      
+      if (!tenantId) {
+        reply.status(403);
+        return { error: 'Tenant context required' };
+      }
+
+      const file = await fileStorageService.updateFile(
+        tenantId,
+        params.id,
+        user.userId,
+        {
+          name: body.name,
+          description: body.description,
+          isPublic: body.isPublic,
+        }
+      );
+      
+      return {
+        id: file.id,
+        name: file.name,
+        updatedAt: file.updatedAt,
+      };
+    } catch (error) {
+      reply.status(400);
+      return { error: error instanceof Error ? error.message : 'Failed to update file' };
+    }
+  });
+
+  /**
+   * Delete File
+   * DELETE /files/:id
+   */
+  app.delete('/files/:id', {
+    schema: {
+      tags: ['Files'],
+      summary: 'Delete file',
+      description: 'Soft delete a file (can be recovered from backup)',
+      security: [{ BearerAuth: [] }],
+      params: {
+        type: 'object',
+        required: ['id'],
+        properties: {
+          id: { type: 'string' },
+        },
+      },
+      response: {
+        204: {
+          description: 'File deleted',
+        },
+      },
+    },
+  }, async (request, reply) => {
+    try {
+      const user = validateAuth(request.headers.authorization);
+      const tenantId = (request as any).tenantContext?.tenantId;
+      const params = request.params as any;
+      
+      if (!tenantId) {
+        reply.status(403);
+        return { error: 'Tenant context required' };
+      }
+
+      await fileStorageService.deleteFile(tenantId, params.id, user.userId);
+      reply.status(204);
+      return null;
+    } catch (error) {
+      reply.status(400);
+      return { error: error instanceof Error ? error.message : 'Failed to delete file' };
+    }
+  });
+
+  /**
+   * Get Storage Quota
+   * GET /files/quota
+   */
+  app.get('/files/quota', {
+    schema: {
+      tags: ['Files'],
+      summary: 'Get storage quota',
+      description: 'Get current storage usage and quota limits',
+      security: [{ BearerAuth: [] }],
+      response: {
+        200: {
+          description: 'Storage statistics',
+          type: 'object',
+          properties: {
+            totalFiles: { type: 'number' },
+            totalBytes: { type: 'number' },
+            maxBytes: { type: 'number' },
+            usagePercent: { type: 'number' },
+            warningStatus: { type: 'boolean' },
+          },
+        },
+      },
+    },
+  }, async (request, reply) => {
+    try {
+      const user = validateAuth(request.headers.authorization);
+      const tenantId = (request as any).tenantContext?.tenantId;
+      
+      if (!tenantId) {
+        reply.status(403);
+        return { error: 'Tenant context required' };
+      }
+
+      const stats = await fileStorageService.getStorageStats(tenantId);
+      return stats;
+    } catch (error) {
+      reply.status(400);
+      return { error: error instanceof Error ? error.message : 'Failed to get quota' };
+    }
+  });
+
+  /**
+   * Clean Up Files - Requires ADMIN
+   * POST /files/cleanup
+   */
+  app.post('/files/cleanup', {
+    schema: {
+      tags: ['Files'],
+      summary: 'Clean up deleted files',
+      description: 'Permanently delete files that have been soft-deleted (requires ADMIN)',
+      security: [{ BearerAuth: [] }],
+      body: {
+        type: 'object',
+        properties: {
+          daysToKeep: { type: 'number', default: 30 },
+        },
+      },
+      response: {
+        200: {
+          description: 'Cleanup completed',
+          type: 'object',
+          properties: {
+            filesDeleted: { type: 'number' },
+            backupsDeleted: { type: 'number' },
+          },
+        },
+      },
+    },
+  }, async (request, reply) => {
+    try {
+      const checkAdmin = requireRole('ADMIN');
+      checkAdmin(request.headers.authorization);
+      
+      const body = request.body as any;
+      const result = await fileStorageService.cleanup(body.daysToKeep || 30);
+      
+      return result;
+    } catch (error) {
+      if (error instanceof Error && error.message.includes('Insufficient permissions')) {
+        reply.status(403);
+        return { error: error.message };
+      }
+      reply.status(400);
+      return { error: error instanceof Error ? error.message : 'Cleanup failed' };
     }
   });
 

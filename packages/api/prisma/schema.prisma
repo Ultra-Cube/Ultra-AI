@@ -76,6 +76,8 @@ model User {
   activities   UserActivity[]
   notifications Notification[]
   notificationPreference NotificationPreference?
+  files        File[]
+  fileAccessLogs FileAccessLog[]
 
   @@index([email])
   @@index([role])
@@ -349,3 +351,150 @@ model NotificationPreference {
   @@unique([userId])
   @@index([tenantId])
 }
+
+// ============================================================================
+// File Storage System
+// ============================================================================
+
+enum FileStorageType {
+  LOCAL        // Local file system
+  S3           // Amazon S3
+  GCS          // Google Cloud Storage
+  AZURE        // Azure Blob Storage
+}
+
+enum FileStatus {
+  ACTIVE
+  ARCHIVED
+  DELETED
+  QUARANTINED  // Malware detected
+}
+
+// File Storage - Track all files
+model File {
+  id          String           @id @default(cuid())
+  tenantId    String
+  userId      String
+  user        User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // File Information
+  name        String
+  mimeType    String           // e.g. "application/pdf"
+  size        Int              // File size in bytes
+  hash        String?          // SHA256 hash for deduplication
+  
+  // Storage
+  storageType FileStorageType  @default(LOCAL)
+  storageKey  String           // S3 key, local path, etc.
+  storageUrl  String?          // CDN URL for public files
+  
+  // Status & Metadata
+  status      FileStatus       @default(ACTIVE)
+  isPublic    Boolean          @default(false)
+  description String?          @db.Text
+  metadata    Json?            @db.JsonB
+  
+  // Virus Scan
+  virusScanStatus String?      // "pending", "clean", "infected"
+  virusScanResultAt DateTime?
+  
+  // Versioning
+  version     Int              @default(1)
+  parentFileId String?         // For file versions
+  
+  // Timestamps
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  deletedAt   DateTime?
+  
+  // Relations
+  backups     FileBackup[]
+  accessLogs  FileAccessLog[]
+  
+  @@index([tenantId])
+  @@index([userId])
+  @@index([storageType])
+  @@index([status])
+  @@index([hash])
+  @@index([createdAt])
+  @@index([tenantId, userId])
+  @@index([tenantId, status])
+}
+
+// File Backups - Track file versions and backups
+model FileBackup {
+  id          String    @id @default(cuid())
+  fileId      String
+  file        File      @relation(fields: [fileId], references: [id], onDelete: Cascade)
+  
+  // Backup Info
+  version     Int
+  storageKey  String
+  size        Int       // Backup size in bytes
+  backupType  String    // "auto", "manual", "restore_point"
+  
+  // Metadata
+  metadata    Json?     @db.JsonB
+  
+  createdAt   DateTime  @default(now())
+  retentionUntil DateTime? // When to delete this backup
+  
+  @@unique([fileId, version])
+  @@index([fileId])
+  @@index([backupType])
+  @@index([retentionUntil])
+}
+
+// File Access Logs - Audit file access
+model FileAccessLog {
+  id          String    @id @default(cuid())
+  fileId      String
+  file        File      @relation(fields: [fileId], references: [id], onDelete: Cascade)
+  tenantId    String
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Access Info
+  action      String    // "view", "download", "upload", "delete", "share"
+  ipAddress   String?
+  userAgent   String?
+  
+  // Result
+  success     Boolean   @default(true)
+  errorMessage String?
+  
+  createdAt   DateTime  @default(now())
+  
+  @@index([fileId])
+  @@index([userId])
+  @@index([tenantId])
+  @@index([action])
+  @@index([createdAt])
+  @@index([tenantId, userId, createdAt])
+}
+
+// Storage Quota - Track tenant storage limits
+model StorageQuota {
+  id          String    @id @default(cuid())
+  tenantId    String    @unique
+  
+  // Limits
+  maxBytes    Int       // Maximum storage in bytes
+  maxFiles    Int       // Maximum number of files
+  maxFileSize Int       // Maximum single file size
+  
+  // Usage
+  usedBytes   Int       @default(0)
+  usedFiles   Int       @default(0)
+  
+  // Warnings
+  warningThreshold Int   @default(80) // Percentage (0-100)
+  isWarning   Boolean   @default(false)
+  
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  
+  @@index([tenantId])
+}
+
+// File Status - Already defined in File schema section
