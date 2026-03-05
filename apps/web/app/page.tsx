@@ -22,6 +22,11 @@ interface ProcessResult {
   model: string;
 }
 
+interface UserIdentity {
+  id: string;
+  email: string;
+}
+
 const roles: Role[] = [
   'video-designer',
   'developer',
@@ -33,6 +38,10 @@ const roles: Role[] = [
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:4000';
 
 export default function HomePage() {
+  const [email, setEmail] = useState('designer@ultra.ai');
+  const [password, setPassword] = useState('pass1234');
+  const [token, setToken] = useState<string | null>(null);
+  const [user, setUser] = useState<UserIdentity | null>(null);
   const [role, setRole] = useState<Role>('video-designer');
   const [prompt, setPrompt] = useState('I need help planning a video editing workflow.');
   const [signals, setSignals] = useState('caption editing,render export');
@@ -43,17 +52,42 @@ export default function HomePage() {
 
   const roleTitle = useMemo(() => role.replace('-', ' '), [role]);
 
+  async function authenticate(mode: 'register' | 'login') {
+    setError(null);
+    const response = await fetch(`${API_BASE}/auth/${mode}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to ${mode}.`);
+    }
+
+    const data = await response.json();
+    setToken(data.token as string);
+    setUser(data.user as UserIdentity);
+  }
+
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setLoading(true);
     setError(null);
 
+    if (!token) {
+      setError('Please register or login first.');
+      setLoading(false);
+      return;
+    }
+
     try {
       const workspaceRes = await fetch(`${API_BASE}/ai/workspace/recommend`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
         body: JSON.stringify({
-          userId: 'demo-user',
           role,
           usageSignals: signals
             .split(',')
@@ -81,6 +115,23 @@ export default function HomePage() {
 
       const processData = await processRes.json();
       setResult(processData.result as ProcessResult);
+
+      await fetch(`${API_BASE}/user/workspace-profile`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          role,
+          preferredTools: workspaceData.recommendation.suggestedTools,
+          pinnedWidgets: workspaceData.recommendation.pinnedWidgets,
+          usageSignals: signals
+            .split(',')
+            .map((s) => s.trim())
+            .filter(Boolean),
+        }),
+      });
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Unexpected error';
       setError(message);
@@ -97,6 +148,29 @@ export default function HomePage() {
         <p>
           Pick your role and Ultra AI generates a tailored interface, then processes your
           request using the best available AI model path.
+        </p>
+
+        <div className="auth-bar">
+          <input
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Email"
+          />
+          <input
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password"
+            type="password"
+          />
+          <button onClick={() => authenticate('register')} type="button">
+            Register
+          </button>
+          <button onClick={() => authenticate('login')} type="button">
+            Login
+          </button>
+        </div>
+        <p className="muted">
+          {user ? `Logged in as ${user.email}` : 'Authentication required to save profile.'}
         </p>
       </section>
 

@@ -1,7 +1,9 @@
 import Fastify, { FastifyInstance } from 'fastify';
 import { AICore } from '@ultra-ai/ai-core';
+import { AuthService } from './services/auth/auth-service';
+import { WorkspaceProfileStore } from './services/profile/workspace-profile-store';
 import { WorkspaceRecommender } from './services/workspace-recommender';
-import { WorkspaceRecommendationRequest } from './types';
+import { AuthRequest, WorkspaceRecommendationRequest } from './types';
 
 export function buildApp(): FastifyInstance {
   const app = Fastify({ logger: false });
@@ -13,6 +15,18 @@ export function buildApp(): FastifyInstance {
   });
 
   const recommender = new WorkspaceRecommender();
+  const authService = new AuthService();
+  const profileStore = new WorkspaceProfileStore();
+
+  function getBearerUser(
+    authorizationHeader: string | undefined,
+  ): { userId: string; email: string } {
+    if (!authorizationHeader?.startsWith('Bearer ')) {
+      throw new Error('Missing bearer token');
+    }
+
+    return authService.verifyToken(authorizationHeader.replace('Bearer ', ''));
+  }
 
   app.get('/health', async () => {
     return {
@@ -20,6 +34,36 @@ export function buildApp(): FastifyInstance {
       service: '@ultra-ai/api',
       timestamp: new Date().toISOString(),
     };
+  });
+
+  app.post('/auth/register', async (request, reply) => {
+    const body = request.body as AuthRequest;
+    if (!body?.email || !body?.password) {
+      reply.status(400);
+      return { error: 'email and password are required' };
+    }
+
+    try {
+      return authService.register(body.email, body.password);
+    } catch (error) {
+      reply.status(409);
+      return { error: error instanceof Error ? error.message : 'Unable to register' };
+    }
+  });
+
+  app.post('/auth/login', async (request, reply) => {
+    const body = request.body as AuthRequest;
+    if (!body?.email || !body?.password) {
+      reply.status(400);
+      return { error: 'email and password are required' };
+    }
+
+    try {
+      return authService.login(body.email, body.password);
+    } catch (error) {
+      reply.status(401);
+      return { error: error instanceof Error ? error.message : 'Invalid credentials' };
+    }
   });
 
   app.post('/ai/process', async (request, reply) => {
@@ -37,13 +81,77 @@ export function buildApp(): FastifyInstance {
   app.post('/ai/workspace/recommend', async (request, reply) => {
     const body = request.body as WorkspaceRecommendationRequest;
 
-    if (!body?.userId || !body?.role) {
+    if (!body?.role) {
       reply.status(400);
-      return { error: 'userId and role are required' };
+      return { error: 'role is required' };
+    }
+
+    let user: { userId: string; email: string };
+    try {
+      user = getBearerUser(request.headers.authorization);
+    } catch {
+      reply.status(401);
+      return { error: 'Unauthorized' };
     }
 
     const recommendation = recommender.recommend(body);
-    return { recommendation };
+    const existingProfile = profileStore.get(user.userId);
+
+    const savedProfile = profileStore.upsert({
+      userId: user.userId,
+      role: body.role,
+      pinnedWidgets: existingProfile?.pinnedWidgets ?? recommendation.pinnedWidgets,
+      preferredTools: body.preferredTools ?? recommendation.suggestedTools,
+      lastSignals: body.usageSignals ?? [],
+    });
+
+    return { recommendation, profile: savedProfile };
+  });
+
+  app.get('/user/workspace-profile', async (request, reply) => {
+    let user: { userId: string; email: string };
+    try {
+      user = getBearerUser(request.headers.authorization);
+    } catch {
+      reply.status(401);
+      return { error: 'Unauthorized' };
+    }
+
+    const profile = profileStore.get(user.userId);
+    if (!profile) {
+      reply.status(404);
+      return { error: 'Profile not found' };
+    }
+
+    return { profile };
+  });
+
+  app.put('/user/workspace-profile', async (request, reply) => {
+    let user: { userId: string; email: string };
+    try {
+      user = getBearerUser(request.headers.authorization);
+    } catch {
+      reply.status(401);
+      return { error: 'Unauthorized' };
+    }
+
+    const body = request.body as {
+      role?: WorkspaceRecommendationRequest['role'];
+      pinnedWidgets?: string[];
+      preferredTools?: string[];
+      usageSignals?: string[];
+    };
+
+    const current = profileStore.get(user.userId);
+    const updated = profileStore.upsert({
+      userId: user.userId,
+      role: body.role ?? current?.role ?? 'custom',
+      pinnedWidgets: body.pinnedWidgets ?? current?.pinnedWidgets ?? ['chat', 'tools'],
+      preferredTools: body.preferredTools ?? current?.preferredTools ?? ['general-assistant'],
+      lastSignals: body.usageSignals ?? current?.lastSignals ?? [],
+    });
+
+    return { profile: updated };
   });
 
   return app;

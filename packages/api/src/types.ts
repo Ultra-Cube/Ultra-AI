@@ -1,5 +1,4 @@
 export interface WorkspaceRecommendationRequest {
-  userId: string;
   role: 'video-designer' | 'developer' | 'researcher' | 'marketer' | 'custom';
   preferredTools?: string[];
   usageSignals?: string[];
@@ -11,4 +10,9 @@ export interface WorkspaceRecommendation {
   pinnedWidgets: string[];
   suggestedTools: string[];
   adaptationEnabled: boolean;
+}
+
+export interface AuthRequest {
+  email: string;
+  password: string;
 }
