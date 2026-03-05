@@ -37,6 +37,13 @@ import {
   type AnalyticsQuery,
   type ReportOptions,
 } from './services/analytics';
+import {
+  NotificationService,
+  notificationEmitter,
+  type CreateNotificationData,
+  type NotificationQuery,
+  type UpdatePreferencesData,
+} from './services/notifications';
 import { AuthRequest, WorkspaceRecommendationRequest } from './types';
 import { swaggerOptions, swaggerUiOptions } from './config/swagger.config';
 
@@ -101,6 +108,9 @@ export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
   
   // Register analytics tracking middleware (tracks all API calls)
   app.addHook('preHandler', createAnalyticsMiddleware(analyticsService));
+
+  // Initialize notification system
+  const notificationService = new NotificationService(prisma);
 
   const aiCore = context?.aiCore || new AICore({
     models: ['gpt-4o-mini', 'claude-3-haiku'],
@@ -1632,6 +1642,495 @@ export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
         message: 'Analytics data cleanup completed',
         deletedCount,
       };
+    } catch (error) {
+      if (error instanceof Error && error.message.includes('Insufficient permissions')) {
+        reply.status(403);
+        return { error: error.message };
+      }
+      reply.status(401);
+      return { error: 'Unauthorized' };
+    }
+  });
+
+  // ============================================================================
+  // Notification Endpoints
+  // ============================================================================
+
+  /**
+   * Get Notifications
+   * GET /notifications
+   */
+  app.get('/notifications', {
+    schema: {
+      tags: ['Notifications'],
+      summary: 'Get notifications',
+      description: 'Retrieve notifications for the current user with filtering options',
+      security: [{ BearerAuth: [] }],
+      querystring: {
+        type: 'object',
+        properties: {
+          type: { type: 'string' },
+          priority: { type: 'string' },
+          isRead: { type: 'boolean' },
+          limit: { type: 'number', default: 50 },
+          offset: { type: 'number', default: 0 },
+        },
+      },
+      response: {
+        200: {
+          description: 'List of notifications',
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              id: { type: 'string' },
+              type: { type: 'string' },
+              priority: { type: 'string' },
+              title: { type: 'string' },
+              message: { type: 'string' },
+              isRead: { type: 'boolean' },
+              createdAt: { type: 'string' },
+            },
+          },
+        },
+      },
+    },
+  }, async (request, reply) => {
+    try {
+      const user = getBearerUser(request.headers.authorization);
+      const tenantId = (request as any).tenantContext?.tenantId;
+      
+      if (!tenantId) {
+        reply.status(403);
+        return { error: 'Tenant context required' };
+      }
+
+      const query = request.query as NotificationQuery;
+      const notifications = await notificationService.getNotifications(tenantId, {
+        ...query,
+        userId: user.userId,
+      });
+      
+      return notifications;
+    } catch (error) {
+      reply.status(401);
+      return { error: 'Unauthorized' };
+    }
+  });
+
+  /**
+   * Get Unread Count
+   * GET /notifications/unread-count
+   */
+  app.get('/notifications/unread-count', {
+    schema: {
+      tags: ['Notifications'],
+      summary: 'Get unread notification count',
+      description: 'Get the number of unread notifications for the current user',
+      security: [{ BearerAuth: [] }],
+      response: {
+        200: {
+          description: 'Unread count',
+          type: 'object',
+          properties: {
+            count: { type: 'number' },
+          },
+        },
+      },
+    },
+  }, async (request, reply) => {
+    try {
+      const user = getBearerUser(request.headers.authorization);
+      const tenantId = (request as any).tenantContext?.tenantId;
+      
+      if (!tenantId) {
+        reply.status(403);
+        return { error: 'Tenant context required' };
+      }
+
+      const count = await notificationService.getUnreadCount(tenantId, user.userId);
+      return { count };
+    } catch (error) {
+      reply.status(401);
+      return { error: 'Unauthorized' };
+    }
+  });
+
+  /**
+   * Get Notification Statistics
+   * GET /notifications/stats
+   */
+  app.get('/notifications/stats', {
+    schema: {
+      tags: ['Notifications'],
+      summary: 'Get notification statistics',
+      description: 'Get comprehensive notification statistics for the current user',
+      security: [{ BearerAuth: [] }],
+      response: {
+        200: {
+          description: 'Notification statistics',
+          type: 'object',
+          properties: {
+            total: { type: 'number' },
+            unread: { type: 'number' },
+            byType: { type: 'object' },
+            byPriority: { type: 'object' },
+            recentCount: { type: 'number' },
+          },
+        },
+      },
+    },
+  }, async (request, reply) => {
+    try {
+      const user = getBearerUser(request.headers.authorization);
+      const tenantId = (request as any).tenantContext?.tenantId;
+      
+      if (!tenantId) {
+        reply.status(403);
+        return { error: 'Tenant context required' };
+      }
+
+      const stats = await notificationService.getStats(tenantId, user.userId);
+      return stats;
+    } catch (error) {
+      reply.status(401);
+      return { error: 'Unauthorized' };
+    }
+  });
+
+  /**
+   * Mark Notification as Read
+   * PATCH /notifications/:id/read
+   */
+  app.patch('/notifications/:id/read', {
+    schema: {
+      tags: ['Notifications'],
+      summary: 'Mark notification as read',
+      description: 'Mark a specific notification as read',
+      security: [{ BearerAuth: [] }],
+      params: {
+        type: 'object',
+        properties: {
+          id: { type: 'string' },
+        },
+      },
+      response: {
+        200: {
+          description: 'Notification marked as read',
+          type: 'object',
+          properties: {
+            id: { type: 'string' },
+            isRead: { type: 'boolean' },
+          },
+        },
+      },
+    },
+  }, async (request, reply) => {
+    try {
+      const user = getBearerUser(request.headers.authorization);
+      const tenantId = (request as any).tenantContext?.tenantId;
+      const params = request.params as { id: string };
+      
+      if (!tenantId) {
+        reply.status(403);
+        return { error: 'Tenant context required' };
+      }
+
+      const notification = await notificationService.markAsRead(tenantId, params.id, user.userId);
+      return { id: notification.id, isRead: notification.isRead };
+    } catch (error) {
+      reply.status(404);
+      return { error: 'Notification not found' };
+    }
+  });
+
+  /**
+   * Mark All Notifications as Read
+   * PATCH /notifications/mark-all-read
+   */
+  app.patch('/notifications/mark-all-read', {
+    schema: {
+      tags: ['Notifications'],
+      summary: 'Mark all notifications as read',
+      description: 'Mark all unread notifications as read for the current user',
+      security: [{ BearerAuth: [] }],
+      response: {
+        200: {
+          description: 'All notifications marked as read',
+          type: 'object',
+          properties: {
+            message: { type: 'string' },
+            count: { type: 'number' },
+          },
+        },
+      },
+    },
+  }, async (request, reply) => {
+    try {
+      const user = getBearerUser(request.headers.authorization);
+      const tenantId = (request as any).tenantContext?.tenantId;
+      
+      if (!tenantId) {
+        reply.status(403);
+        return { error: 'Tenant context required' };
+      }
+
+      const count = await notificationService.markAllAsRead(tenantId, user.userId);
+      return { message: 'All notifications marked as read', count };
+    } catch (error) {
+      reply.status(401);
+      return { error: 'Unauthorized' };
+    }
+  });
+
+  /**
+   * Archive Notification
+   * PATCH /notifications/:id/archive
+   */
+  app.patch('/notifications/:id/archive', {
+    schema: {
+      tags: ['Notifications'],
+      summary: 'Archive notification',
+      description: 'Archive a notification',
+      security: [{ BearerAuth: [] }],
+      params: {
+        type: 'object',
+        properties: {
+          id: { type: 'string' },
+        },
+      },
+      response: {
+        200: {
+          description: 'Notification archived',
+          type: 'object',
+          properties: {
+            id: { type: 'string' },
+            isArchived: { type: 'boolean' },
+          },
+        },
+      },
+    },
+  }, async (request, reply) => {
+    try {
+      const user = getBearerUser(request.headers.authorization);
+      const tenantId = (request as any).tenantContext?.tenantId;
+      const params = request.params as { id: string };
+      
+      if (!tenantId) {
+        reply.status(403);
+        return { error: 'Tenant context required' };
+      }
+
+      const notification = await notificationService.archive(tenantId, params.id, user.userId);
+      return { id: notification.id, isArchived: notification.isArchived };
+    } catch (error) {
+      reply.status(404);
+      return { error: 'Notification not found' };
+    }
+  });
+
+  /**
+   * Delete Notification
+   * DELETE /notifications/:id
+   */
+  app.delete('/notifications/:id', {
+    schema: {
+      tags: ['Notifications'],
+      summary: 'Delete notification',
+      description: 'Delete a notification',
+      security: [{ BearerAuth: [] }],
+      params: {
+        type: 'object',
+        properties: {
+          id: { type: 'string' },
+        },
+      },
+      response: {
+        200: {
+          description: 'Notification deleted',
+          type: 'object',
+          properties: {
+            message: { type: 'string' },
+          },
+        },
+      },
+    },
+  }, async (request, reply) => {
+    try {
+      const user = getBearerUser(request.headers.authorization);
+      const tenantId = (request as any).tenantContext?.tenantId;
+      const params = request.params as { id: string };
+      
+      if (!tenantId) {
+        reply.status(403);
+        return { error: 'Tenant context required' };
+      }
+
+      await notificationService.delete(tenantId, params.id, user.userId);
+      return { message: 'Notification deleted' };
+    } catch (error) {
+      reply.status(404);
+      return { error: 'Notification not found' };
+    }
+  });
+
+  /**
+   * Get Notification Preferences
+   * GET /notifications/preferences
+   */
+  app.get('/notifications/preferences', {
+    schema: {
+      tags: ['Notifications'],
+      summary: 'Get notification preferences',
+      description: 'Get notification preferences for the current user',
+      security: [{ BearerAuth: [] }],
+      response: {
+        200: {
+          description: 'Notification preferences',
+          type: 'object',
+          properties: {
+            enableInApp: { type: 'boolean' },
+            enableEmail: { type: 'boolean' },
+            enablePush: { type: 'boolean' },
+            enableSMS: { type: 'boolean' },
+            mutedTypes: { type: 'array', items: { type: 'string' } },
+            quietHoursStart: { type: 'number' },
+            quietHoursEnd: { type: 'number' },
+            emailDigest: { type: 'boolean' },
+          },
+        },
+      },
+    },
+  }, async (request, reply) => {
+    try {
+      const user = getBearerUser(request.headers.authorization);
+      const tenantId = (request as any).tenantContext?.tenantId;
+      
+      if (!tenantId) {
+        reply.status(403);
+        return { error: 'Tenant context required' };
+      }
+
+      const preferences = await notificationService.getOrCreatePreferences(tenantId, user.userId);
+      return preferences;
+    } catch (error) {
+      reply.status(401);
+      return { error: 'Unauthorized' };
+    }
+  });
+
+  /**
+   * Update Notification Preferences
+   * PATCH /notifications/preferences
+   */
+  app.patch('/notifications/preferences', {
+    schema: {
+      tags: ['Notifications'],
+      summary: 'Update notification preferences',
+      description: 'Update notification preferences for the current user',
+      security: [{ BearerAuth: [] }],
+      body: {
+        type: 'object',
+        properties: {
+          enableInApp: { type: 'boolean' },
+          enableEmail: { type: 'boolean' },
+          enablePush: { type: 'boolean' },
+          enableSMS: { type: 'boolean' },
+          mutedTypes: { type: 'array', items: { type: 'string' } },
+          quietHoursStart: { type: 'number', minimum: 0, maximum: 23 },
+          quietHoursEnd: { type: 'number', minimum: 0, maximum: 23 },
+          quietHoursTimezone: { type: 'string' },
+          emailDigest: { type: 'boolean' },
+          digestTime: { type: 'number', minimum: 0, maximum: 23 },
+        },
+      },
+      response: {
+        200: {
+          description: 'Preferences updated',
+          type: 'object',
+          properties: {
+            message: { type: 'string' },
+          },
+        },
+      },
+    },
+  }, async (request, reply) => {
+    try {
+      const user = getBearerUser(request.headers.authorization);
+      const tenantId = (request as any).tenantContext?.tenantId;
+      
+      if (!tenantId) {
+        reply.status(403);
+        return { error: 'Tenant context required' };
+      }
+
+      const updates = request.body as UpdatePreferencesData;
+      await notificationService.updatePreferences(tenantId, user.userId, updates);
+      
+      return { message: 'Preferences updated successfully' };
+    } catch (error) {
+      reply.status(401);
+      return { error: 'Unauthorized' };
+    }
+  });
+
+  /**
+   * Broadcast Notification - Requires ADMIN
+   * POST /notifications/broadcast
+   */
+  app.post('/notifications/broadcast', {
+    schema: {
+      tags: ['Notifications'],
+      summary: 'Broadcast notification to all users',
+      description: 'Send notification to all users in the tenant (requires ADMIN role)',
+      security: [{ BearerAuth: [] }],
+      body: {
+        type: 'object',
+        required: ['title', 'message'],
+        properties: {
+          title: { type: 'string' },
+          message: { type: 'string' },
+          type: { type: 'string' },
+          priority: { type: 'string' },
+          excludeUserIds: { type: 'array', items: { type: 'string' } },
+        },
+      },
+      response: {
+        200: {
+          description: 'Broadcast sent',
+          type: 'object',
+          properties: {
+            message: { type: 'string' },
+            count: { type: 'number' },
+          },
+        },
+      },
+    },
+  }, async (request, reply) => {
+    try {
+      const checkAdmin = requireRole('ADMIN');
+      checkAdmin(request.headers.authorization);
+      
+      const tenantId = (request as any).tenantContext?.tenantId;
+      
+      if (!tenantId) {
+        reply.status(403);
+        return { error: 'Tenant context required' };
+      }
+
+      const body = request.body as any;
+      const count = await notificationService.broadcastToTenant(
+        tenantId,
+        body.title,
+        body.message,
+        {
+          type: body.type,
+          priority: body.priority,
+          excludeUserIds: body.excludeUserIds,
+        }
+      );
+      
+      return { message: 'Broadcast sent successfully', count };
     } catch (error) {
       if (error instanceof Error && error.message.includes('Insufficient permissions')) {
         reply.status(403);

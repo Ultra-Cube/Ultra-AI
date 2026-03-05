@@ -74,6 +74,8 @@ model User {
   // Relations
   events       AnalyticsEvent[]
   activities   UserActivity[]
+  notifications Notification[]
+  notificationPreference NotificationPreference?
 
   @@index([email])
   @@index([role])
@@ -226,4 +228,124 @@ model SystemMetric {
   @@index([metricName])
   @@index([timestamp])
   @@index([service, timestamp])
+}
+
+// ============================================================================
+// Notification System
+// ============================================================================
+
+enum NotificationType {
+  INFO
+  SUCCESS
+  WARNING
+  ERROR
+  SYSTEM
+  USER_ACTION
+  REMINDER
+  ANNOUNCEMENT
+}
+
+enum NotificationPriority {
+  LOW
+  NORMAL
+  HIGH
+  URGENT
+}
+
+enum NotificationStatus {
+  PENDING
+  SENT
+  DELIVERED
+  FAILED
+  CANCELLED
+}
+
+enum NotificationChannel {
+  IN_APP
+  EMAIL
+  PUSH
+  SMS
+  WEBHOOK
+}
+
+// Notifications
+model Notification {
+  id          String               @id @default(cuid())
+  tenantId    String
+  userId      String
+  user        User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Notification details
+  type        NotificationType     @default(INFO)
+  priority    NotificationPriority @default(NORMAL)
+  status      NotificationStatus   @default(PENDING)
+  
+  // Content
+  title       String
+  message     String               @db.Text
+  icon        String?
+  actionUrl   String?
+  actionLabel String?
+  
+  // Metadata
+  metadata    Json?                @db.JsonB
+  
+  // Delivery tracking
+  channels    NotificationChannel[]
+  sentAt      DateTime?
+  deliveredAt DateTime?
+  failedAt    DateTime?
+  errorMessage String?
+  
+  // User interaction
+  isRead      Boolean              @default(false)
+  readAt      DateTime?
+  isArchived  Boolean              @default(false)
+  archivedAt  DateTime?
+  
+  // Timestamps
+  createdAt   DateTime             @default(now())
+  expiresAt   DateTime?
+  
+  @@index([tenantId])
+  @@index([userId])
+  @@index([type])
+  @@index([priority])
+  @@index([status])
+  @@index([isRead])
+  @@index([createdAt])
+  @@index([userId, isRead, createdAt])
+  @@index([tenantId, createdAt])
+}
+
+// Notification Preferences
+model NotificationPreference {
+  id          String    @id @default(cuid())
+  tenantId    String
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Channel preferences
+  enableInApp Boolean   @default(true)
+  enableEmail Boolean   @default(true)
+  enablePush  Boolean   @default(false)
+  enableSMS   Boolean   @default(false)
+  
+  // Type preferences (which notification types to receive)
+  mutedTypes  NotificationType[]
+  
+  // Quiet hours
+  quietHoursStart Int?  // 0-23 hour
+  quietHoursEnd   Int?  // 0-23 hour
+  quietHoursTimezone String? @default("UTC")
+  
+  // Frequency
+  emailDigest Boolean   @default(false) // Send daily digest instead of individual emails
+  digestTime  Int?      // Hour to send digest (0-23)
+  
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  
+  @@unique([userId])
+  @@index([tenantId])
 }
