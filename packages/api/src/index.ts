@@ -5,6 +5,7 @@ import { AuthService } from './services/auth/auth-service';
 import { DatabaseUserService } from './services/auth/db-user-service';
 import { WorkspaceProfileStore } from './services/profile/workspace-profile-store';
 import { WorkspaceRecommender } from './services/workspace-recommender';
+import { ModelGateway, createModelGateway } from './services/ai/model-gateway';
 import { AuthRequest, WorkspaceRecommendationRequest } from './types';
 
 export interface AppContext {
@@ -13,6 +14,7 @@ export interface AppContext {
   aiCore: AICore;
   profileStore: WorkspaceProfileStore;
   recommender: WorkspaceRecommender;
+  modelGateway: ModelGateway;
 }
 
 export function buildApp(context?: AppContext): FastifyInstance {
@@ -26,6 +28,7 @@ export function buildApp(context?: AppContext): FastifyInstance {
   });
 
   const recommender = context?.recommender || new WorkspaceRecommender();
+  const modelGateway = context?.modelGateway || createModelGateway();
   const dbUserService = new DatabaseUserService(prisma);
   const authService = context?.authService || new AuthService(dbUserService);
   const profileStore = context?.profileStore || new WorkspaceProfileStore();
@@ -166,6 +169,76 @@ export function buildApp(context?: AppContext): FastifyInstance {
     return { profile: updated };
   });
 
+  // Advanced Model Gateway endpoints
+  app.get('/ai/models', async () => {
+    const models = modelGateway.listAvailableModels();
+    const response: Record<string, string[]> = {};
+
+    for (const [provider, modelList] of models) {
+      response[provider] = modelList;
+    }
+
+    return { providers: response };
+  });
+
+  app.get('/ai/gateway/health', async () => {
+    const health = modelGateway.getHealthStatus();
+
+    return {
+      gatewayStatus: 'operational',
+      providers: health.map((status) => ({
+        provider: status.provider,
+        healthy: status.healthy,
+        lastChecked: status.lastChecked,
+        stats: {
+          successCount: status.successCount,
+          errorCount: status.errorCount,
+        },
+      })),
+      timestamp: new Date().toISOString(),
+    };
+  });
+
+  app.post('/ai/advanced-process', async (request, reply) => {
+    const body = request.body as {
+      input: string;
+      model?: string;
+      provider?: string;
+    };
+
+    if (!body?.input || !body.input.trim()) {
+      reply.status(400);
+      return { error: 'input is required' };
+    }
+
+    const modelToUse = body.model ?? 'gpt-4o-mini';
+
+    try {
+      // Route to appropriate provider
+      const route = await modelGateway.routeRequest(modelToUse);
+
+      // Record that we're using this provider
+      modelGateway.recordSuccess(route.provider);
+
+      // Process with AICore for now, in production would call actual provider
+      const result = await aiCore.process(body.input);
+
+      return {
+        result,
+        routing: {
+          provider: route.provider,
+          model: route.model,
+          endpoint: route.endpoint,
+        },
+      };
+    } catch (error) {
+      reply.status(503);
+      return {
+        error: error instanceof Error ? error.message : 'Service unavailable',
+      };
+    }
+  });
+
   return app;
 }
 
@@ -181,6 +254,7 @@ export async function startServer(port = 4000, context?: AppContext): Promise<{ 
     }),
     profileStore: new WorkspaceProfileStore(),
     recommender: new WorkspaceRecommender(),
+    modelGateway: createModelGateway(),
   };
 
   const app = buildApp(finalContext);

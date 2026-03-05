@@ -4,6 +4,7 @@ import { InMemoryUserService } from './services/auth/in-memory-user-service';
 import { WorkspaceProfileStore } from './services/profile/workspace-profile-store';
 import { WorkspaceRecommender } from './services/workspace-recommender';
 import { AICore } from '@ultra-ai/ai-core';
+import { createModelGateway } from './services/ai/model-gateway';
 
 describe('@ultra-ai/api', () => {
   let app: any;
@@ -20,6 +21,7 @@ describe('@ultra-ai/api', () => {
     });
     const profileStore = new WorkspaceProfileStore();
     const recommender = new WorkspaceRecommender();
+    const modelGateway = createModelGateway();
 
     const context: AppContext = {
       prisma: null as any, // Not needed for in-memory service
@@ -27,6 +29,7 @@ describe('@ultra-ai/api', () => {
       aiCore,
       profileStore,
       recommender,
+      modelGateway,
     };
 
     app = buildApp(context);
@@ -150,4 +153,48 @@ describe('@ultra-ai/api', () => {
     expect(updateProfile.statusCode).toBe(200);
     expect(updateProfile.json().profile.role).toBe('video-designer');
   });
+
+  it('lists available AI models from gateway', async () => {
+    const response = await app.inject({
+      method: 'GET',
+      url: '/ai/models',
+    });
+
+    expect(response.statusCode).toBe(200);
+    const data = response.json();
+    expect(data.providers).toBeDefined();
+    expect(Object.keys(data.providers).length).toBeGreaterThan(0);
+  });
+
+  it('returns gateway health status', async () => {
+    const response = await app.inject({
+      method: 'GET',
+      url: '/ai/gateway/health',
+    });
+
+    expect(response.statusCode).toBe(200);
+    const data = response.json();
+    expect(data.gatewayStatus).toBe('operational');
+    expect(Array.isArray(data.providers)).toBe(true);
+    expect(data.providers.length).toBeGreaterThan(0);
+    expect(data.providers[0]).toHaveProperty('provider');
+    expect(data.providers[0]).toHaveProperty('healthy');
+  });
+
+  it('processes advanced AI request with model gateway', async () => {
+    const response = await app.inject({
+      method: 'POST',
+      url: '/ai/advanced-process',
+      payload: { input: 'Advanced: Explain quantum computing', model: 'mistral' }, // Use Ollama model as default
+    });
+
+    expect(response.statusCode).toBe(200);
+    const data = response.json();
+    expect(data.result).toBeDefined();
+    expect(data.routing).toBeDefined();
+    expect(data.routing.provider).toBeTruthy();
+    expect(data.routing.model).toBeTruthy();
+    expect(data.routing.endpoint).toBeTruthy();
+  });
 });
+
