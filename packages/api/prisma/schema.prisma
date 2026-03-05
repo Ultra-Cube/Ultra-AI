@@ -70,9 +70,160 @@ model User {
   
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
+  
+  // Relations
+  events       AnalyticsEvent[]
+  activities   UserActivity[]
 
   @@index([email])
   @@index([role])
   @@index([tenantId])
   @@unique([email, tenantId]) // Email unique per tenant
+}
+
+enum EventType {
+  PAGE_VIEW
+  API_CALL
+  USER_ACTION
+  SYSTEM_EVENT
+  ERROR
+  AUTH
+  SEARCH
+  EXPORT
+  CUSTOM
+}
+
+enum EventSeverity {
+  INFO
+  WARNING
+  ERROR
+  CRITICAL
+}
+
+enum MetricType {
+  COUNTER
+  GAUGE
+  HISTOGRAM
+  SUMMARY
+}
+
+// Analytics Events - Raw event tracking
+model AnalyticsEvent {
+  id          String         @id @default(cuid())
+  tenantId    String
+  userId      String?
+  user        User?          @relation(fields: [userId], references: [id], onDelete: SetNull)
+  
+  // Event Information
+  eventType   EventType
+  eventName   String         // e.g., "user_login", "api_request", "button_click"
+  severity    EventSeverity  @default(INFO)
+  
+  // Context
+  path        String?        // URL path or route
+  method      String?        // HTTP method
+  statusCode  Int?           // Response status
+  duration    Int?           // Duration in ms
+  
+  // Metadata
+  metadata    Json?          @db.JsonB // Additional event data
+  userAgent   String?
+  ipAddress   String?
+  
+  // Success/Error tracking
+  success     Boolean        @default(true)
+  errorMessage String?
+  errorStack   String?
+  
+  timestamp   DateTime       @default(now())
+  
+  @@index([tenantId])
+  @@index([userId])
+  @@index([eventType])
+  @@index([eventName])
+  @@index([timestamp])
+  @@index([tenantId, timestamp])
+  @@index([userId, timestamp])
+}
+
+// User Activity Tracking
+model UserActivity {
+  id          String    @id @default(cuid())
+  tenantId    String
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Activity details
+  action      String    // e.g., "created_report", "updated_settings"
+  resource    String?   // Resource type (e.g., "report", "user")
+  resourceId  String?   // Resource ID
+  
+  // Change tracking
+  before      Json?     @db.JsonB
+  after       Json?     @db.JsonB
+  
+  // Context
+  ipAddress   String?
+  userAgent   String?
+  
+  timestamp   DateTime  @default(now())
+  
+  @@index([tenantId])
+  @@index([userId])
+  @@index([action])
+  @@index([timestamp])
+  @@index([userId, timestamp])
+}
+
+// Aggregated Metrics
+model AnalyticsMetric {
+  id          String     @id @default(cuid())
+  tenantId    String
+  
+  // Metric Information
+  metricType  MetricType
+  metricName  String     // e.g., "active_users", "api_latency"
+  
+  // Values
+  value       Float
+  count       Int        @default(1)
+  
+  // Dimensions for grouping
+  dimension1  String?    // e.g., "endpoint", "browser"
+  dimension2  String?
+  dimension3  String?
+  
+  // Time window
+  timestamp   DateTime   @default(now())
+  windowStart DateTime   // Start of aggregation window
+  windowEnd   DateTime   // End of aggregation window
+  
+  @@index([tenantId])
+  @@index([metricName])
+  @@index([timestamp])
+  @@index([tenantId, metricName, windowStart])
+  @@unique([tenantId, metricName, dimension1, dimension2, dimension3, windowStart])
+}
+
+// System Performance Metrics
+model SystemMetric {
+  id          String    @id @default(cuid())
+  
+  // Metric details
+  metricName  String    // e.g., "cpu_usage", "memory_usage", "response_time"
+  value       Float
+  unit        String?   // e.g., "percent", "ms", "bytes"
+  
+  // Context
+  host        String?   // Host/server identifier
+  service     String?   // Service name
+  
+  // Metadata
+  tags        Json?     @db.JsonB
+  
+  timestamp   DateTime  @default(now())
+  
+  @@index([metricName])
+  @@index([timestamp])
+  @@index([service, timestamp])
 }

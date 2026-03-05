@@ -30,6 +30,13 @@ import {
   createTenantScopedPrisma,
   type TenantContext 
 } from './services/multi-tenancy';
+import {
+  AnalyticsService,
+  createAnalyticsMiddleware,
+  type EventData,
+  type AnalyticsQuery,
+  type ReportOptions,
+} from './services/analytics';
 import { AuthRequest, WorkspaceRecommendationRequest } from './types';
 import { swaggerOptions, swaggerUiOptions } from './config/swagger.config';
 
@@ -88,6 +95,12 @@ export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
   
   // Register tenant middleware (optional - extracts tenant context if available)
   app.addHook('preHandler', createTenantMiddleware(tenantContextManager));
+
+  // Initialize analytics system
+  const analyticsService = new AnalyticsService(prisma);
+  
+  // Register analytics tracking middleware (tracks all API calls)
+  app.addHook('preHandler', createAnalyticsMiddleware(analyticsService));
 
   const aiCore = context?.aiCore || new AICore({
     models: ['gpt-4o-mini', 'claude-3-haiku'],
@@ -1197,6 +1210,428 @@ export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
       const tenant = await tenantService.activateTenant(params.tenantId);
       
       return { message: 'Tenant activated', tenant };
+    } catch (error) {
+      if (error instanceof Error && error.message.includes('Insufficient permissions')) {
+        reply.status(403);
+        return { error: error.message };
+      }
+      reply.status(401);
+      return { error: 'Unauthorized' };
+    }
+  });
+
+  // ============================================================================
+  // Analytics Endpoints
+  // ============================================================================
+
+  /**
+   * Track Custom Event
+   * POST /analytics/events
+   */
+  app.post('/analytics/events', {
+    schema: {
+      tags: ['Analytics'],
+      summary: 'Track custom event',
+      description: 'Track a custom analytics event for the current tenant',
+      security: [{ BearerAuth: [] }],
+      body: {
+        type: 'object',
+        required: ['eventType', 'eventName'],
+        properties: {
+          eventType: {
+            type: 'string',
+            enum: ['PAGE_VIEW', 'API_CALL', 'USER_ACTION', 'SYSTEM_EVENT', 'ERROR', 'AUTH', 'SEARCH', 'EXPORT', 'CUSTOM'],
+          },
+          eventName: { type: 'string' },
+          severity: { type: 'string', enum: ['INFO', 'WARNING', 'ERROR', 'CRITICAL'] },
+          path: { type: 'string' },
+          method: { type: 'string' },
+          statusCode: { type: 'number' },
+          duration: { type: 'number' },
+          metadata: { type: 'object' },
+          success: { type: 'boolean' },
+        },
+      },
+      response: {
+        200: {
+          description: 'Event tracked successfully',
+          type: 'object',
+          properties: {
+            id: { type: 'string' },
+            timestamp: { type: 'string' },
+          },
+        },
+      },
+    },
+  }, async (request, reply) => {
+    try {
+      const user = getBearerUser(request.headers.authorization);
+      const tenantId = (request as any).tenantContext?.tenantId;
+      
+      if (!tenantId) {
+        reply.status(403);
+        return { error: 'Tenant context required' };
+      }
+
+      const eventData = request.body as EventData;
+      const event = await analyticsService.trackEvent(tenantId, user.userId, eventData);
+      
+      return { id: event.id, timestamp: event.timestamp };
+    } catch (error) {
+      reply.status(401);
+      return { error: 'Unauthorized' };
+    }
+  });
+
+  /**
+   * Get Analytics Events
+   * GET /analytics/events
+   */
+  app.get('/analytics/events', {
+    schema: {
+      tags: ['Analytics'],
+      summary: 'Get analytics events',
+      description: 'Retrieve analytics events with filtering options',
+      security: [{ BearerAuth: [] }],
+      querystring: {
+        type: 'object',
+        properties: {
+          eventType: { type: 'string' },
+          eventName: { type: 'string' },
+          userId: { type: 'string' },
+          startDate: { type: 'string', format: 'date-time' },
+          endDate: { type: 'string', format: 'date-time' },
+          limit: { type: 'number', default: 100 },
+          offset: { type: 'number', default: 0 },
+        },
+      },
+      response: {
+        200: {
+          description: 'Analytics events retrieved',
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              id: { type: 'string' },
+              eventType: { type: 'string' },
+              eventName: { type: 'string' },
+              timestamp: { type: 'string' },
+              userId: { type: 'string' },
+              success: { type: 'boolean' },
+            },
+          },
+        },
+      },
+    },
+  }, async (request, reply) => {
+    try {
+      getBearerUser(request.headers.authorization);
+      const tenantId = (request as any).tenantContext?.tenantId;
+      
+      if (!tenantId) {
+        reply.status(403);
+        return { error: 'Tenant context required' };
+      }
+
+      const query = request.query as AnalyticsQuery & { startDate?: string; endDate?: string };
+      const parsedQuery: AnalyticsQuery = {
+        ...query,
+        startDate: query.startDate ? new Date(query.startDate) : undefined,
+        endDate: query.endDate ? new Date(query.endDate) : undefined,
+      };
+
+      const events = await analyticsService.getEvents(tenantId, parsedQuery);
+      return events;
+    } catch (error) {
+      reply.status(401);
+      return { error: 'Unauthorized' };
+    }
+  });
+
+  /**
+   * Get Dashboard Statistics
+   * GET /analytics/dashboard
+   */
+  app.get('/analytics/dashboard', {
+    schema: {
+      tags: ['Analytics'],
+      summary: 'Get dashboard statistics',
+      description: 'Get comprehensive dashboard statistics for the current tenant',
+      security: [{ BearerAuth: [] }],
+      response: {
+        200: {
+          description: 'Dashboard statistics',
+          type: 'object',
+          properties: {
+            totalEvents: { type: 'number' },
+            totalUsers: { type: 'number' },
+            activeUsers: { type: 'number' },
+            errorRate: { type: 'number' },
+            avgResponseTime: { type: 'number' },
+            topEvents: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  eventName: { type: 'string' },
+                  count: { type: 'number' },
+                },
+              },
+            },
+            topPages: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  path: { type: 'string' },
+                  views: { type: 'number' },
+                },
+              },
+            },
+            userGrowth: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  date: { type: 'string' },
+                  count: { type: 'number' },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  }, async (request, reply) => {
+    try {
+      getBearerUser(request.headers.authorization);
+      const tenantId = (request as any).tenantContext?.tenantId;
+      
+      if (!tenantId) {
+        reply.status(403);
+        return { error: 'Tenant context required' };
+      }
+
+      const stats = await analyticsService.getDashboardStats(tenantId);
+      return stats;
+    } catch (error) {
+      reply.status(401);
+      return { error: 'Unauthorized' };
+    }
+  });
+
+  /**
+   * Get User Activities
+   * GET /analytics/activities
+   */
+  app.get('/analytics/activities', {
+    schema: {
+      tags: ['Analytics'],
+      summary: 'Get user activities',
+      description: 'Retrieve user activity log with change tracking',
+      security: [{ BearerAuth: [] }],
+      querystring: {
+        type: 'object',
+        properties: {
+          userId: { type: 'string' },
+          limit: { type: 'number', default: 50 },
+        },
+      },
+      response: {
+        200: {
+          description: 'User activities',
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              id: { type: 'string' },
+              action: { type: 'string' },
+              resource: { type: 'string' },
+              resourceId: { type: 'string' },
+              timestamp: { type: 'string' },
+            },
+          },
+        },
+      },
+    },
+  }, async (request, reply) => {
+    try {
+      getBearerUser(request.headers.authorization);
+      const tenantId = (request as any).tenantContext?.tenantId;
+      
+      if (!tenantId) {
+        reply.status(403);
+        return { error: 'Tenant context required' };
+      }
+
+      const query = request.query as { userId?: string; limit?: number };
+      const activities = await analyticsService.getUserActivities(
+        tenantId,
+        query.userId,
+        query.limit
+      );
+      
+      return activities;
+    } catch (error) {
+      reply.status(401);
+      return { error: 'Unauthorized' };
+    }
+  });
+
+  /**
+   * Generate Analytics Report
+   * GET /analytics/report
+   */
+  app.get('/analytics/report', {
+    schema: {
+      tags: ['Analytics'],
+      summary: 'Generate analytics report',
+      description: 'Generate custom analytics report in JSON or CSV format',
+      security: [{ BearerAuth: [] }],
+      querystring: {
+        type: 'object',
+        properties: {
+          format: { type: 'string', enum: ['json', 'csv'], default: 'json' },
+          eventType: { type: 'string' },
+          startDate: { type: 'string', format: 'date-time' },
+          endDate: { type: 'string', format: 'date-time' },
+          includeMetadata: { type: 'boolean', default: false },
+        },
+      },
+      response: {
+        200: {
+          description: 'Analytics report',
+          type: 'string',
+        },
+      },
+    },
+  }, async (request, reply) => {
+    try {
+      getBearerUser(request.headers.authorization);
+      const tenantId = (request as any).tenantContext?.tenantId;
+      
+      if (!tenantId) {
+        reply.status(403);
+        return { error: 'Tenant context required' };
+      }
+
+      const query = request.query as AnalyticsQuery & ReportOptions & {
+        startDate?: string;
+        endDate?: string;
+      };
+
+      const reportQuery: AnalyticsQuery = {
+        eventType: query.eventType as any,
+        startDate: query.startDate ? new Date(query.startDate) : undefined,
+        endDate: query.endDate ? new Date(query.endDate) : undefined,
+      };
+
+      const reportOptions: ReportOptions = {
+        format: query.format || 'json',
+        includeMetadata: query.includeMetadata,
+      };
+
+      const report = await analyticsService.generateReport(tenantId, reportQuery, reportOptions);
+
+      if (reportOptions.format === 'csv') {
+        reply.header('Content-Type', 'text/csv');
+        reply.header('Content-Disposition', 'attachment; filename="analytics-report.csv"');
+      }
+
+      return report;
+    } catch (error) {
+      reply.status(401);
+      return { error: 'Unauthorized' };
+    }
+  });
+
+  /**
+   * Get Event Count by Type
+   * GET /analytics/events/count-by-type
+   */
+  app.get('/analytics/events/count-by-type', {
+    schema: {
+      tags: ['Analytics'],
+      summary: 'Get event count by type',
+      description: 'Get aggregated event count grouped by event type',
+      security: [{ BearerAuth: [] }],
+      querystring: {
+        type: 'object',
+        properties: {
+          startDate: { type: 'string', format: 'date-time' },
+          endDate: { type: 'string', format: 'date-time' },
+        },
+      },
+      response: {
+        200: {
+          description: 'Event counts by type',
+          type: 'object',
+        },
+      },
+    },
+  }, async (request, reply) => {
+    try {
+      getBearerUser(request.headers.authorization);
+      const tenantId = (request as any).tenantContext?.tenantId;
+      
+      if (!tenantId) {
+        reply.status(403);
+        return { error: 'Tenant context required' };
+      }
+
+      const query = request.query as { startDate?: string; endDate?: string };
+      const counts = await analyticsService.getEventCountByType(
+        tenantId,
+        query.startDate ? new Date(query.startDate) : undefined,
+        query.endDate ? new Date(query.endDate) : undefined
+      );
+      
+      return counts;
+    } catch (error) {
+      reply.status(401);
+      return { error: 'Unauthorized' };
+    }
+  });
+
+  /**
+   * Clean Old Analytics Data - Requires ADMIN
+   * DELETE /analytics/cleanup
+   */
+  app.delete('/analytics/cleanup', {
+    schema: {
+      tags: ['Analytics'],
+      summary: 'Clean old analytics data',
+      description: 'Delete analytics events older than specified days (requires ADMIN role)',
+      security: [{ BearerAuth: [] }],
+      querystring: {
+        type: 'object',
+        properties: {
+          daysToKeep: { type: 'number', default: 90 },
+        },
+      },
+      response: {
+        200: {
+          description: 'Cleanup complete',
+          type: 'object',
+          properties: {
+            message: { type: 'string' },
+            deletedCount: { type: 'number' },
+          },
+        },
+      },
+    },
+  }, async (request, reply) => {
+    try {
+      const checkAdmin = requireRole('ADMIN');
+      checkAdmin(request.headers.authorization);
+
+      const query = request.query as { daysToKeep?: number };
+      const deletedCount = await analyticsService.cleanOldData(query.daysToKeep || 90);
+      
+      return {
+        message: 'Analytics data cleanup completed',
+        deletedCount,
+      };
     } catch (error) {
       if (error instanceof Error && error.message.includes('Insufficient permissions')) {
         reply.status(403);
