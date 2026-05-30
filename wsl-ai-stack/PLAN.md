@@ -107,3 +107,14 @@ Acceptance:
 
 - The docs show how the model layer swaps without changing the bridge path
 - OpenClaw can be pointed at Kimi once the provider profile is ready
+## Phase 6: AirLLM GPU lane
+
+- [x] Add the AirLLM WSL bootstrap script
+- [x] Add the AirLLM bridge script
+- [x] Document the AirLLM runtime lane
+- [x] Connect the Kimi model track to OpenClaw docs
+
+Acceptance:
+
+- The GPU lane is visible next to the Ollama lane
+- The assistant can swap model backends without changing the control path

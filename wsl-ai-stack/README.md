@@ -34,8 +34,10 @@ flowchart LR
 - FLOW.md - end to end voice to task flow
 - VOICE.md - voice assistant choice and setup notes
 - MODELS.md - model tracks for Ollama, AirLLM, and Kimi
+- AIRLLM.md - GPU lane notes and WSL setup for AirLLM
 - scripts/bootstrap-wsl-ai.sh - environment checker and installer
 - scripts/openclaw-bridge.sh - text bridge into OpenClaw
+- scripts/setup-airllm.sh - AirLLM runtime bootstrapper
 - scripts/setup-n8n.sh - local n8n installer and launcher
 - scripts/setup-voice.sh - OpenVoiceOS oriented voice setup
 - scripts/voice-sample.sh - reusable WAV sample generator
@@ -68,6 +70,12 @@ To test the first voice path in this WSL environment:
 bash ./scripts/voice-bridge.sh --sample --speak-response
 ```
 
+To prepare the GPU model lane:
+
+```bash
+bash ./scripts/setup-airllm.sh --check
+```
+
 To import the starter n8n flow:
 
 ```bash
@@ -87,7 +95,7 @@ Linux tools stay the execution surface for shell, files, and local apps.
 
 ## Model tracks
 
-See [MODELS.md](MODELS.md) for the current Ollama, AirLLM, and Kimi paths.
+See [MODELS.md](MODELS.md) for the current Ollama, AirLLM, and Kimi paths. See [AIRLLM.md](AIRLLM.md) for the GPU lane setup and usage.
 
 ## Recommended voice stack
 
