@@ -1,0 +1,13 @@
+{
+  "name": "wsl-ai-stack",
+  "version": "1.0.0",
+  "description": "This folder is the WSL and Ubuntu control plane for the Ultra-AI workspace. It binds together:",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}
