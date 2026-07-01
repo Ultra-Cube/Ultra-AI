@@ -49,6 +49,7 @@ import { AuditLoggingService } from './services/audit-logging';
 import { AdvancedSearchService } from './services/search';
 import { WebhookService } from './services/webhooks';
 import { ZeroAIStore } from './services/zeroai/zeroai-store';
+import workflowRoutes from './routes/workflows.routes';
 import { typeDefs, resolvers } from './graphql';
 import { AuthRequest, WorkspaceRecommendationRequest } from './types';
 import { swaggerOptions, swaggerUiOptions } from './config/swagger.config';
@@ -129,6 +130,8 @@ export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
   const webhookService = new WebhookService(prisma);
   const zeroAIStore = new ZeroAIStore();
   const zeroAIBridgeScript = path.resolve(process.cwd(), '../../wsl-ai-stack/scripts/openclaw-bridge.sh');
+
+  await app.register(workflowRoutes);
 
   const aiCore = context?.aiCore || new AICore({
     models: ['gpt-4o-mini', 'claude-3-haiku'],

@@ -13,9 +13,16 @@ type MemoryEntry = {
 
 type WorkflowRecord = {
   id: string;
+  tenantId: string;
+  userId: string;
   name: string;
   description?: string;
-  command: string;
+  definition: {
+    type: 'shell' | 'n8n-flow';
+    command: string;
+    trigger?: string;
+    tags?: string[];
+  };
   status: 'draft' | 'ready' | 'running' | 'complete' | 'failed';
   lastRunAt?: string;
   lastOutput?: string;
@@ -44,6 +51,7 @@ const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:4000'
 
 export default function ZeroAIPage() {
   const [state, setState] = useState<ZeroAIState | null>(null);
+  const [workflows, setWorkflows] = useState<WorkflowRecord[]>([]);
   const [prompt, setPrompt] = useState('ZeroAI, check the local stack and tell me what is ready.');
   const [source, setSource] = useState<'text' | 'voice'>('text');
   const [workflowName, setWorkflowName] = useState('OpenClaw status review');
@@ -54,19 +62,29 @@ export default function ZeroAIPage() {
   const [error, setError] = useState<string | null>(null);
 
   const memoryCount = state?.memory.length ?? 0;
-  const workflowCount = state?.workflows.length ?? 0;
+  const workflowCount = workflows.length;
   const lastRoute = state?.lastRoute ?? 'n/a';
 
   const recentMemory = useMemo(() => state?.memory.slice().reverse().slice(0, 8) ?? [], [state]);
 
   async function loadState() {
-    const response = await fetch(`${API_BASE}/zeroai/state`);
-    if (!response.ok) {
+    const [stateResponse, workflowResponse] = await Promise.all([
+      fetch(`${API_BASE}/zeroai/state`),
+      fetch(`${API_BASE}/n8n/workflows`),
+    ]);
+
+    if (!stateResponse.ok) {
       throw new Error('Unable to load ZeroAI state');
     }
 
-    const data = (await response.json()) as ZeroAIState;
-    setState(data);
+    if (!workflowResponse.ok) {
+      throw new Error('Unable to load workflows');
+    }
+
+    const stateData = (await stateResponse.json()) as ZeroAIState;
+    const workflowData = (await workflowResponse.json()) as { workflows: WorkflowRecord[] };
+    setState(stateData);
+    setWorkflows(workflowData.workflows);
   }
 
   useEffect(() => {
@@ -107,13 +125,20 @@ export default function ZeroAIPage() {
     setError(null);
 
     try {
-      const response = await fetch(`${API_BASE}/zeroai/workflows`, {
+      const response = await fetch(`${API_BASE}/n8n/workflows`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          tenantId: 'local-zeroai',
+          userId: 'system',
           name: workflowName,
           description: workflowDescription,
-          command: workflowCommand,
+          definition: {
+            type: 'n8n-flow',
+            command: workflowCommand,
+            trigger: 'manual',
+            tags: ['zeroai', 'n8n'],
+          },
         }),
       });
 
@@ -135,7 +160,7 @@ export default function ZeroAIPage() {
     setError(null);
 
     try {
-      const response = await fetch(`${API_BASE}/zeroai/workflows/${id}/run`, { method: 'POST' });
+      const response = await fetch(`${API_BASE}/n8n/workflows/${id}/execute`, { method: 'POST' });
       const data = await response.json();
       if (!response.ok) {
         throw new Error(data.error ?? 'Workflow execution failed');
@@ -242,7 +267,7 @@ export default function ZeroAIPage() {
           </form>
 
           <div className="workflow-list">
-            {(state?.workflows ?? []).map((workflow) => (
+            {workflows.map((workflow) => (
               <article key={workflow.id} className="workflow-item">
                 <div className="workflow-topline">
                   <div>
@@ -251,7 +276,7 @@ export default function ZeroAIPage() {
                   </div>
                   <span className={`tag status-${workflow.status}`}>{workflow.status}</span>
                 </div>
-                <code>{workflow.command}</code>
+                <code>{workflow.definition.command}</code>
                 <div className="workflow-actions">
                   <button type="button" onClick={() => runWorkflow(workflow.id)} disabled={busy}>
                     Run
