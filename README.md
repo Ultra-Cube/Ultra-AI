@@ -12,6 +12,8 @@
 
 Ultra AI Platform is a revolutionary artificial intelligence platform that redefines how users interact with AI technologies. The platform combines existing AI engines with self-learning technologies, an innovative smart user interface, and a distributed operating system.
 
+ZeroAI is the local, WSL-based assistant layer that will sit on the device and control the user experience, while Ultra AI remains the networked platform behind it. ZeroAI is designed to behave like a local operator for the machine, similar to a Codex-style on-device assistant, and Ultra AI provides the broader distributed ecosystem that ZeroAI can escalate into when needed.
+
 The platform vision also includes a user-adaptive AI model layer: Ultra AI can connect to external AI providers through APIs while continuously adapting both model/tool selection and the user interface based on each user's profession, behavior, and goals. Users can always switch to manual customization mode at any time.
 
 ```mermaid
@@ -41,6 +43,13 @@ graph TB
     F --> S[CS Digital Currency]
     F --> T[Participation Rewards]
     F --> U[Circular Economy]
+
+    Z[ZeroAI Local Layer] --> B
+    Z --> O[OpenClaw Routing]
+    Z --> P[Ollama / AirLLM]
+    Z --> Q[n8n Workflows]
+    Z --> R[Local Tools and Apps]
+    Z --> V[Ultra AI Network]
 ```
 
 ## ✨ Key Features
@@ -53,6 +62,14 @@ graph TB
 - **Progressive Adaptation**: Interface evolves over time based on real usage patterns
 - **Manual Override**: Users can manually edit and pin their preferred layout
 - **Complexity Reduction**: No need to learn complex tools or multiple interfaces
+
+### 1a. ZeroAI Local Control Surface
+- **Local-First Operation**: Users interact with ZeroAI on the device first
+- **Voice and Text Entry**: Simple local entry modes for fast actions
+- **Routing Visibility**: The UI shows whether a task stays local or escalates to Ultra AI
+- **Memory Awareness**: Conversation and task context are visible in the interface
+- **Workflow Transparency**: n8n workflows and tool usage are exposed clearly
+- **Backend Flexibility**: The interface can use Open WebUI or LocalAI in the first release
 
 ### 2. Multi-Model AI Gateway
 - **Provider Orchestration**: Integrates with external AI APIs (OpenAI, Anthropic, and other providers)
@@ -80,6 +97,28 @@ graph TB
 - **CS Digital Currency**: Rewarding users for resource sharing
 - **Circular Economy**: Incentive system supporting platform sustainability
 - **Fair Distribution**: Rewards proportional to contribution size
+
+## ZeroAI Integration
+
+ZeroAI is the local assistant entry point for the merged product line.
+
+```mermaid
+flowchart LR
+  U[User voice or text] --> Z[ZeroAI]
+  Z --> S[Speech-to-Text]
+  Z --> M[Memory Layer]
+  Z --> O[OpenClaw]
+  O --> L[Local Models]
+  O --> N[n8n]
+  O --> T[Local Tools]
+  O --> X[Ultra AI Network]
+  L --> R[Response]
+  N --> R
+  T --> R
+  X --> R
+```
+
+ZeroAI will own the on-device control experience, while Ultra AI continues to provide the broader distributed processing, shared services, and network-level orchestration.
 
 ## 🏗️ Technical Architecture
 
@@ -178,6 +217,7 @@ docker run -p 3000:3000 -p 5432:5432 ultra-ai-platform
 2. **Simple Design**: "Design me a logo for my company using blue and white colors"
 3. **Data Processing**: "Analyze this data and give me a report"
 4. **Adaptive Professional Workspace**: "I am a video designer" and Ultra AI automatically builds a timeline-focused workspace, recommends editing tools, and adapts as usage evolves
+5. **Local Assistant Control**: ZeroAI launches local tools, routes workflows, and keeps the user inside a single on-device control surface
 
 ### For Developers
 1. **Access Tools Library**: Use advanced tools directly

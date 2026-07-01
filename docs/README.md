@@ -41,30 +41,41 @@ Security framework, privacy policies, and compliance
 - [Compliance Requirements](./security/compliance.md)
 - [Threat Model](./security/threat-model.md)
 
-## 🎯 Current Phase: Idea Development
+### 🖥️ [ZeroAI Integration](./architecture/)
 
-We are currently in the **Idea Development Phase**, focusing on:
+Local assistant architecture, edge-cloud routing, and control surface planning
+
+- [ZeroAI and Ultra AI Integration Architecture](./architecture/zero-ai-integration.md)
+- [System Architecture](./architecture/system-architecture.md)
+- [Distributed Processing](./architecture/distributed-processing.md)
+- [ZeroAI UI Specification](./ui/zeroai-ui-spec.md)
+
+## 🎯 Current Phase: Integration Planning
+
+We are currently in the **Integration Planning Phase**, focusing on:
 
 1. ✅ **Concept Definition** - Completed in main README.md
-2. 🔄 **Market Research & Validation** - In Progress
-3. 🔄 **Technical Feasibility Analysis** - In Progress
-4. 🔄 **Business Model Refinement** - In Progress
-5. 🔄 **Risk Assessment** - In Progress
+2. ✅ **ZeroAI and Ultra AI boundary definition** - In progress in architecture docs
+3. 🔄 **Local UI and workflow planning** - In progress
+4. 🔄 **Market Research & Validation** - In Progress
+5. 🔄 **Technical Feasibility Analysis** - In Progress
+6. 🔄 **Business Model Refinement** - In Progress
+7. 🔄 **Risk Assessment** - In Progress
 
 ## 📈 Next Steps
 
 1. **Complete Market Analysis**: Research competitors and validate market need
-2. **Refine Technical Architecture**: Address scalability and performance concerns
+2. **Refine Technical Architecture**: Align ZeroAI and Ultra AI roles and boundaries
 3. **Develop Detailed Business Plan**: Include funding requirements and milestones
-4. **Create Prototype Specifications**: Define MVP features and requirements
-5. **Risk Mitigation Planning**: Identify and plan for potential challenges
+4. **Create Prototype Specifications**: Define local UI, memory, STT, and workflow requirements
+5. **Risk Mitigation Planning**: Identify and plan for local-cloud integration challenges
 
 ## 🚀 Vision Statement
 
-> "To revolutionize AI interaction through natural conversation, distributed processing, and fair reward systems, making advanced AI accessible to everyone while building a sustainable ecosystem."
+> "To revolutionize AI interaction through a local-first assistant layer, distributed processing, and fair reward systems, making advanced AI accessible on-device and across the network while building a sustainable ecosystem."
 
 ---
 
-**Last Updated**: September 17, 2025  
-**Status**: Idea Development Phase  
-**Next Review**: October 1, 2025
+**Last Updated**: June 6, 2026  
+**Status**: Integration Planning Phase  
+**Next Review**: June 13, 2026

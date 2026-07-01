@@ -1,40 +1,34 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT_DIR=""
-RUNTIME_DIR="/runtime"
-N8N_DIR="/n8n"
-N8N_DATA="/n8n-data"
-LOG_DIR="/logs"
-N8N_LOG="/n8n.log"
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+RUNTIME_DIR="$ROOT_DIR/runtime"
+N8N_DIR="$RUNTIME_DIR/n8n"
+LOG_DIR="$RUNTIME_DIR/logs"
+N8N_LOG="$LOG_DIR/n8n.log"
 N8N_PORT="5678"
-OLLAMA_HOST="http://172.19.144.1:11434"
-MODEL="ollama/gemma4:latest"
+OLLAMA_HOST="${OLLAMA_HOST:-http://172.19.144.1:11434}"
+MODEL="${OPENCLAW_MODEL:-ollama/gemma4:latest}"
 
 load_node_runtime() {
-  local node_root="/mnt/c/Users/PC/Documents/Codex/2026-05-30/download-and-install-opneclaw-jarvis-ai/work/linux-tools/node/bin"
-  if [ -x "/node" ]; then
-    PATH=":/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Program Files/WindowsApps/Microsoft.PowerShell_7.6.2.0_x64__8wekyb3d8bbwe:/mnt/c/Users/PC/.codex/tmp/arg0/codex-arg0x9PaMC:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR:/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/mnt/c/Program Files/dotnet/:/mnt/c/Program Files/Docker/Docker/resources/bin:/mnt/c/Program Files/Git/cmd:/mnt/c/Program Files/nodejs/:/mnt/c/Users/PC/.local/bin:/mnt/c/Users/PC/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/PC/AppData/Local/Programs/Microsoft VS Code/bin:/mnt/c/Gate_OS/DevHub/Windsurf/Windsurf/bin:/mnt/c/Users/PC/AppData/Local/XPipe/cli/bin:/mnt/c/Program Files/Git/bin:/mnt/c/Users/PC/AppData/Roaming/npm:/mnt/c/Gate_OS/DevHub/Antigravity/Antigravity/bin:/mnt/c/Users/PC/AppData/Local/PowerToys/DSCModules/:/mnt/c/Users/PC/AppData/Local/Programs/Ollama:/mnt/c/Users/PC/AppData/Local/OpenAI/Codex/bin/ada252862d154cdd:/mnt/c/Program Files/WindowsApps/OpenAI.Codex_26.527.3686.0_x64__2p2nqsd0c76g0/app/resources"
-    return
-  fi
-  if [ -s "/home/pc/.nvm/nvm.sh" ]; then
+  if [ -s "$HOME/.nvm/nvm.sh" ]; then
     # shellcheck disable=SC1090
-    . "/home/pc/.nvm/nvm.sh"
+    . "$HOME/.nvm/nvm.sh"
     if command -v nvm >/dev/null 2>&1; then
       local nvm_node_bin
-      nvm_node_bin=""
-      if [ -x "" ]; then
-        PATH=".:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Program Files/WindowsApps/Microsoft.PowerShell_7.6.2.0_x64__8wekyb3d8bbwe:/mnt/c/Users/PC/.codex/tmp/arg0/codex-arg0x9PaMC:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR:/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/mnt/c/Program Files/dotnet/:/mnt/c/Program Files/Docker/Docker/resources/bin:/mnt/c/Program Files/Git/cmd:/mnt/c/Program Files/nodejs/:/mnt/c/Users/PC/.local/bin:/mnt/c/Users/PC/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/PC/AppData/Local/Programs/Microsoft VS Code/bin:/mnt/c/Gate_OS/DevHub/Windsurf/Windsurf/bin:/mnt/c/Users/PC/AppData/Local/XPipe/cli/bin:/mnt/c/Program Files/Git/bin:/mnt/c/Users/PC/AppData/Roaming/npm:/mnt/c/Gate_OS/DevHub/Antigravity/Antigravity/bin:/mnt/c/Users/PC/AppData/Local/PowerToys/DSCModules/:/mnt/c/Users/PC/AppData/Local/Programs/Ollama:/mnt/c/Users/PC/AppData/Local/OpenAI/Codex/bin/ada252862d154cdd:/mnt/c/Program Files/WindowsApps/OpenAI.Codex_26.527.3686.0_x64__2p2nqsd0c76g0/app/resources"
+      nvm_node_bin="$(nvm which --lts 2>/dev/null || true)"
+      if [ -x "$nvm_node_bin" ]; then
+        PATH="$(dirname "$nvm_node_bin"):$PATH"
       fi
     fi
   fi
 }
 
 check_ollama() {
-  if curl -fsS "/api/version" >/dev/null 2>&1; then
-    echo "[OK] Ollama reachable at "
+  if curl -fsS "$OLLAMA_HOST/api/version" >/dev/null 2>&1; then
+    echo "[OK] Ollama reachable at $OLLAMA_HOST"
   else
-    echo "[WARN] Ollama is not reachable at "
+    echo "[WARN] Ollama is not reachable at $OLLAMA_HOST"
   fi
 }
 
@@ -48,33 +42,34 @@ check_openclaw() {
 }
 
 start_n8n() {
-  mkdir -p "" ""
-  export N8N_USER_FOLDER=""
-  export N8N_PORT=""
+  mkdir -p "$N8N_DIR" "$LOG_DIR"
+  export N8N_USER_FOLDER="$N8N_DIR"
+  export N8N_PORT="$N8N_PORT"
   export N8N_HOST="127.0.0.1"
   export N8N_PROTOCOL="http"
   export N8N_SECURE_COOKIE="false"
 
-  if [ ! -x "/node_modules/.bin/n8n" ]; then
-    echo "[MISS] n8n binary not found under "
+  if [ ! -x "$ROOT_DIR/node_modules/.bin/n8n" ]; then
+    echo "[MISS] n8n binary not found under $ROOT_DIR/node_modules/.bin/n8n"
     return 1
   fi
 
-  if pgrep -f "n8n.*" >/dev/null 2>&1; then
-    echo "[OK] n8n already running on port "
+  if pgrep -f "n8n start" >/dev/null 2>&1; then
+    echo "[OK] n8n already running on port $N8N_PORT"
     return 0
   fi
 
-  nohup "/node_modules/.bin/n8n" start >"" 2>&1 &
-  echo "[OK] n8n starting on http://127.0.0.1:"
-  echo "     log: "
+  nohup "$ROOT_DIR/node_modules/.bin/n8n" start >"$N8N_LOG" 2>&1 &
+  echo "[OK] n8n starting on http://127.0.0.1:$N8N_PORT"
+  echo "     log: $N8N_LOG"
 }
 
 main() {
   load_node_runtime
-  cd ""
-  echo "Ultra AI WSL stack start"
-  echo "Project: "
+  cd "$ROOT_DIR"
+  echo "ZeroAI / WSL stack start"
+  echo "Project: $ROOT_DIR"
+  echo "Model alias: $MODEL"
   echo
 
   check_ollama
@@ -88,9 +83,7 @@ main() {
   echo "  bash ./scripts/voice-bridge.sh --sample --speak-response"
   echo "  bash ./scripts/setup-airllm.sh --check"
   echo "  bash ./scripts/setup-voice.sh --check"
-  echo "  tail -f \"\""
-  echo
-  echo "Model alias in use: "
+  echo "  tail -f \"$N8N_LOG\""
 }
 
-main ""
+main "$@"

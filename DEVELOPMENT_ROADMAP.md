@@ -65,6 +65,61 @@ This document provides a detailed roadmap for developing Ultra AI Platform from 
 - **Proposed Solution**: Focus on privacy and lower cost as competitive advantage
 - **Priority**: 🟡 Medium
 
+## 🧩 ZeroAI and Ultra AI Integration Track
+
+ZeroAI is the local WSL assistant layer.
+Ultra AI is the larger distributed platform.
+This track makes sure both systems evolve together instead of competing with each other.
+
+### Integration Principles
+
+- ZeroAI is the first user entry point on the device.
+- Ultra AI is the escalation and network platform.
+- OpenClaw remains the routing and control plane.
+- n8n remains the workflow backbone.
+- Open WebUI and LocalAI stay documented as local UI options for evaluation.
+- AirLLM remains an optimization lane for later resource reduction.
+
+### Gap Closure Backlog
+
+#### ZeroAI Local Gaps
+
+- Speech-to-text implementation and evaluation.
+- Local memory store for conversation, task history, and preferences.
+- Local UI and control surface.
+- Agent router and policy engine.
+- Tool registry and execution wrappers.
+- OpenClaw bridge scripts.
+- Workflow visibility and confirmation flows.
+
+#### Ultra AI Shared Gaps
+
+- Distributed version compatibility rules.
+- Node failure handling and task redistribution.
+- Data chunking security hardening.
+- GDPR and CCPA alignment for the edge-cloud model.
+- Crypto and token compliance documentation.
+- Multi-region deployment strategy.
+- Load testing and distributed benchmarking.
+- Monitoring, alerting, and disaster recovery.
+
+### Proposed Version Line
+
+| Release Line | Scope | Purpose |
+|---|---|---|
+| ZeroAI v0.1.0 | Local assistant foundation | First WSL-based device assistant baseline |
+| Ultra AI v2.0.0 | Network platform baseline | Broader distributed platform with shared services |
+| Integrated v2-zeroai-integrated | Combined documentation line | Single reference for local-plus-network architecture |
+
+### Initial Delivery Milestones
+
+1. ZeroAI architecture and UI documents stabilized.
+2. STT and memory design selected and documented.
+3. OpenClaw, Ollama, n8n, and local tools wired in the roadmap.
+4. Ultra AI docs updated to show ZeroAI as the local entry point.
+5. Open WebUI and LocalAI evaluated for the first UI implementation.
+6. All previously documented gaps assigned to a phase owner.
+
 ---
 
 ## 📋 Phased Implementation Plan
