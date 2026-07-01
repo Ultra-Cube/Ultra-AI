@@ -6,9 +6,10 @@ VOICE_DIR="$ROOT_DIR/runtime/voice"
 SAMPLES_DIR="$ROOT_DIR/runtime/samples"
 LOG_DIR="$ROOT_DIR/runtime/logs"
 VOICE_PYTHON="$VOICE_DIR/.venv/bin/python"
+TRANSCRIBE_HELPER="$ROOT_DIR/scripts/transcribe-audio.py"
 MODE="file"
 INPUT_FILE=""
-SAMPLE_TEXT="ready to use openclaw from voice"
+SAMPLE_TEXT="openclaw status"
 SPEAK_RESPONSE=false
 
 mkdir -p "$LOG_DIR" "$SAMPLES_DIR"
@@ -65,6 +66,11 @@ if [ ! -x "$VOICE_PYTHON" ]; then
   exit 1
 fi
 
+if [ ! -f "$TRANSCRIBE_HELPER" ]; then
+  echo "Transcription helper is missing: $TRANSCRIBE_HELPER" >&2
+  exit 1
+fi
+
 if ! command -v espeak-ng >/dev/null 2>&1; then
   echo "espeak-ng is required for sample mode" >&2
   exit 1
@@ -92,33 +98,7 @@ if [ ! -f "$audio_file" ]; then
   exit 1
 fi
 
-transcript="$($VOICE_PYTHON - "$audio_file" <<'PY'
-import importlib.util
-import sys
-
-audio_path = sys.argv[1]
-if importlib.util.find_spec("speech_recognition") is None:
-    print("speech_recognition is not installed", file=sys.stderr)
-    raise SystemExit(1)
-
-import speech_recognition as sr
-
-recognizer = sr.Recognizer()
-with sr.AudioFile(audio_path) as source:
-    audio = recognizer.record(source)
-
-try:
-    text = recognizer.recognize_sphinx(audio)
-except sr.UnknownValueError:
-    print("Could not understand the audio", file=sys.stderr)
-    raise SystemExit(3)
-except sr.RequestError as exc:
-    print(f"Speech recognition error: {exc}", file=sys.stderr)
-    raise SystemExit(4)
-
-print(text.strip())
-PY
-)"
+transcript="$($VOICE_PYTHON "$TRANSCRIBE_HELPER" "$audio_file")"
 
 if [ -z "$transcript" ]; then
   echo "Voice transcription returned no text" >&2
