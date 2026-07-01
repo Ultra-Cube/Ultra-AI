@@ -27,7 +27,7 @@ setup_airllm_env() {
     "$AIRLLM_DIR/.venv/bin/pip" install torch torchvision torchaudio
   fi
 
-  "$AIRLLM_DIR/.venv/bin/pip" install airllm transformers accelerate safetensors
+  "$AIRLLM_DIR/.venv/bin/pip" install airllm "optimum<2" "transformers<4.49" accelerate sentencepiece safetensors
 
   if [ "${AIRLLM_INSTALL_BNB:-0}" = "1" ] && check_command nvidia-smi; then
     "$AIRLLM_DIR/.venv/bin/pip" install bitsandbytes || true

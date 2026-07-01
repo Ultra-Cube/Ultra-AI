@@ -502,6 +502,66 @@ model StorageQuota {
 // Audit Logging System (Phase 14)
 // ============================================================================
 
+// ---------------------------------------------------------------------------
+// Workflow System
+// ---------------------------------------------------------------------------
+
+enum WorkflowStatus {
+  DRAFT
+  ACTIVE
+  DISABLED
+}
+
+enum ExecutionStatus {
+  PENDING
+  RUNNING
+  SUCCEEDED
+  FAILED
+  CANCELLED
+}
+
+model Workflow {
+  id          String     @id @default(cuid())
+  tenantId    String
+  userId      String
+  name        String
+  description String?
+  definition  Json       @db.JsonB
+  status      WorkflowStatus @default(DRAFT)
+  version     Int        @default(1)
+
+  // Relations
+  executions  WorkflowExecution[]
+
+  // Timestamps
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@index([tenantId])
+  @@index([userId])
+  @@index([status])
+}
+
+model WorkflowExecution {
+  id           String       @id @default(cuid())
+  workflowId   String
+  workflow     Workflow     @relation(fields: [workflowId], references: [id], onDelete: Cascade)
+  status       ExecutionStatus @default(PENDING)
+  input        Json?        @db.JsonB
+  output       Json?        @db.JsonB
+  logs         Json?        @db.JsonB
+  startedAt    DateTime?
+  finishedAt   DateTime?
+
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  @@index([workflowId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+
 enum AuditAction {
   CREATE
   READ

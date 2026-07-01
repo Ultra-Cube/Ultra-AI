@@ -4,7 +4,7 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 SAMPLES_DIR="$ROOT_DIR/runtime/samples"
 OUTPUT_FILE="$SAMPLES_DIR/voice-sample.wav"
-TEXT="ready to use openclaw from voice"
+TEXT="openclaw status"
 
 while [ $# -gt 0 ]; do
   case "$1" in
