@@ -71,6 +71,13 @@ body {
   margin-top: 0.9rem;
 }
 
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-top: 0.9rem;
+}
+
 .form label {
   display: grid;
   gap: 0.4rem;
@@ -157,3 +164,174 @@ button:disabled {
     align-items: center;
   }
 }
+
+.zeroai-page {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem 1rem 3rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.zeroai-hero {
+  display: grid;
+  gap: 1rem;
+}
+
+.zeroai-header-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.soft-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  border: 1px solid rgba(31, 29, 26, 0.14);
+  border-radius: 999px;
+  padding: 0.7rem 1rem;
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.zeroai-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.stat-card {
+  border-radius: 16px;
+  padding: 0.85rem 0.95rem;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(31, 29, 26, 0.08);
+}
+
+.stat-card span {
+  display: block;
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+.stat-card strong {
+  font-size: 1.35rem;
+}
+
+.zeroai-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.zeroai-panel {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.field {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.workflow-form,
+.workflow-list,
+.memory-list,
+.summary-list {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.workflow-item,
+.memory-item,
+.result-box {
+  border: 1px solid rgba(31, 29, 26, 0.1);
+  border-radius: 16px;
+  padding: 0.85rem;
+  background: rgba(255, 255, 255, 0.55);
+}
+
+.workflow-item code {
+  display: block;
+  margin-top: 0.55rem;
+  font-family: var(--font-plex-mono), monospace;
+  font-size: 0.82rem;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.workflow-topline,
+.memory-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.workflow-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.55rem;
+  border-radius: 999px;
+  background: rgba(31, 29, 26, 0.08);
+  font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.status-complete,
+.role-assistant {
+  background: rgba(47, 143, 157, 0.16);
+}
+
+.status-running,
+.role-user {
+  background: rgba(217, 93, 57, 0.16);
+}
+
+.status-failed,
+.channel-system {
+  background: rgba(155, 28, 28, 0.16);
+}
+
+.status-ready,
+.status-draft,
+.channel-workflow {
+  background: rgba(47, 143, 157, 0.14);
+}
+
+.zeroai-bottom-grid {
+  align-items: start;
+}
+
+.result-route {
+  font-family: var(--font-plex-mono), monospace;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  color: var(--accent-2);
+  margin-top: 0;
+}
+
+@media (min-width: 900px) {
+  .zeroai-grid {
+    grid-template-columns: 1.1fr 0.9fr;
+  }
+
+  .zeroai-bottom-grid {
+    grid-template-columns: 1fr 0.65fr;
+  }
+
+  .zeroai-stats {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+

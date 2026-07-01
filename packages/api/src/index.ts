@@ -48,9 +48,13 @@ import { FileStorageService } from './services/file-storage';
 import { AuditLoggingService } from './services/audit-logging';
 import { AdvancedSearchService } from './services/search';
 import { WebhookService } from './services/webhooks';
+import { ZeroAIStore } from './services/zeroai/zeroai-store';
 import { typeDefs, resolvers } from './graphql';
 import { AuthRequest, WorkspaceRecommendationRequest } from './types';
 import { swaggerOptions, swaggerUiOptions } from './config/swagger.config';
+import { promisify } from 'node:util';
+import { execFile } from 'node:child_process';
+import path from 'node:path';
 
 export interface AppContext {
   prisma: PrismaClient;
@@ -67,6 +71,7 @@ export interface AppContext {
 
 export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
   const app = Fastify({ logger: false });
+  const execFileAsync = promisify(execFile);
 
   // Register Swagger plugins for API documentation
   await app.register(fastifySwagger, swaggerOptions);
@@ -122,6 +127,8 @@ export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
 
   // Initialize webhook system
   const webhookService = new WebhookService(prisma);
+  const zeroAIStore = new ZeroAIStore();
+  const zeroAIBridgeScript = path.resolve(process.cwd(), '../../wsl-ai-stack/scripts/openclaw-bridge.sh');
 
   const aiCore = context?.aiCore || new AICore({
     models: ['gpt-4o-mini', 'claude-3-haiku'],
@@ -578,6 +585,139 @@ export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
       });
       reply.status(500);
       return { error: 'Unable to process request' };
+    }
+  });
+
+  app.get('/zeroai/state', async () => {
+    return zeroAIStore.getState();
+  });
+
+  app.get('/zeroai/memory', async () => {
+    return { memory: zeroAIStore.getMemory() };
+  });
+
+  app.get('/zeroai/workflows', async () => {
+    return { workflows: zeroAIStore.getWorkflows() };
+  });
+
+  app.post('/zeroai/message', async (request, reply) => {
+    const body = request.body as { prompt?: string; source?: 'text' | 'voice' };
+
+    if (!body?.prompt || !body.prompt.trim()) {
+      reply.status(400);
+      return { error: 'prompt is required' };
+    }
+
+    const prompt = InputValidator.sanitize(body.prompt.trim());
+    zeroAIStore.appendMemory({
+      role: 'user',
+      channel: body.source === 'voice' ? 'voice' : 'text',
+      content: prompt,
+    });
+
+    try {
+      const { stdout } = await execFileAsync('bash', [zeroAIBridgeScript, prompt], {
+        maxBuffer: 1024 * 1024,
+        env: {
+          ...process.env,
+          OPENCLAW_MODE: 'infer',
+        },
+      });
+
+      const responseText = String(stdout || '').trim() || 'ZeroAI routed the prompt successfully.';
+      zeroAIStore.appendMemory({
+        role: 'assistant',
+        channel: 'system',
+        content: responseText,
+      });
+      zeroAIStore.recordInteraction(prompt, responseText, 'openclaw-bridge');
+
+      return {
+        prompt,
+        response: responseText,
+        route: 'openclaw-bridge',
+        state: zeroAIStore.getState(),
+      };
+    } catch (error) {
+      const fallback = error instanceof Error ? error.message : 'Unable to reach OpenClaw bridge';
+      zeroAIStore.appendMemory({
+        role: 'assistant',
+        channel: 'system',
+        content: fallback,
+      });
+      zeroAIStore.recordInteraction(prompt, fallback, 'local-fallback');
+      reply.status(503);
+      return {
+        prompt,
+        response: fallback,
+        route: 'local-fallback',
+        state: zeroAIStore.getState(),
+      };
+    }
+  });
+
+  app.post('/zeroai/workflows', async (request, reply) => {
+    const body = request.body as { id?: string; name?: string; description?: string; command?: string };
+
+    if (!body?.name?.trim() || !body?.command?.trim()) {
+      reply.status(400);
+      return { error: 'name and command are required' };
+    }
+
+    const workflow = zeroAIStore.upsertWorkflow({
+      id: body.id,
+      name: body.name.trim(),
+      description: body.description?.trim(),
+      command: body.command.trim(),
+      status: 'ready',
+    });
+
+    return { workflow };
+  });
+
+  app.post('/zeroai/workflows/:id/run', async (request, reply) => {
+    const params = request.params as { id: string };
+    const workflow = zeroAIStore.getWorkflows().find((item) => item.id === params.id);
+
+    if (!workflow) {
+      reply.status(404);
+      return { error: 'workflow not found' };
+    }
+
+    zeroAIStore.setWorkflowStatus(workflow.id, 'running');
+
+    try {
+      const { stdout } = await execFileAsync('bash', ['-lc', workflow.command], {
+        maxBuffer: 1024 * 1024,
+        env: process.env,
+      });
+
+      const output = String(stdout || '').trim() || 'Workflow completed.';
+      const updated = zeroAIStore.setWorkflowStatus(workflow.id, 'complete', output);
+      zeroAIStore.appendMemory({
+        role: 'assistant',
+        channel: 'workflow',
+        content: `${workflow.name}: ${output}`,
+      });
+
+      return {
+        workflow: updated,
+        output,
+      };
+    } catch (error) {
+      const output = error instanceof Error ? error.message : 'Workflow execution failed';
+      const updated = zeroAIStore.setWorkflowStatus(workflow.id, 'failed', output);
+      zeroAIStore.appendMemory({
+        role: 'assistant',
+        channel: 'workflow',
+        content: `${workflow.name}: ${output}`,
+      });
+      reply.status(500);
+
+      return {
+        workflow: updated,
+        output,
+      };
     }
   });
 

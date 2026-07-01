@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { FormEvent, useMemo, useState } from 'react';
 
 type Role =
@@ -149,6 +150,12 @@ export default function HomePage() {
           Pick your role and Ultra AI generates a tailored interface, then processes your
           request using the best available AI model path.
         </p>
+
+        <div className="hero-actions">
+          <Link className="soft-button" href="/zeroai">
+            Open ZeroAI control surface
+          </Link>
+        </div>
 
         <div className="auth-bar">
           <input

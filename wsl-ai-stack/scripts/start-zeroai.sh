@@ -11,4 +11,7 @@ echo
 cd "$ROOT_DIR"
 bash ./scripts/bootstrap-wsl-ai.sh --check
 echo
-bash ./scripts/openclaw-bridge.sh "ZeroAI online. Summarize the current assistant routing."
+echo "ZeroAI UI: http://localhost:3000/zeroai"
+echo "API base:   http://localhost:4000"
+echo
+bash ./scripts/openclaw-bridge.sh "ZeroAI online. Summarize the current assistant routing and local workflow state."
