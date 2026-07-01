@@ -4,6 +4,8 @@
 
 The distributed processing system is the core innovation of Ultra AI Platform. It leverages a volunteer user network to provide computational resources while ensuring privacy, security, and fair compensation through blockchain-based rewards.
 
+With the ZeroAI addition, distributed processing is now treated as a downstream capability. ZeroAI stays local-first on the device, uses OpenClaw and n8n for orchestration, and escalates into this network only when the task clearly benefits from distributed compute or shared services.
+
 ## 🏗️ Architecture Components
 
 ### 1. Network Topology
@@ -15,6 +17,7 @@ graph TB
         NodeRegistry[Node Registry]
         RewardEngine[Reward Engine]
         HealthMonitor[Network Health Monitor]
+      ZeroAIIngress[ZeroAI / OpenClaw Ingress]
     end
     
     subgraph "Processing Nodes"
@@ -31,6 +34,7 @@ graph TB
     end
     
     Orchestrator --> NodeRegistry
+    ZeroAIIngress --> Orchestrator
     Orchestrator --> Node1
     Orchestrator --> Node2
     Orchestrator --> Node3
@@ -53,6 +57,7 @@ graph TB
     style Node3 fill:#4ecdc4
     style NodeN fill:#4ecdc4
     style SmartContract fill:#45b7d1
+    style ZeroAIIngress fill:#ff6b6b
 ```
 
 ### 2. Task Distribution Flow
@@ -60,6 +65,8 @@ graph TB
 ```mermaid
 sequenceDiagram
     participant User
+    participant ZeroAI
+    participant OpenClaw
     participant Orchestrator
     participant ChunkManager
     participant Node1
@@ -68,7 +75,9 @@ sequenceDiagram
     participant Aggregator
     participant Blockchain
     
-    User->>Orchestrator: Submit AI Task
+    User->>ZeroAI: Speak or type a task
+    ZeroAI->>OpenClaw: Route and classify request
+    OpenClaw->>Orchestrator: Escalate distributed task
     Orchestrator->>ChunkManager: Analyze & Chunk Task
     
     Note over ChunkManager: Split task into secure chunks
@@ -93,7 +102,9 @@ sequenceDiagram
     end
     
     Aggregator->>Aggregator: Validate & Combine Results
-    Aggregator->>User: Final Result
+    Aggregator->>OpenClaw: Final Result
+    OpenClaw->>ZeroAI: Local result or escalation summary
+    ZeroAI->>User: Final Result
     
     Aggregator->>Blockchain: Record Contributions
     Blockchain->>Blockchain: Calculate Rewards
@@ -144,6 +155,10 @@ class SecureChunker {
   }
 }
 ```
+
+### ZeroAI Edge Gate
+
+ZeroAI must only escalate data that is required for the distributed task. The local control layer should sanitize prompts, preserve local memory, and keep voice and workflow metadata on-device unless explicit network processing is required.
 
 ### 2. Privacy Protection Layers
 

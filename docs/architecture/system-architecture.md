@@ -4,6 +4,8 @@
 
 Ultra AI Platform employs a revolutionary hybrid architecture combining centralized intelligence with distributed processing. This design ensures optimal performance, privacy protection, and cost efficiency while maintaining scalability and security.
 
+The current architecture now also includes ZeroAI as the WSL-based local control surface. ZeroAI owns the first user interaction layer, routes requests through OpenClaw, and can stay local or escalate to Ultra AI when the task requires shared services, workflows, or distributed compute.
+
 ## 🏛️ High-Level Architecture
 
 ```mermaid
@@ -12,6 +14,7 @@ graph TB
         UI[Web/Mobile Interface]
       AdaptiveUI[Adaptive UI Engine]
       WorkspaceManager[Workspace Personalization Manager]
+        ZeroAI[ZeroAI Local Control Surface]
         CLI[CLI Tools]
         API[Developer APIs]
     end
@@ -55,6 +58,8 @@ graph TB
     UI --> AdaptiveUI
     AdaptiveUI --> WorkspaceManager
     WorkspaceManager --> AICore
+    ZeroAI --> AICore
+    ZeroAI --> OpenClaw[OpenClaw Router]
     CLI --> AICore
     API --> AICore
     
@@ -63,6 +68,9 @@ graph TB
     AICore --> ModelRouter
     ModelRouter --> ModelGateway
     AICore --> ToolRecommender
+    OpenClaw --> ModelGateway
+    OpenClaw --> Orchestrator
+    OpenClaw --> ZeroAI
     
     TaskPlanner --> Orchestrator
     Orchestrator --> ChunkManager
@@ -109,6 +117,24 @@ graph TB
 - Multi-provider API orchestration with fallback
 - Tool recommendation based on user domain and behavior
 - Response generation and formatting
+
+### ZeroAI Local Control Surface
+
+**Purpose**: WSL-based local assistant shell that receives user speech or text first and decides whether to keep the task local or escalate it.
+
+**Responsibilities**:
+- Capture voice and text entry from the local device
+- Route requests through OpenClaw instead of bypassing policy
+- Maintain local memory and recent task state
+- Trigger local tools, local model generation, or n8n workflows
+- Escalate to Ultra AI only when shared or distributed capabilities are needed
+
+**Current supporting stack**:
+- Speech-to-text: `wsl-ai-stack/scripts/transcribe-audio.py`
+- Voice bridge: `wsl-ai-stack/scripts/voice-bridge.sh`
+- Memory store: `packages/api/src/services/zeroai/zeroai-store.ts`
+- Control surface: `apps/web/app/zeroai/page.tsx`
+- Workflow API: `packages/api/src/routes/workflows.routes.ts`
 
 ### Adaptive Interface Subsystem
 
@@ -181,6 +207,8 @@ interface AICoreConfig {
 ### 2. Distributed Processing Network
 
 **Purpose**: Volunteer user network that provides computational resources for AI tasks.
+
+ZeroAI does not replace the distributed network. It sits in front of it as the local operator layer and only escalates tasks when the edge device should hand work off to the broader platform.
 
 **Architecture**:
 ```mermaid
@@ -271,6 +299,22 @@ endpoints:
     - POST /ai/tasks
     - GET /ai/tasks/{id}
     - POST /ai/models/custom
+
+  zeroai:
+    - GET /zeroai/state
+    - GET /zeroai/memory
+    - GET /zeroai/workflows
+    - POST /zeroai/message
+    - POST /zeroai/workflows
+    - POST /zeroai/workflows/{id}/run
+
+  n8n:
+    - GET /n8n/workflows
+    - GET /n8n/workflows/{id}
+    - POST /n8n/workflows
+    - PUT /n8n/workflows/{id}
+    - DELETE /n8n/workflows/{id}
+    - POST /n8n/workflows/{id}/execute
   
   network:
     - GET /network/status
