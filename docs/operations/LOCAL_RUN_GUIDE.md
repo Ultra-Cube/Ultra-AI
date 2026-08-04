@@ -18,6 +18,11 @@
 4. Create or run a workflow from the workflow builder.
 5. Refresh state to inspect the latest routing trace and health cards.
 
+## Fallback behavior
+- If the local bridge cannot reach the model runtime, ZeroAI now returns a helpful local-fallback response instead of failing the UI.
+- The dashboard, workflow builder, memory, and trace panels remain usable even when the model is unavailable.
+- The health cards will surface the degraded state so you can see that the local model is the component needing attention.
+
 ## Troubleshooting
 - If the page loads but prompts are slow or fall back, wait a few seconds for the local bridge to warm up.
 - If the API is not reachable, confirm the process is running and the health endpoint responds.

@@ -145,6 +145,21 @@ export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
   const zeroAIStore = new ZeroAIStore();
   const zeroAIBridgeScript = path.resolve(process.cwd(), '../../wsl-ai-stack/scripts/openclaw-bridge.sh');
 
+  function buildLocalFallbackResponse(prompt: string, error: unknown): string {
+    const errorText = error instanceof Error ? error.message : 'Unable to reach the local bridge';
+    const normalizedPrompt = prompt.toLowerCase();
+
+    if (normalizedPrompt.includes('workflow') || normalizedPrompt.includes('run')) {
+      return `ZeroAI is operating in local fallback mode because the local model bridge could not be reached. You can still use the workflow builder from the dashboard to run shell tasks manually. Details: ${errorText}`;
+    }
+
+    if (normalizedPrompt.includes('state') || normalizedPrompt.includes('status') || normalizedPrompt.includes('health')) {
+      return `ZeroAI is running in local fallback mode while the model bridge is unavailable. The dashboard, workflow builder, memory, and traces remain available. The current local status is: API reachable, UI reachable, OpenClaw bridge degraded. Details: ${errorText}`;
+    }
+
+    return `ZeroAI is running in local fallback mode because the local model bridge could not be reached. The UI and workflow tools are still available, so you can keep inspecting state, running workflows, and reviewing traces while the bridge is repaired. Details: ${errorText}`;
+  }
+
   await app.register(workflowRoutes);
 
   const aiCore = context?.aiCore || new AICore({
@@ -642,6 +657,7 @@ export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
     try {
       const { stdout } = await execFileAsync('bash', [zeroAIBridgeScript, prompt], {
         maxBuffer: 1024 * 1024,
+        timeout: 8000,
         env: {
           ...process.env,
           OPENCLAW_MODE: 'infer',
@@ -671,7 +687,7 @@ export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
         state: zeroAIStore.getState(),
       };
     } catch (error) {
-      const fallback = error instanceof Error ? error.message : 'Unable to reach OpenClaw bridge';
+      const fallback = buildLocalFallbackResponse(prompt, error);
       zeroAIStore.appendMemory({
         role: 'assistant',
         channel: 'system',
@@ -680,13 +696,12 @@ export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
       zeroAIStore.appendTrace({
         kind: 'system',
         title: 'Fallback route used',
-        summary: 'OpenClaw bridge was unavailable',
+        summary: 'OpenClaw bridge was unavailable; local fallback engaged',
         detail: fallback,
         route: 'local-fallback',
       });
       zeroAIStore.setHealth({ openclaw: 'degraded', localModel: 'degraded' });
       zeroAIStore.recordInteraction(prompt, fallback, 'local-fallback');
-      reply.status(503);
       return {
         prompt,
         response: fallback,
@@ -744,6 +759,7 @@ export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
     try {
       const { stdout } = await execFileAsync('bash', ['-lc', workflow.command], {
         maxBuffer: 1024 * 1024,
+        timeout: 12000,
         env: process.env,
       });
 
