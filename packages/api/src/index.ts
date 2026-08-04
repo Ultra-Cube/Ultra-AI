@@ -106,13 +106,27 @@ export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
   const tenantContextManager = new TenantContextManager(tenantService);
   
   // Register tenant middleware (optional - extracts tenant context if available)
-  app.addHook('preHandler', createTenantMiddleware(tenantContextManager));
+  const tenantMiddleware = createTenantMiddleware(tenantContextManager);
+  app.addHook('preHandler', async (request, reply) => {
+    if (request.url.startsWith('/zeroai') || request.url.startsWith('/n8n')) {
+      return;
+    }
+
+    return tenantMiddleware(request, reply);
+  });
 
   // Initialize analytics system
   const analyticsService = new AnalyticsService(prisma);
-  
-  // Register analytics tracking middleware (tracks all API calls)
-  app.addHook('preHandler', createAnalyticsMiddleware(analyticsService));
+  const analyticsMiddleware = createAnalyticsMiddleware(analyticsService);
+
+  // Local ZeroAI routes remain usable without a PostgreSQL connection.
+  app.addHook('preHandler', async (request, reply) => {
+    if (request.url.startsWith('/zeroai') || request.url.startsWith('/n8n')) {
+      return;
+    }
+
+    return analyticsMiddleware(request, reply);
+  });
 
   // Initialize notification system
   const notificationService = new NotificationService(prisma);
@@ -617,6 +631,13 @@ export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
       channel: body.source === 'voice' ? 'voice' : 'text',
       content: prompt,
     });
+    zeroAIStore.appendTrace({
+      kind: 'interaction',
+      title: 'Prompt received',
+      summary: `Incoming prompt via ${body.source === 'voice' ? 'voice' : 'text'}`,
+      detail: prompt,
+      route: 'local-ingress',
+    });
 
     try {
       const { stdout } = await execFileAsync('bash', [zeroAIBridgeScript, prompt], {
@@ -633,6 +654,14 @@ export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
         channel: 'system',
         content: responseText,
       });
+      zeroAIStore.appendTrace({
+        kind: 'interaction',
+        title: 'Route completed',
+        summary: 'OpenClaw bridge returned an answer',
+        detail: responseText,
+        route: 'openclaw-bridge',
+      });
+      zeroAIStore.setHealth({ openclaw: 'ready', localModel: 'ready' });
       zeroAIStore.recordInteraction(prompt, responseText, 'openclaw-bridge');
 
       return {
@@ -648,6 +677,14 @@ export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
         channel: 'system',
         content: fallback,
       });
+      zeroAIStore.appendTrace({
+        kind: 'system',
+        title: 'Fallback route used',
+        summary: 'OpenClaw bridge was unavailable',
+        detail: fallback,
+        route: 'local-fallback',
+      });
+      zeroAIStore.setHealth({ openclaw: 'degraded', localModel: 'degraded' });
       zeroAIStore.recordInteraction(prompt, fallback, 'local-fallback');
       reply.status(503);
       return {
@@ -667,8 +704,16 @@ export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
       return { error: 'name and command are required' };
     }
 
+    zeroAIStore.appendTrace({
+      kind: 'workflow',
+      title: 'Workflow definition captured',
+      summary: body.name.trim(),
+      detail: body.command.trim(),
+      route: 'zeroai-workflow-api',
+    });
+
     const workflow = zeroAIStore.upsertWorkflow({
-      id: body.id,
+      ...(body.id ? { id: body.id } : {}),
       name: body.name.trim(),
       description: body.description?.trim(),
       command: body.command.trim(),
@@ -688,6 +733,13 @@ export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
     }
 
     zeroAIStore.setWorkflowStatus(workflow.id, 'running');
+    zeroAIStore.appendTrace({
+      kind: 'workflow',
+      title: 'Workflow execution started',
+      summary: workflow.name,
+      detail: workflow.command,
+      route: 'workflow-runner',
+    });
 
     try {
       const { stdout } = await execFileAsync('bash', ['-lc', workflow.command], {
