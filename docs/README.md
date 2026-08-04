@@ -1,83 +1,33 @@
 # 📚 Ultra AI Platform Documentation
 
-Welcome to the comprehensive documentation for Ultra AI Platform. This documentation is organized to support the idea development and planning phase.
+Welcome to the Ultra AI documentation hub. This release focuses on the AI OS control surface: ZeroAI now provides a simple user experience and a professional operator experience backed by an observability layer for routing, workflow execution, and health.
 
 ## 📋 Documentation Structure
 
-### 🏗️ [Architecture](./architecture/)
-
-Technical architecture, system design, and infrastructure planning
+### 🏗️ Architecture
 
 - [System Architecture](./architecture/system-architecture.md)
+- [AI Operating System Blueprint](./architecture/ai-os-blueprint.md)
 - [Distributed Processing](./architecture/distributed-processing.md)
-- [API Design](./architecture/api-design.md)
-- [Integration Patterns](./architecture/integration-patterns.md)
+- [ZeroAI Integration](./architecture/zero-ai-integration.md)
 
-### 💼 [Business](./business/)
+### 🎨 UI and experience
 
-Business model, market analysis, and strategic planning
-
-- [Market Analysis](./business/market-analysis.md)
-- [Competitive Analysis](./business/competitive-analysis.md)
-- [Business Model](./business/business-model.md)
-- [Go-to-Market Strategy](./business/go-to-market.md)
-- [Financial Projections](./business/financial-projections.md)
-
-### 🎨 [UX Design](./ux-design/)
-
-User experience design, personas, and interface specifications
-
-- [User Personas](./ux-design/user-personas.md)
-- [User Journey Maps](./ux-design/user-journeys.md)
-- [Interface Wireframes](./ux-design/wireframes.md)
-- [Design System](./ux-design/design-system.md)
-
-### 🔐 [Security](./security/)
-
-Security framework, privacy policies, and compliance
-
-- [Security Framework](./security/security-framework.md)
-- [Privacy Policy](./security/privacy-policy.md)
-- [Compliance Requirements](./security/compliance.md)
-- [Threat Model](./security/threat-model.md)
-
-### 🖥️ [ZeroAI Integration](./architecture/)
-
-Local assistant architecture, edge-cloud routing, and control surface planning
-
-- [ZeroAI and Ultra AI Integration Architecture](./architecture/zero-ai-integration.md)
-- [System Architecture](./architecture/system-architecture.md)
-- [Distributed Processing](./architecture/distributed-processing.md)
 - [ZeroAI UI Specification](./ui/zeroai-ui-spec.md)
 
-## 🎯 Current Phase: Integration Planning
+### 🔐 Security and operations
 
-We are currently in the **Integration Planning Phase**, with ZeroAI now documented as the WSL-first local control surface and the architecture docs updated to reflect the new local assistant, voice, memory, and workflow layers.
+- [Security Framework](./security/security-framework.md)
 
-Focus areas now include:
+## 🧭 Current focus
 
-1. ✅ **Concept Definition** - Completed in main README.md
-2. ✅ **ZeroAI and Ultra AI boundary definition** - In progress in architecture docs
-3. ✅ **Local UI and workflow planning** - Captured in ZeroAI integration docs
-4. 🔄 **Market Research & Validation** - In Progress
-5. 🔄 **Technical Feasibility Analysis** - In Progress
-6. 🔄 **Business Model Refinement** - In Progress
-7. 🔄 **Risk Assessment** - In Progress
+1. ZeroAI dual control surface
+2. Runtime trace and health visibility
+3. Workflow execution and memory persistence
+4. Operator-ready documentation and architecture alignment
 
-## 📈 Next Steps
+## 🔗 Key references
 
-1. **Complete Market Analysis**: Research competitors and validate market need
-2. **Refine Technical Architecture**: Align ZeroAI and Ultra AI roles and boundaries
-3. **Develop Detailed Business Plan**: Include funding requirements and milestones
-4. **Create Prototype Specifications**: Define local UI, memory, STT, and workflow requirements
-5. **Risk Mitigation Planning**: Identify and plan for local-cloud integration challenges
-
-## 🚀 Vision Statement
-
-> "To revolutionize AI interaction through a local-first assistant layer, distributed processing, and fair reward systems, making advanced AI accessible on-device and across the network while building a sustainable ecosystem."
-
----
-
-**Last Updated**: July 1, 2026  
-**Status**: Integration Planning Phase  
-**Next Review**: July 8, 2026
+- [Architecture overview](./architecture/system-architecture.md)
+- [AI OS blueprint](./architecture/ai-os-blueprint.md)
+- [Project documentation index](./reference/PROJECT_DOCUMENTATION_INDEX.md)

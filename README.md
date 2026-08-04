@@ -6,13 +6,13 @@
 
 [![Ultra Cube Tech](https://img.shields.io/badge/by-Ultra%20Cube%20Tech-blue.svg)](https://www.ucubetech.com)
 [![Documentation](https://img.shields.io/badge/Docs-Comprehensive-blue)](docs/README.md)
-[![Security](https://img.shields.io/badge/Security-Built--in-red)](SECURITY.md)
+[![Security](https://img.shields.io/badge/Security-Built--in-red)](docs/security/security-framework.md)
 
 ## 🌟 Overview
 
 Ultra AI Platform is a revolutionary artificial intelligence platform that redefines how users interact with AI technologies. The platform combines existing AI engines with self-learning technologies, an innovative smart user interface, and a distributed operating system.
 
-ZeroAI is the local, WSL-based assistant layer that will sit on the device and control the user experience, while Ultra AI remains the networked platform behind it. ZeroAI is designed to behave like a local operator for the machine, similar to a Codex-style on-device assistant, and Ultra AI provides the broader distributed ecosystem that ZeroAI can escalate into when needed.
+ZeroAI is the local, WSL-based assistant layer that sits on the device and controls the user experience, while Ultra AI remains the networked platform behind it. The experience now includes a dual AI OS control surface with a simple user view and a professional operator view, backed by routing traces, workflow status, and health telemetry.
 
 The platform vision also includes a user-adaptive AI model layer: Ultra AI can connect to external AI providers through APIs while continuously adapting both model/tool selection and the user interface based on each user's profession, behavior, and goals. Users can always switch to manual customization mode at any time.
 

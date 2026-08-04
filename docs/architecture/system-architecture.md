@@ -4,7 +4,7 @@
 
 Ultra AI Platform employs a revolutionary hybrid architecture combining centralized intelligence with distributed processing. This design ensures optimal performance, privacy protection, and cost efficiency while maintaining scalability and security.
 
-The current architecture now also includes ZeroAI as the WSL-based local control surface. ZeroAI owns the first user interaction layer, routes requests through OpenClaw, and can stay local or escalate to Ultra AI when the task requires shared services, workflows, or distributed compute.
+The current architecture now includes a full AI operating system control surface. ZeroAI owns the first user interaction layer, routes requests through OpenClaw, and can stay local or escalate to Ultra AI when the task requires shared services, workflows, or distributed compute. The implementation now exposes both a simple user view and a professional operator view with trace and health visibility.
 
 ## 🏛️ High-Level Architecture
 
@@ -598,4 +598,4 @@ graph TB
 
 ---
 
-**Next Documents**: [Distributed Processing Architecture](./distributed-processing.md) | [API Design](./api-design.md)
+**Next Documents**: [AI Operating System Blueprint](./ai-os-blueprint.md) | [Distributed Processing Architecture](./distributed-processing.md)

@@ -321,6 +321,87 @@ button:disabled {
   margin-top: 0;
 }
 
+.view-toggle {
+  display: inline-flex;
+  gap: 0.45rem;
+  padding: 0.3rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.68);
+  border: 1px solid rgba(31, 29, 26, 0.08);
+}
+
+.view-pill {
+  border: 0;
+  border-radius: 999px;
+  padding: 0.55rem 0.9rem;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.view-pill.active {
+  background: linear-gradient(135deg, rgba(47, 143, 157, 0.16), rgba(217, 93, 57, 0.14));
+  color: var(--ink);
+}
+
+.mini-grid {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.mini-card {
+  border-radius: 16px;
+  padding: 0.8rem 0.9rem;
+  background: rgba(255, 255, 255, 0.58);
+  border: 1px solid rgba(31, 29, 26, 0.08);
+}
+
+.mini-label {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.mini-card strong {
+  display: block;
+  margin-top: 0.3rem;
+  text-transform: capitalize;
+}
+
+.mini-card p {
+  margin: 0.35rem 0 0;
+  font-size: 0.92rem;
+  color: var(--muted);
+}
+
+.trace-list {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.trace-item {
+  border: 1px solid rgba(31, 29, 26, 0.1);
+  border-radius: 16px;
+  padding: 0.8rem;
+  background: rgba(255, 255, 255, 0.58);
+}
+
+.trace-item h3 {
+  margin: 0.35rem 0;
+  font-size: 1rem;
+}
+
+.trace-item code {
+  display: block;
+  margin-top: 0.45rem;
+  font-size: 0.8rem;
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: var(--accent-2);
+}
+
 @media (min-width: 900px) {
   .zeroai-grid {
     grid-template-columns: 1.1fr 0.9fr;
