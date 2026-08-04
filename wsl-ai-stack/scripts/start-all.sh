@@ -11,6 +11,8 @@ OLLAMA_HOST="${OLLAMA_HOST:-http://172.19.144.1:11434}"
 MODEL="${OPENCLAW_MODEL:-ollama/gemma4:latest}"
 
 load_node_runtime() {
+  unset npm_config_prefix npm_config_userconfig npm_config_global_prefix 2>/dev/null || true
+
   if [ -s "$HOME/.nvm/nvm.sh" ]; then
     # shellcheck disable=SC1090
     . "$HOME/.nvm/nvm.sh"
@@ -25,7 +27,7 @@ load_node_runtime() {
 }
 
 check_ollama() {
-  if curl -fsS "$OLLAMA_HOST/api/version" >/dev/null 2>&1; then
+  if curl --connect-timeout 3 --max-time 5 -fsS "$OLLAMA_HOST/api/version" >/dev/null 2>&1; then
     echo "[OK] Ollama reachable at $OLLAMA_HOST"
   else
     echo "[WARN] Ollama is not reachable at $OLLAMA_HOST"
@@ -35,7 +37,7 @@ check_ollama() {
 check_openclaw() {
   if command -v openclaw >/dev/null 2>&1; then
     echo "[OK] OpenClaw CLI available"
-    openclaw status || true
+    timeout 8s openclaw status || true
   else
     echo "[MISS] OpenClaw CLI not on PATH"
   fi
@@ -51,7 +53,7 @@ start_n8n() {
 
   if [ ! -x "$ROOT_DIR/node_modules/.bin/n8n" ]; then
     echo "[MISS] n8n binary not found under $ROOT_DIR/node_modules/.bin/n8n"
-    return 1
+    return 0
   fi
 
   if pgrep -f "n8n start" >/dev/null 2>&1; then
@@ -62,6 +64,28 @@ start_n8n() {
   nohup "$ROOT_DIR/node_modules/.bin/n8n" start >"$N8N_LOG" 2>&1 &
   echo "[OK] n8n starting on http://127.0.0.1:$N8N_PORT"
   echo "     log: $N8N_LOG"
+}
+
+start_ultra_ai() {
+  local ultra_ai_dir
+  ultra_ai_dir="$(cd "$ROOT_DIR/.." && pwd)"
+  cd "$ultra_ai_dir"
+
+  if pgrep -f 'tsx src/server.ts' >/dev/null 2>&1; then
+    echo "[OK] API already running on port 4000"
+  else
+    nohup npm run start:dev --workspace=@ultra-ai/api >"$LOG_DIR/zeroai-api.log" 2>&1 &
+    echo "[OK] API starting on http://127.0.0.1:4000"
+  fi
+
+  if pgrep -f 'next dev -p 3000' >/dev/null 2>&1; then
+    echo "[OK] ZeroAI web UI already running on port 3000"
+  else
+    nohup npm run dev --workspace=@ultra-ai/web >"$LOG_DIR/zeroai-web.log" 2>&1 &
+    echo "[OK] ZeroAI web UI starting on http://127.0.0.1:3000/zeroai"
+  fi
+
+  cd "$ultra_ai_dir"
 }
 
 main() {
@@ -78,6 +102,9 @@ main() {
   echo
   start_n8n
   echo
+  start_ultra_ai
+  echo
+  echo "ZeroAI UI: http://localhost:3000/zeroai"
   echo "Useful checks:"
   echo "  bash ./scripts/openclaw-bridge.sh \"summarize the current system state\""
   echo "  bash ./scripts/voice-bridge.sh --sample --speak-response"

@@ -2,6 +2,8 @@
 set -euo pipefail
 
 load_node_runtime() {
+  unset npm_config_prefix npm_config_userconfig npm_config_global_prefix 2>/dev/null || true
+
   if [ -s "$HOME/.nvm/nvm.sh" ]; then
     # shellcheck disable=SC1090
     . "$HOME/.nvm/nvm.sh"
