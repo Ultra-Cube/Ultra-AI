@@ -179,7 +179,7 @@ Ultra-AI/
 ## 🔄 Approximate Timeline
 
 | Phase | Duration | Dependencies |
-|-------|----------|--------------|
+| :--- | :--- | :--- |
 | Phase 1: 9router Integration | 2-3 weeks | None |
 | Phase 2: OpenClaw Integration | 2-3 weeks | Phase 1 |
 | Phase 3: JARVIS Integration | 3-4 weeks | Phase 1, 2 |
