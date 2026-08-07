@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - "4000:4000"
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://user:password@db:5432/ultra-ai
+    depends_on:
+      - db
+      - redis
+    networks:
+      - ultra-ai-network
+
+  db:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_DB=ultra-ai
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    networks:
+      - ultra-ai-network
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - ultra-ai-network
+
+  api-gateway:
+    build:
+      context: ./packages/api-gateway
+      dockerfile: ./Dockerfile
+    ports:
+      - "20129:20129"
+    networks:
+      - ultra-ai-network
+
+  control-center:
+    build:
+      context: ./packages/control-center
+      dockerfile: ./Dockerfile
+    ports:
+      - "3000:3000"
+    networks:
+      - ultra-ai-network
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  ultra-ai-network:
+    driver: bridge

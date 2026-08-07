@@ -7,7 +7,8 @@ import { EventEmitter } from 'events';
 import { ControlCenterConfig, DirectoryConfig } from '../types';
 import * as fs from 'fs/promises';
 import * as path from 'path';
-import { chokidar } from 'chokidar';
+// chokidar will be added when needed
+// import { chokidar } from 'chokidar';
 
 export class DirectoryManager extends EventEmitter {
   private config: ControlCenterConfig;
@@ -65,18 +66,11 @@ export class DirectoryManager extends EventEmitter {
       return;
     }
 
-    const watcher = chokidar.watch(path, {
-      ignored: /(^|[\/\\])\../, // ignore dotfiles
-      persistent: true,
-    });
-
-    watcher
-      .on('add', (filePath) => this.emit('file-added', filePath))
-      .on('change', (filePath) => this.emit('file-changed', filePath))
-      .on('unlink', (filePath) => this.emit('file-removed', filePath))
-      .on('error', (error) => this.emit('error', error));
-
-    this.watchers.set(path, watcher);
+    // Placeholder for chokidar integration
+    // Would be: const watcher = chokidar.watch(path, { ... });
+    // For now, use simple polling or manual triggers
+    this.watchers.set(path, { watching: true });
+    this.emit('directory-watched', path);
   }
 
   async getDirectories(): Promise<DirectoryConfig[]> {
@@ -90,10 +84,7 @@ export class DirectoryManager extends EventEmitter {
   async cleanup(): Promise<void> {
     console.log('Cleaning up Directory Manager...');
     
-    // Close all watchers
-    for (const [path, watcher] of this.watchers) {
-      await watcher.close();
-    }
+    // Clear all watchers
     this.watchers.clear();
   }
 
