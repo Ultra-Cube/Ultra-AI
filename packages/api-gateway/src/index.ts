@@ -4,18 +4,28 @@
  */
 
 import { NineRouterBridge, NineRouterConfig } from './9router-bridge';
+import { AuthIntegration, AuthConfig, AuthContext } from './auth-integration';
+
+// Export auth integration types for external use
+export { AuthIntegration, AuthConfig, AuthContext };
 
 export class APIGateway {
   private port: number;
   private providers: Map<string, ProviderConfig>;
   private nineRouterBridge: NineRouterBridge;
   private useNineRouter: boolean;
+  private authIntegration: AuthIntegration;
 
-  constructor(port: number = 20129, nineRouterConfig?: NineRouterConfig) {
+  constructor(
+    port: number = 20129,
+    nineRouterConfig?: NineRouterConfig,
+    authConfig?: AuthConfig
+  ) {
     this.port = port;
     this.providers = new Map();
     this.useNineRouter = !!nineRouterConfig;
     this.nineRouterBridge = new NineRouterBridge(nineRouterConfig);
+    this.authIntegration = new AuthIntegration(authConfig);
   }
 
   /**
@@ -67,8 +77,26 @@ export class APIGateway {
   /**
    * Route request to appropriate provider
    */
-  async routeRequest(request: GatewayRequest): Promise<GatewayResponse> {
+  async routeRequest(
+    request: GatewayRequest,
+    headers?: Record<string, string>
+  ): Promise<GatewayResponse> {
     console.log(`Routing request to model: ${request.model}`);
+    
+    // Verify authentication if headers provided
+    let authContext: AuthContext | null = null;
+    if (headers) {
+      authContext = this.authIntegration.authenticateRequest(headers);
+      if (!authContext) {
+        return {
+          success: false,
+          data: { error: 'Authentication failed' },
+          provider: 'auth',
+          usage: { promptTokens: 0, completionTokens: 0 },
+        };
+      }
+      console.log(`Authenticated user: ${authContext.email} (${authContext.role})`);
+    }
     
     // Use 9router if available and configured
     if (this.useNineRouter) {
@@ -173,6 +201,20 @@ export class APIGateway {
    */
   isUsingNineRouter(): boolean {
     return this.useNineRouter;
+  }
+
+  /**
+   * Get auth integration instance for external use
+   */
+  getAuthIntegration(): AuthIntegration {
+    return this.authIntegration;
+  }
+
+  /**
+   * Update auth configuration
+   */
+  updateAuthConfig(config: Partial<AuthConfig>): void {
+    this.authIntegration.updateConfig(config);
   }
 }
 
