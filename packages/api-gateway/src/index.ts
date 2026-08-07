@@ -3,13 +3,19 @@
  * Multi-provider AI routing and token management
  */
 
+import { NineRouterBridge, NineRouterConfig } from './9router-bridge';
+
 export class APIGateway {
   private port: number;
   private providers: Map<string, ProviderConfig>;
+  private nineRouterBridge: NineRouterBridge;
+  private useNineRouter: boolean;
 
-  constructor(port: number = 20128) {
+  constructor(port: number = 20129, nineRouterConfig?: NineRouterConfig) {
     this.port = port;
     this.providers = new Map();
+    this.useNineRouter = !!nineRouterConfig;
+    this.nineRouterBridge = new NineRouterBridge(nineRouterConfig);
   }
 
   /**
@@ -17,9 +23,23 @@ export class APIGateway {
    */
   async initialize(): Promise<void> {
     console.log(`Initializing API Gateway on port ${this.port}`);
+    
     // Load provider configurations
     await this.loadProviders();
     console.log(`Loaded ${this.providers.size} provider configurations`);
+    
+    // Check 9router availability if configured
+    if (this.useNineRouter) {
+      const nineRouterAvailable = await this.nineRouterBridge.healthCheck();
+      if (nineRouterAvailable) {
+        console.log('9router service is available and will be used for routing');
+        const models = await this.nineRouterBridge.getModels();
+        console.log(`9router has ${models.length} available models`);
+      } else {
+        console.warn('9router service is not available, falling back to internal routing');
+        this.useNineRouter = false;
+      }
+    }
   }
 
   /**
@@ -48,14 +68,80 @@ export class APIGateway {
    * Route request to appropriate provider
    */
   async routeRequest(request: GatewayRequest): Promise<GatewayResponse> {
-    // TODO: Implement routing logic from 9router
     console.log(`Routing request to model: ${request.model}`);
     
+    // Use 9router if available and configured
+    if (this.useNineRouter) {
+      try {
+        return await this.nineRouterBridge.routeChatCompletion(request);
+      } catch (error) {
+        console.error('9router routing failed, falling back to internal routing:', error);
+        // Fall through to internal routing
+      }
+    }
+    
+    // Internal routing fallback
+    return this.routeInternal(request);
+  }
+
+  /**
+   * Internal routing logic (fallback when 9router is unavailable)
+   */
+  private async routeInternal(request: GatewayRequest): Promise<GatewayResponse> {
+    // TODO: Implement internal routing logic
+    // For now, return a placeholder response
     return {
       success: true,
-      data: { message: "Request routed successfully" },
-      provider: "default",
+      data: { message: "Request routed internally (placeholder)" },
+      provider: "internal",
       usage: { promptTokens: 0, completionTokens: 0 }
+    };
+  }
+
+  /**
+   * Get available models
+   */
+  async getModels(): Promise<any[]> {
+    if (this.useNineRouter) {
+      return await this.nineRouterBridge.getModels();
+    }
+    
+    // Return internal models
+    return [];
+  }
+
+  /**
+   * Get provider status
+   */
+  async getProviderStatus(): Promise<any> {
+    if (this.useNineRouter) {
+      return await this.nineRouterBridge.getProviderStatus();
+    }
+    
+    // Return internal provider status
+    return {
+      providers: Array.from(this.providers.entries()).map(([id, config]) => ({
+        id,
+        name: config.name,
+        type: config.type,
+        models: config.models,
+      })),
+    };
+  }
+
+  /**
+   * Get usage statistics
+   */
+  async getUsageStats(): Promise<any> {
+    if (this.useNineRouter) {
+      return await this.nineRouterBridge.getUsageStats();
+    }
+    
+    // Return internal usage stats
+    return {
+      totalRequests: 0,
+      totalTokens: 0,
+      providers: {},
     };
   }
 
@@ -73,6 +159,20 @@ export class APIGateway {
   async stop(): Promise<void> {
     console.log("Stopping API Gateway server");
     // TODO: Stop Express server
+  }
+
+  /**
+   * Toggle 9router usage
+   */
+  setUseNineRouter(use: boolean): void {
+    this.useNineRouter = use;
+  }
+
+  /**
+   * Check if 9router is being used
+   */
+  isUsingNineRouter(): boolean {
+    return this.useNineRouter;
   }
 }
 
