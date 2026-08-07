@@ -152,7 +152,7 @@
 
 ## 🏗️ Final Project Structure After Integration
 
-```
+```text
 Ultra-AI/
 ├── packages/
 │   ├── api/                    # Current API
@@ -184,7 +184,7 @@ Ultra-AI/
 | Phase 2: OpenClaw Integration | 2-3 weeks | Phase 1 |
 | Phase 3: JARVIS Integration | 3-4 weeks | Phase 1, 2 |
 | Phase 4: Desktop App | 2-3 weeks | Phase 1, 2 |
-| **Total** | **9-13 weeks** | |
+| **Total** | **9-13 weeks** |
 
 ---
 
