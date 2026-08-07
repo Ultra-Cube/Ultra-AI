@@ -111,7 +111,8 @@
           "docs",
           "deps",
           "gateway",
-          "control-center"
+          "control-center",
+          "desktop-ui"
         ]
       ]
     }
