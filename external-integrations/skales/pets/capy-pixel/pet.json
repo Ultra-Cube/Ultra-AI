@@ -1,0 +1,6 @@
+{
+  "id": "capy-pixel",
+  "displayName": "Capy",
+  "description": "The calm capybara of the Skales buddy family. Unbothered, even when the build fails.",
+  "spritesheetPath": "spritesheet.png"
+}
