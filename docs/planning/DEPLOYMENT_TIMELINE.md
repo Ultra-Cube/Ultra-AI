@@ -1,3 +1,26 @@
+# Ultra AI Platform - Deployment Timeline
+
+**Last Updated**: July 1, 2026
+
+## Timeline View
+
+| Phase | Focus | Status |
+|---|---|---|
+| Phase 1 | Core Infrastructure | In progress |
+| Phase 2 | Distributed Network | In progress |
+| Phase 3 | Advanced Features | Planned |
+
+## Timeline Notes
+
+- Phase 1 covers the current ZeroAI, API, WSL tooling, and docs foundation.
+- Phase 2 covers workflow orchestration, voice, memory, and distributed routing.
+- Phase 3 covers validation, observability, release gates, and production readiness.
+
+## Execution Guidance
+
+1. Keep implementation changes synchronized with [PROJECT_PHASES_AND_STATUS.md](PROJECT_PHASES_AND_STATUS.md).
+2. Update the roadmap and backlog whenever a phase boundary changes.
+3. Treat older phase counts as historical context only.
 # 📅 DEPLOYMENT TIMELINE & GANTT CHART
 ## جدول التطوير و الجدول الزمني
 

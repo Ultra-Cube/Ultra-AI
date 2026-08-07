@@ -1,0 +1,9 @@
+# Ignore imported repository contents
+9router/
+AI-agentic-_JARVIS/
+AI-assistant_openclaw/
+APP_WebUI-desktop/
+
+# Keep integration plan and documentation
+!INTEGRATION_PLAN.md
+!README.md

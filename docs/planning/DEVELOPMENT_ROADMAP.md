@@ -1,4 +1,41 @@
-# 🚀 Detailed Development Roadmap - Ultra AI Platform
+# Ultra AI Platform - Development Roadmap
+
+**Last Updated**: July 1, 2026
+
+This roadmap tracks the three-phase program for Ultra AI and ZeroAI. For the authoritative phase/status table, see [PROJECT_PHASES_AND_STATUS.md](PROJECT_PHASES_AND_STATUS.md).
+
+## Roadmap at a Glance
+
+| Phase | Focus | Outcome |
+|---|---|---|
+| Phase 1 | Core Infrastructure | Local-first platform foundation, ZeroAI control surface, API and docs alignment |
+| Phase 2 | Distributed Network | Workflow orchestration, voice, memory, routing, and distributed boundary control |
+| Phase 3 | Advanced Features | Production hardening, validation, observability, and release readiness |
+
+## Phase 1 Workstream
+
+- Keep the ZeroAI UI, API, and WSL helper scripts aligned.
+- Maintain the architecture docs as the canonical edge/cloud boundary reference.
+- Finish consolidating planning and status documents into `docs/planning/`.
+
+## Phase 2 Workstream
+
+- Expand workflow visibility and execution telemetry.
+- Strengthen local memory, voice, and routing behavior.
+- Tighten the handoff between ZeroAI local execution and Ultra AI escalation.
+
+## Phase 3 Workstream
+
+- Produce a final production readiness checklist.
+- Add release gates for workflow execution, voice, and routing changes.
+- Reconcile older phase reports with the current three-phase model.
+
+## Near-Term Priorities
+
+1. Keep the documentation hierarchy consistent after the root-doc migration.
+2. Finish the remaining planning-doc cleanup under `docs/planning/`.
+3. Add operational validation and readiness detail for the ZeroAI runtime paths.
+# Ultra AI Platform - Development Roadmap
 
 > **Creation Date**: March 5, 2026  
 > **Status**: In Progress  

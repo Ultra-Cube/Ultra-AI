@@ -1,3 +1,24 @@
+# Ultra AI Platform - Critical Issues
+
+**Last Updated**: July 1, 2026
+
+## Current Critical Risks
+
+### 1. Documentation Drift
+
+Older phase and status documents still existed alongside the new three-phase plan. This is being resolved by the planning-doc cleanup and the unified phase/status file.
+
+### 2. Local/Distributed Boundary Clarity
+
+ZeroAI, OpenClaw, n8n, and Ultra AI need stable routing rules so local actions do not blur into distributed execution unexpectedly.
+
+### 3. Production Readiness Gaps
+
+The implementation is functional, but the final validation, observability, and release gating work still needs to be completed before production use.
+
+### 4. Workflow and Voice Validation
+
+The new workflow and voice paths need explicit regression checks so changes do not break the local control surface.
 # 🚨 Critical Issues & Required Fixes
 
 > **Document Date**: March 5, 2026  

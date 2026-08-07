@@ -9,7 +9,7 @@ echo "Docs: $ZEROAI_DIR"
 echo
 
 cd "$ROOT_DIR"
-bash ./scripts/bootstrap-wsl-ai.sh --check
+bash ./scripts/start-all.sh
 echo
 echo "ZeroAI UI: http://localhost:3000/zeroai"
 echo "API base:   http://localhost:4000"

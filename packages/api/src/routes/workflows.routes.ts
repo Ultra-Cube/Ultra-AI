@@ -1,5 +1,5 @@
 import type { FastifyPluginAsync } from 'fastify';
-import WorkflowService from '../services/workflow-service';
+import WorkflowService, { type WorkflowRecord } from '../services/workflow-service';
 
 interface WorkflowUpdatePayload {
   tenantId?: string;
@@ -72,7 +72,27 @@ const workflowRoutes: FastifyPluginAsync = async (app) => {
   app.put('/n8n/workflows/:id', async (request) => {
     const params = request.params as { id: string };
     const body = request.body as WorkflowUpdatePayload;
-    const workflow = service.updateWorkflow(params.id, body);
+    const patch: Partial<WorkflowRecord> = {
+      tenantId: body.tenantId,
+      userId: body.userId,
+      name: body.name,
+      description: body.description,
+      status: body.status,
+      lastRunAt: body.lastRunAt,
+      lastOutput: body.lastOutput,
+    };
+
+    if (body.definition?.type && body.definition.command) {
+      patch.definition = {
+        type: body.definition.type,
+        command: body.definition.command,
+        trigger: body.definition.trigger,
+        tags: body.definition.tags,
+        n8n: body.definition.n8n,
+      };
+    }
+
+    const workflow = service.updateWorkflow(params.id, patch);
     return { workflow };
   });
 

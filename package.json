@@ -20,7 +20,8 @@
   "workspaces": [
     "apps/*",
     "packages/*",
-    "services/*"
+    "services/*",
+    "external-integrations/*"
   ],
   "scripts": {
     "dev": "turbo run dev",
@@ -108,7 +109,8 @@
           "backend",
           "frontend",
           "docs",
-          "deps"
+          "deps",
+          "gateway"
         ]
       ]
     }

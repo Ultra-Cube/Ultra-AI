@@ -1,3 +1,34 @@
+# Ultra AI Platform - Remaining Tasks
+
+**Last Updated**: July 1, 2026
+
+This backlog is grouped by the current three-phase plan. The canonical phase table lives in [PROJECT_PHASES_AND_STATUS.md](PROJECT_PHASES_AND_STATUS.md).
+
+## Phase 1 - Core Infrastructure
+
+- Reconcile all remaining root-level planning docs with the `docs/planning/` layout.
+- Keep the root README, docs index, and planning docs aligned with the ZeroAI-first architecture.
+- Verify the ZeroAI UI, API, and local WSL scripts remain in sync after any doc or runtime change.
+
+## Phase 2 - Distributed Network
+
+- Expand workflow validation and execution visibility.
+- Document the escalation boundary between local execution and Ultra AI distributed processing.
+- Keep voice, memory, and workflow flows aligned with the shared transcription and routing helpers.
+- Add explicit failure-handling notes for OpenClaw, n8n, and local tools.
+
+## Phase 3 - Advanced Features
+
+- Produce a production readiness checklist for deployment, monitoring, and rollback.
+- Add security and compliance notes for the local/distributed boundary.
+- Add test and validation checkpoints for ZeroAI routing, workflow execution, and voice handling.
+- Reconcile older phase-based reports with the current three-phase model.
+
+## Highest-Priority Follow-Ups
+
+1. Finalize the documentation hierarchy so the planning docs have one clear home.
+2. Update any outdated status reports that still use the old phase numbering.
+3. Add operational acceptance criteria for the current ZeroAI runtime paths.
 # 📋 REMAINING TASKS - Ultra AI Platform
 ## مهام التطوير المتبقية
 
