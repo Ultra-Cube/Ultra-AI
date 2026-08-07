@@ -4,7 +4,7 @@
 
 Based on Ultra-Cube best practices and modern monorepo patterns.
 
-```
+```text
 Ultra-AI/
 ├── packages/                          # Core packages
 │   ├── api/                          # API Gateway & Backend Services
@@ -68,7 +68,7 @@ Ultra-AI/
 
 ## 🎯 Control Center Structure (Directory Control Systems)
 
-```
+```text
 packages/control-center/
 ├── src/
 │   ├── core/                        # Core control system
@@ -107,6 +107,7 @@ packages/control-center/
 ## 🔧 Integration Plan
 
 ### Phase 1: Core Structure
+
 - [x] Import Ultra-Cube tools
 - [ ] Create control-center package
 - [ ] Implement directory management
@@ -114,6 +115,7 @@ packages/control-center/
 - [ ] Implement system monitoring
 
 ### Phase 2: Control Modules
+
 - [ ] Authentication module
 - [ ] User management
 - [ ] Permission system
@@ -123,12 +125,14 @@ packages/control-center/
 - [ ] Backup system
 
 ### Phase 3: Integrations
+
 - [ ] 9router integration
 - [ ] OpenClaw integration
 - [ ] JARVIS integration
 - [ ] Ultra-Cube tools integration
 
 ### Phase 4: UI & API
+
 - [ ] Dashboard UI
 - [ ] Admin panel
 - [ ] Settings panel
@@ -137,6 +141,7 @@ packages/control-center/
 - [ ] API middleware
 
 ### Phase 5: Optimization Tools
+
 - [ ] Memory optimization package
 - [ ] Voice recognition package
 - [ ] Performance monitoring
