@@ -25,6 +25,7 @@
 **Current Location**: `external-integrations/9router/`
 
 **Integration Points**:
+
 - [ ] Create API Gateway Service in `packages/api-gateway/`
 - [ ] Integrate routing engine from 9router (`open-sse/`)
 - [ ] Connect current authentication system with 9router
@@ -33,6 +34,7 @@
 - [ ] Add provider management interface in main dashboard
 
 **Implementation Steps**:
+
 1. Create new API Gateway service
 2. Copy core routing engine from 9router
 3. Integrate current SQLite storage system
@@ -41,6 +43,7 @@
 6. Comprehensive integration testing
 
 **Expected Deliverables**:
+
 - Unified AI gateway running on port 20128
 - Support for 40+ AI providers
 - Intelligent routing system with fallback
@@ -55,6 +58,7 @@
 **Current Location**: `external-integrations/AI-assistant_openclaw/`
 
 **Integration Points**:
+
 - [ ] Integrate OpenClaw as core engine in ZeroAI layer
 - [ ] Integrate plugin system with ZeroAI
 - [ ] Add multi-channel support (WhatsApp, Telegram, Discord, Slack)
@@ -63,6 +67,7 @@
 - [ ] Add assistant management interface in dashboard
 
 **Implementation Steps**:
+
 1. Extract OpenClaw core engine
 2. Integrate with current ZeroAI system
 3. Add multi-channel integration
@@ -71,6 +76,7 @@
 6. Comprehensive testing
 
 **Expected Deliverables**:
+
 - Multi-channel personal assistant
 - Support for WhatsApp, Telegram, Discord, Slack
 - Full integration with n8n
@@ -85,6 +91,7 @@
 **Current Location**: `external-integrations/AI-agentic-_JARVIS/`
 
 **Integration Points**:
+
 - [ ] Integrate image and video analysis system
 - [ ] Add face recognition capabilities
 - [ ] Integrate Browser Use agents system
@@ -93,6 +100,7 @@
 - [ ] Add intelligence interface in dashboard
 
 **Implementation Steps**:
+
 1. Extract capture and identification system
 2. Integrate with main engine system
 3. Add search and intelligence capabilities
@@ -101,6 +109,7 @@
 6. Comprehensive testing
 
 **Expected Deliverables**:
+
 - Advanced intelligence system
 - Face recognition support
 - Agentic search system
@@ -115,6 +124,7 @@
 **Current Location**: `external-integrations/APP_WebUI-desktop/`
 
 **Integration Points**:
+
 - [ ] Integrate desktop interface in comprehensive desktop app
 - [ ] Integrate with main engine via API
 - [ ] Add local model support via llama.cpp
@@ -123,6 +133,7 @@
 - [ ] Support multiple connections
 
 **Implementation Steps**:
+
 1. Analyze current Electron code
 2. Create comprehensive desktop application
 3. Integrate Open WebUI interface
@@ -131,6 +142,7 @@
 6. Comprehensive testing
 
 **Expected Deliverables**:
+
 - Comprehensive desktop application
 - Support for local and cloud models
 - Full integration with ZeroAI
