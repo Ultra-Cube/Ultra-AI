@@ -1,0 +1,35 @@
+{
+  "name": "@ultra-ai/voice-recognition",
+  "version": "1.0.0",
+  "description": "Voice recognition engine for Ultra AI Platform - Speech-to-text and voice commands",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "jest",
+    "lint": "eslint src --ext .ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "voice-recognition",
+    "speech-to-text",
+    "voice-commands",
+    "audio-processing",
+    "stt"
+  ],
+  "author": "Ultra AI",
+  "license": "MIT",
+  "dependencies": {
+    "@ultra-ai/shared": "*"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/jest": "^29.5.0",
+    "typescript": "^5.3.3",
+    "tsup": "^8.0.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.0",
+    "eslint": "^8.56.0"
+  }
+}
