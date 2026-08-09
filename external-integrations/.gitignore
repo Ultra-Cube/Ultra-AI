@@ -1,9 +1,23 @@
-# Ignore imported repository contents
+# Ignore imported repository contents (too large for Git)
 9router/
 AI-agentic-_JARVIS/
 AI-assistant_openclaw/
 APP_WebUI-desktop/
+AI-Tools_quant-mind/
+AI-Model_Kimi-K2.5/
+AI-Models_Biome/
+Tools_godmodeanimation/
+OpenWA/
+skales/
+colibri/
+AionUi/
+ultra-cube-tools/
 
 # Keep integration plan and documentation
 !INTEGRATION_PLAN.md
 !README.md
+!FADHEL-SH-REPOSITORIES.md
+!FADHEL-SH-COMPLETE-LIST.md
+!FADHEL-SH-COMPLETE-ANALYSIS.md
+!FADHEL-SH-REPOS-RAW.json
+!ADDITIONAL-REPOS-INTEGRATION.md
