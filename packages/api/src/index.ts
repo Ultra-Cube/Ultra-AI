@@ -1,6 +1,6 @@
 import Fastify, { FastifyInstance } from 'fastify';
 import { PrismaClient } from '@prisma/client';
-import { AICore } from '@ultra-ai/ai-core';
+import { AICore, DEFAULT_MODEL, ANTHROPIC_MODELS } from '@ultra-ai/ai-core';
 import fastifySwagger from '@fastify/swagger';
 import fastifySwaggerUi from '@fastify/swagger-ui';
 import { AuthService } from './services/auth/auth-service';
@@ -163,8 +163,8 @@ export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
   await app.register(workflowRoutes);
 
   const aiCore = context?.aiCore || new AICore({
-    models: ['gpt-4o-mini', 'claude-3-haiku'],
-    defaultModel: 'gpt-4o-mini',
+    models: [DEFAULT_MODEL, ANTHROPIC_MODELS[1]],
+    defaultModel: DEFAULT_MODEL,
     language: 'en',
   });
 
@@ -910,7 +910,7 @@ export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
       return { error: 'input is required' };
     }
 
-    const modelToUse = body.model ?? 'gpt-4o-mini';
+    const modelToUse = body.model ?? DEFAULT_MODEL;
 
     try {
       // Route to appropriate provider
@@ -2987,8 +2987,8 @@ export async function startServer(port = 4000, context?: AppContext): Promise<{ 
     prisma,
     authService: new AuthService(new DatabaseUserService(prisma)),
     aiCore: new AICore({
-      models: ['gpt-4o-mini', 'claude-3-haiku'],
-      defaultModel: 'gpt-4o-mini',
+      models: [DEFAULT_MODEL, ANTHROPIC_MODELS[1]],
+      defaultModel: DEFAULT_MODEL,
       language: 'en',
     }),
     profileStore: new WorkspaceProfileStore(),

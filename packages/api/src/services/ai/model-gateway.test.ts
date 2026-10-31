@@ -8,14 +8,14 @@ describe('ModelGateway', () => {
       {
         name: 'openai',
         apiKey: 'test-key-openai',
-        models: ['gpt-4o', 'gpt-4o-mini'],
+        models: ['gpt-5', 'gpt-5-mini'],
         enabled: true,
         priority: 1,
       },
       {
         name: 'anthropic',
         apiKey: 'test-key-anthropic',
-        models: ['claude-3-opus', 'claude-3-haiku'],
+        models: ['claude-opus-4.1', 'claude-haiku-4.5'],
         enabled: true,
         priority: 2,
       },
@@ -32,19 +32,19 @@ describe('ModelGateway', () => {
   });
 
   it('routes OpenAI models to OpenAI provider', async () => {
-    const route = await gateway.routeRequest('gpt-4o');
+    const route = await gateway.routeRequest('gpt-5');
 
     expect(route.provider).toBe('openai');
-    expect(route.model).toBe('gpt-4o');
+    expect(route.model).toBe('gpt-5');
     expect(route.endpoint).toContain('openai.com');
     expect(route.headers['Authorization']).toContain('Bearer');
   });
 
   it('routes Anthropic models to Anthropic provider', async () => {
-    const route = await gateway.routeRequest('claude-3-opus');
+    const route = await gateway.routeRequest('claude-opus-4.1');
 
     expect(route.provider).toBe('anthropic');
-    expect(route.model).toBe('claude-3-opus');
+    expect(route.model).toBe('claude-opus-4.1');
     expect(route.endpoint).toContain('anthropic.com');
     expect(route.headers['x-api-key']).toBe('test-key-anthropic');
   });
@@ -58,8 +58,8 @@ describe('ModelGateway', () => {
   });
 
   it('respects provider priority order', async () => {
-    // Both providers support gpt-4o (hypothetically)
-    const route = await gateway.routeRequest('gpt-4o');
+    // Both providers support gpt-5 (hypothetically)
+    const route = await gateway.routeRequest('gpt-5');
 
     // OpenAI has priority 1, so should be chosen
     expect(route.provider).toBe('openai');
@@ -71,7 +71,7 @@ describe('ModelGateway', () => {
       gateway.recordFailure('openai');
     }
 
-    const route = await gateway.routeRequest('gpt-4o-mini');
+    const route = await gateway.routeRequest('gpt-5-mini');
 
     // Would fallback to Anthropic if it supported the model
     // But since it doesn't, would use Ollama or fail
@@ -97,9 +97,9 @@ describe('ModelGateway', () => {
     const models = gateway.listAvailableModels();
 
     expect(models.has('openai')).toBe(true);
-    expect(models.get('openai')).toContain('gpt-4o');
+    expect(models.get('openai')).toContain('gpt-5');
     expect(models.has('anthropic')).toBe(true);
-    expect(models.get('anthropic')).toContain('claude-3-opus');
+    expect(models.get('anthropic')).toContain('claude-opus-4.1');
   });
 
   it('updates provider configuration', () => {

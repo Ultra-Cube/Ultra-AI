@@ -33,6 +33,17 @@ export class DatabaseUserService {
 
   async createUser(email: string, passwordHash: string): Promise<UserRecord> {
     const normalizedEmail = email.trim().toLowerCase();
+    // Ensure the default tenant exists so registration works on fresh databases.
+    await this.prisma.tenant.upsert({
+      where: { id: 'default-tenant' },
+      update: {},
+      create: {
+        id: 'default-tenant',
+        name: 'Default Tenant',
+        slug: 'default',
+        status: 'ACTIVE',
+      },
+    });
     const user = await this.prisma.user.create({
       data: {
         email: normalizedEmail,

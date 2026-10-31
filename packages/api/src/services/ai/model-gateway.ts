@@ -4,6 +4,8 @@
  * with health checks and automatic failover
  */
 
+import { OPENAI_MODELS, ANTHROPIC_MODELS, OLLAMA_MODELS } from '@ultra-ai/ai-core';
+
 export interface ProviderConfig {
   name: 'openai' | 'anthropic' | 'ollama';
   apiKey?: string;
@@ -53,21 +55,21 @@ export class ModelGateway {
       {
         name: 'openai',
         apiKey: process.env.OPENAI_API_KEY,
-        models: ['gpt-4o', 'gpt-4-turbo', 'gpt-4o-mini'],
+        models: [...OPENAI_MODELS],
         enabled: !!process.env.OPENAI_API_KEY,
         priority: 1,
       },
       {
         name: 'anthropic',
         apiKey: process.env.ANTHROPIC_API_KEY,
-        models: ['claude-3-opus', 'claude-3-sonnet', 'claude-3-haiku'],
+        models: [...ANTHROPIC_MODELS],
         enabled: !!process.env.ANTHROPIC_API_KEY,
         priority: 2,
       },
       {
         name: 'ollama',
         baseUrl: process.env.OLLAMA_BASE_URL ?? 'http://localhost:11434',
-        models: ['mistral', 'neural-chat', 'codellama'],
+        models: [...OLLAMA_MODELS],
         enabled: !!process.env.OLLAMA_BASE_URL || true, // Local fallback
         priority: 3,
       },

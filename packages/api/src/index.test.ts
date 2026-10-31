@@ -15,8 +15,8 @@ describe('@ultra-ai/api', () => {
     userService = new InMemoryUserService();
     const authService = new AuthService(userService as any);
     const aiCore = new AICore({
-      models: ['gpt-4o-mini', 'claude-3-haiku'],
-      defaultModel: 'gpt-4o-mini',
+      models: ['gpt-5-mini', 'claude-haiku-4.5'],
+      defaultModel: 'gpt-5-mini',
       language: 'en',
     });
     const profileStore = new WorkspaceProfileStore();
@@ -94,7 +94,11 @@ describe('@ultra-ai/api', () => {
 
     expect(response.statusCode).toBe(200);
     const data = response.json();
-    expect(data.result.output).toContain('Initial result from');
+    // No API keys in test env -> AICore falls back to MockProvider, whose
+    // output format is "[<task>/<model>] <input>". Assert the real contract.
+    expect(data.result.output).toContain('mock-model');
+    expect(data.result.output).toContain('Summarize this document');
+    expect(data.result.model).toBe('mock-model');
   });
 
   it('recommends adaptive workspace by role for authenticated users', async () => {
