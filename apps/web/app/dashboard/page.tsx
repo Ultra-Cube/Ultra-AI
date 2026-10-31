@@ -10,6 +10,12 @@ export default function DashboardPage() {
     uptime: 0,
   });
 
+  // Live service health from the unified /api/system/status probe endpoint.
+  const [serviceHealth, setServiceHealth] = useState<{
+    up: number;
+    total: number;
+  }>({ up: 0, total: 4 });
+
   const [selectedTab, setSelectedTab] = useState('overview');
 
   const [aiSystems, setAiSystems] = useState([
@@ -167,11 +173,23 @@ export default function DashboardPage() {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const response = await fetch('/api/control-center/system-stats');
+        // Real host metrics + service probes from the unified status endpoint.
+        const response = await fetch('/api/system/status', { cache: 'no-store' });
         const data = await response.json();
-        setSystemStats(data);
+        setSystemStats({
+          cpu: data.host?.cpu ?? 0,
+          memory: data.host?.memory ?? 0,
+          disk: 0,
+          uptime: data.host?.uptime ?? 0,
+        });
+        if (data.summary) {
+          setServiceHealth({
+            up: data.summary.up,
+            total: data.summary.total,
+          });
+        }
       } catch (error) {
-        console.error('Failed to fetch system stats:', error);
+        console.error('Failed to fetch system status:', error);
       }
     };
 
@@ -279,12 +297,17 @@ export default function DashboardPage() {
                 </div>
               </div>
               <div className="bg-white rounded-lg shadow p-6">
-                <h3 className="text-sm font-medium text-gray-600 mb-2">Disk Usage</h3>
-                <p className="text-3xl font-bold text-gray-900">{systemStats.disk.toFixed(1)}%</p>
+                <h3 className="text-sm font-medium text-gray-600 mb-2">Services Online</h3>
+                <p className="text-3xl font-bold text-gray-900">
+                  {serviceHealth.up}
+                  <span className="text-lg text-gray-400">/{serviceHealth.total}</span>
+                </p>
                 <div className="mt-2 h-2 bg-gray-200 rounded-full overflow-hidden">
                   <div
                     className="h-full bg-purple-500 transition-all"
-                    style={{ width: `${systemStats.disk}%` }}
+                    style={{
+                      width: `${serviceHealth.total ? (serviceHealth.up / serviceHealth.total) * 100 : 0}%`,
+                    }}
                   />
                 </div>
               </div>
@@ -346,8 +369,10 @@ export default function DashboardPage() {
                 </h3>
                 <div className="space-y-3">
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Running Systems</span>
-                    <span className="font-medium text-green-600">1/13</span>
+                    <span className="text-gray-600">Core Services Up</span>
+                    <span className={`font-medium ${serviceHealth.up === serviceHealth.total ? 'text-green-600' : 'text-yellow-600'}`}>
+                      {serviceHealth.up}/{serviceHealth.total}
+                    </span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-600">Active Providers</span>

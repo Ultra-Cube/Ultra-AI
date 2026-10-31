@@ -5,28 +5,8 @@ import Link from 'next/link';
 export default function LandingPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
-      {/* Hero Section */}
+      {/* Hero Section (global TopNav lives in the root layout) */}
       <div className="container mx-auto px-4 py-16">
-        <nav className="flex justify-between items-center mb-16">
-          <div className="text-2xl font-bold text-gray-900">
-            🚀 Ultra AI Platform
-          </div>
-          <div className="flex gap-4">
-            <Link
-              href="/dashboard"
-              className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-            >
-              Dashboard
-            </Link>
-            <Link
-              href="/docs"
-              className="px-6 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors"
-            >
-              Documentation
-            </Link>
-          </div>
-        </nav>
-
         <div className="text-center mb-16">
           <h1 className="text-5xl font-bold text-gray-900 mb-6">
             The Ultimate AI Platform

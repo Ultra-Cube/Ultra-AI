@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { Sora, IBM_Plex_Mono } from 'next/font/google';
 import './globals.css';
+import TopNav from './components/TopNav';
+import ServiceHealthStrip from './components/ServiceHealthStrip';
 
 const sora = Sora({ subsets: ['latin'], variable: '--font-sora' });
 const plexMono = IBM_Plex_Mono({
@@ -19,7 +21,11 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body className={`${sora.variable} ${plexMono.variable}`}>{children}</body>
+      <body className={`${sora.variable} ${plexMono.variable}`}>
+        <TopNav />
+        <ServiceHealthStrip />
+        <main className="app-main">{children}</main>
+      </body>
     </html>
   );
 }

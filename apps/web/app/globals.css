@@ -416,3 +416,160 @@ button:disabled {
   }
 }
 
+/* -------------------------------------------------------------------------
+   Shared chrome: top navigation + live service-health strip.
+   Rendered on every page via the root layout so the whole app feels like one
+   environment instead of disconnected pages.
+   ------------------------------------------------------------------------- */
+
+.topnav {
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.7rem 1.25rem;
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(31, 29, 26, 0.1);
+}
+
+.topnav-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--ink);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.topnav-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  flex: 1;
+}
+
+.topnav-link {
+  padding: 0.45rem 0.85rem;
+  border-radius: 999px;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.93rem;
+  font-weight: 500;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.topnav-link:hover {
+  background: rgba(31, 29, 26, 0.06);
+  color: var(--ink);
+}
+
+.topnav-link.active {
+  background: linear-gradient(135deg, rgba(47, 143, 157, 0.18), rgba(217, 93, 57, 0.16));
+  color: var(--ink);
+}
+
+.topnav-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  background: rgba(47, 143, 157, 0.14);
+  color: var(--accent-2);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.topnav-cta:hover {
+  background: rgba(47, 143, 157, 0.24);
+}
+
+.health-strip {
+  position: sticky;
+  top: 52px;
+  z-index: 55;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  padding: 0.5rem 1.25rem;
+  background: rgba(31, 29, 26, 0.9);
+  color: #f3efe8;
+  font-size: 0.82rem;
+}
+
+.health-summary {
+  font-family: var(--font-plex-mono), monospace;
+  font-weight: 600;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+}
+
+.health-summary.up {
+  background: rgba(74, 222, 128, 0.18);
+  color: #86efac;
+}
+
+.health-summary.down {
+  background: rgba(248, 113, 113, 0.18);
+  color: #fca5a5;
+}
+
+.health-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  flex: 1;
+}
+
+.health-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.health-pill .dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: #6b7280;
+}
+
+.health-pill.up .dot {
+  background: #4ade80;
+  box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.25);
+}
+
+.health-pill.down .dot {
+  background: #f87171;
+  box-shadow: 0 0 0 3px rgba(248, 113, 113, 0.25);
+}
+
+.health-pill em {
+  font-style: normal;
+  opacity: 0.6;
+  font-size: 0.75rem;
+}
+
+.health-host {
+  font-family: var(--font-plex-mono), monospace;
+  opacity: 0.75;
+  white-space: nowrap;
+}
+
+.app-main {
+  min-height: calc(100vh - 92px);
+}
+
