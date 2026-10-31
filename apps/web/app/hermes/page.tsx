@@ -20,11 +20,15 @@ type Overview = {
     grafana: { up: boolean; url: string };
     alertmanager: { up: boolean; url: string };
   };
+  source?: 'prometheus' | 'api-direct' | 'none';
   metrics: {
     requestRate: number | null;
     errorRate: number | null;
     p95LatencySeconds: number | null;
-    targetsUp: number | null;
+    targetsUp?: number | null;
+    totalRequests?: number | null;
+    memoryMB?: number | null;
+    uptimeSeconds?: number | null;
   };
   alerts: Array<{
     name: string;
@@ -33,6 +37,13 @@ type Overview = {
     startsAt: string | null;
   }>;
 };
+
+function fmtUptime(s: number | null | undefined): string {
+  if (s == null) return '—';
+  const h = Math.floor(s / 3600);
+  const m = Math.floor((s % 3600) / 60);
+  return h > 0 ? `${h}h ${m}m` : `${m}m`;
+}
 
 const GRAFANA_URL = 'http://localhost:3001';
 
@@ -120,24 +131,37 @@ export default function HermesPage() {
         ))}
       </section>
 
-      {/* Headline metrics */}
+      {/* Data-source badge — honest about where the numbers come from */}
+      {data?.source && data.source !== 'none' && (
+        <p className="hermes-source">
+          {data.source === 'prometheus'
+            ? '● Live from Prometheus'
+            : '● Live — parsed directly from the API /metrics endpoint'}
+        </p>
+      )}
+
+      {/* Headline metrics (real, live) */}
       <section className="hermes-metrics">
         <div className="metric-card">
-          <span className="metric-label">Request Rate</span>
-          <strong>{fmt(data?.metrics.requestRate ?? null, 2, ' /s')}</strong>
-        </div>
-        <div className="metric-card">
-          <span className="metric-label">Error Rate</span>
-          <strong
-            className={
-              (data?.metrics.errorRate ?? 0) > 0 ? 'metric-warn' : undefined
-            }
-          >
-            {fmt(data?.metrics.errorRate ?? null, 3, ' /s')}
+          <span className="metric-label">
+            {data?.source === 'prometheus' ? 'Request Rate' : 'Total Requests'}
+          </span>
+          <strong>
+            {data?.source === 'prometheus'
+              ? fmt(data?.metrics.requestRate ?? null, 2, ' /s')
+              : fmt(data?.metrics.totalRequests ?? null, 0)}
           </strong>
         </div>
         <div className="metric-card">
-          <span className="metric-label">p95 Latency</span>
+          <span className="metric-label">Error Rate</span>
+          <strong className={(data?.metrics.errorRate ?? 0) > 0 ? 'metric-warn' : undefined}>
+            {data?.metrics.errorRate != null
+              ? fmt(data.metrics.errorRate * 100, 2, '%')
+              : '—'}
+          </strong>
+        </div>
+        <div className="metric-card">
+          <span className="metric-label">Avg Latency</span>
           <strong>
             {data?.metrics.p95LatencySeconds != null
               ? fmt(data.metrics.p95LatencySeconds * 1000, 0, ' ms')
@@ -145,8 +169,14 @@ export default function HermesPage() {
           </strong>
         </div>
         <div className="metric-card">
-          <span className="metric-label">Scrape Targets Up</span>
-          <strong>{fmt(data?.metrics.targetsUp ?? null, 0)}</strong>
+          <span className="metric-label">
+            {data?.metrics.uptimeSeconds != null ? 'API Uptime' : 'Scrape Targets'}
+          </span>
+          <strong>
+            {data?.metrics.uptimeSeconds != null
+              ? fmtUptime(data.metrics.uptimeSeconds)
+              : fmt(data?.metrics.targetsUp ?? null, 0)}
+          </strong>
         </div>
       </section>
 
