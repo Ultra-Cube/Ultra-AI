@@ -2,6 +2,12 @@ export interface AIConfig {
   models: string[];
   language?: 'en' | 'ar';
   defaultModel?: string;
+  /** Explicit provider credentials; falls back to standard env vars. */
+  providers?: {
+    openaiApiKey?: string;
+    openaiBaseUrl?: string;
+    anthropicApiKey?: string;
+  };
 }
 
 export interface ProcessRequest {

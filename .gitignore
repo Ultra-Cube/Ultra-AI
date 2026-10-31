@@ -42,6 +42,9 @@ htmlcov/
 /out/
 .vercel
 
+# Local runtime state (logs, pids, service data from the orchestrator)
+runtime/
+
 # Environment variables
 .env
 .env.local

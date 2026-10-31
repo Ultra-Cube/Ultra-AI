@@ -2,7 +2,15 @@ import { IntentRecognizer } from '../nlp/intent-recognizer';
 import { NLPProcessor } from '../nlp/nlp-processor';
 import { TaskPlanner } from '../planning/task-planner';
 import { ModelRouter } from '../routing/model-router';
-import { AIConfig, ProcessRequest, ProcessResponse } from '../types';
+import {
+  AIConfig,
+  ProcessRequest,
+  ProcessResponse,
+} from '../types';
+import { AnthropicProvider } from '../providers/anthropic-provider';
+import { MockProvider } from '../providers/mock-provider';
+import { OpenAIProvider } from '../providers/openai-provider';
+import { LLMProvider } from '../providers/types';
 
 export class AICore {
   private readonly nlp = new NLPProcessor();
@@ -10,8 +18,9 @@ export class AICore {
   private readonly planner = new TaskPlanner();
   private readonly router: ModelRouter;
 
-  constructor(private readonly config: AIConfig) {
-    this.router = new ModelRouter(config);
+  constructor(config: AIConfig) {
+    const providers = this.buildProviders(config);
+    this.router = new ModelRouter(config, providers);
   }
 
   async process(request: string | ProcessRequest): Promise<ProcessResponse> {
@@ -20,12 +29,17 @@ export class AICore {
     const normalized = this.nlp.normalize(input);
     const intent = this.intents.recognize(normalized);
     const task = this.planner.plan(normalized, intent);
-    const model = this.router.selectModel(task);
+    const selection = this.router.selectModel(task);
 
-    const output = this.mockExecute(task.payload, model, this.nlp.detectLanguage(input));
+    let output: string;
+    if (selection) {
+      output = await selection.provider.complete(task, selection.model);
+    } else {
+      output = await new MockProvider().complete(task, 'mock-model');
+    }
 
     return {
-      model,
+      model: selection?.model ?? 'mock-model',
       intent,
       task,
       output,
@@ -33,8 +47,12 @@ export class AICore {
     };
   }
 
-  private mockExecute(payload: string, model: string, language: 'en' | 'ar'): string {
-    const prefix = language === 'ar' ? 'نتيجة أولية من' : 'Initial result from';
-    return `${prefix} ${model}: ${payload}`;
+  private buildProviders(config: AIConfig): LLMProvider[] {
+    const creds = config.providers ?? {};
+    return [
+      new OpenAIProvider(creds.openaiApiKey, creds.openaiBaseUrl),
+      new AnthropicProvider(creds.anthropicApiKey),
+      new MockProvider(),
+    ];
   }
 }
