@@ -638,6 +638,28 @@ export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
     return { memory: zeroAIStore.getMemory() };
   });
 
+  // AI Mind control — operator steering of the routing "mind".
+  app.get('/zeroai/control', async () => {
+    return { control: zeroAIStore.getControl() };
+  });
+
+  app.post('/zeroai/control', async (request) => {
+    const body = request.body as {
+      routingPaused?: boolean;
+      modelOverride?: string | null;
+      forcedRoute?: string | null;
+    };
+    const patch: Record<string, unknown> = {};
+    if (typeof body.routingPaused === 'boolean') patch.routingPaused = body.routingPaused;
+    if (body.modelOverride !== undefined) {
+      patch.modelOverride = body.modelOverride ? String(body.modelOverride).trim() : null;
+    }
+    if (body.forcedRoute !== undefined) {
+      patch.forcedRoute = body.forcedRoute ? String(body.forcedRoute).trim() : null;
+    }
+    return { control: zeroAIStore.setControl(patch) };
+  });
+
   app.get('/zeroai/workflows', async () => {
     return { workflows: zeroAIStore.getWorkflows() };
   });
@@ -648,6 +670,15 @@ export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
     if (!body?.prompt || !body.prompt.trim()) {
       reply.status(400);
       return { error: 'prompt is required' };
+    }
+
+    // Operator control: routing can be paused from the AI Mind panel.
+    if (zeroAIStore.getControl().routingPaused) {
+      reply.status(423); // Locked
+      return {
+        error: 'routing is paused by operator',
+        control: zeroAIStore.getControl(),
+      };
     }
 
     const prompt = InputValidator.sanitize(body.prompt.trim());

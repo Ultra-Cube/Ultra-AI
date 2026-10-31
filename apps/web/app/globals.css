@@ -1123,3 +1123,89 @@ button:disabled {
   }
 }
 
+/* -------------------------------------------------------------------------
+   Mind Control panel (ZeroAI professional view)
+   ------------------------------------------------------------------------- */
+
+.mind-control {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.mind-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mind-head h3 {
+  margin: 0;
+}
+
+.mind-state {
+  font-family: var(--font-plex-mono), monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+}
+
+.mind-state.live {
+  background: rgba(34, 197, 94, 0.18);
+  color: #15803d;
+}
+
+.mind-state.paused {
+  background: rgba(239, 68, 68, 0.18);
+  color: #b91c1c;
+}
+
+.mind-sub {
+  margin: 0;
+  font-size: 0.85rem;
+}
+
+.mind-toggle {
+  width: 100%;
+}
+
+.mind-toggle.resume {
+  background: linear-gradient(90deg, #22c55e, #16a34a);
+}
+
+.mind-toggle.pause {
+  background: linear-gradient(90deg, var(--accent), #e98d45);
+}
+
+.mind-field {
+  display: grid;
+  gap: 0.3rem;
+  font-size: 0.9rem;
+}
+
+.mind-field select {
+  width: 100%;
+}
+
+.mind-ts {
+  margin: 0;
+  font-size: 0.78rem;
+  text-align: right;
+}
+
+@media (min-width: 880px) {
+  .mind-control {
+    grid-template-columns: auto 1fr 1fr 1fr;
+    align-items: end;
+  }
+
+  .mind-head,
+  .mind-sub {
+    grid-column: 1 / -1;
+  }
+
+  .mind-ts {
+    grid-column: 1 / -1;
+  }
+}
+

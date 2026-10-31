@@ -52,6 +52,18 @@ export interface ZeroAIHealth {
   network: ZeroAIHealthStatus;
 }
 
+/**
+ * Operator controls over the AI "mind" — lets the professional view steer
+ * routing instead of only observing it: pin a model, force a route, or pause
+ * routing entirely (new prompts are held / rejected while paused).
+ */
+export interface ZeroAIControl {
+  routingPaused: boolean;
+  modelOverride: string | null;
+  forcedRoute: string | null;
+  updatedAt: string;
+}
+
 export interface ZeroAIState {
   assistantName: string;
   mode: 'local';
@@ -64,6 +76,7 @@ export interface ZeroAIState {
   trace: ZeroAITraceEntry[];
   agents: ZeroAIAgentStatus[];
   health: ZeroAIHealth;
+  control: ZeroAIControl;
 }
 
 function createId(prefix: string): string {
@@ -144,6 +157,30 @@ export class ZeroAIStore {
 
     this.bumpState();
     return this.clone(this.state.health);
+  }
+
+  getControl(): ZeroAIControl {
+    return this.clone(this.state.control);
+  }
+
+  /** Operator steering: pause routing, pin a model, or force a route. */
+  setControl(patch: Partial<Omit<ZeroAIControl, 'updatedAt'>>): ZeroAIControl {
+    this.state.control = {
+      ...this.state.control,
+      ...patch,
+      updatedAt: new Date().toISOString(),
+    };
+
+    this.appendTrace({
+      kind: 'system',
+      title: 'Operator control updated',
+      summary: `paused=${this.state.control.routingPaused} model=${this.state.control.modelOverride ?? 'auto'} route=${this.state.control.forcedRoute ?? 'auto'}`,
+      detail: 'AI mind control settings changed from the operator panel.',
+      route: 'mind-control',
+    });
+
+    this.bumpState();
+    return this.clone(this.state.control);
   }
 
   recordInteraction(prompt: string, response: string, route: string): void {
@@ -232,6 +269,10 @@ export class ZeroAIStore {
           ...this.createDefaultState().health,
           ...(parsed.health ?? {}),
         },
+        control: {
+          ...this.createDefaultState().control,
+          ...(parsed.control ?? {}),
+        },
       };
     } catch {
       return this.createDefaultState();
@@ -308,6 +349,12 @@ export class ZeroAIStore {
         n8n: 'ready',
         localModel: 'ready',
         network: 'standby',
+      },
+      control: {
+        routingPaused: false,
+        modelOverride: null,
+        forcedRoute: null,
+        updatedAt: now,
       },
     };
   }

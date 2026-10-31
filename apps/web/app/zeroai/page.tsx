@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { FormEvent, useEffect, useMemo, useState } from 'react';
+import MindControl from '../components/MindControl';
 
 type MemoryEntry = {
   id: string;
@@ -370,6 +371,7 @@ export default function ZeroAIPage() {
         </>
       ) : (
         <>
+          <MindControl />
           <section className="zeroai-grid">
             <div className="card zeroai-panel">
               <h2>Agent network</h2>
