@@ -20,7 +20,25 @@ export interface SystemConfig {
   port?: number;
   status: 'running' | 'stopped' | 'configured' | 'imported' | 'degraded' | 'offline';
   dependencies: string[];
+  /**
+   * Upstream source repository (fadhel-sh fork) that this sub-project is
+   * backed by. Used to actually clone/integrate the real implementation
+   * instead of relying on the mock adapter indefinitely.
+   */
+  repo?: string;
 }
+
+/** Upstream fadhel-sh fork repositories backing each catalog sub-project. */
+export const UPSTREAM_REPOS: Record<string, string> = {
+  '9router': 'https://github.com/fadhel-sh/9router',
+  openclaw: 'https://github.com/fadhel-sh/AionUi',
+  jarvis: 'https://github.com/fadhel-sh/OpenCompany',
+  webui: 'https://github.com/fadhel-sh/APP_WebUI-desktop',
+  'quant-mind': 'https://github.com/fadhel-sh/AI-Tools_quant-mind',
+  'kimi-k2.5': 'https://github.com/fadhel-sh/AI-Model_Kimi-K2.5',
+  biome: 'https://github.com/fadhel-sh/AI-Models_Biome',
+  godmode: 'https://github.com/fadhel-sh/Engine_world-engine',
+};
 
 export class IntegrationService extends EventEmitter {
   private systems: Map<string, SystemConfig> = new Map();
@@ -94,6 +112,7 @@ export class IntegrationService extends EventEmitter {
     ];
 
     systemConfigs.forEach((config) => {
+      config.repo = UPSTREAM_REPOS[config.id];
       this.systems.set(config.id, config);
     });
   }
