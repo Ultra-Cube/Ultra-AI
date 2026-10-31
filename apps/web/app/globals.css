@@ -753,6 +753,13 @@ button:disabled {
   text-align: right;
 }
 
+.hermes-source {
+  margin: 0;
+  font-size: 0.82rem;
+  font-family: var(--font-plex-mono), monospace;
+  color: #35d98a;
+}
+
 @media (min-width: 760px) {
   .hermes-stack {
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -819,124 +826,96 @@ button:disabled {
   gap: 1rem;
 }
 
-/* --- 3D scene --- */
+/* --- 3D scene (three.js / react-three-fiber) --- */
 .agents-scene-card {
   padding: 0;
   overflow: hidden;
 }
 
-.orb-scene-wrap {
+.orb3d-wrap {
   display: grid;
   gap: 0.4rem;
-  padding: 0.6rem;
-}
-
-.orb-scene {
-  height: 360px;
-  perspective: 900px;
-  display: grid;
-  place-items: center;
-  cursor: grab;
-  touch-action: none;
-  background:
-    radial-gradient(circle at 50% 45%, rgba(47, 143, 157, 0.14), transparent 60%);
-  border-radius: 16px;
-}
-
-.orb-scene:active {
-  cursor: grabbing;
-}
-
-.orb-space {
-  position: relative;
-  width: 1px;
-  height: 1px;
-  transform-style: preserve-3d;
-  transition: transform 0.05s linear;
-}
-
-.orb-core {
-  position: absolute;
-  left: -32px;
-  top: -32px;
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  font-size: 1.8rem;
-  background: radial-gradient(circle at 40% 35%, #2f8f9d, #1f1d1a);
-  box-shadow: 0 0 40px rgba(47, 143, 157, 0.6);
-  transform-style: preserve-3d;
-}
-
-.orb-ring {
-  position: absolute;
-  left: -180px;
-  top: -180px;
-  width: 360px;
-  height: 360px;
-  border-radius: 50%;
-  border: 1px dashed rgba(47, 143, 157, 0.35);
-  transform: rotateX(90deg);
-}
-
-.orb-node {
-  position: absolute;
-  left: 0;
-  top: 0;
-  margin-left: -23px;
-  margin-top: -23px;
-  border-radius: 50%;
-  border: 2px solid;
-  background: rgba(255, 255, 255, 0.92);
-  display: grid;
-  place-items: center;
-  cursor: pointer;
   padding: 0;
-  transition: box-shadow 0.2s ease;
 }
 
-.orb-node.selected {
-  outline: 3px solid var(--accent);
-  outline-offset: 2px;
+.orb3d-wrap > div:first-child,
+.orb3d-wrap canvas {
+  display: block;
 }
 
-.orb-avatar {
-  font-size: 1.3rem;
-  line-height: 1;
+/* The three.js <Canvas> renders into this fixed-height stage */
+.orb3d-wrap > div:first-child {
+  height: 440px;
+  width: 100%;
+  border-radius: 16px 16px 0 0;
+  background:
+    radial-gradient(circle at 50% 38%, rgba(109, 139, 255, 0.16), transparent 62%),
+    radial-gradient(circle at 80% 85%, rgba(56, 224, 200, 0.1), transparent 55%),
+    linear-gradient(180deg, #080b14, #0b1020);
+  touch-action: none;
 }
 
-.orb-dot {
-  position: absolute;
-  bottom: 2px;
-  right: 2px;
-  width: 0.55rem;
-  height: 0.55rem;
-  border-radius: 50%;
-  border: 1.5px solid #fff;
-}
-
-.orb-badge {
-  position: absolute;
-  top: -6px;
-  right: -6px;
-  min-width: 1.1rem;
-  height: 1.1rem;
-  padding: 0 0.25rem;
-  border-radius: 999px;
-  background: var(--accent);
-  color: #fff;
-  font-size: 0.68rem;
-  font-weight: 700;
-  display: grid;
-  place-items: center;
-}
-
-.orb-hint {
+.orb3d-hint {
   text-align: center;
   font-size: 0.78rem;
   margin: 0;
+  padding: 0.55rem 0 0.7rem;
+}
+
+/* Loading placeholder while the client bundle / WebGL context boot */
+.orb3d-loading {
+  height: 100%;
+  display: grid;
+  place-items: center;
+  gap: 0.8rem;
+  align-content: center;
+}
+
+.orb3d-spinner {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 3px solid rgba(109, 139, 255, 0.25);
+  border-top-color: #6d8bff;
+  animation: orb3d-spin 0.9s linear infinite;
+}
+
+@keyframes orb3d-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Rich hover card rendered via drei <Html> */
+.orb3d-tip {
+  pointer-events: none;
+  display: grid;
+  gap: 0.15rem;
+  min-width: 120px;
+  padding: 0.5rem 0.65rem;
+  border-radius: 12px;
+  background: rgba(13, 18, 32, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 16px 40px -16px rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(8px);
+  color: #eef2ff;
+  font-family: var(--font-sora), sans-serif;
+  transform: translateY(-6px);
+}
+
+.orb3d-tip strong {
+  font-size: 0.86rem;
+  line-height: 1.1;
+}
+
+.orb3d-tip span {
+  font-size: 0.74rem;
+  color: #94a3c4;
+}
+
+.orb3d-tip-status {
+  text-transform: capitalize;
+  font-weight: 600;
 }
 
 /* --- roster --- */

@@ -1,8 +1,10 @@
 import type { Metadata } from 'next';
 import { Sora, IBM_Plex_Mono } from 'next/font/google';
 import './globals.css';
+import './design-system.css';
 import TopNav from './components/TopNav';
 import ServiceHealthStrip from './components/ServiceHealthStrip';
+import AppDock from './components/AppDock';
 
 const sora = Sora({ subsets: ['latin'], variable: '--font-sora' });
 const plexMono = IBM_Plex_Mono({
@@ -25,6 +27,7 @@ export default function RootLayout({
         <TopNav />
         <ServiceHealthStrip />
         <main className="app-main">{children}</main>
+        <AppDock />
       </body>
     </html>
   );
