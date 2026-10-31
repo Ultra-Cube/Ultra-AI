@@ -1,0 +1,21 @@
+{
+  "name": "@ultra-ai/mock-adapters",
+  "version": "0.1.0",
+  "description": "Lightweight mock adapter microservice that makes imported Ultra-AI sub-projects respond with realistic dynamic health/status data",
+  "main": "dist/server.js",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsup src/server.ts --format esm,cjs",
+    "start": "node dist/server.js",
+    "start:dev": "tsx src/server.ts",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "fastify": "^4.28.1"
+  },
+  "devDependencies": {
+    "tsup": "^8.0.0",
+    "tsx": "^4.21.0",
+    "typescript": "^5.3.3"
+  }
+}

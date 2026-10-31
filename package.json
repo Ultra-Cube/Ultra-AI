@@ -41,6 +41,8 @@
     "stack:down": "bash scripts/ultra-stack.sh down",
     "stack:status": "bash scripts/ultra-stack.sh status",
     "stack:smoke": "bash scripts/ultra-stack.sh smoke",
+    "mock-adapters": "npm run start:dev --workspace=@ultra-ai/mock-adapters",
+    "mock-adapters:build": "npm run build --workspace=@ultra-ai/mock-adapters",
     "monitor:up": "bash monitoring/hermes/start-hermes.sh up",
     "monitor:down": "bash monitoring/hermes/start-hermes.sh down",
     "db:migrate": "npm run db:migrate --workspace=@ultra-ai/api",

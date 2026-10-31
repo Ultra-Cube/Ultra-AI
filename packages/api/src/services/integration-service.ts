@@ -5,12 +5,20 @@
 
 import { EventEmitter } from 'events';
 
+/**
+ * Base URL of the mock-adapters service (services/mock-adapters). The
+ * integration layer probes this to derive honest, live status for the
+ * imported sub-projects instead of reporting a hardcoded 'imported' label.
+ */
+const MOCK_ADAPTERS_URL =
+  process.env.MOCK_ADAPTERS_URL || 'http://localhost:4100';
+
 export interface SystemConfig {
   id: string;
   name: string;
   type: 'gateway' | 'assistant' | 'intelligence' | 'desktop' | 'financial' | 'multimodal' | 'world-model' | 'animation';
   port?: number;
-  status: 'running' | 'stopped' | 'configured' | 'imported';
+  status: 'running' | 'stopped' | 'configured' | 'imported' | 'degraded' | 'offline';
   dependencies: string[];
 }
 
@@ -170,6 +178,61 @@ export class IntegrationService extends EventEmitter {
 
   getAllSystems(): SystemConfig[] {
     return Array.from(this.systems.values());
+  }
+
+  /**
+   * Probe a single sub-project's mock adapter and map its live response onto
+   * a SystemConfig status. Falls back to 'offline' when the adapter can't be
+   * reached (service not running / timed out) so the catalog stays honest
+   * instead of claiming a system is 'imported' or 'configured' when nothing
+   * is actually answering.
+   */
+  private async probeAdapterStatus(
+    systemId: string
+  ): Promise<SystemConfig['status']> {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 1500);
+    try {
+      const res = await fetch(
+        `${MOCK_ADAPTERS_URL}/adapters/${encodeURIComponent(systemId)}/health`,
+        { signal: controller.signal }
+      );
+      if (!res.ok) {
+        return 'offline';
+      }
+      const body = (await res.json()) as {
+        status?: string;
+        healthy?: boolean;
+      };
+      if (body.status === 'degraded' || body.healthy === false) {
+        return 'degraded';
+      }
+      // 'running' and 'busy' both mean the service is live and serving.
+      return 'running';
+    } catch {
+      return 'offline';
+    } finally {
+      clearTimeout(timeout);
+    }
+  }
+
+  /**
+   * Refresh every system's status by actually probing its mock adapter.
+   * Updates the in-memory catalog and returns the live snapshot. Systems whose
+   * adapter is unreachable are marked 'offline'.
+   */
+  async refreshStatuses(): Promise<SystemConfig[]> {
+    const ids = Array.from(this.systems.keys());
+    await Promise.all(
+      ids.map(async (id) => {
+        const system = this.systems.get(id);
+        if (!system) return;
+        const status = await this.probeAdapterStatus(id);
+        system.status = status;
+        this.systems.set(id, system);
+      })
+    );
+    return this.getAllSystems();
   }
 
   getSystemsByType(type: SystemConfig['type']): SystemConfig[] {
