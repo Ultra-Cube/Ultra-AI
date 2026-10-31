@@ -133,23 +133,35 @@ export default function DashboardPage() {
       icon: '👥',
       type: 'collaboration',
     },
+    {
+      id: 'hermes',
+      name: 'Hermes Monitoring',
+      description: 'Prometheus + Grafana observability stack',
+      status: 'configured',
+      port: 3001,
+      uptime: null,
+      icon: '📡',
+      type: 'monitoring',
+    },
   ]);
 
+  // Provider/model data reflects the canonical catalog in
+  // packages/ai-core/src/models.ts (upgraded model families).
   const [providers, setProviders] = useState([
-    { id: 'openai', name: 'OpenAI', status: 'active', models: ['gpt-4', 'gpt-3.5-turbo'], requests: 1250, errors: 0, latency: 250 },
-    { id: 'anthropic', name: 'Anthropic', status: 'active', models: ['claude-3-opus', 'claude-3-sonnet'], requests: 890, errors: 2, latency: 320 },
-    { id: 'google', name: 'Google AI', status: 'active', models: ['gemini-pro', 'gemini-1.5-pro'], requests: 560, errors: 0, latency: 180 },
+    { id: 'openai', name: 'OpenAI', status: 'active', models: ['gpt-5', 'gpt-4.1'], requests: 1250, errors: 0, latency: 250 },
+    { id: 'anthropic', name: 'Anthropic', status: 'active', models: ['claude-opus-4.1', 'claude-sonnet-4.5'], requests: 890, errors: 2, latency: 320 },
+    { id: 'ollama', name: 'Ollama (local)', status: 'active', models: ['llama3.1', 'mistral'], requests: 560, errors: 0, latency: 180 },
     { id: 'cohere', name: 'Cohere', status: 'inactive', models: ['command-r'], requests: 0, errors: 0, latency: 0 },
     { id: 'mistral', name: 'Mistral AI', status: 'active', models: ['mistral-large', 'mixtral'], requests: 420, errors: 1, latency: 290 },
   ]);
 
   const [models, setModels] = useState([
-    { id: 'gpt-4', name: 'GPT-4', provider: 'OpenAI', status: 'active', usage: 450 },
-    { id: 'claude-3-opus', name: 'Claude 3 Opus', provider: 'Anthropic', status: 'active', usage: 320 },
-    { id: 'gemini-pro', name: 'Gemini Pro', provider: 'Google AI', status: 'active', usage: 280 },
-    { id: 'gpt-3.5-turbo', name: 'GPT-3.5 Turbo', provider: 'OpenAI', status: 'active', usage: 800 },
-    { id: 'claude-3-sonnet', name: 'Claude 3 Sonnet', provider: 'Anthropic', status: 'active', usage: 570 },
-    { id: 'mixtral', name: 'Mixtral 8x7B', provider: 'Mistral AI', status: 'active', usage: 420 },
+    { id: 'gpt-5', name: 'GPT-5', provider: 'OpenAI', status: 'active', usage: 450 },
+    { id: 'claude-opus-4.1', name: 'Claude Opus 4.1', provider: 'Anthropic', status: 'active', usage: 320 },
+    { id: 'gpt-4.1', name: 'GPT-4.1', provider: 'OpenAI', status: 'active', usage: 280 },
+    { id: 'gpt-5-mini', name: 'GPT-5 Mini', provider: 'OpenAI', status: 'active', usage: 800 },
+    { id: 'claude-sonnet-4.5', name: 'Claude Sonnet 4.5', provider: 'Anthropic', status: 'active', usage: 570 },
+    { id: 'claude-haiku-4.5', name: 'Claude Haiku 4.5', provider: 'Anthropic', status: 'active', usage: 420 },
   ]);
 
   useEffect(() => {
@@ -335,7 +347,7 @@ export default function DashboardPage() {
                 <div className="space-y-3">
                   <div className="flex justify-between">
                     <span className="text-gray-600">Running Systems</span>
-                    <span className="font-medium text-green-600">1/12</span>
+                    <span className="font-medium text-green-600">1/13</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-600">Active Providers</span>
@@ -350,6 +362,14 @@ export default function DashboardPage() {
                     <span className="font-medium text-red-600">0</span>
                   </div>
                 </div>
+                <a
+                  href="http://localhost:3001"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-4 block w-full text-center px-4 py-2 bg-indigo-50 text-indigo-600 rounded-lg hover:bg-indigo-100 transition-colors text-sm font-medium"
+                >
+                  📡 Open Grafana (Hermes)
+                </a>
               </div>
 
               <div className="bg-white rounded-lg shadow p-6">

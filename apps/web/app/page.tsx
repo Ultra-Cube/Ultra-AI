@@ -147,17 +147,21 @@ export default function LandingPage() {
           </h2>
           <div className="bg-gray-900 rounded-lg p-6 text-green-400 font-mono text-sm overflow-x-auto">
             <pre>{`# Clone the repository
-git clone https://github.com/your-org/Ultra-AI.git
+git clone https://github.com/Ultra-Cube/Ultra-AI.git
 cd Ultra-AI
 
 # Install dependencies
 npm install
 
-# Start the platform
-npm run dev
+# Start the whole system together (Postgres + API + Gateway + Web)
+npm run stack:up
+
+# Add the Hermes monitoring stack (Prometheus + Grafana)
+npm run monitor:up
 
 # Access the dashboard
-# http://localhost:3000/dashboard`}</pre>
+# http://localhost:3000/dashboard   (app)
+# http://localhost:3001             (Grafana / Hermes)`}</pre>
           </div>
         </div>
 
@@ -180,6 +184,7 @@ npm run dev
               { name: 'Skales', icon: '🤖', desc: 'Personal Agent' },
               { name: 'Colibri', icon: '⚡', desc: 'GLM Runtime' },
               { name: 'AionUi', icon: '👥', desc: 'Cowork App' },
+              { name: 'Hermes', icon: '📡', desc: 'Monitoring' },
             ].map((system) => (
               <div
                 key={system.name}
