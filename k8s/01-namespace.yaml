@@ -91,11 +91,11 @@ spec:
               name: ingress-nginx
       ports:
         - protocol: TCP
-          port: 5555
+          port: 4000
     - from:
         - podSelector:
             matchLabels:
               app: web
       ports:
         - protocol: TCP
-          port: 5555
+          port: 4000

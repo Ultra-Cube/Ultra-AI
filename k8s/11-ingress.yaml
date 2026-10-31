@@ -41,7 +41,7 @@ spec:
               service:
                 name: api
                 port:
-                  number: 5555
+                  number: 4000
     
     # GraphQL Routes
     - host: graphql.ultra-ai.local
@@ -53,7 +53,7 @@ spec:
               service:
                 name: api
                 port:
-                  number: 5555
+                  number: 4000
     
     # Web Application Routes
     - host: app.ultra-ai.local
@@ -77,7 +77,7 @@ spec:
               service:
                 name: api
                 port:
-                  number: 5555
+                  number: 4000
           - path: /
             pathType: Prefix
             backend:
@@ -122,7 +122,7 @@ spec:
               service:
                 name: api
                 port:
-                  number: 5555
+                  number: 4000
     
     # Metrics Endpoint
     - host: metrics.ultra-ai.local
@@ -202,14 +202,14 @@ spec:
               name: ingress-nginx
       ports:
         - protocol: TCP
-          port: 5555
+          port: 4000
     - from:
         - podSelector:
             matchLabels:
               app: web
       ports:
         - protocol: TCP
-          port: 5555
+          port: 4000
 
 ---
 # Egress policy for external calls

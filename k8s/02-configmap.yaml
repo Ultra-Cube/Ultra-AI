@@ -18,7 +18,7 @@ data:
   
   # API Configuration
   API_HOST: "0.0.0.0"
-  API_PORT: "5555"
+  API_PORT: "4000"
   API_WORKERS: "4"
   
   # Features Configuration

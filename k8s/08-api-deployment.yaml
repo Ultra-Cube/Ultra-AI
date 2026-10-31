@@ -65,7 +65,7 @@ spec:
           imagePullPolicy: Always
           
           ports:
-            - containerPort: 5555
+            - containerPort: 4000
               name: http
               protocol: TCP
             - containerPort: 9090
