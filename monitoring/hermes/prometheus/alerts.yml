@@ -1,0 +1,62 @@
+# Hermes alert rules for Ultra-AI
+# Thresholds mirror docs/PERFORMANCE_MONITORING_STRATEGY.md.
+groups:
+  - name: ultra-ai-availability
+    rules:
+      - alert: ApiDown
+        expr: up{job="ultra-ai-api"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: 'Ultra-AI API is down'
+          description: 'Prometheus cannot scrape the API /metrics endpoint for >1m.'
+
+      - alert: GatewayDown
+        expr: up{job="ultra-ai-gateway"} == 0
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: 'Ultra-AI Gateway is down'
+          description: 'The api-gateway metrics target has been unreachable for >2m.'
+
+  - name: ultra-ai-performance
+    rules:
+      - alert: HighResponseTime
+        expr: histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket[5m])) by (le)) > 0.5
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: 'High API response time (p95 > 500ms)'
+          description: 'p95 request latency has exceeded 500ms for 5 minutes.'
+
+      - alert: HighErrorRate
+        expr: sum(rate(errors_total[5m])) > 1
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: 'Elevated error rate'
+          description: 'errors_total rate has exceeded 1/s over the last 5 minutes.'
+
+  - name: ultra-ai-host
+    rules:
+      - alert: HostHighCpu
+        expr: 100 - (avg by (instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 80
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: 'Host CPU usage > 80%'
+          description: 'Sustained host CPU utilisation above 80% for 10 minutes.'
+
+      - alert: HostHighMemory
+        expr: (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100 > 85
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: 'Host memory usage > 85%'
+          description: 'Available memory has dropped below 15% for 10 minutes.'

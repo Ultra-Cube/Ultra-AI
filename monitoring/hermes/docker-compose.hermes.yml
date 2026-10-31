@@ -1,0 +1,103 @@
+# Hermes Monitoring Stack for Ultra-AI
+# -------------------------------------
+# A self-contained observability layer that scrapes the Ultra-AI API's
+# existing prom-client /metrics endpoint and /health/detailed probe.
+#
+# Services:
+#   - prometheus   :9090  metrics scrape + alert rules
+#   - grafana      :3001  dashboards (provisioned)
+#   - alertmanager :9093  alert routing
+#   - node-exporter:9100  host metrics
+#
+# Usage:
+#   docker compose -f monitoring/hermes/docker-compose.hermes.yml up -d
+#
+# The stack attaches to the same `ultra-ai-network` created by the root
+# docker-compose.yml so Prometheus can reach the api by service name. When
+# running the app outside compose, it falls back to host.docker.internal.
+version: '3.8'
+
+services:
+  prometheus:
+    image: prom/prometheus:v2.54.1
+    container_name: hermes-prometheus
+    restart: unless-stopped
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention.time=15d'
+      - '--web.enable-lifecycle'
+    ports:
+      - '9090:9090'
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./prometheus/alerts.yml:/etc/prometheus/alerts.yml:ro
+      - prometheus-data:/prometheus
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+    networks:
+      - ultra-ai-network
+      - hermes-network
+    healthcheck:
+      test: ['CMD', 'wget', '--spider', '-q', 'http://localhost:9090/-/healthy']
+      interval: 15s
+      timeout: 5s
+      retries: 5
+
+  alertmanager:
+    image: prom/alertmanager:v0.27.0
+    container_name: hermes-alertmanager
+    restart: unless-stopped
+    command:
+      - '--config.file=/etc/alertmanager/alertmanager.yml'
+    ports:
+      - '9093:9093'
+    volumes:
+      - ./alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml:ro
+      - alertmanager-data:/alertmanager
+    networks:
+      - hermes-network
+
+  node-exporter:
+    image: prom/node-exporter:v1.8.2
+    container_name: hermes-node-exporter
+    restart: unless-stopped
+    command:
+      - '--path.rootfs=/host'
+    pid: host
+    volumes:
+      - '/:/host:ro,rslave'
+    networks:
+      - hermes-network
+
+  grafana:
+    image: grafana/grafana:11.2.0
+    container_name: hermes-grafana
+    restart: unless-stopped
+    environment:
+      GF_SECURITY_ADMIN_USER: ${GRAFANA_ADMIN_USER:-admin}
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD:-admin}
+      GF_USERS_ALLOW_SIGN_UP: 'false'
+      GF_SERVER_ROOT_URL: '%(protocol)s://%(domain)s:%(http_port)s/'
+    ports:
+      - '3001:3000'
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./grafana/dashboards:/var/lib/grafana/dashboards:ro
+      - grafana-data:/var/lib/grafana
+    depends_on:
+      - prometheus
+    networks:
+      - hermes-network
+
+networks:
+  ultra-ai-network:
+    external: true
+    name: ultra-ai-network
+  hermes-network:
+    driver: bridge
+
+volumes:
+  prometheus-data:
+  alertmanager-data:
+  grafana-data:

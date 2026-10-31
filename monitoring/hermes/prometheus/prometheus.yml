@@ -1,0 +1,49 @@
+# Hermes / Prometheus scrape configuration for Ultra-AI
+#
+# The api package exposes prom-client metrics at /metrics on the canonical
+# port 4000 (see packages/api/src/services/monitoring). The gateway exposes
+# /health on 20129. Targets use service names on ultra-ai-network first and
+# fall back to host.docker.internal for host-run processes.
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  external_labels:
+    monitor: hermes
+    stack: ultra-ai
+
+rule_files:
+  - /etc/prometheus/alerts.yml
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets: ['alertmanager:9093']
+
+scrape_configs:
+  - job_name: prometheus
+    static_configs:
+      - targets: ['localhost:9090']
+
+  - job_name: ultra-ai-api
+    metrics_path: /metrics
+    scrape_interval: 10s
+    static_configs:
+      - targets: ['api:4000', 'host.docker.internal:4000']
+        labels:
+          service: api
+          component: core
+
+  - job_name: ultra-ai-gateway
+    metrics_path: /metrics
+    scrape_interval: 15s
+    static_configs:
+      - targets: ['api-gateway:20129', 'host.docker.internal:20129']
+        labels:
+          service: gateway
+          component: routing
+
+  - job_name: node-exporter
+    static_configs:
+      - targets: ['node-exporter:9100']
+        labels:
+          service: host
