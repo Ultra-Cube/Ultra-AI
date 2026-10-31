@@ -49,6 +49,7 @@ import { AuditLoggingService } from './services/audit-logging';
 import { AdvancedSearchService } from './services/search';
 import { WebhookService } from './services/webhooks';
 import { ZeroAIStore } from './services/zeroai/zeroai-store';
+import { AgentStaffStore } from './services/agents/agent-staff-store';
 import workflowRoutes from './routes/workflows.routes';
 import { typeDefs, resolvers } from './graphql';
 import { AuthRequest, WorkspaceRecommendationRequest } from './types';
@@ -108,7 +109,11 @@ export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
   // Register tenant middleware (optional - extracts tenant context if available)
   const tenantMiddleware = createTenantMiddleware(tenantContextManager);
   app.addHook('preHandler', async (request, reply) => {
-    if (request.url.startsWith('/zeroai') || request.url.startsWith('/n8n')) {
+    if (
+      request.url.startsWith('/zeroai') ||
+      request.url.startsWith('/n8n') ||
+      request.url.startsWith('/agents')
+    ) {
       return;
     }
 
@@ -121,7 +126,11 @@ export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
 
   // Local ZeroAI routes remain usable without a PostgreSQL connection.
   app.addHook('preHandler', async (request, reply) => {
-    if (request.url.startsWith('/zeroai') || request.url.startsWith('/n8n')) {
+    if (
+      request.url.startsWith('/zeroai') ||
+      request.url.startsWith('/n8n') ||
+      request.url.startsWith('/agents')
+    ) {
       return;
     }
 
@@ -143,6 +152,7 @@ export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
   // Initialize webhook system
   const webhookService = new WebhookService(prisma);
   const zeroAIStore = new ZeroAIStore();
+  const agentStaffStore = new AgentStaffStore();
   const zeroAIBridgeScript = path.resolve(process.cwd(), '../../wsl-ai-stack/scripts/openclaw-bridge.sh');
 
   function buildLocalFallbackResponse(prompt: string, error: unknown): string {
@@ -790,6 +800,144 @@ export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
         output,
       };
     }
+  });
+
+  // ---------------------------------------------------------------------------
+  // Agent Staff Console — manage AI agents like staff: positions, task dispatch,
+  // reassignment, and a workload roster. Runs without a DB (JSON-backed store).
+  // ---------------------------------------------------------------------------
+  app.get('/agents', async () => {
+    return { agents: agentStaffStore.getAgents() };
+  });
+
+  app.get('/agents/roster', async () => {
+    return { roster: agentStaffStore.getRoster() };
+  });
+
+  app.get('/agents/tasks', async () => {
+    return { tasks: agentStaffStore.getTasks() };
+  });
+
+  app.post('/agents', async (request, reply) => {
+    const body = request.body as {
+      name?: string;
+      position?: { title?: string; department?: string; rank?: string };
+      capabilities?: string[];
+      model?: string;
+      avatar?: string;
+    };
+    if (!body?.name || !body.position?.title) {
+      reply.status(400);
+      return { error: 'name and position.title are required' };
+    }
+    const agent = agentStaffStore.hireAgent({
+      name: body.name.trim(),
+      position: {
+        title: body.position.title.trim(),
+        department: (body.position.department ?? 'General').trim(),
+        rank: (body.position.rank as 'lead' | 'senior' | 'standard' | 'trainee') ?? 'standard',
+      },
+      capabilities: body.capabilities,
+      model: body.model,
+      avatar: body.avatar,
+    });
+    reply.status(201);
+    return { agent };
+  });
+
+  app.patch('/agents/:id', async (request, reply) => {
+    const { id } = request.params as { id: string };
+    const body = request.body as Record<string, unknown>;
+    const agent = agentStaffStore.updateAgent(id, body);
+    if (!agent) {
+      reply.status(404);
+      return { error: 'agent not found' };
+    }
+    return { agent };
+  });
+
+  app.post('/agents/:id/position', async (request, reply) => {
+    const { id } = request.params as { id: string };
+    const body = request.body as { title?: string; department?: string; rank?: string };
+    if (!body?.title) {
+      reply.status(400);
+      return { error: 'title is required' };
+    }
+    const agent = agentStaffStore.setPosition(id, {
+      title: body.title.trim(),
+      department: (body.department ?? 'General').trim(),
+      rank: (body.rank as 'lead' | 'senior' | 'standard' | 'trainee') ?? 'standard',
+    });
+    if (!agent) {
+      reply.status(404);
+      return { error: 'agent not found' };
+    }
+    return { agent };
+  });
+
+  app.delete('/agents/:id', async (request, reply) => {
+    const { id } = request.params as { id: string };
+    const removed = agentStaffStore.removeAgent(id);
+    if (!removed) {
+      reply.status(404);
+      return { error: 'agent not found' };
+    }
+    return { removed: true };
+  });
+
+  app.post('/agents/:id/tasks', async (request, reply) => {
+    const { id } = request.params as { id: string };
+    const body = request.body as { title?: string; description?: string; priority?: string };
+    if (!body?.title) {
+      reply.status(400);
+      return { error: 'title is required' };
+    }
+    const task = agentStaffStore.assignTask({
+      title: body.title.trim(),
+      description: body.description,
+      agentId: id,
+      priority: body.priority as 'low' | 'normal' | 'high' | 'urgent' | undefined,
+    });
+    if (!task) {
+      reply.status(404);
+      return { error: 'agent not found' };
+    }
+    reply.status(201);
+    return { task };
+  });
+
+  app.post('/agents/tasks/:taskId/reassign', async (request, reply) => {
+    const { taskId } = request.params as { taskId: string };
+    const body = request.body as { agentId?: string };
+    if (!body?.agentId) {
+      reply.status(400);
+      return { error: 'agentId is required' };
+    }
+    const task = agentStaffStore.reassignTask(taskId, body.agentId);
+    if (!task) {
+      reply.status(404);
+      return { error: 'task or target agent not found' };
+    }
+    return { task };
+  });
+
+  app.patch('/agents/tasks/:taskId', async (request, reply) => {
+    const { taskId } = request.params as { taskId: string };
+    const body = request.body as { status?: string; result?: string };
+    if (!body?.status) {
+      reply.status(400);
+      return { error: 'status is required' };
+    }
+    const task = agentStaffStore.updateTaskStatus(
+      taskId,
+      body.status as 'queued' | 'in_progress' | 'done' | 'blocked',
+      body.result
+    );
+    if (!task) {
+      reply.status(404);
+      return { error: 'task not found' };
+    }
+    return { task };
   });
 
   app.post('/ai/workspace/recommend', async (request, reply) => {

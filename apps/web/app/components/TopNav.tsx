@@ -17,6 +17,7 @@ const LINKS = [
   { href: '/dashboard', label: 'Dashboard' },
   { href: '/gateway', label: 'Gateway' },
   { href: '/control-center', label: 'Control Center' },
+  { href: '/agents', label: 'Agents' },
   { href: '/zeroai', label: 'ZeroAI' },
   { href: '/hermes', label: 'Hermes' },
 ];
