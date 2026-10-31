@@ -18,6 +18,7 @@ const LINKS = [
   { href: '/gateway', label: 'Gateway' },
   { href: '/control-center', label: 'Control Center' },
   { href: '/zeroai', label: 'ZeroAI' },
+  { href: '/hermes', label: 'Hermes' },
 ];
 
 export default function TopNav() {

@@ -4,15 +4,18 @@
  */
 
 import { EventEmitter } from 'events';
-import { DesktopUIConfig } from './types';
+import { DesktopUIConfig, WebSurface } from './types';
 import { ControlPanel } from './control-panel';
 import { SystemTray } from './system-tray';
+import { WEB_SURFACES, surfaceUrl, getSurface } from './web-surfaces';
 
 export class DesktopUI extends EventEmitter {
   private config: DesktopUIConfig;
   private controlPanel: ControlPanel;
   private systemTray: SystemTray;
   private running: boolean = false;
+  private webBaseUrl: string;
+  private activeSurfaceId: string;
 
   constructor(config: Partial<DesktopUIConfig> = {}) {
     super();
@@ -26,8 +29,45 @@ export class DesktopUI extends EventEmitter {
       port: config.port || 3000,
     };
 
+    // The desktop shell embeds the web app's surfaces (dashboard, gateway,
+    // ZeroAI, Hermes monitoring) rather than reimplementing them.
+    this.webBaseUrl = `http://localhost:${this.config.port}`;
+    this.activeSurfaceId = 'dashboard';
+
     this.controlPanel = new ControlPanel(this.config);
     this.systemTray = new SystemTray(this.config);
+  }
+
+  /** All web surfaces the desktop app can open. */
+  getSurfaces(): WebSurface[] {
+    return [...WEB_SURFACES];
+  }
+
+  /** Resolve a surface id to its absolute URL on the running web app. */
+  getSurfaceUrl(id: string): string | null {
+    const surface = getSurface(id);
+    return surface ? surfaceUrl(surface, this.webBaseUrl) : null;
+  }
+
+  /**
+   * Open a web surface (e.g. 'hermes') in the desktop shell. Emits
+   * 'open-surface' with the resolved URL so the host window can load it.
+   */
+  openSurface(id: string): boolean {
+    const url = this.getSurfaceUrl(id);
+    if (!url) return false;
+    this.activeSurfaceId = id;
+    this.emit('open-surface', { id, url });
+    return true;
+  }
+
+  /** Convenience: jump straight to the Hermes monitoring view. */
+  openMonitoring(): boolean {
+    return this.openSurface('hermes');
+  }
+
+  getActiveSurfaceId(): string {
+    return this.activeSurfaceId;
   }
 
   async initialize(): Promise<void> {
