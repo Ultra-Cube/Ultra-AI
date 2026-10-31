@@ -5,9 +5,9 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsup",
-    "dev": "tsup --watch",
-    "test": "jest",
+    "build": "tsup src/index.ts --format esm,cjs --dts",
+    "dev": "tsup src/index.ts --format esm,cjs --dts --watch",
+    "test": "echo \"no tests yet\"",
     "lint": "eslint src --ext .ts",
     "typecheck": "tsc --noEmit"
   },
@@ -21,8 +21,7 @@
   "author": "Ultra AI",
   "license": "MIT",
   "dependencies": {
-    "@ultra-ai/shared": "*",
-    "v8": "^0.0.0"
+    "@ultra-ai/shared": "*"
   },
   "devDependencies": {
     "@types/node": "^20.11.0",

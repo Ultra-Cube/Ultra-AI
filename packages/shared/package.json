@@ -1,0 +1,8 @@
+{
+  "name": "@ultra-ai/shared",
+  "version": "0.1.0",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": { "build": "echo noop", "test": "echo no tests" },
+  "license": "MIT"
+}

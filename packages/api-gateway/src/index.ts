@@ -7,10 +7,11 @@ import { NineRouterBridge, NineRouterConfig } from './9router-bridge';
 import { AuthIntegration, AuthConfig, AuthContext } from './auth-integration';
 
 // Export auth integration types for external use
-export { AuthIntegration, AuthConfig, AuthContext };
+export type { AuthIntegration, AuthConfig, AuthContext };
 
 export class APIGateway {
   private port: number;
+  private server?: import('http').Server;
   private providers: Map<string, ProviderConfig>;
   private nineRouterBridge: NineRouterBridge;
   private useNineRouter: boolean;
@@ -174,19 +175,67 @@ export class APIGateway {
   }
 
   /**
-   * Start the gateway server
+   * Start the gateway HTTP server
    */
   async start(): Promise<void> {
-    console.log(`Starting API Gateway server on port ${this.port}`);
-    // TODO: Start Express server
+    if (this.server) {
+      return;
+    }
+
+    const express = (await import('express')).default;
+    const app = express();
+    app.use(express.json());
+
+    app.get('/health', (_req, res) => {
+      res.json({
+        status: 'ok',
+        usingNineRouter: this.useNineRouter,
+        port: this.port,
+        uptimeSeconds: Math.floor(process.uptime()),
+      });
+    });
+
+    app.get('/api/providers', (_req, res) => {
+      const providers = Array.from(this.providers.entries()).map(
+        ([id, config]) => ({ ...config, id })
+      );
+      res.json({ providers });
+    });
+
+    app.post('/api/providers', (req, res) => {
+      const { id, name, type, endpoint, models, credentials } = req.body ?? {};
+      if (!id || !name || !type || !endpoint) {
+        res.status(400).json({ error: 'Missing required fields' });
+        return;
+      }
+      this.providers.set(id, { id, name, type, endpoint, models: models ?? [], credentials: credentials ?? {} });
+      res.status(201).json({ status: 'created', id });
+    });
+
+    app.delete('/api/providers/:id', (req, res) => {
+      const deleted = this.providers.delete(req.params.id);
+      res.status(deleted ? 200 : 404).json({ status: deleted ? 'deleted' : 'not_found' });
+    });
+
+    this.server = app.listen(this.port, () => {
+      console.log(`API Gateway listening on port ${this.port}`);
+    });
+
+    await new Promise<void>((resolve) => {
+      this.server!.once('listening', resolve);
+    });
   }
 
   /**
    * Stop the gateway server
    */
   async stop(): Promise<void> {
-    console.log("Stopping API Gateway server");
-    // TODO: Stop Express server
+    if (!this.server) {
+      return;
+    }
+    await new Promise<void>((resolve) => this.server!.close(() => resolve()));
+    this.server = undefined;
+    console.log('API Gateway stopped');
   }
 
   /**

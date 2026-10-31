@@ -6,13 +6,14 @@
 import { EventEmitter } from 'events';
 import { ControlCenterConfig, SystemConfig, Service } from '../types';
 import * as os from 'os';
-import { CronJob } from 'node-cron';
+import * as cron from 'node-cron';
+import { ScheduledTask } from 'node-cron';
 
 export class SystemMonitor extends EventEmitter {
   private config: ControlCenterConfig;
   private systemConfig: SystemConfig;
   private monitoring: boolean = false;
-  private monitorJob?: CronJob;
+  private monitorJob?: ScheduledTask;
 
   constructor(config: ControlCenterConfig) {
     super();
@@ -38,11 +39,9 @@ export class SystemMonitor extends EventEmitter {
     this.monitoring = true;
     
     // Monitor every minute
-    this.monitorJob = new CronJob('* * * * *', async () => {
+    this.monitorJob = cron.schedule('* * * * *', async () => {
       await this.checkSystem();
     });
-    
-    this.monitorJob.start();
     console.log('System Monitor started');
   }
 
