@@ -63,11 +63,17 @@ runtime/
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+!.vscode/mcp.json
 .idea/
 *.swp
 *.swo
 *~
 .DS_Store
+
+# AI assistants (Claude, Cortex, etc.)
+.claude/
+.cortex/
+CLAUDE.md
 
 # Logs
 logs
