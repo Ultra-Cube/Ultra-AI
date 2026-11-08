@@ -43,7 +43,7 @@ Ultra-AI is a full-stack AI platform monorepo: `apps/` (web frontends), `package
 
 ## Agent capabilities (installed from mdskills.ai)
 
-- Skills: `.devin/skills/` — ~780 `SKILL.md` packs (project) and `~/.agents/skills/` (global). Invoke with `/skill-name` or auto-trigger.
+- Skills: `.devin/skills/` — ~2,260 `SKILL.md` packs (mdskills.ai catalog + 17 GitHub forks merged) (project) and `~/.agents/skills/` (global). Invoke with `/skill-name` or auto-trigger.
 - Subagents: `.devin/agents/` — backend-architect, cloud-architect, frontend-developer, kubernetes-architect, performance-engineer, security-auditor, tdd-orchestrator, test-automator.
 - Rules: `.cursor/rules/*.mdc` — ~65 glob/description-scoped rules (TypeScript, Next.js, Node/Express, Vitest, security, testing, ...).
 - MCP servers (`.devin/mcp_config.json` + `.devin/mcp_config.local.json`):
