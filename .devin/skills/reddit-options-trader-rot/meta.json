@@ -1,0 +1,157 @@
+{
+  "slug": "reddit-options-trader-rot",
+  "name": "Reddit Options Trader (ROT)",
+  "description": "A 165K-line financial intelligence platform that turns Reddit into structured options trade ideas. Built solo in 9 days. The first financial intelligence MCP server in existence. Connect Claude, Cursor, or any MCP-compatible AI to live trading signals, sentiment analysis, and unusual options activity — in one line of config. ROT is the world's first financial intelligence MCP server. No other MCP ",
+  "owner": "Mattbusel",
+  "repo": "Reddit-Options-Trader-ROT-",
+  "skill_path": "README.md",
+  "github_url": "https://github.com/Mattbusel/Reddit-Options-Trader-ROT-",
+  "weekly_installs": 0,
+  "downloads": 7,
+  "tags": [
+    "ai",
+    "algorithmic-trading",
+    "awesome-mcp-servers",
+    "finance",
+    "financial-data",
+    "fintech",
+    "market-intelligence",
+    "market-sentiment",
+    "mcp",
+    "cursor",
+    "security",
+    "trading"
+  ],
+  "platforms": [
+    "claude-code",
+    "claude-desktop",
+    "cursor",
+    "vscode-copilot",
+    "windsurf",
+    "continue-dev",
+    "codex",
+    "gemini-cli",
+    "amp",
+    "roo-code",
+    "goose",
+    "opencode",
+    "trae",
+    "qodo",
+    "command-code"
+  ],
+  "artifact_type": "skill_pack",
+  "format_standard": "generic",
+  "skill_type": "skill",
+  "github_stars": 4,
+  "github_forks": 1,
+  "license": "MIT",
+  "image_url": null,
+  "is_paid": false,
+  "price_amount": null,
+  "price_currency": "usd",
+  "purchase_url": null,
+  "updated_at": "2026-02-24T12:56:01.700552+00:00",
+  "category": {
+    "slug": "finance-commerce",
+    "name": "Finance & Commerce"
+  },
+  "clients": [
+    {
+      "client_slug": "vscode-copilot",
+      "client_name": "VS Code Copilot",
+      "install_instructions": "npx mdskills install Mattbusel/reddit-options-trader-rot",
+      "is_primary": false
+    },
+    {
+      "client_slug": "cursor",
+      "client_name": "Cursor",
+      "install_instructions": "npx mdskills install Mattbusel/reddit-options-trader-rot",
+      "is_primary": false
+    },
+    {
+      "client_slug": "trae",
+      "client_name": "TRAE",
+      "install_instructions": "npx mdskills install Mattbusel/reddit-options-trader-rot",
+      "is_primary": false
+    },
+    {
+      "client_slug": "command-code",
+      "client_name": "Command Code",
+      "install_instructions": "npx mdskills install Mattbusel/reddit-options-trader-rot",
+      "is_primary": false
+    },
+    {
+      "client_slug": "claude-desktop",
+      "client_name": "Claude Desktop",
+      "install_instructions": "npx mdskills install Mattbusel/reddit-options-trader-rot",
+      "is_primary": false
+    },
+    {
+      "client_slug": "continue-dev",
+      "client_name": "Continue",
+      "install_instructions": "npx mdskills install Mattbusel/reddit-options-trader-rot",
+      "is_primary": false
+    },
+    {
+      "client_slug": "amp",
+      "client_name": "Amp",
+      "install_instructions": "npx mdskills install Mattbusel/reddit-options-trader-rot",
+      "is_primary": false
+    },
+    {
+      "client_slug": "opencode",
+      "client_name": "OpenCode",
+      "install_instructions": "npx mdskills install Mattbusel/reddit-options-trader-rot",
+      "is_primary": false
+    },
+    {
+      "client_slug": "claude-code",
+      "client_name": "Claude Code",
+      "install_instructions": "npx mdskills install Mattbusel/reddit-options-trader-rot",
+      "is_primary": true
+    },
+    {
+      "client_slug": "windsurf",
+      "client_name": "Windsurf",
+      "install_instructions": "npx mdskills install Mattbusel/reddit-options-trader-rot",
+      "is_primary": false
+    },
+    {
+      "client_slug": "codex",
+      "client_name": "OpenAI Codex",
+      "install_instructions": "npx mdskills install Mattbusel/reddit-options-trader-rot",
+      "is_primary": false
+    },
+    {
+      "client_slug": "gemini-cli",
+      "client_name": "Gemini CLI",
+      "install_instructions": "npx mdskills install Mattbusel/reddit-options-trader-rot",
+      "is_primary": false
+    },
+    {
+      "client_slug": "goose",
+      "client_name": "Goose",
+      "install_instructions": "npx mdskills install Mattbusel/reddit-options-trader-rot",
+      "is_primary": false
+    },
+    {
+      "client_slug": "qodo",
+      "client_name": "Qodo",
+      "install_instructions": "npx mdskills install Mattbusel/reddit-options-trader-rot",
+      "is_primary": false
+    },
+    {
+      "client_slug": "roo-code",
+      "client_name": "Roo Code",
+      "install_instructions": "npx mdskills install Mattbusel/reddit-options-trader-rot",
+      "is_primary": false
+    }
+  ],
+  "permissions": {
+    "filesystem_read": true,
+    "filesystem_write": false,
+    "shell_exec": true,
+    "network_access": true,
+    "git_write": false
+  }
+}

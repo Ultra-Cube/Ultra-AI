@@ -1,0 +1,55 @@
+{
+  "slug": "context-memory",
+  "name": "Context Memory",
+  "description": null,
+  "owner": "ErebusEnigma",
+  "repo": "context-memory",
+  "skill_path": "skills/context-memory",
+  "github_url": "https://github.com/ErebusEnigma/context-memory",
+  "weekly_installs": 0,
+  "downloads": 1,
+  "tags": [
+    "claude-code",
+    "context",
+    "full-text-search",
+    "memory",
+    "plugin",
+    "sqlite",
+    "python",
+    "github"
+  ],
+  "platforms": [
+    "requires-python->=-3.8-with-sqlite3-fts5-support-(included-in-standard-library).-mcp-server-requires-python->=-3.10.-claude-code-cli-only."
+  ],
+  "artifact_type": "skill_pack",
+  "format_standard": "skill_md",
+  "skill_type": "hybrid",
+  "github_stars": 1,
+  "github_forks": 1,
+  "license": "MIT",
+  "image_url": null,
+  "is_paid": false,
+  "price_amount": null,
+  "price_currency": "usd",
+  "purchase_url": null,
+  "updated_at": "2026-02-24T13:01:55.516441+00:00",
+  "category": {
+    "slug": "databases",
+    "name": "Databases"
+  },
+  "clients": [
+    {
+      "client_slug": "claude-code",
+      "client_name": "Claude Code",
+      "install_instructions": "npx mdskills install ErebusEnigma/context-memory",
+      "is_primary": true
+    }
+  ],
+  "permissions": {
+    "filesystem_read": true,
+    "filesystem_write": true,
+    "shell_exec": true,
+    "network_access": true,
+    "git_write": false
+  }
+}

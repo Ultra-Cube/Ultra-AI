@@ -1,0 +1,159 @@
+{
+  "slug": "algo-trading-skills",
+  "name": "Algo Trading Skills",
+  "description": "501 algorithmic trading skills · 16 engineering domains · 5 regulatory & exchange frameworks · 501 working reference implementations backed by 20,291 unit tests · agentskills.io standard · Works with Claude Code, GitHub Copilot, Codex CLI, Cursor, Gemini CLI and any tool that reads SKILL.md · Apache 2.0 Get Started · What's Inside · How It's Verified · Frameworks & Standards · Platforms · Contribu",
+  "owner": "HimanshuJ16",
+  "repo": "Algo-Trading-Skills",
+  "skill_path": "README.md",
+  "github_url": "https://github.com/HimanshuJ16/Algo-Trading-Skills",
+  "weekly_installs": 0,
+  "downloads": 0,
+  "tags": [
+    "agentskills",
+    "ai-agents",
+    "algorithmic-trading",
+    "backtesting",
+    "financial-ml",
+    "python",
+    "quant-finance",
+    "quantitative-trading",
+    "regulatory-compliance",
+    "risk-management",
+    "trading",
+    "github",
+    "cursor",
+    "gemini"
+  ],
+  "platforms": [
+    "claude-code",
+    "claude-desktop",
+    "cursor",
+    "vscode-copilot",
+    "windsurf",
+    "continue-dev",
+    "codex",
+    "gemini-cli",
+    "amp",
+    "roo-code",
+    "goose",
+    "opencode",
+    "trae",
+    "qodo",
+    "command-code"
+  ],
+  "artifact_type": "skill_pack",
+  "format_standard": "generic",
+  "skill_type": "skill",
+  "github_stars": 2,
+  "github_forks": 0,
+  "license": "Apache-2.0",
+  "image_url": null,
+  "is_paid": false,
+  "price_amount": null,
+  "price_currency": "usd",
+  "purchase_url": null,
+  "updated_at": "2026-09-06T03:26:27.300986+00:00",
+  "category": {
+    "slug": "testing-qa",
+    "name": "Testing & QA"
+  },
+  "clients": [
+    {
+      "client_slug": "amp",
+      "client_name": "Amp",
+      "install_instructions": "npx mdskills install HimanshuJ16/algo-trading-skills",
+      "is_primary": false
+    },
+    {
+      "client_slug": "claude-code",
+      "client_name": "Claude Code",
+      "install_instructions": "npx mdskills install HimanshuJ16/algo-trading-skills",
+      "is_primary": true
+    },
+    {
+      "client_slug": "codex",
+      "client_name": "OpenAI Codex",
+      "install_instructions": "npx mdskills install HimanshuJ16/algo-trading-skills",
+      "is_primary": false
+    },
+    {
+      "client_slug": "gemini-cli",
+      "client_name": "Gemini CLI",
+      "install_instructions": "npx mdskills install HimanshuJ16/algo-trading-skills",
+      "is_primary": false
+    },
+    {
+      "client_slug": "vscode-copilot",
+      "client_name": "VS Code Copilot",
+      "install_instructions": "npx mdskills install HimanshuJ16/algo-trading-skills",
+      "is_primary": false
+    },
+    {
+      "client_slug": "claude-desktop",
+      "client_name": "Claude Desktop",
+      "install_instructions": "npx mdskills install HimanshuJ16/algo-trading-skills",
+      "is_primary": false
+    },
+    {
+      "client_slug": "goose",
+      "client_name": "Goose",
+      "install_instructions": "npx mdskills install HimanshuJ16/algo-trading-skills",
+      "is_primary": false
+    },
+    {
+      "client_slug": "trae",
+      "client_name": "TRAE",
+      "install_instructions": "npx mdskills install HimanshuJ16/algo-trading-skills",
+      "is_primary": false
+    },
+    {
+      "client_slug": "opencode",
+      "client_name": "OpenCode",
+      "install_instructions": "npx mdskills install HimanshuJ16/algo-trading-skills",
+      "is_primary": false
+    },
+    {
+      "client_slug": "cursor",
+      "client_name": "Cursor",
+      "install_instructions": "npx mdskills install HimanshuJ16/algo-trading-skills",
+      "is_primary": false
+    },
+    {
+      "client_slug": "roo-code",
+      "client_name": "Roo Code",
+      "install_instructions": "npx mdskills install HimanshuJ16/algo-trading-skills",
+      "is_primary": false
+    },
+    {
+      "client_slug": "windsurf",
+      "client_name": "Windsurf",
+      "install_instructions": "npx mdskills install HimanshuJ16/algo-trading-skills",
+      "is_primary": false
+    },
+    {
+      "client_slug": "qodo",
+      "client_name": "Qodo",
+      "install_instructions": "npx mdskills install HimanshuJ16/algo-trading-skills",
+      "is_primary": false
+    },
+    {
+      "client_slug": "continue-dev",
+      "client_name": "Continue",
+      "install_instructions": "npx mdskills install HimanshuJ16/algo-trading-skills",
+      "is_primary": false
+    },
+    {
+      "client_slug": "command-code",
+      "client_name": "Command Code",
+      "install_instructions": "npx mdskills install HimanshuJ16/algo-trading-skills",
+      "is_primary": false
+    }
+  ],
+  "permissions": {
+    "filesystem_read": true,
+    "filesystem_write": true,
+    "shell_exec": true,
+    "network_access": true,
+    "git_write": false
+  }
+}

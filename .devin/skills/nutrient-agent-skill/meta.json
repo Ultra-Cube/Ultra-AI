@@ -1,0 +1,154 @@
+{
+  "slug": "nutrient-agent-skill",
+  "name": "Nutrient Document Processing — Agent Skill",
+  "description": "Give your AI agent PDF superpowers — in one command. Convert, extract, OCR, redact, sign, and fill documents from any coding agent. Quickstart • Workflows • Features • 40+ Agents • MCP &amp; OpenClaw 1. Get a free API key → 2. Install & configure: 3. Ask your agent: That's it. Your agent now has full document processing capabilities — no MCP setup required. Works out of the box with 40+ AI coding ",
+  "owner": "PSPDFKit-labs",
+  "repo": "nutrient-agent-skill",
+  "skill_path": "README.md",
+  "github_url": "https://github.com/PSPDFKit-labs/nutrient-agent-skill",
+  "weekly_installs": 1,
+  "downloads": 7,
+  "tags": [
+    "ai-agents",
+    "claude-code",
+    "codex",
+    "cursor",
+    "document-processing",
+    "gemini-cli",
+    "mcp",
+    "nutrient",
+    "pdf"
+  ],
+  "platforms": [
+    "claude-code",
+    "claude-desktop",
+    "cursor",
+    "vscode-copilot",
+    "windsurf",
+    "continue-dev",
+    "codex",
+    "gemini-cli",
+    "amp",
+    "roo-code",
+    "goose",
+    "opencode",
+    "trae",
+    "qodo",
+    "command-code"
+  ],
+  "artifact_type": "skill_pack",
+  "format_standard": "generic",
+  "skill_type": "skill",
+  "github_stars": 0,
+  "github_forks": 0,
+  "license": null,
+  "image_url": null,
+  "is_paid": false,
+  "price_amount": null,
+  "price_currency": "usd",
+  "purchase_url": null,
+  "updated_at": "2026-02-24T06:15:02.843758+00:00",
+  "category": {
+    "slug": "documents",
+    "name": "Documents"
+  },
+  "clients": [
+    {
+      "client_slug": "claude-desktop",
+      "client_name": "Claude Desktop",
+      "install_instructions": "npx mdskills install PSPDFKit-labs/nutrient-agent-skill",
+      "is_primary": false
+    },
+    {
+      "client_slug": "vscode-copilot",
+      "client_name": "VS Code Copilot",
+      "install_instructions": "npx mdskills install PSPDFKit-labs/nutrient-agent-skill",
+      "is_primary": false
+    },
+    {
+      "client_slug": "trae",
+      "client_name": "TRAE",
+      "install_instructions": "npx mdskills install PSPDFKit-labs/nutrient-agent-skill",
+      "is_primary": false
+    },
+    {
+      "client_slug": "qodo",
+      "client_name": "Qodo",
+      "install_instructions": "npx mdskills install PSPDFKit-labs/nutrient-agent-skill",
+      "is_primary": false
+    },
+    {
+      "client_slug": "command-code",
+      "client_name": "Command Code",
+      "install_instructions": "npx mdskills install PSPDFKit-labs/nutrient-agent-skill",
+      "is_primary": false
+    },
+    {
+      "client_slug": "windsurf",
+      "client_name": "Windsurf",
+      "install_instructions": "npx mdskills install PSPDFKit-labs/nutrient-agent-skill",
+      "is_primary": false
+    },
+    {
+      "client_slug": "claude-code",
+      "client_name": "Claude Code",
+      "install_instructions": "npx mdskills install PSPDFKit-labs/nutrient-agent-skill",
+      "is_primary": true
+    },
+    {
+      "client_slug": "cursor",
+      "client_name": "Cursor",
+      "install_instructions": "npx mdskills install PSPDFKit-labs/nutrient-agent-skill",
+      "is_primary": false
+    },
+    {
+      "client_slug": "continue-dev",
+      "client_name": "Continue",
+      "install_instructions": "npx mdskills install PSPDFKit-labs/nutrient-agent-skill",
+      "is_primary": false
+    },
+    {
+      "client_slug": "codex",
+      "client_name": "OpenAI Codex",
+      "install_instructions": "npx mdskills install PSPDFKit-labs/nutrient-agent-skill",
+      "is_primary": false
+    },
+    {
+      "client_slug": "gemini-cli",
+      "client_name": "Gemini CLI",
+      "install_instructions": "npx mdskills install PSPDFKit-labs/nutrient-agent-skill",
+      "is_primary": false
+    },
+    {
+      "client_slug": "amp",
+      "client_name": "Amp",
+      "install_instructions": "npx mdskills install PSPDFKit-labs/nutrient-agent-skill",
+      "is_primary": false
+    },
+    {
+      "client_slug": "roo-code",
+      "client_name": "Roo Code",
+      "install_instructions": "npx mdskills install PSPDFKit-labs/nutrient-agent-skill",
+      "is_primary": false
+    },
+    {
+      "client_slug": "opencode",
+      "client_name": "OpenCode",
+      "install_instructions": "npx mdskills install PSPDFKit-labs/nutrient-agent-skill",
+      "is_primary": false
+    },
+    {
+      "client_slug": "goose",
+      "client_name": "Goose",
+      "install_instructions": "npx mdskills install PSPDFKit-labs/nutrient-agent-skill",
+      "is_primary": false
+    }
+  ],
+  "permissions": {
+    "filesystem_read": true,
+    "filesystem_write": false,
+    "shell_exec": true,
+    "network_access": true,
+    "git_write": false
+  }
+}

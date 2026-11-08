@@ -1,0 +1,166 @@
+{
+  "slug": "seo-aeo-best-practices",
+  "name": "SEO Aeo Best Practices",
+  "description": "SEO and AEO (Answer Engine Optimization) best practices including EEAT principles, structured data, and technical SEO. Use when implementing metadata, sitemaps, structured data, or optimizing content for search engines and AI assistants.",
+  "owner": "sanity-io",
+  "repo": "agent-toolkit",
+  "skill_path": "skills/seo-aeo-best-practices",
+  "github_url": "https://github.com/sanity-io/agent-toolkit/tree/main/skills/seo-aeo-best-practices",
+  "weekly_installs": 0,
+  "downloads": 9,
+  "tags": [
+    "agent-rules",
+    "ai-rules",
+    "claude-code",
+    "cursor-ai",
+    "mcp",
+    "vscode",
+    "cursor"
+  ],
+  "platforms": [
+    "claude-code",
+    "claude-desktop",
+    "cursor",
+    "vscode-copilot",
+    "windsurf",
+    "continue-dev",
+    "codex",
+    "gemini-cli",
+    "amp",
+    "roo-code",
+    "goose",
+    "opencode",
+    "trae",
+    "qodo",
+    "command-code",
+    "chatgpt",
+    "replit"
+  ],
+  "artifact_type": "skill_pack",
+  "format_standard": "skill_md",
+  "skill_type": "hybrid",
+  "github_stars": 88,
+  "github_forks": 5,
+  "license": "MIT",
+  "image_url": null,
+  "is_paid": false,
+  "price_amount": null,
+  "price_currency": "usd",
+  "purchase_url": null,
+  "updated_at": "2026-02-24T06:09:08.630356+00:00",
+  "category": {
+    "slug": "git-workflow",
+    "name": "Git & Workflow"
+  },
+  "clients": [
+    {
+      "client_slug": "claude-code",
+      "client_name": "Claude Code",
+      "install_instructions": "npx mdskills install sanity-io/seo-aeo-best-practices",
+      "is_primary": true
+    },
+    {
+      "client_slug": "windsurf",
+      "client_name": "Windsurf",
+      "install_instructions": "npx mdskills install sanity-io/seo-aeo-best-practices",
+      "is_primary": false
+    },
+    {
+      "client_slug": "command-code",
+      "client_name": "Command Code",
+      "install_instructions": "npx mdskills install sanity-io/seo-aeo-best-practices",
+      "is_primary": false
+    },
+    {
+      "client_slug": "replit",
+      "client_name": "Replit Agent",
+      "install_instructions": "npx mdskills install sanity-io/seo-aeo-best-practices",
+      "is_primary": false
+    },
+    {
+      "client_slug": "roo-code",
+      "client_name": "Roo Code",
+      "install_instructions": "npx mdskills install sanity-io/seo-aeo-best-practices",
+      "is_primary": false
+    },
+    {
+      "client_slug": "cursor",
+      "client_name": "Cursor",
+      "install_instructions": "npx mdskills install sanity-io/seo-aeo-best-practices",
+      "is_primary": false
+    },
+    {
+      "client_slug": "vscode-copilot",
+      "client_name": "VS Code Copilot",
+      "install_instructions": "npx mdskills install sanity-io/seo-aeo-best-practices",
+      "is_primary": false
+    },
+    {
+      "client_slug": "continue-dev",
+      "client_name": "Continue",
+      "install_instructions": "npx mdskills install sanity-io/seo-aeo-best-practices",
+      "is_primary": false
+    },
+    {
+      "client_slug": "gemini-cli",
+      "client_name": "Gemini CLI",
+      "install_instructions": "npx mdskills install sanity-io/seo-aeo-best-practices",
+      "is_primary": false
+    },
+    {
+      "client_slug": "qodo",
+      "client_name": "Qodo",
+      "install_instructions": "npx mdskills install sanity-io/seo-aeo-best-practices",
+      "is_primary": false
+    },
+    {
+      "client_slug": "amp",
+      "client_name": "Amp",
+      "install_instructions": "npx mdskills install sanity-io/seo-aeo-best-practices",
+      "is_primary": false
+    },
+    {
+      "client_slug": "goose",
+      "client_name": "Goose",
+      "install_instructions": "npx mdskills install sanity-io/seo-aeo-best-practices",
+      "is_primary": false
+    },
+    {
+      "client_slug": "chatgpt",
+      "client_name": "ChatGPT",
+      "install_instructions": "npx mdskills install sanity-io/seo-aeo-best-practices",
+      "is_primary": false
+    },
+    {
+      "client_slug": "opencode",
+      "client_name": "OpenCode",
+      "install_instructions": "npx mdskills install sanity-io/seo-aeo-best-practices",
+      "is_primary": false
+    },
+    {
+      "client_slug": "trae",
+      "client_name": "TRAE",
+      "install_instructions": "npx mdskills install sanity-io/seo-aeo-best-practices",
+      "is_primary": false
+    },
+    {
+      "client_slug": "claude-desktop",
+      "client_name": "Claude Desktop",
+      "install_instructions": "npx mdskills install sanity-io/seo-aeo-best-practices",
+      "is_primary": false
+    },
+    {
+      "client_slug": "codex",
+      "client_name": "OpenAI Codex",
+      "install_instructions": "npx mdskills install sanity-io/seo-aeo-best-practices",
+      "is_primary": false
+    }
+  ],
+  "permissions": {
+    "filesystem_read": true,
+    "filesystem_write": false,
+    "shell_exec": false,
+    "network_access": false,
+    "git_write": false
+  }
+}

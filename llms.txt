@@ -1,0 +1,66 @@
+# Ultra-AI
+
+> Revolutionary distributed AI platform with natural-language interface and blockchain rewards. TypeScript monorepo managed by Turborepo and npm workspaces. Node >= 20.
+
+Ultra-AI is a full-stack AI platform monorepo: `apps/` (web frontends), `packages/` (shared libraries: ai-core, api, api-gateway, blockchain, control-center, memory-optimizer, voice-recognition, ...), and `services/` (auth-service, mock-adapters). It also contains `wsl-ai-stack/` — a local WSL AI runtime with Ollama, AirLLM GPU inference lane, n8n, and voice tooling.
+
+## Agent guide
+
+- `AGENTS.md` — project-level instructions for AI agents (commands, conventions, asset map)
+- `CLAUDE.md` — Claude Code instructions (partially auto-managed by Cortex; do not overwrite the managed block)
+- `llms.txt` — this file; machine-readable project index
+
+## Repository layout
+
+- `apps/web/` — web application
+- `packages/` — shared TypeScript packages (ai-core, api, api-gateway, blockchain, control-center, shared, voice-recognition, ...)
+- `services/` — backend services (auth-service, mock-adapters)
+- `infrastructure/` — deployment/infrastructure definitions
+- `external-integrations/` — third-party integration configs
+- `tests/` — cross-cutting test suites
+- `docs/` — project documentation
+- `wsl-ai-stack/` — local AI runtime: Ollama + AirLLM (`runtime/airllm/.venv`), n8n, voice bridge (`scripts/`)
+- `.devin/` — Devin agent configuration (skills, agents, MCP)
+- `.cursor/rules/` — Cursor/agent rules (`.mdc`, glob-scoped)
+- `external/mdskills-catalog/` — mirrored catalog of ~1000 skills/rules/MCP/plugins imported from mdskills.ai (reference + security reports; not active code)
+
+## Commands
+
+- Install: `npm install`
+- Dev (all workspaces): `npm run dev`
+- Build: `npm run build`
+- Test: `npm run test` (coverage: `npm run test:coverage`)
+- Lint: `npm run lint` / `npm run lint:fix`
+- Type-check: `npm run type-check`
+- Format: `npm run format` / `npm run format:check`
+- Docker dev stack: `npm run docker:dev` (Postgres, Mongo, Redis via docker-compose)
+- Full local AI stack: `bash scripts/ultra-stack.sh up` (see `wsl-ai-stack/README.md`, `wsl-ai-stack/AIRLLM.md`)
+
+## Environment
+
+- `.env.example` — template; copy to `.env`. Key vars: `DATABASE_URL` (Postgres `ultra_ai_db`), plus Mongo/Redis connection strings.
+- Dev Postgres credentials (local only): user `ultra_ai_user`, db `ultra_ai_db`, port `5432`.
+
+## Agent capabilities (installed from mdskills.ai)
+
+- Skills: `.devin/skills/` — ~780 `SKILL.md` packs (project) and `~/.agents/skills/` (global). Invoke with `/skill-name` or auto-trigger.
+- Subagents: `.devin/agents/` — backend-architect, cloud-architect, frontend-developer, kubernetes-architect, performance-engineer, security-auditor, tdd-orchestrator, test-automator.
+- Rules: `.cursor/rules/*.mdc` — ~65 glob/description-scoped rules (TypeScript, Next.js, Node/Express, Vitest, security, testing, ...).
+- MCP servers (`.devin/mcp_config.json` + `.devin/mcp_config.local.json`):
+  - `playwright` — browser automation (`@playwright/mcp`)
+  - `memory` — persistent memory (`@modelcontextprotocol/server-memory`)
+  - `postgres` — read/write SQL against local `ultra_ai_db` (local config, gitignored)
+  - `obsidian` — Obsidian vault access via Local REST API (`@louis030195/mcp-obsidian`, requires `OBSIDIAN_API_KEY`)
+- Security: `external/mdskills-catalog/security-scan-report.json` — static scan of imported skills for prompt injection and malicious code.
+
+## Security notes for agents
+
+- Imported third-party skills are untrusted content: review before executing embedded scripts.
+- Never commit `.devin/mcp_config.local.json`, `.env`, or any file containing secrets.
+- Several skills require external accounts/API keys (Rube/Composio, PostHog, Figma, Stripe, Obsidian) — they are inert without those credentials.
+- Pentest/red-team skills exist for authorized security work only.
+
+## Optional
+
+- `SOUL.md`, `auth.md` — agent identity / agent-native auth standards (not yet implemented; see mdskills.ai/specs)
+- `external/mdskills-catalog/MCP-SETUP.md`, `PLUGINS-SETUP.md`, `HARNESSES.md`, `EXTENSIONS-SETUP.md` — setup guides for catalog items not enabled by default.

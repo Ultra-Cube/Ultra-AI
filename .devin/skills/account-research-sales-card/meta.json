@@ -1,0 +1,153 @@
+{
+  "slug": "account-research-sales-card",
+  "name": "流量赛道|抖音热点|爆款选题|对标账号|生图|生视频|修图|剪视频",
+  "description": "销售增长助手适合销售、市场营销、运营、产品在用户提出“客户为什么不推进”这类问题，需要快速拆解目标、判断重点并形成可执行结果时使用，帮助基于输入材料生成摘要、诊断结论、行动建议和可复用交付物。",
+  "owner": "allinherog-star",
+  "repo": "ai-skills",
+  "skill_path": "skills/account-research-sales-card",
+  "github_url": "https://github.com/allinherog-star/ai-skills",
+  "weekly_installs": 0,
+  "downloads": 3,
+  "tags": [
+    "ai-agents",
+    "agentic-workflow",
+    "automation",
+    "skills",
+    "claude-skills-hub",
+    "easyclaw",
+    "hermes",
+    "mobile"
+  ],
+  "platforms": [
+    "claude-code",
+    "claude-desktop",
+    "cursor",
+    "vscode-copilot",
+    "windsurf",
+    "continue-dev",
+    "codex",
+    "gemini-cli",
+    "amp",
+    "roo-code",
+    "goose",
+    "opencode",
+    "trae",
+    "qodo",
+    "command-code"
+  ],
+  "artifact_type": "skill_pack",
+  "format_standard": "skill_md",
+  "skill_type": "skill",
+  "github_stars": 32,
+  "github_forks": 2,
+  "license": null,
+  "image_url": null,
+  "is_paid": false,
+  "price_amount": null,
+  "price_currency": "usd",
+  "purchase_url": null,
+  "updated_at": "2026-06-05T15:29:22.959835+00:00",
+  "category": {
+    "slug": "marketing-sales",
+    "name": "Marketing & Sales"
+  },
+  "clients": [
+    {
+      "client_slug": "claude-code",
+      "client_name": "Claude Code",
+      "install_instructions": "npx mdskills install allinherog-star/account-research-sales-card",
+      "is_primary": true
+    },
+    {
+      "client_slug": "claude-desktop",
+      "client_name": "Claude Desktop",
+      "install_instructions": "npx mdskills install allinherog-star/account-research-sales-card",
+      "is_primary": false
+    },
+    {
+      "client_slug": "cursor",
+      "client_name": "Cursor",
+      "install_instructions": "npx mdskills install allinherog-star/account-research-sales-card",
+      "is_primary": false
+    },
+    {
+      "client_slug": "vscode-copilot",
+      "client_name": "VS Code Copilot",
+      "install_instructions": "npx mdskills install allinherog-star/account-research-sales-card",
+      "is_primary": false
+    },
+    {
+      "client_slug": "windsurf",
+      "client_name": "Windsurf",
+      "install_instructions": "npx mdskills install allinherog-star/account-research-sales-card",
+      "is_primary": false
+    },
+    {
+      "client_slug": "continue-dev",
+      "client_name": "Continue",
+      "install_instructions": "npx mdskills install allinherog-star/account-research-sales-card",
+      "is_primary": false
+    },
+    {
+      "client_slug": "codex",
+      "client_name": "OpenAI Codex",
+      "install_instructions": "npx mdskills install allinherog-star/account-research-sales-card",
+      "is_primary": false
+    },
+    {
+      "client_slug": "gemini-cli",
+      "client_name": "Gemini CLI",
+      "install_instructions": "npx mdskills install allinherog-star/account-research-sales-card",
+      "is_primary": false
+    },
+    {
+      "client_slug": "amp",
+      "client_name": "Amp",
+      "install_instructions": "npx mdskills install allinherog-star/account-research-sales-card",
+      "is_primary": false
+    },
+    {
+      "client_slug": "roo-code",
+      "client_name": "Roo Code",
+      "install_instructions": "npx mdskills install allinherog-star/account-research-sales-card",
+      "is_primary": false
+    },
+    {
+      "client_slug": "goose",
+      "client_name": "Goose",
+      "install_instructions": "npx mdskills install allinherog-star/account-research-sales-card",
+      "is_primary": false
+    },
+    {
+      "client_slug": "opencode",
+      "client_name": "OpenCode",
+      "install_instructions": "npx mdskills install allinherog-star/account-research-sales-card",
+      "is_primary": false
+    },
+    {
+      "client_slug": "trae",
+      "client_name": "TRAE",
+      "install_instructions": "npx mdskills install allinherog-star/account-research-sales-card",
+      "is_primary": false
+    },
+    {
+      "client_slug": "qodo",
+      "client_name": "Qodo",
+      "install_instructions": "npx mdskills install allinherog-star/account-research-sales-card",
+      "is_primary": false
+    },
+    {
+      "client_slug": "command-code",
+      "client_name": "Command Code",
+      "install_instructions": "npx mdskills install allinherog-star/account-research-sales-card",
+      "is_primary": false
+    }
+  ],
+  "permissions": {
+    "filesystem_read": true,
+    "filesystem_write": false,
+    "shell_exec": true,
+    "network_access": true,
+    "git_write": false
+  }
+}

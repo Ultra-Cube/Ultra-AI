@@ -1,0 +1,146 @@
+{
+  "slug": "omniflash-skill",
+  "name": "Omni Flash",
+  "description": "Generate short video clips (with synchronized audio) and still images via the Omni Flash API (https://omniflash.net/) — Google's Gemini Omni Flash family. Use when the user asks to create a video or image from a prompt with Omni Flash, generate a short clip with sound, render an AI image with the Gemini Omni Flash models, or mentions seedance-2 / gpt-image-2 / nano-banana-2 in the context of Omni Flash.",
+  "owner": "beamtrace",
+  "repo": "omniflash-skill",
+  "skill_path": "SKILL.md",
+  "github_url": "https://github.com/beamtrace/omniflash-skill",
+  "weekly_installs": 0,
+  "downloads": 0,
+  "tags": [
+    "gemini"
+  ],
+  "platforms": [
+    "claude-code",
+    "claude-desktop",
+    "cursor",
+    "vscode-copilot",
+    "windsurf",
+    "continue-dev",
+    "codex",
+    "gemini-cli",
+    "amp",
+    "roo-code",
+    "goose",
+    "opencode",
+    "trae",
+    "qodo",
+    "command-code"
+  ],
+  "artifact_type": "skill_pack",
+  "format_standard": "skill_md",
+  "skill_type": "skill",
+  "github_stars": 0,
+  "github_forks": 0,
+  "license": "MIT",
+  "image_url": null,
+  "is_paid": false,
+  "price_amount": null,
+  "price_currency": "usd",
+  "purchase_url": null,
+  "updated_at": "2026-08-20T09:21:50.453773+00:00",
+  "category": {
+    "slug": "api-backend",
+    "name": "API & Backend"
+  },
+  "clients": [
+    {
+      "client_slug": "amp",
+      "client_name": "Amp",
+      "install_instructions": "npx mdskills install beamtrace/omniflash-skill",
+      "is_primary": false
+    },
+    {
+      "client_slug": "vscode-copilot",
+      "client_name": "VS Code Copilot",
+      "install_instructions": "npx mdskills install beamtrace/omniflash-skill",
+      "is_primary": false
+    },
+    {
+      "client_slug": "qodo",
+      "client_name": "Qodo",
+      "install_instructions": "npx mdskills install beamtrace/omniflash-skill",
+      "is_primary": false
+    },
+    {
+      "client_slug": "windsurf",
+      "client_name": "Windsurf",
+      "install_instructions": "npx mdskills install beamtrace/omniflash-skill",
+      "is_primary": false
+    },
+    {
+      "client_slug": "command-code",
+      "client_name": "Command Code",
+      "install_instructions": "npx mdskills install beamtrace/omniflash-skill",
+      "is_primary": false
+    },
+    {
+      "client_slug": "codex",
+      "client_name": "OpenAI Codex",
+      "install_instructions": "npx mdskills install beamtrace/omniflash-skill",
+      "is_primary": false
+    },
+    {
+      "client_slug": "gemini-cli",
+      "client_name": "Gemini CLI",
+      "install_instructions": "npx mdskills install beamtrace/omniflash-skill",
+      "is_primary": false
+    },
+    {
+      "client_slug": "claude-code",
+      "client_name": "Claude Code",
+      "install_instructions": "npx mdskills install beamtrace/omniflash-skill",
+      "is_primary": true
+    },
+    {
+      "client_slug": "goose",
+      "client_name": "Goose",
+      "install_instructions": "npx mdskills install beamtrace/omniflash-skill",
+      "is_primary": false
+    },
+    {
+      "client_slug": "cursor",
+      "client_name": "Cursor",
+      "install_instructions": "npx mdskills install beamtrace/omniflash-skill",
+      "is_primary": false
+    },
+    {
+      "client_slug": "trae",
+      "client_name": "TRAE",
+      "install_instructions": "npx mdskills install beamtrace/omniflash-skill",
+      "is_primary": false
+    },
+    {
+      "client_slug": "continue-dev",
+      "client_name": "Continue",
+      "install_instructions": "npx mdskills install beamtrace/omniflash-skill",
+      "is_primary": false
+    },
+    {
+      "client_slug": "claude-desktop",
+      "client_name": "Claude Desktop",
+      "install_instructions": "npx mdskills install beamtrace/omniflash-skill",
+      "is_primary": false
+    },
+    {
+      "client_slug": "opencode",
+      "client_name": "OpenCode",
+      "install_instructions": "npx mdskills install beamtrace/omniflash-skill",
+      "is_primary": false
+    },
+    {
+      "client_slug": "roo-code",
+      "client_name": "Roo Code",
+      "install_instructions": "npx mdskills install beamtrace/omniflash-skill",
+      "is_primary": false
+    }
+  ],
+  "permissions": {
+    "filesystem_read": true,
+    "filesystem_write": true,
+    "shell_exec": false,
+    "network_access": true,
+    "git_write": false
+  }
+}
