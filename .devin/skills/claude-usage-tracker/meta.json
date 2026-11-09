@@ -1,0 +1,153 @@
+{
+  "slug": "claude-usage-tracker",
+  "name": "Claude Usage Tracker",
+  "description": "A native macOS menu bar application for real-time monitoring of Claude AI usage limits  English •  Español •  Français •  Deutsch •  Italiano •  Português •  日本語 •  한국어 Download Latest Release (v2.3.0) macOS 14.0+ (Sonoma) | ~4 MB | Native Swift/SwiftUI | Officially Signed Claude Usage Tracker is a lightweight, native macOS menu bar application that provides real-ti",
+  "owner": "hamed-elfayome",
+  "repo": "Claude-Usage-Tracker",
+  "skill_path": "README.md",
+  "github_url": "https://github.com/hamed-elfayome/Claude-Usage-Tracker",
+  "weekly_installs": 4,
+  "downloads": 14,
+  "tags": [
+    "claude",
+    "claude-code",
+    "claudecode",
+    "macos",
+    "usage-application",
+    "monitoring",
+    "swift",
+    "github"
+  ],
+  "platforms": [
+    "claude-code",
+    "claude-desktop",
+    "cursor",
+    "vscode-copilot",
+    "windsurf",
+    "continue-dev",
+    "codex",
+    "gemini-cli",
+    "amp",
+    "roo-code",
+    "goose",
+    "opencode",
+    "trae",
+    "qodo",
+    "command-code"
+  ],
+  "artifact_type": "tool",
+  "format_standard": "generic",
+  "skill_type": "skill",
+  "github_stars": 1346,
+  "github_forks": 62,
+  "license": "MIT",
+  "image_url": null,
+  "is_paid": false,
+  "price_amount": null,
+  "price_currency": "usd",
+  "purchase_url": null,
+  "updated_at": "2026-02-28T08:19:08.873944+00:00",
+  "category": {
+    "slug": "git-workflow",
+    "name": "Git & Workflow"
+  },
+  "clients": [
+    {
+      "client_slug": "claude-code",
+      "client_name": "Claude Code",
+      "install_instructions": "npx mdskills install hamed-elfayome/claude-usage-tracker",
+      "is_primary": true
+    },
+    {
+      "client_slug": "claude-desktop",
+      "client_name": "Claude Desktop",
+      "install_instructions": "npx mdskills install hamed-elfayome/claude-usage-tracker",
+      "is_primary": false
+    },
+    {
+      "client_slug": "cursor",
+      "client_name": "Cursor",
+      "install_instructions": "npx mdskills install hamed-elfayome/claude-usage-tracker",
+      "is_primary": false
+    },
+    {
+      "client_slug": "vscode-copilot",
+      "client_name": "VS Code Copilot",
+      "install_instructions": "npx mdskills install hamed-elfayome/claude-usage-tracker",
+      "is_primary": false
+    },
+    {
+      "client_slug": "windsurf",
+      "client_name": "Windsurf",
+      "install_instructions": "npx mdskills install hamed-elfayome/claude-usage-tracker",
+      "is_primary": false
+    },
+    {
+      "client_slug": "continue-dev",
+      "client_name": "Continue",
+      "install_instructions": "npx mdskills install hamed-elfayome/claude-usage-tracker",
+      "is_primary": false
+    },
+    {
+      "client_slug": "codex",
+      "client_name": "OpenAI Codex",
+      "install_instructions": "npx mdskills install hamed-elfayome/claude-usage-tracker",
+      "is_primary": false
+    },
+    {
+      "client_slug": "gemini-cli",
+      "client_name": "Gemini CLI",
+      "install_instructions": "npx mdskills install hamed-elfayome/claude-usage-tracker",
+      "is_primary": false
+    },
+    {
+      "client_slug": "amp",
+      "client_name": "Amp",
+      "install_instructions": "npx mdskills install hamed-elfayome/claude-usage-tracker",
+      "is_primary": false
+    },
+    {
+      "client_slug": "roo-code",
+      "client_name": "Roo Code",
+      "install_instructions": "npx mdskills install hamed-elfayome/claude-usage-tracker",
+      "is_primary": false
+    },
+    {
+      "client_slug": "goose",
+      "client_name": "Goose",
+      "install_instructions": "npx mdskills install hamed-elfayome/claude-usage-tracker",
+      "is_primary": false
+    },
+    {
+      "client_slug": "opencode",
+      "client_name": "OpenCode",
+      "install_instructions": "npx mdskills install hamed-elfayome/claude-usage-tracker",
+      "is_primary": false
+    },
+    {
+      "client_slug": "trae",
+      "client_name": "TRAE",
+      "install_instructions": "npx mdskills install hamed-elfayome/claude-usage-tracker",
+      "is_primary": false
+    },
+    {
+      "client_slug": "qodo",
+      "client_name": "Qodo",
+      "install_instructions": "npx mdskills install hamed-elfayome/claude-usage-tracker",
+      "is_primary": false
+    },
+    {
+      "client_slug": "command-code",
+      "client_name": "Command Code",
+      "install_instructions": "npx mdskills install hamed-elfayome/claude-usage-tracker",
+      "is_primary": false
+    }
+  ],
+  "permissions": {
+    "filesystem_read": true,
+    "filesystem_write": true,
+    "shell_exec": true,
+    "network_access": true,
+    "git_write": true
+  }
+}

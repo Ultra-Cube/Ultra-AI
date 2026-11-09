@@ -1,0 +1,120 @@
+{
+  "slug": "rea",
+  "name": "REA: Reverse Engineer Anything",
+  "description": "See a feature you like. Understand how it works, down to the binary level. Quick start · Current status · Investigation model · 70 tools · Roadmap · How it works npm install --global rea-agents && rea setup See a feature in an app that you want in your own product? Give the app to your agent—even without its source code. With REA, the agent can investigate the",
+  "owner": "morluto",
+  "repo": "rea",
+  "skill_path": "README.md",
+  "github_url": "https://github.com/morluto/rea",
+  "weekly_installs": 0,
+  "downloads": 0,
+  "tags": [
+    "ai-agents",
+    "binary-analysis",
+    "cli",
+    "coding-agent",
+    "coding-agents",
+    "decompiler",
+    "disassembler",
+    "hopper-disassembler",
+    "mcp",
+    "github"
+  ],
+  "platforms": [
+    "claude-code",
+    "claude-desktop",
+    "cursor",
+    "vscode-copilot",
+    "windsurf",
+    "continue-dev",
+    "gemini-cli",
+    "amp",
+    "roo-code",
+    "goose"
+  ],
+  "artifact_type": "skill_pack",
+  "format_standard": "generic",
+  "skill_type": "skill",
+  "github_stars": 66,
+  "github_forks": 11,
+  "license": "MIT",
+  "image_url": null,
+  "is_paid": false,
+  "price_amount": null,
+  "price_currency": "usd",
+  "purchase_url": null,
+  "updated_at": "2026-07-14T08:21:00.923802+00:00",
+  "category": {
+    "slug": "data-analytics",
+    "name": "Data & Analytics"
+  },
+  "clients": [
+    {
+      "client_slug": "claude-code",
+      "client_name": "Claude Code",
+      "install_instructions": "npx mdskills install morluto/rea",
+      "is_primary": true
+    },
+    {
+      "client_slug": "claude-desktop",
+      "client_name": "Claude Desktop",
+      "install_instructions": "npx mdskills install morluto/rea",
+      "is_primary": false
+    },
+    {
+      "client_slug": "cursor",
+      "client_name": "Cursor",
+      "install_instructions": "npx mdskills install morluto/rea",
+      "is_primary": false
+    },
+    {
+      "client_slug": "vscode-copilot",
+      "client_name": "VS Code Copilot",
+      "install_instructions": "npx mdskills install morluto/rea",
+      "is_primary": false
+    },
+    {
+      "client_slug": "windsurf",
+      "client_name": "Windsurf",
+      "install_instructions": "npx mdskills install morluto/rea",
+      "is_primary": false
+    },
+    {
+      "client_slug": "continue-dev",
+      "client_name": "Continue",
+      "install_instructions": "npx mdskills install morluto/rea",
+      "is_primary": false
+    },
+    {
+      "client_slug": "gemini-cli",
+      "client_name": "Gemini CLI",
+      "install_instructions": "npx mdskills install morluto/rea",
+      "is_primary": false
+    },
+    {
+      "client_slug": "amp",
+      "client_name": "Amp",
+      "install_instructions": "npx mdskills install morluto/rea",
+      "is_primary": false
+    },
+    {
+      "client_slug": "roo-code",
+      "client_name": "Roo Code",
+      "install_instructions": "npx mdskills install morluto/rea",
+      "is_primary": false
+    },
+    {
+      "client_slug": "goose",
+      "client_name": "Goose",
+      "install_instructions": "npx mdskills install morluto/rea",
+      "is_primary": false
+    }
+  ],
+  "permissions": {
+    "filesystem_read": true,
+    "filesystem_write": true,
+    "shell_exec": true,
+    "network_access": true,
+    "git_write": false
+  }
+}

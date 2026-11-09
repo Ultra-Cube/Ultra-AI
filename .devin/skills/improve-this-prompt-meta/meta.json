@@ -1,0 +1,41 @@
+{
+  "slug": "improve-this-prompt-meta",
+  "name": "Improve This Prompt",
+  "description": "Meta-prompt: takes an existing prompt and returns a tightened version. Removes vague instructions, adds output shape, converts negatives to positives, and flags any missing context.",
+  "owner": "mdskills",
+  "repo": "",
+  "skill_path": "",
+  "github_url": "",
+  "weekly_installs": 0,
+  "downloads": 0,
+  "tags": [
+    "meta",
+    "prompt-engineering"
+  ],
+  "platforms": [
+    "claude-code",
+    "openai",
+    "gemini"
+  ],
+  "artifact_type": "prompt",
+  "format_standard": "skill_md",
+  "skill_type": "skill",
+  "github_stars": 0,
+  "github_forks": 0,
+  "license": "MIT",
+  "image_url": null,
+  "is_paid": false,
+  "price_amount": null,
+  "price_currency": "usd",
+  "purchase_url": null,
+  "updated_at": "2026-08-10T16:44:21.79708+00:00",
+  "category": null,
+  "clients": [],
+  "permissions": {
+    "filesystem_read": false,
+    "filesystem_write": false,
+    "shell_exec": false,
+    "network_access": false,
+    "git_write": false
+  }
+}

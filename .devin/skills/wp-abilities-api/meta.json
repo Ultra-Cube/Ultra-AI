@@ -1,0 +1,50 @@
+{
+  "slug": "wp-abilities-api",
+  "name": "Wp Abilities API",
+  "description": "Use when working with the WordPress Abilities API (wp_register_ability, wp_register_ability_category, /wp-json/wp-abilities/v1/*, @wordpress/abilities) including defining abilities, categories, meta, REST exposure, and permissions checks for clients.",
+  "owner": "WordPress",
+  "repo": "agent-skills",
+  "skill_path": "skills/wp-abilities-api",
+  "github_url": "https://github.com/WordPress/agent-skills/tree/trunk/skills/wp-abilities-api",
+  "weekly_installs": 1,
+  "downloads": 1,
+  "tags": [
+    "wordpress",
+    "cursor",
+    "documentation"
+  ],
+  "platforms": [
+    "targets-wordpress-6.9+-(php-7.2.24+).-filesystem-based-agent-with-bash-+-node.-some-workflows-require-wp-cli."
+  ],
+  "artifact_type": "skill_pack",
+  "format_standard": "skill_md",
+  "skill_type": "skill",
+  "github_stars": 696,
+  "github_forks": 99,
+  "license": "GPL-2.0",
+  "image_url": null,
+  "is_paid": false,
+  "price_amount": null,
+  "price_currency": "usd",
+  "purchase_url": null,
+  "updated_at": "2026-02-24T06:09:37.439184+00:00",
+  "category": {
+    "slug": "writing-docs",
+    "name": "Writing & Docs"
+  },
+  "clients": [
+    {
+      "client_slug": "claude-code",
+      "client_name": "Claude Code",
+      "install_instructions": "npx mdskills install WordPress/wp-abilities-api",
+      "is_primary": true
+    }
+  ],
+  "permissions": {
+    "filesystem_read": true,
+    "filesystem_write": false,
+    "shell_exec": true,
+    "network_access": true,
+    "git_write": false
+  }
+}

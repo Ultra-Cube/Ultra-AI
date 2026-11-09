@@ -1,0 +1,118 @@
+{
+  "slug": "codefire-app",
+  "name": "CodeFire",
+  "description": "Persistent memory for AI coding agents A cross-platform companion app for Claude Code, Gemini CLI, Codex CLI, and OpenCode Website · Getting Started · Discord · Community · Download Your AI coding agent forgets everything between sessions. CodeFire fixes that. It auto-discovers your projects, tracks tasks and sessions, monitors live coding activity, and exposes project data back to your AI via MCP",
+  "owner": "websitebutlers",
+  "repo": "codefire-app",
+  "skill_path": "README.md",
+  "github_url": "https://github.com/websitebutlers/codefire-app",
+  "weekly_installs": 0,
+  "downloads": 2,
+  "tags": [
+    "claude",
+    "claudecode",
+    "context-engineering",
+    "context-engineering-framework",
+    "mcp",
+    "gemini",
+    "discord",
+    "github"
+  ],
+  "platforms": [
+    "claude-code",
+    "claude-desktop",
+    "cursor",
+    "vscode-copilot",
+    "windsurf",
+    "continue-dev",
+    "gemini-cli",
+    "amp",
+    "roo-code",
+    "goose"
+  ],
+  "artifact_type": "tool",
+  "format_standard": "generic",
+  "skill_type": "skill",
+  "github_stars": 200,
+  "github_forks": 33,
+  "license": "MIT",
+  "image_url": null,
+  "is_paid": false,
+  "price_amount": null,
+  "price_currency": "usd",
+  "purchase_url": null,
+  "updated_at": "2026-04-10T07:53:47.48809+00:00",
+  "category": {
+    "slug": "testing-qa",
+    "name": "Testing & QA"
+  },
+  "clients": [
+    {
+      "client_slug": "claude-code",
+      "client_name": "Claude Code",
+      "install_instructions": "npx mdskills install websitebutlers/codefire-app",
+      "is_primary": true
+    },
+    {
+      "client_slug": "claude-desktop",
+      "client_name": "Claude Desktop",
+      "install_instructions": "npx mdskills install websitebutlers/codefire-app",
+      "is_primary": false
+    },
+    {
+      "client_slug": "cursor",
+      "client_name": "Cursor",
+      "install_instructions": "npx mdskills install websitebutlers/codefire-app",
+      "is_primary": false
+    },
+    {
+      "client_slug": "vscode-copilot",
+      "client_name": "VS Code Copilot",
+      "install_instructions": "npx mdskills install websitebutlers/codefire-app",
+      "is_primary": false
+    },
+    {
+      "client_slug": "windsurf",
+      "client_name": "Windsurf",
+      "install_instructions": "npx mdskills install websitebutlers/codefire-app",
+      "is_primary": false
+    },
+    {
+      "client_slug": "continue-dev",
+      "client_name": "Continue",
+      "install_instructions": "npx mdskills install websitebutlers/codefire-app",
+      "is_primary": false
+    },
+    {
+      "client_slug": "gemini-cli",
+      "client_name": "Gemini CLI",
+      "install_instructions": "npx mdskills install websitebutlers/codefire-app",
+      "is_primary": false
+    },
+    {
+      "client_slug": "amp",
+      "client_name": "Amp",
+      "install_instructions": "npx mdskills install websitebutlers/codefire-app",
+      "is_primary": false
+    },
+    {
+      "client_slug": "roo-code",
+      "client_name": "Roo Code",
+      "install_instructions": "npx mdskills install websitebutlers/codefire-app",
+      "is_primary": false
+    },
+    {
+      "client_slug": "goose",
+      "client_name": "Goose",
+      "install_instructions": "npx mdskills install websitebutlers/codefire-app",
+      "is_primary": false
+    }
+  ],
+  "permissions": {
+    "filesystem_read": true,
+    "filesystem_write": true,
+    "shell_exec": true,
+    "network_access": true,
+    "git_write": false
+  }
+}

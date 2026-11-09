@@ -1,0 +1,155 @@
+{
+  "slug": "10x-why-now",
+  "name": "10x Why Now",
+  "description": "This skill should be used when the user says \"why now\", \"is the timing right\", \"what's changed\", \"why didn't this exist before\", \"why is this possible now\", \"what's the tailwind\", or needs to formalize whether there is a structural timing advantage for this idea — not just \"AI is taking off.",
+  "owner": "SanketSapkal",
+  "repo": "founder-skills",
+  "skill_path": "skills/10x-why-now",
+  "github_url": "https://github.com/SanketSapkal/founder-skills",
+  "weekly_installs": 0,
+  "downloads": 1,
+  "tags": [
+    "ai-agents",
+    "claude-code",
+    "claude-plugin",
+    "codex",
+    "cursor-rules",
+    "founder",
+    "idea-validation",
+    "lean-startup",
+    "startup",
+    "windsurf"
+  ],
+  "platforms": [
+    "claude-code",
+    "claude-desktop",
+    "cursor",
+    "vscode-copilot",
+    "windsurf",
+    "continue-dev",
+    "codex",
+    "gemini-cli",
+    "amp",
+    "roo-code",
+    "goose",
+    "opencode",
+    "trae",
+    "qodo",
+    "command-code"
+  ],
+  "artifact_type": "skill_pack",
+  "format_standard": "skill_md",
+  "skill_type": "hybrid",
+  "github_stars": 5,
+  "github_forks": 1,
+  "license": null,
+  "image_url": null,
+  "is_paid": false,
+  "price_amount": null,
+  "price_currency": "usd",
+  "purchase_url": null,
+  "updated_at": "2026-05-02T07:55:25.070846+00:00",
+  "category": {
+    "slug": "marketing-sales",
+    "name": "Marketing & Sales"
+  },
+  "clients": [
+    {
+      "client_slug": "claude-code",
+      "client_name": "Claude Code",
+      "install_instructions": "npx mdskills install SanketSapkal/10x-why-now",
+      "is_primary": true
+    },
+    {
+      "client_slug": "claude-desktop",
+      "client_name": "Claude Desktop",
+      "install_instructions": "npx mdskills install SanketSapkal/10x-why-now",
+      "is_primary": false
+    },
+    {
+      "client_slug": "cursor",
+      "client_name": "Cursor",
+      "install_instructions": "npx mdskills install SanketSapkal/10x-why-now",
+      "is_primary": false
+    },
+    {
+      "client_slug": "vscode-copilot",
+      "client_name": "VS Code Copilot",
+      "install_instructions": "npx mdskills install SanketSapkal/10x-why-now",
+      "is_primary": false
+    },
+    {
+      "client_slug": "windsurf",
+      "client_name": "Windsurf",
+      "install_instructions": "npx mdskills install SanketSapkal/10x-why-now",
+      "is_primary": false
+    },
+    {
+      "client_slug": "continue-dev",
+      "client_name": "Continue",
+      "install_instructions": "npx mdskills install SanketSapkal/10x-why-now",
+      "is_primary": false
+    },
+    {
+      "client_slug": "codex",
+      "client_name": "OpenAI Codex",
+      "install_instructions": "npx mdskills install SanketSapkal/10x-why-now",
+      "is_primary": false
+    },
+    {
+      "client_slug": "gemini-cli",
+      "client_name": "Gemini CLI",
+      "install_instructions": "npx mdskills install SanketSapkal/10x-why-now",
+      "is_primary": false
+    },
+    {
+      "client_slug": "amp",
+      "client_name": "Amp",
+      "install_instructions": "npx mdskills install SanketSapkal/10x-why-now",
+      "is_primary": false
+    },
+    {
+      "client_slug": "roo-code",
+      "client_name": "Roo Code",
+      "install_instructions": "npx mdskills install SanketSapkal/10x-why-now",
+      "is_primary": false
+    },
+    {
+      "client_slug": "command-code",
+      "client_name": "Command Code",
+      "install_instructions": "npx mdskills install SanketSapkal/10x-why-now",
+      "is_primary": false
+    },
+    {
+      "client_slug": "goose",
+      "client_name": "Goose",
+      "install_instructions": "npx mdskills install SanketSapkal/10x-why-now",
+      "is_primary": false
+    },
+    {
+      "client_slug": "opencode",
+      "client_name": "OpenCode",
+      "install_instructions": "npx mdskills install SanketSapkal/10x-why-now",
+      "is_primary": false
+    },
+    {
+      "client_slug": "trae",
+      "client_name": "TRAE",
+      "install_instructions": "npx mdskills install SanketSapkal/10x-why-now",
+      "is_primary": false
+    },
+    {
+      "client_slug": "qodo",
+      "client_name": "Qodo",
+      "install_instructions": "npx mdskills install SanketSapkal/10x-why-now",
+      "is_primary": false
+    }
+  ],
+  "permissions": {
+    "filesystem_read": true,
+    "filesystem_write": true,
+    "shell_exec": true,
+    "network_access": true,
+    "git_write": false
+  }
+}

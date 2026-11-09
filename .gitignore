@@ -63,11 +63,17 @@ runtime/
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+!.vscode/mcp.json
 .idea/
 *.swp
 *.swo
 *~
 .DS_Store
+
+# AI assistants (Claude, Cortex, etc.)
+.claude/
+.cortex/
+CLAUDE.md
 
 # Logs
 logs
@@ -153,3 +159,7 @@ ehthumbs.db
 .directory
 .Trash-*
 external/
+
+# Devin local MCP config (may contain secrets)
+.devin/mcp_config.local.json
+.devin/config.local.json

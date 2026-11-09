@@ -1,0 +1,52 @@
+{
+  "slug": "wp-block-development",
+  "name": "Wp Block Development",
+  "description": "Use when developing WordPress (Gutenberg) blocks: block.json metadata, register_block_type(_from_metadata), attributes/serialization, supports, dynamic rendering (render.php/render_callback), deprecations/migrations, viewScript vs viewScriptModule, and @wordpress/scripts/@wordpress/create-block build and test workflows.",
+  "owner": "WordPress",
+  "repo": "agent-skills",
+  "skill_path": "skills/wp-block-development",
+  "github_url": "https://github.com/WordPress/agent-skills/tree/trunk/skills/wp-block-development",
+  "weekly_installs": 1,
+  "downloads": 1,
+  "tags": [
+    "wordpress",
+    "json",
+    "php",
+    "cursor",
+    "documentation"
+  ],
+  "platforms": [
+    "targets-wordpress-6.9+-(php-7.2.24+).-filesystem-based-agent-with-bash-+-node.-some-workflows-require-wp-cli."
+  ],
+  "artifact_type": "skill_pack",
+  "format_standard": "skill_md",
+  "skill_type": "skill",
+  "github_stars": 696,
+  "github_forks": 99,
+  "license": "GPL-2.0",
+  "image_url": null,
+  "is_paid": false,
+  "price_amount": null,
+  "price_currency": "usd",
+  "purchase_url": null,
+  "updated_at": "2026-02-24T06:09:25.694692+00:00",
+  "category": {
+    "slug": "writing-docs",
+    "name": "Writing & Docs"
+  },
+  "clients": [
+    {
+      "client_slug": "claude-code",
+      "client_name": "Claude Code",
+      "install_instructions": "npx mdskills install WordPress/wp-block-development",
+      "is_primary": true
+    }
+  ],
+  "permissions": {
+    "filesystem_read": true,
+    "filesystem_write": true,
+    "shell_exec": true,
+    "network_access": true,
+    "git_write": false
+  }
+}

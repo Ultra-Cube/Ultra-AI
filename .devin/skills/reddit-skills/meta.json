@@ -1,0 +1,121 @@
+{
+  "slug": "reddit-skills",
+  "name": "Reddit Skills",
+  "description": "Reddit automation Skills — directly uses your logged-in browser and real account, operating Reddit as an ordinary user. Supports OpenClaw and all AI Agent platforms compatible with the SKILL.md format (e.g. Claude Code). Supports chained operations — you can give compound natural-language instructions and the Agent will automatically chain multiple skills. For example: The Agent will execute: sear",
+  "owner": "1146345502",
+  "repo": "reddit-skills",
+  "skill_path": "SKILL.md",
+  "github_url": "https://github.com/1146345502/reddit-skills",
+  "weekly_installs": 0,
+  "downloads": 5,
+  "tags": [
+    "ai-agents",
+    "automation",
+    "browser-automation",
+    "chrome-extension",
+    "claude-code",
+    "claude-skill",
+    "mcp",
+    "open-source",
+    "python",
+    "reddit",
+    "browser"
+  ],
+  "platforms": [
+    "claude-code",
+    "claude-desktop",
+    "cursor",
+    "vscode-copilot",
+    "windsurf",
+    "continue-dev",
+    "gemini-cli",
+    "amp",
+    "roo-code",
+    "goose"
+  ],
+  "artifact_type": "skill_pack",
+  "format_standard": "skill_md",
+  "skill_type": "skill",
+  "github_stars": 3,
+  "github_forks": 0,
+  "license": "MIT",
+  "image_url": null,
+  "is_paid": false,
+  "price_amount": null,
+  "price_currency": "usd",
+  "purchase_url": null,
+  "updated_at": "2026-04-08T07:48:01.240663+00:00",
+  "category": {
+    "slug": "marketing-sales",
+    "name": "Marketing & Sales"
+  },
+  "clients": [
+    {
+      "client_slug": "claude-code",
+      "client_name": "Claude Code",
+      "install_instructions": "npx mdskills install 1146345502/reddit-skills",
+      "is_primary": true
+    },
+    {
+      "client_slug": "claude-desktop",
+      "client_name": "Claude Desktop",
+      "install_instructions": "npx mdskills install 1146345502/reddit-skills",
+      "is_primary": false
+    },
+    {
+      "client_slug": "cursor",
+      "client_name": "Cursor",
+      "install_instructions": "npx mdskills install 1146345502/reddit-skills",
+      "is_primary": false
+    },
+    {
+      "client_slug": "vscode-copilot",
+      "client_name": "VS Code Copilot",
+      "install_instructions": "npx mdskills install 1146345502/reddit-skills",
+      "is_primary": false
+    },
+    {
+      "client_slug": "windsurf",
+      "client_name": "Windsurf",
+      "install_instructions": "npx mdskills install 1146345502/reddit-skills",
+      "is_primary": false
+    },
+    {
+      "client_slug": "continue-dev",
+      "client_name": "Continue",
+      "install_instructions": "npx mdskills install 1146345502/reddit-skills",
+      "is_primary": false
+    },
+    {
+      "client_slug": "gemini-cli",
+      "client_name": "Gemini CLI",
+      "install_instructions": "npx mdskills install 1146345502/reddit-skills",
+      "is_primary": false
+    },
+    {
+      "client_slug": "amp",
+      "client_name": "Amp",
+      "install_instructions": "npx mdskills install 1146345502/reddit-skills",
+      "is_primary": false
+    },
+    {
+      "client_slug": "roo-code",
+      "client_name": "Roo Code",
+      "install_instructions": "npx mdskills install 1146345502/reddit-skills",
+      "is_primary": false
+    },
+    {
+      "client_slug": "goose",
+      "client_name": "Goose",
+      "install_instructions": "npx mdskills install 1146345502/reddit-skills",
+      "is_primary": false
+    }
+  ],
+  "permissions": {
+    "filesystem_read": true,
+    "filesystem_write": true,
+    "shell_exec": true,
+    "network_access": true,
+    "git_write": false
+  }
+}
