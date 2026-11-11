@@ -1,18 +1,12 @@
 # Post-S2b Reorganization Directive
 
-**Status:** PENDING — applies after S2b completes and project verified working.
+**Status:** SUPERSEDED 2026-11-11 — replaced by `ULTRA_AI_BUILD_PROMPT.md`
+(WP-0 migration tooling + §4.1 move map + `layout-map.yaml`). Owner answered
+G-0.9: **move everything**, executed via the WP-0 verify-moves/verify-rewrites
+procedure rather than this ad-hoc note. Kept for history.
 
-All content currently staged under `ultra-ai-v2/` is TEMPORARY. Once ingestion
-finishes and the platform is confirmed working, redistribute into proper
-root-level folders by purpose, consistent with existing repo structure:
-
-- `docs/` — planning docs (ULTRA_AI_*.md, DOC_CONVERSION_MAP.csv), specs
-- `platform/` — v2 runtime/code (G-0.5 decision: new tree beside legacy)
-- `config/` — configuration assets
-- agent/skill/plugin assets → their runtime-appropriate homes
-- `memory/` + `diagrams/` → decide final home (likely under docs/ or platform/)
-
-Constraints:
-- Additions-only until `v0.2.0-planning` tag (preservation rule).
-- Update all internal path references after the move.
-- Re-run preservation verification after reorganization.
+Original directive: all content under `ultra-ai-v2/` was TEMPORARY staging to be
+redistributed into root-level folders by purpose once the project is verified
+working (`docs/`, `platform/`, `config/`, runtime homes for agent/skill/plugin
+assets). The build prompt's target layout (§4) is the authoritative version of
+this directive.

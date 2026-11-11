@@ -202,6 +202,23 @@ flowchart LR
 
 ---
 
+## 4. Build-prompt v1.0 — WP↔S-phase mapping (adopted 2026-11-11)
+
+`ULTRA_AI_BUILD_PROMPT.md` (authoritative spec, WPs WP-0…WP-12) is merged into the S-phase roadmap per owner decision. WP items become tasks inside their S-phase commits; each S-phase gets one named commit.
+
+| S-phase | Work packages | Focus |
+|---|---|---|
+| S4a — Migration & foundation | WP-0 (+ re-produce missing `v2/foundation` fixes: package-lock, `monitoring/sentinel`, port fixes, test baseline) | `infrastructure/automation/` tools, `layout-map.yaml`, `moves.tsv`, verify-moves/verify-rewrites, full-layout migration |
+| S4b — Platform core v1 | WP-1 (outbox), WP-2 (supervisor+engines WP-6 manifests), WP-3 (gateway) | signed event outbox, runtime supervisor, model gateway |
+| S5 — Brain & experience | WP-5 (Hermes bridge), WP-4 (adaptive UI), WP-7 (console+3D), WP-8 (agents network) | brain bridge spike, ZeroAI UI, console, agent registry |
+| S6 — Engines & foundry | WP-6 (engine adapters), WP-9 (Model Foundry v0) | engine sidecars, workflow port, foundry pipeline |
+| S7 — Desktop | WP-10 | Tauri 2 shell, installers, first-run wizard |
+| S8 — External readiness | WP-11 (Gate-OS), WP-12 (Ultra Core bridge) | `/v1` contract, signed outbox exporter |
+
+Errata in the build prompt (tag `baseline/pre-planning-20261111`, `v0.2.0-planning` already pushed, `v2/foundation` absent) is recorded in its final section. G-1.9 answered: **Hermes brain + OpenClaw engine**.
+
+---
+
 ## Decision ledger (filled by A00 as the owner answers)
 | Gate | Date | Choice | Rationale | Evidence |
 |---|---|---|---|---|

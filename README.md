@@ -8,6 +8,8 @@
 [![Documentation](https://img.shields.io/badge/Docs-Comprehensive-blue)](docs/README.md)
 [![Security](https://img.shields.io/badge/Security-Built--in-red)](docs/security/security-framework.md)
 
+> **v2 planning status:** the current authoritative build specification is [`ULTRA_AI_BUILD_PROMPT.md`](ULTRA_AI_BUILD_PROMPT.md) (adopted 2026-11-11). The pre-experimental planning release `v0.2.0-planning` (tag + branch) is published on the remote; baseline tag `baseline/pre-planning-20261111` preserves the pre-planning tree. Agent-facing tracking: [`ULTRA_AI_TODO.md`](ULTRA_AI_TODO.md).
+
 ## 🌟 Overview
 
 Ultra AI Platform is a revolutionary artificial intelligence platform that redefines how users interact with AI technologies. The platform combines existing AI engines with self-learning technologies, an innovative smart user interface, and a distributed operating system.
