@@ -43,8 +43,9 @@ step1_new_files:
   - { src: ultra-ai-v2/plugin,            dst: brain-stack/plugin,               note: "plugin ultra-ai-builder (agents/commands/hooks)" }
   - { src: ultra-ai-v2/memory,            dst: brain-stack/memory/planning,      note: "S1-S2b planning memory bank" }
   - { src: ultra-ai-v2/diagrams,          dst: brain-stack/memory/diagrams,      note: "116 extracted+validated Mermaid registry" }
-  # root project memory (live ops memory)
-  - { src: memory,                        dst: brain-stack/memory/ops,           note: "owner decision A: live project memory under brain-stack" }
+  # NOTE: root memory/ does NOT exist (verified 2026-11-11: no tracked files, no dir on disk).
+  # brain-stack/memory/ops is therefore a NEW placeholder (see placeholders section), not a move.
+  # Owner decision A still stands: live project ops-memory lives under brain-stack/memory/ops.
   # skills created by us at repo root
   - { src: skills/,                       dst: brain-stack/skills/legacy,        note: "owner decision A: legacy/imported skills (skills/devops/{architecture-review,kanban-orchestrator,kanban-worker}); inspect before merge" }
   # planning docs authored post-baseline
