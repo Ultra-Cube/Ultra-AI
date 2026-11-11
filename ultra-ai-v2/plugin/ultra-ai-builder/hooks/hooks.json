@@ -1,0 +1,18 @@
+{
+  "hooks": {
+    "pre-commit": [
+      {
+        "name": "preservation-guard",
+        "command": "bash scripts/preservation.sh verify-additive baseline/pre-planning-HEAD HEAD || echo 'PRESERVATION CHECK FAILED - see scripts/preservation.sh' >&2",
+        "fail_closed": false
+      }
+    ],
+    "pre-push": [
+      {
+        "name": "preservation-guard",
+        "command": "bash scripts/preservation.sh verify-additive baseline/pre-planning-HEAD HEAD || echo 'PRESERVATION CHECK FAILED - blocking push' >&2; exit 1",
+        "fail_closed": true
+      }
+    ]
+  }
+}
