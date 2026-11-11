@@ -52,7 +52,7 @@ export class RateLimiter {
 
     // Get requests within window
     const recentRequests = (this.requests.get(key) || []).filter(
-      (req) => req > windowStart,
+      (req) => req > windowStart
     );
 
     if (recentRequests.length >= this.config.maxRequests) {
@@ -74,7 +74,7 @@ export class RateLimiter {
     const windowStart = now - this.config.windowMs;
 
     const recentRequests = (this.requests.get(key) || []).filter(
-      (req) => req > windowStart,
+      (req) => req > windowStart
     );
 
     return recentRequests.length;
@@ -137,7 +137,8 @@ export class InputValidator {
    */
   static isStrongPassword(password: string): boolean {
     // At least 12 characters, 1 uppercase, 1 lowercase, 1 number, 1 special
-    const strongRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,}$/;
+    const strongRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,}$/;
     return strongRegex.test(password);
   }
 
@@ -294,7 +295,7 @@ export class AuditLogger {
     resource: string,
     status: 'success' | 'failure',
     userId?: string,
-    details?: any,
+    details?: any
   ): void {
     this.events.push({
       timestamp: new Date(),
@@ -309,9 +310,11 @@ export class AuditLogger {
   /**
    * Get audit events
    */
-  getEvents(
-    filter?: { userId?: string; action?: string; status?: 'success' | 'failure' },
-  ): any[] {
+  getEvents(filter?: {
+    userId?: string;
+    action?: string;
+    status?: 'success' | 'failure';
+  }): any[] {
     return this.events.filter((event) => {
       if (filter?.userId && event.userId !== filter.userId) return false;
       if (filter?.action && event.action !== filter.action) return false;
@@ -327,7 +330,9 @@ export class AuditLogger {
     const cutoff = Date.now() - olderThan;
     const beforeLength = this.events.length;
 
-    this.events = this.events.filter((event) => event.timestamp.getTime() > cutoff);
+    this.events = this.events.filter(
+      (event) => event.timestamp.getTime() > cutoff
+    );
 
     const removed = beforeLength - this.events.length;
     console.log(`Cleared ${removed} old audit events`);

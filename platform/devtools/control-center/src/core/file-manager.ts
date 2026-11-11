@@ -4,9 +4,10 @@
  */
 
 import { EventEmitter } from 'events';
-import { ControlCenterConfig, FileConfig } from '../types';
 import * as fs from 'fs/promises';
 import * as path from 'path';
+
+import { ControlCenterConfig, FileConfig } from '../types';
 
 export class FileManager extends EventEmitter {
   private config: ControlCenterConfig;
@@ -96,7 +97,7 @@ export class FileManager extends EventEmitter {
     try {
       const entries = await fs.readdir(dirPath, { withFileTypes: true });
       const files: FileConfig[] = [];
-      
+
       for (const entry of entries) {
         const fullPath = path.join(dirPath, entry.name);
         const stats = await fs.stat(fullPath);
@@ -110,7 +111,7 @@ export class FileManager extends EventEmitter {
           modified: stats.mtime,
         });
       }
-      
+
       return files;
     } catch (error) {
       this.emit('error', error);

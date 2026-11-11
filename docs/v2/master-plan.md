@@ -15,10 +15,10 @@ The repository grew from four different ideas written at different times. They w
 
 | Era | Idea | Where it lives |
 |---|---|---|
-| Mar 2026 | Volunteer distributed network, chunked encrypted processing, CS token on blockchain | `README.md`, `docs/architecture/distributed-processing.md`, `docs/business/*`, `packages/distributed` |
-| Jun–Aug 2026 | Gateway to 40+ providers (9router), imported tools, control center, desktop shell | `packages/api-gateway`, `external-integrations/`, `PROJECT-CATALOG.md` |
-| Jul 2026 | ZeroAI: local-first assistant (voice → memory → OpenClaw → Ollama/n8n/tools → escalate) | `wsl-ai-stack/`, `docs/architecture/zero-ai-integration.md`, `apps/web/app/zeroai` |
-| Oct–Nov 2026 | Real stack, Hermes monitoring, 32-agent studio, and the Gate-OS direction (adaptive UI, one adaptable edition) | `monitoring/hermes`, `packages/api/src/services/agents`, `docs/MASTER_ARCHITECTURE.md` |
+| Mar 2026 | Volunteer distributed network, chunked encrypted processing, CS token on blockchain | `README.md`, `docs/architecture/distributed-processing.md`, `docs/business/*`, `platform/backend/distributed` |
+| Jun–Aug 2026 | Gateway to 40+ providers (9router), imported tools, control center, desktop shell | `platform/api/gateway`, `external-integrations/`, `PROJECT-CATALOG.md` |
+| Jul 2026 | ZeroAI: local-first assistant (voice → memory → OpenClaw → Ollama/n8n/tools → escalate) | `wsl-ai-stack/`, `docs/architecture/zero-ai-integration.md`, `platform/frontend/app/zeroai` |
+| Oct–Nov 2026 | Real stack, Hermes monitoring, 32-agent studio, and the Gate-OS direction (adaptive UI, one adaptable edition) | `infrastructure/monitoring/legacy-hermes`, `platform/backend/core-api/src/services/agents`, `docs/MASTER_ARCHITECTURE.md` |
 
 The corrected plan keeps the ideas that are real or that serve Gate-OS, reshapes the ones that are technically unsound, and defers or drops the rest.
 
@@ -49,9 +49,9 @@ The corrected plan keeps the ideas that are real or that serve Gate-OS, reshapes
 | Adaptive workspace per role (Omar the video designer, businessman dashboard) | `workspace-recommender` + profile endpoints; no renderer | **Keep — rebuild as declarative UI spec** |
 | Gate-OS integration | Docs call it "hypothetical", mock only; spelled "Gata-OS" | **Keep — Gate-OS now exists; define a real contract** |
 | Hermes monitoring (Prometheus, Grafana, Alertmanager) | Real | **Keep** |
-| Auth, RBAC, GDPR endpoints, multi-tenancy, analytics, caching, webhooks | Real service modules in `packages/api` | **Keep, but trim to what the gateway needs first** |
+| Auth, RBAC, GDPR endpoints, multi-tenancy, analytics, caching, webhooks | Real service modules in `platform/backend/core-api` | **Keep, but trim to what the gateway needs first** |
 | Agent studio (32 agents, quality gates) | Real registry and tests | **Keep as developer tooling, isolate from product API** |
-| Volunteer distributed network with "private chunked" inference | Code exists (`packages/distributed`), unwired | **Reshape and defer** — see D5 |
+| Volunteer distributed network with "private chunked" inference | Code exists (`platform/backend/distributed`), unwired | **Reshape and defer** — see D5 |
 | CS token, blockchain rewards, IPFS | Off-chain math only, no contract | **Drop from roadmap** — see D6 |
 | Desktop Electron shell, voice-recognition, memory-optimizer, control-center package | Stubs | **Merge or delete** |
 | MongoDB, IPFS, Elasticsearch, Kafka, multi-cloud Terraform | Docs only | **Drop until a measured need exists** |
@@ -165,7 +165,7 @@ ultra-ai/
 │   └── distributed/          # parked; not in default build
 ├── integrations/             # git submodules (9router, jarvis, ...)
 ├── wsl-ai-stack/             # ZeroAI edge scripts
-├── monitoring/hermes/
+├── infrastructure/monitoring/legacy-hermes/
 ├── k8s/  infrastructure/  scripts/
 └── docs/
     ├── architecture/  api/  operations/  security/  ux-design/

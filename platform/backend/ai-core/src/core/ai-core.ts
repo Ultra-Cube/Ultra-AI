@@ -1,16 +1,12 @@
 import { IntentRecognizer } from '../nlp/intent-recognizer';
 import { NLPProcessor } from '../nlp/nlp-processor';
 import { TaskPlanner } from '../planning/task-planner';
-import { ModelRouter } from '../routing/model-router';
-import {
-  AIConfig,
-  ProcessRequest,
-  ProcessResponse,
-} from '../types';
 import { AnthropicProvider } from '../providers/anthropic-provider';
 import { MockProvider } from '../providers/mock-provider';
 import { OpenAIProvider } from '../providers/openai-provider';
 import { LLMProvider } from '../providers/types';
+import { ModelRouter } from '../routing/model-router';
+import { AIConfig, ProcessRequest, ProcessResponse } from '../types';
 
 export class AICore {
   private readonly nlp = new NLPProcessor();

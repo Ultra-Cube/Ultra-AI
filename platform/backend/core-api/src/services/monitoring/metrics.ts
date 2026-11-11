@@ -1,6 +1,6 @@
 /**
  * Prometheus Metrics Collection for Ultra AI Platform
- * 
+ *
  * Provides comprehensive metrics for monitoring API performance, health, and usage
  */
 
@@ -152,24 +152,31 @@ export class MetricsCollector {
     statusCode: number,
     duration: number,
     requestSize: number = 0,
-    responseSize: number = 0,
+    responseSize: number = 0
   ): void {
-    httpRequestDuration.labels(method, route, String(statusCode)).observe(duration / 1000);
+    httpRequestDuration
+      .labels(method, route, String(statusCode))
+      .observe(duration / 1000);
     httpRequestTotal.labels(method, route, String(statusCode)).inc();
-    
+
     if (requestSize > 0) {
       httpRequestSize.labels(method, route).observe(requestSize);
     }
-    
+
     if (responseSize > 0) {
-      httpResponseSize.labels(method, route, String(statusCode)).observe(responseSize);
+      httpResponseSize
+        .labels(method, route, String(statusCode))
+        .observe(responseSize);
     }
   }
 
   /**
    * Record an error
    */
-  recordError(type: string, severity: 'low' | 'medium' | 'high' | 'critical'): void {
+  recordError(
+    type: string,
+    severity: 'low' | 'medium' | 'high' | 'critical'
+  ): void {
     errorCounter.labels(type, severity).inc();
   }
 
@@ -183,7 +190,10 @@ export class MetricsCollector {
   /**
    * Record authentication attempt
    */
-  recordAuthAttempt(type: 'login' | 'register' | 'token_refresh', success: boolean): void {
+  recordAuthAttempt(
+    type: 'login' | 'register' | 'token_refresh',
+    success: boolean
+  ): void {
     authAttempts.labels(type, success ? 'success' : 'failure').inc();
   }
 
@@ -201,7 +211,7 @@ export class MetricsCollector {
     operation: 'SELECT' | 'INSERT' | 'UPDATE' | 'DELETE',
     table: string,
     duration: number,
-    success: boolean = true,
+    success: boolean = true
   ): void {
     dbQueryDuration.labels(operation, table).observe(duration / 1000);
     dbQueryTotal.labels(operation, table, success ? 'true' : 'false').inc();
@@ -238,7 +248,11 @@ export class MetricsCollector {
   /**
    * Record token usage
    */
-  recordTokenUsage(model: string, inputTokens: number, outputTokens: number): void {
+  recordTokenUsage(
+    model: string,
+    inputTokens: number,
+    outputTokens: number
+  ): void {
     tokensDuration.labels(model, 'input').observe(inputTokens);
     tokensDuration.labels(model, 'output').observe(outputTokens);
   }

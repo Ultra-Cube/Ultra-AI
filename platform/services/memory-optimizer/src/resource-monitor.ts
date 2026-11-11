@@ -4,6 +4,7 @@
  */
 
 import { EventEmitter } from 'events';
+
 import { MemoryStats } from './types';
 
 export class ResourceMonitor extends EventEmitter {

@@ -100,9 +100,9 @@ This guide covers the complete deployment strategy for the Ultra AI Platform acr
 ### Build & Push Docker Images
 ```bash
 # Build images
-docker build -t ultra-ai/api:latest -f packages/api/Dockerfile .
+docker build -t ultra-ai/api:latest -f platform/backend/core-api/Dockerfile .
 docker build -t ultra-ai/web:latest -f packages/web/Dockerfile .
-docker build -t ultra-ai/distributed:latest -f packages/distributed/Dockerfile .
+docker build -t ultra-ai/distributed:latest -f platform/backend/distributed/Dockerfile .
 
 # Push to registry
 docker push ultra-ai/api:latest

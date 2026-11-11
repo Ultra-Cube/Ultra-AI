@@ -141,7 +141,10 @@ export class AnalyticsService {
   /**
    * Record a metric
    */
-  async recordMetric(tenantId: string, metricData: MetricData): Promise<AnalyticsMetric> {
+  async recordMetric(
+    tenantId: string,
+    metricData: MetricData
+  ): Promise<AnalyticsMetric> {
     const now = new Date();
     const windowStart = metricData.windowStart || now;
     const windowEnd = metricData.windowEnd || now;
@@ -195,7 +198,10 @@ export class AnalyticsService {
   /**
    * Get events with filtering
    */
-  async getEvents(tenantId: string, query: AnalyticsQuery = {}): Promise<AnalyticsEvent[]> {
+  async getEvents(
+    tenantId: string,
+    query: AnalyticsQuery = {}
+  ): Promise<AnalyticsEvent[]> {
     const {
       eventType,
       eventName,
@@ -265,7 +271,10 @@ export class AnalyticsService {
   /**
    * Get aggregated metrics
    */
-  async getMetrics(tenantId: string, query: MetricsQuery = {}): Promise<AnalyticsMetric[]> {
+  async getMetrics(
+    tenantId: string,
+    query: MetricsQuery = {}
+  ): Promise<AnalyticsMetric[]> {
     const { metricName, startDate, endDate } = query;
 
     return this.prisma.analyticsMetric.findMany({
@@ -381,7 +390,8 @@ export class AnalyticsService {
     // Calculate average response time
     const avgResponseTime =
       recentEvents.length > 0
-        ? recentEvents.reduce((sum, e) => sum + (e.duration || 0), 0) / recentEvents.length
+        ? recentEvents.reduce((sum, e) => sum + (e.duration || 0), 0) /
+          recentEvents.length
         : 0;
 
     // Calculate error rate
@@ -401,16 +411,16 @@ export class AnalyticsService {
       activeUsers: activeUsers.length,
       errorRate: Math.round(errorRate * 100) / 100,
       avgResponseTime: Math.round(avgResponseTime),
-      topEvents: topEvents.map(e => ({
+      topEvents: topEvents.map((e) => ({
         eventName: e.eventName,
         count: e._count.eventName,
       })),
-      topPages: topPages.map(p => ({
+      topPages: topPages.map((p) => ({
         path: p.path || 'unknown',
         views: p._count.path,
       })),
       userGrowth,
-      errorsByType: errorsByType.map(e => ({
+      errorsByType: errorsByType.map((e) => ({
         eventType: e.eventType,
         count: e._count.eventType,
       })),
@@ -534,7 +544,7 @@ export class AnalyticsService {
       headers.push('metadata');
     }
 
-    const rows = events.map(event => {
+    const rows = events.map((event) => {
       const row = [
         event.timestamp.toISOString(),
         event.eventType,

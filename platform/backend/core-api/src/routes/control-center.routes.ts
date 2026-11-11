@@ -1,7 +1,9 @@
-import { Router } from 'express';
 import { ControlCenter } from '@ultra-ai/control-center';
+import { Router } from 'express';
 
-export function createControlCenterRoutes(controlCenter: ControlCenter): Router {
+export function createControlCenterRoutes(
+  controlCenter: ControlCenter
+): Router {
   const router = Router();
 
   /**
@@ -52,7 +54,9 @@ export function createControlCenterRoutes(controlCenter: ControlCenter): Router 
    */
   router.get('/directories', async (req, res) => {
     try {
-      const directories = await controlCenter.getDirectoryManager().getDirectories();
+      const directories = await controlCenter
+        .getDirectoryManager()
+        .getDirectories();
       res.json({ directories });
     } catch (error) {
       res.status(500).json({ error: 'Failed to fetch directories' });
@@ -66,7 +70,7 @@ export function createControlCenterRoutes(controlCenter: ControlCenter): Router 
   router.post('/directories', async (req, res) => {
     try {
       const { path, name, permissions, monitored, autoBackup } = req.body;
-      
+
       await controlCenter.getDirectoryManager().addDirectory({
         path,
         name,

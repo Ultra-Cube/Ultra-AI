@@ -27,7 +27,8 @@ export const ADAPTER_DEFINITIONS: AdapterDefinition[] = [
     id: '9router',
     name: '9router',
     type: 'gateway',
-    description: 'Model routing gateway that fans requests out to downstream AI systems',
+    description:
+      'Model routing gateway that fans requests out to downstream AI systems',
   },
   {
     id: 'openclaw',

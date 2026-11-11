@@ -1,6 +1,6 @@
 /**
  * Role-Based Access Control (RBAC) System
- * 
+ *
  * Export all RBAC components
  */
 

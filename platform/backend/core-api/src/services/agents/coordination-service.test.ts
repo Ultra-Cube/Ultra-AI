@@ -1,8 +1,9 @@
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { CoordinationService } from './coordination-service';
+
 import { AgentStaffStore } from './agent-staff-store';
+import { CoordinationService } from './coordination-service';
 
 function setupTestEnvironment() {
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'coordination-'));
@@ -17,10 +18,14 @@ describe('CoordinationService', () => {
   describe('validateDelegation - Tier Delegation Rules', () => {
     it('allows valid downward delegation from T1 to T2', () => {
       const { service } = setupTestEnvironment();
-      const result = service.validateDelegation('chief-architect', 'tech-lead', {
-        title: 'Review API architecture',
-        complexity: 'complex',
-      });
+      const result = service.validateDelegation(
+        'chief-architect',
+        'tech-lead',
+        {
+          title: 'Review API architecture',
+          complexity: 'complex',
+        }
+      );
 
       if (!result.valid) {
         console.log('Validation failed:', result.reason);
@@ -30,19 +35,27 @@ describe('CoordinationService', () => {
 
     it('allows valid downward delegation from T2 to T3', () => {
       const { service } = setupTestEnvironment();
-      const result = service.validateDelegation('backend-lead', 'database-engineer', {
-        title: 'Implement user schema',
-        complexity: 'simple',
-      });
+      const result = service.validateDelegation(
+        'backend-lead',
+        'database-engineer',
+        {
+          title: 'Implement user schema',
+          complexity: 'simple',
+        }
+      );
 
       expect(result.valid).toBe(true);
     });
 
     it('rejects same-tier delegation', () => {
       const { service } = setupTestEnvironment();
-      const result = service.validateDelegation('backend-lead', 'frontend-lead', {
-        title: 'Design API contract',
-      });
+      const result = service.validateDelegation(
+        'backend-lead',
+        'frontend-lead',
+        {
+          title: 'Design API contract',
+        }
+      );
 
       expect(result.valid).toBe(false);
       expect(result.reason).toContain('same-tier');
@@ -51,9 +64,13 @@ describe('CoordinationService', () => {
 
     it('rejects upward delegation', () => {
       const { service } = setupTestEnvironment();
-      const result = service.validateDelegation('database-engineer', 'backend-lead', {
-        title: 'Complex architecture decision',
-      });
+      const result = service.validateDelegation(
+        'database-engineer',
+        'backend-lead',
+        {
+          title: 'Complex architecture decision',
+        }
+      );
 
       expect(result.valid).toBe(false);
       expect(result.reason).toContain('Cannot delegate upward');
@@ -62,10 +79,14 @@ describe('CoordinationService', () => {
 
     it('rejects tier-skipping for complex tasks', () => {
       const { service } = setupTestEnvironment();
-      const result = service.validateDelegation('chief-architect', 'database-engineer', {
-        title: 'Redesign entire data model',
-        complexity: 'complex',
-      });
+      const result = service.validateDelegation(
+        'chief-architect',
+        'database-engineer',
+        {
+          title: 'Redesign entire data model',
+          complexity: 'complex',
+        }
+      );
 
       expect(result.valid).toBe(false);
       expect(result.reason).toContain('Cannot skip tiers');
@@ -75,9 +96,13 @@ describe('CoordinationService', () => {
     it('validates reporting chain', () => {
       const { service } = setupTestEnvironment();
       // api-developer reports to backend-lead via escalation chain
-      const result = service.validateDelegation('backend-lead', 'api-developer', {
-        title: 'Implement endpoint',
-      });
+      const result = service.validateDelegation(
+        'backend-lead',
+        'api-developer',
+        {
+          title: 'Implement endpoint',
+        }
+      );
 
       expect(result.valid).toBe(true);
     });
@@ -98,7 +123,7 @@ describe('CoordinationService', () => {
       const { service, staffStore } = setupTestEnvironment();
       const agents = staffStore.getAgents();
       const agent = agents[0];
-      
+
       const task = staffStore.assignTask({
         title: 'Schema conflicts with API design',
         agentId: agent.id,
@@ -122,7 +147,7 @@ describe('CoordinationService', () => {
       const { service, staffStore } = setupTestEnvironment();
       const agents = staffStore.getAgents();
       const agent = agents[0];
-      
+
       const task = staffStore.assignTask({
         title: 'Backend-Frontend API disagreement',
         agentId: agent.id,
@@ -144,7 +169,7 @@ describe('CoordinationService', () => {
       const { service, staffStore } = setupTestEnvironment();
       const agents = staffStore.getAgents();
       const agent = agents[0];
-      
+
       const task = staffStore.assignTask({
         title: 'Performance issue requires architecture change',
         agentId: agent.id,
@@ -168,7 +193,7 @@ describe('CoordinationService', () => {
       // Use a staff agent that exists in the default store
       const agents = staffStore.getAgents();
       const agent = agents[0]; // Atlas
-      
+
       const task = staffStore.assignTask({
         title: 'Blocked task',
         agentId: agent.id,
@@ -190,7 +215,7 @@ describe('CoordinationService', () => {
       const { service, staffStore } = setupTestEnvironment();
       const agents = staffStore.getAgents();
       const agent = agents[0];
-      
+
       const task = staffStore.assignTask({
         title: 'Strategic decision needed',
         agentId: agent.id,
@@ -216,7 +241,9 @@ describe('CoordinationService', () => {
         action: 'write-file',
         context: {
           description: 'Create user migration',
-          affectedFiles: ['packages/api/src/db/migrations/001_users.sql'],
+          affectedFiles: [
+            'platform/backend/core-api/src/db/migrations/001_users.sql',
+          ],
           rationale: 'New user table required',
         },
       });
@@ -233,7 +260,7 @@ describe('CoordinationService', () => {
         action: 'write-file',
         context: {
           description: 'Refactor core service',
-          affectedFiles: ['packages/api/src/services/core.ts'],
+          affectedFiles: ['platform/backend/core-api/src/services/core.ts'],
         },
       });
 
@@ -278,7 +305,11 @@ describe('CoordinationService', () => {
         context: {
           description: 'Switch to event-driven architecture',
           rationale: 'Better scalability and decoupling',
-          tradeoffs: ['Increased complexity', 'Better scalability', 'Eventual consistency'],
+          tradeoffs: [
+            'Increased complexity',
+            'Better scalability',
+            'Eventual consistency',
+          ],
         },
       });
 
@@ -295,8 +326,8 @@ describe('CoordinationService', () => {
         context: {
           description: 'API contract change affecting frontend',
           affectedFiles: [
-            'packages/api/src/endpoints/users.ts',
-            'apps/web/src/api/users.ts',
+            'platform/backend/core-api/src/endpoints/users.ts',
+            'platform/frontend/src/api/users.ts',
           ],
         },
       });
@@ -314,7 +345,7 @@ describe('CoordinationService', () => {
         action: 'delete-file',
         context: {
           description: 'Remove deprecated component',
-          affectedFiles: ['apps/web/src/components/OldButton.tsx'],
+          affectedFiles: ['platform/frontend/src/components/OldButton.tsx'],
         },
       });
 
@@ -413,13 +444,17 @@ describe('CoordinationService', () => {
           domain: 'backend',
           description: 'API versioning strategy change',
           initiator: 'chief-architect',
-          affectedArtifacts: ['packages/api/src/routes/*'],
+          affectedArtifacts: ['platform/backend/core-api/src/routes/*'],
         },
         ['backend', 'frontend', 'documentation']
       );
 
       expect(result.notifiedAgents.length).toBeGreaterThan(0);
-      expect(result.affectedDomains).toEqual(['backend', 'frontend', 'documentation']);
+      expect(result.affectedDomains).toEqual([
+        'backend',
+        'frontend',
+        'documentation',
+      ]);
     });
 
     it('uses Engineering Manager as coordinator for technical changes', () => {
@@ -458,8 +493,8 @@ describe('CoordinationService', () => {
           description: 'Major refactoring',
           initiator: 'tech-lead',
           affectedArtifacts: [
-            'apps/api/src/services/user.ts',
-            'apps/web/src/api/users.ts',
+            'platform/backend/core-api/src/services/user.ts',
+            'platform/frontend/src/api/users.ts',
             'infra/kubernetes/api-deployment.yaml',
             'docs/api/users.md',
           ],

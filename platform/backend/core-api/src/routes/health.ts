@@ -9,7 +9,7 @@ const router = Router();
 router.get('/health', (_req: Request, res: Response) => {
   res.json({
     status: 'healthy',
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
   });
 });
 

@@ -38,7 +38,7 @@ services:
 
   api-gateway:
     build:
-      context: ./packages/api-gateway
+      context: ./platform/api/gateway
       dockerfile: ./Dockerfile
     ports:
       - "20129:20129"
@@ -47,7 +47,7 @@ services:
 
   control-center:
     build:
-      context: ./packages/control-center
+      context: ./platform/devtools/control-center
       dockerfile: ./Dockerfile
     ports:
       - "3000:3000"

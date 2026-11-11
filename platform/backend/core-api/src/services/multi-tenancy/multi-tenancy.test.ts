@@ -3,6 +3,7 @@
  */
 
 import { PrismaClient, TenantStatus, TenantPlan } from '@prisma/client';
+
 import {
   TenantService,
   TenantContextManager,
@@ -190,7 +191,10 @@ describe('TenantService', () => {
 
   describe('suspend and activate', () => {
     it('should suspend tenant', async () => {
-      const mockSuspended = { id: 'tenant_123', status: TenantStatus.SUSPENDED };
+      const mockSuspended = {
+        id: 'tenant_123',
+        status: TenantStatus.SUSPENDED,
+      };
       (mockPrisma.tenant.update as jest.Mock).mockResolvedValue(mockSuspended);
 
       const result = await tenantService.suspendTenant('tenant_123');

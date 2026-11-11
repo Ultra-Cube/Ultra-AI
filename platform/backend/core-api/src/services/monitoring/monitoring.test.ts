@@ -2,8 +2,8 @@
  * Tests for Monitoring and Observability Systems
  */
 
-import { MetricsCollector, metricsCollector } from './metrics';
 import { StructuredLogger } from './logger';
+import { MetricsCollector } from './metrics';
 import { DistributedTracing } from './middleware';
 
 describe('Monitoring and Observability', () => {
@@ -116,7 +116,7 @@ describe('Monitoring and Observability', () => {
     it('should generate Prometheus format metrics', async () => {
       collector.recordHttpRequest('GET', '/health', 200, 50);
       const metrics = await collector.metricsAsPrometheus();
-      
+
       expect(typeof metrics).toBe('string');
       expect(metrics).toContain('http_request_duration_seconds');
       expect(metrics).toContain('http_requests_total');
@@ -193,21 +193,36 @@ describe('Monitoring and Observability', () => {
     it('should log database operations', () => {
       expect(() => {
         logger.logDbOperation('SELECT', 'users', 50, true);
-        logger.logDbOperation('INSERT', 'logs', 75, false, new Error('DB Error'));
+        logger.logDbOperation(
+          'INSERT',
+          'logs',
+          75,
+          false,
+          new Error('DB Error')
+        );
       }).not.toThrow();
     });
 
     it('should log authentication events', () => {
       expect(() => {
         logger.logAuthEvent('login', 'user-123', true);
-        logger.logAuthEvent('register', 'user-456', false, new Error('Validation failed'));
+        logger.logAuthEvent(
+          'register',
+          'user-456',
+          false,
+          new Error('Validation failed')
+        );
       }).not.toThrow();
     });
 
     it('should log security events with severity', () => {
       expect(() => {
-        logger.logSecurityEvent('suspicious_login', 'medium', { ip: '192.168.1.1' });
-        logger.logSecurityEvent('unauthorized_access', 'high', { resource: 'admin' });
+        logger.logSecurityEvent('suspicious_login', 'medium', {
+          ip: '192.168.1.1',
+        });
+        logger.logSecurityEvent('unauthorized_access', 'high', {
+          resource: 'admin',
+        });
       }).not.toThrow();
     });
 
@@ -230,7 +245,7 @@ describe('Monitoring and Observability', () => {
   describe('DistributedTracing', () => {
     it('should create a span', () => {
       const span = DistributedTracing.createSpan('trace-123', 'test-span');
-      
+
       expect(span).toBeDefined();
       expect(span.traceId).toBe('trace-123');
       expect(span.spanId).toBeDefined();
@@ -239,27 +254,31 @@ describe('Monitoring and Observability', () => {
     });
 
     it('should create span with parent span ID', () => {
-      const span = DistributedTracing.createSpan('trace-123', 'test-span', 'parent-span-456');
-      
+      const span = DistributedTracing.createSpan(
+        'trace-123',
+        'test-span',
+        'parent-span-456'
+      );
+
       expect(span.parentSpanId).toBe('parent-span-456');
     });
 
     it('should add tags to span', () => {
       const span = DistributedTracing.createSpan('trace-123', 'test-span');
-      
+
       DistributedTracing.addTag(span, 'userId', 'user-123');
       DistributedTracing.addTag(span, 'status', 'success');
-      
+
       expect(span.tags.get('userId')).toBe('user-123');
       expect(span.tags.get('status')).toBe('success');
     });
 
     it('should add logs to span', () => {
       const span = DistributedTracing.createSpan('trace-123', 'test-span');
-      
+
       DistributedTracing.log(span, 'Step 1 completed', { result: 'success' });
       DistributedTracing.log(span, 'Step 2 started');
-      
+
       expect(span.logs).toHaveLength(2);
       expect(span.logs[0].message).toBe('Step 1 completed');
       expect(span.logs[0].data).toEqual({ result: 'success' });
@@ -267,25 +286,29 @@ describe('Monitoring and Observability', () => {
 
     it('should end span and capture duration', async () => {
       const span = DistributedTracing.createSpan('trace-123', 'test-span');
-      
+
       // Simulate work
-      await new Promise(resolve => setTimeout(resolve, 10));
-      
+      await new Promise((resolve) => setTimeout(resolve, 10));
+
       const endedSpan = DistributedTracing.endSpan(span);
-      
+
       expect(endedSpan.duration).toBeDefined();
       expect(endedSpan.duration).toBeGreaterThanOrEqual(10);
     });
 
     it('should convert span to object format', () => {
-      const span = DistributedTracing.createSpan('trace-123', 'test-span', 'parent-span-456');
-      
+      const span = DistributedTracing.createSpan(
+        'trace-123',
+        'test-span',
+        'parent-span-456'
+      );
+
       DistributedTracing.addTag(span, 'userId', 'user-123');
       DistributedTracing.log(span, 'Test log');
       DistributedTracing.endSpan(span);
-      
+
       const spanObject = DistributedTracing.spanToObject(span);
-      
+
       expect(spanObject.traceId).toBe('trace-123');
       expect(spanObject.spanId).toBe(span.spanId);
       expect(spanObject.parentSpanId).toBe('parent-span-456');
@@ -296,11 +319,19 @@ describe('Monitoring and Observability', () => {
 
     it('should create span tree with parent-child relationships', () => {
       const traceId = 'trace-123';
-      
+
       const parentSpan = DistributedTracing.createSpan(traceId, 'parent');
-      const childSpan1 = DistributedTracing.createSpan(traceId, 'child1', parentSpan.spanId);
-      const childSpan2 = DistributedTracing.createSpan(traceId, 'child2', parentSpan.spanId);
-      
+      const childSpan1 = DistributedTracing.createSpan(
+        traceId,
+        'child1',
+        parentSpan.spanId
+      );
+      const childSpan2 = DistributedTracing.createSpan(
+        traceId,
+        'child2',
+        parentSpan.spanId
+      );
+
       expect(childSpan1.parentSpanId).toBe(parentSpan.spanId);
       expect(childSpan2.parentSpanId).toBe(parentSpan.spanId);
       expect(childSpan1.traceId).toBe(childSpan2.traceId);
@@ -310,17 +341,17 @@ describe('Monitoring and Observability', () => {
   describe('Metrics Integration', () => {
     it('should track complete request lifecycle', () => {
       const collector = new MetricsCollector();
-      
+
       // Simulate request
-      const startTime = Date.now();
+      const _startTime = Date.now();
       collector.recordHttpRequest('POST', '/api/data', 201, 150, 2000, 1000);
-      
+
       expect(() => {
         // Simulate processing
         collector.recordDbQuery('INSERT', 'requests', 50, true);
         collector.recordDbQuery('SELECT', 'users', 30, true);
       }).not.toThrow();
-      
+
       expect(() => {
         collector.recordCacheHit('userCache');
         collector.recordAIRequest('success', 'gpt-4');
@@ -329,7 +360,7 @@ describe('Monitoring and Observability', () => {
 
     it('should track error scenarios', () => {
       const collector = new MetricsCollector();
-      
+
       expect(() => {
         collector.recordHttpRequest('GET', '/api/data', 500, 1000);
         collector.recordError('DatabaseError', 'critical');
@@ -339,7 +370,7 @@ describe('Monitoring and Observability', () => {
 
     it('should track rate limiting scenarios', () => {
       const collector = new MetricsCollector();
-      
+
       expect(() => {
         collector.recordRateLimitExceeded('/api/auth/login');
         collector.recordRateLimitExceeded('/api/auth/login');

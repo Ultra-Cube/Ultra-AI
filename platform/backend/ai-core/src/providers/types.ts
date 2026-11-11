@@ -12,7 +12,11 @@ export interface LLMProvider {
   readonly models: string[];
   /** Whether the provider has credentials/config to run. */
   isAvailable(): boolean;
-  complete(task: Task, model: string, options?: CompletionOptions): Promise<string>;
+  complete(
+    task: Task,
+    model: string,
+    options?: CompletionOptions
+  ): Promise<string>;
 }
 
 export function isModelServedBy(model: string, models: string[]): boolean {

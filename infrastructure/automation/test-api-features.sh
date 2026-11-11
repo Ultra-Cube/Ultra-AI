@@ -17,7 +17,7 @@ echo -e "Testing API at: ${API_BASE}\n"
 # Check if server is running
 if ! curl -s "${API_BASE}/health" > /dev/null; then
     echo -e "${RED}❌ API server is not running${NC}"
-    echo -e "${YELLOW}Start the server with: npm run dev --workspace=packages/api${NC}"
+    echo -e "${YELLOW}Start the server with: npm run dev --workspace=platform/backend/core-api${NC}"
     exit 1
 fi
 

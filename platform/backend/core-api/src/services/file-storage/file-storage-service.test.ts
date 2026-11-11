@@ -2,8 +2,9 @@
  * File Storage Service Tests
  */
 
-import { FileStorageService } from './file-storage-service';
 import { FileStatus, FileStorageType } from '@prisma/client';
+
+import { FileStorageService } from './file-storage-service';
 
 // Mock Prisma
 const mockPrisma = {
@@ -332,9 +333,9 @@ describe('FileStorageService', () => {
     it('should throw error if file not found', async () => {
       mockPrisma.file.findFirst.mockResolvedValue(null);
 
-      await expect(service.deleteFile(tenantId, 'nonexistent', userId)).rejects.toThrow(
-        'File not found'
-      );
+      await expect(
+        service.deleteFile(tenantId, 'nonexistent', userId)
+      ).rejects.toThrow('File not found');
     });
   });
 

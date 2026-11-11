@@ -147,7 +147,7 @@ curl http://localhost:20128/v1/chat/completions \
 ### Start API Gateway
 
 ```bash
-cd packages/api-gateway
+cd platform/api/gateway
 npm start
 # Runs on port 20128
 ```

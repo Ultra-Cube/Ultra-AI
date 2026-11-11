@@ -21,7 +21,10 @@ export class AuthIntegration {
 
   constructor(config: Partial<AuthConfig> = {}) {
     this.config = {
-      jwtSecret: config.jwtSecret || process.env.ULTRA_AI_JWT_SECRET || 'ultra-ai-dev-secret',
+      jwtSecret:
+        config.jwtSecret ||
+        process.env.ULTRA_AI_JWT_SECRET ||
+        'ultra-ai-dev-secret',
       verifyAuth: config.verifyAuth !== false, // Default to true
     };
   }
@@ -62,7 +65,7 @@ export class AuthIntegration {
    */
   extractTokenFromHeaders(headers: Record<string, string>): string | null {
     const authHeader = headers['authorization'] || headers['Authorization'];
-    
+
     if (!authHeader) {
       return null;
     }
@@ -81,7 +84,7 @@ export class AuthIntegration {
    */
   authenticateRequest(headers: Record<string, string>): AuthContext | null {
     const token = this.extractTokenFromHeaders(headers);
-    
+
     if (!token) {
       return null;
     }

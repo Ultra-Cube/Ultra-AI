@@ -1,11 +1,11 @@
 /**
  * Structured Logging Configuration for Ultra AI Platform
- * 
+ *
  * Uses Winston for comprehensive, structured logging with multiple transports
  */
 
-import winston from 'winston';
 import { v4 as uuidv4 } from 'uuid';
+import winston from 'winston';
 
 export interface LogContext {
   correlationId?: string;
@@ -22,8 +22,10 @@ export interface LogContext {
  */
 const customFormat = winston.format.combine(
   winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
-  winston.format.metadata({ fillExcept: ['message', 'level', 'timestamp', 'label'] }),
-  winston.format.json(),
+  winston.format.metadata({
+    fillExcept: ['message', 'level', 'timestamp', 'label'],
+  }),
+  winston.format.json()
 );
 
 /**
@@ -56,11 +58,12 @@ if (process.env.NODE_ENV !== 'production') {
     format: winston.format.combine(
       winston.format.colorize(),
       winston.format.printf(({ timestamp, level, message, metadata }) => {
-        const meta = metadata && Object.keys(metadata).length > 0
-          ? ` ${JSON.stringify(metadata)}`
-          : '';
+        const meta =
+          metadata && Object.keys(metadata).length > 0
+            ? ` ${JSON.stringify(metadata)}`
+            : '';
         return `${timestamp} [${level}] ${message}${meta}`;
-      }),
+      })
     ),
   });
 
@@ -122,7 +125,11 @@ export class StructuredLogger {
   /**
    * Log error message
    */
-  error(message: string, error?: Error | string, meta?: Partial<LogContext>): void {
+  error(
+    message: string,
+    error?: Error | string,
+    meta?: Partial<LogContext>
+  ): void {
     const errorMeta = {
       ...this.context,
       ...(error instanceof Error && {
@@ -158,20 +165,18 @@ export class StructuredLogger {
     endpoint: string,
     statusCode: number,
     duration: number,
-    userId?: string,
+    userId?: string
   ): void {
-    const level = statusCode >= 500 ? 'error' : statusCode >= 400 ? 'warn' : 'info';
-    this.logger[level](
-      `${method} ${endpoint} ${statusCode} ${duration}ms`,
-      {
-        ...this.context,
-        method,
-        endpoint,
-        statusCode,
-        duration,
-        userId,
-      },
-    );
+    const level =
+      statusCode >= 500 ? 'error' : statusCode >= 400 ? 'warn' : 'info';
+    this.logger[level](`${method} ${endpoint} ${statusCode} ${duration}ms`, {
+      ...this.context,
+      method,
+      endpoint,
+      statusCode,
+      duration,
+      userId,
+    });
   }
 
   /**
@@ -182,11 +187,11 @@ export class StructuredLogger {
     table: string,
     duration: number,
     success: boolean,
-    error?: Error,
+    error?: Error
   ): void {
     const level = success ? 'debug' : 'error';
     const message = `Database ${operation} on ${table} - ${duration}ms`;
-    
+
     this.logger[level](message, {
       ...this.context,
       operation,
@@ -207,11 +212,11 @@ export class StructuredLogger {
     event: 'login' | 'logout' | 'register' | 'token_refresh',
     userId: string,
     success: boolean,
-    error?: Error,
+    error?: Error
   ): void {
     const level = success ? 'info' : 'warn';
     const message = `Auth ${event} - ${success ? 'success' : 'failure'}`;
-    
+
     this.logger[level](message, {
       ...this.context,
       event,
@@ -230,7 +235,7 @@ export class StructuredLogger {
   logSecurityEvent(
     event: string,
     severity: 'low' | 'medium' | 'high' | 'critical',
-    details: Record<string, any>,
+    details: Record<string, any>
   ): void {
     const levelMap = {
       low: 'debug',
@@ -238,7 +243,7 @@ export class StructuredLogger {
       high: 'error',
       critical: 'error',
     };
-    
+
     const level = levelMap[severity];
     (this.logger as any)[level](`Security: ${event}`, {
       ...this.context,

@@ -6,7 +6,7 @@
 import { EventEmitter } from 'events';
 
 /**
- * Base URL of the mock-adapters service (services/mock-adapters). The
+ * Base URL of the mock-adapters service (platform/services/mock-adapters). The
  * integration layer probes this to derive honest, live status for the
  * imported sub-projects instead of reporting a hardcoded 'imported' label.
  */
@@ -16,9 +16,23 @@ const MOCK_ADAPTERS_URL =
 export interface SystemConfig {
   id: string;
   name: string;
-  type: 'gateway' | 'assistant' | 'intelligence' | 'desktop' | 'financial' | 'multimodal' | 'world-model' | 'animation';
+  type:
+    | 'gateway'
+    | 'assistant'
+    | 'intelligence'
+    | 'desktop'
+    | 'financial'
+    | 'multimodal'
+    | 'world-model'
+    | 'animation';
   port?: number;
-  status: 'running' | 'stopped' | 'configured' | 'imported' | 'degraded' | 'offline';
+  status:
+    | 'running'
+    | 'stopped'
+    | 'configured'
+    | 'imported'
+    | 'degraded'
+    | 'offline';
   dependencies: string[];
   /**
    * Upstream source repository (fadhel-sh fork) that this sub-project is
@@ -147,7 +161,7 @@ export class IntegrationService extends EventEmitter {
     }
 
     // Check if other systems depend on this one
-    for (const [id, sys] of this.systems) {
+    for (const [, sys] of this.systems) {
       if (sys.dependencies.includes(systemId) && sys.status === 'running') {
         console.error(`Cannot stop ${system.name}: ${sys.name} depends on it`);
         return false;
@@ -163,10 +177,10 @@ export class IntegrationService extends EventEmitter {
 
   async startAll(): Promise<void> {
     console.log('Starting all systems...');
-    
+
     // Start in dependency order
     const startOrder = this.getDependencyOrder();
-    
+
     for (const systemId of startOrder) {
       await this.startSystem(systemId);
     }
@@ -178,10 +192,10 @@ export class IntegrationService extends EventEmitter {
 
   async stopAll(): Promise<void> {
     console.log('Stopping all systems...');
-    
+
     // Stop in reverse dependency order
     const stopOrder = this.getDependencyOrder().reverse();
-    
+
     for (const systemId of stopOrder) {
       await this.stopSystem(systemId);
     }
@@ -259,7 +273,9 @@ export class IntegrationService extends EventEmitter {
   }
 
   getRunningSystems(): SystemConfig[] {
-    return Array.from(this.systems.values()).filter((s) => s.status === 'running');
+    return Array.from(this.systems.values()).filter(
+      (s) => s.status === 'running'
+    );
   }
 
   private getDependencyOrder(): string[] {

@@ -113,7 +113,7 @@ describe('ModelGateway', () => {
 
   it('throws error for unsupported model', async () => {
     await expect(gateway.routeRequest('unknown-model')).rejects.toThrow(
-      'No provider available',
+      'No provider available'
     );
   });
 });

@@ -7,7 +7,7 @@
 ## What this release contains
 
 All changes are **additions only** — zero existing files were modified, deleted, or renamed
-(verified by `scripts/preservation.sh verify-additive`: 236 files added, 0 changed, 0 deleted).
+(verified by `infrastructure/automation/preservation.sh verify-additive`: 236 files added, 0 changed, 0 deleted).
 
 | Area | Path | Contents |
 |------|------|----------|
@@ -16,7 +16,7 @@ All changes are **additions only** — zero existing files were modified, delete
 | Builder plugin | `ultra-ai-v2/plugin/ultra-ai-builder/` | `plugin.json`, 33 mirrored skills, 16 agents (A00–A15), 4 commands, hooks (preservation-guard), `.mcp.json`, `AGENTS.md` |
 | Memory bank | `ultra-ai-v2/memory/` | Facts corpus (7 files), decisions ledger (ADR-0001/0002 + G-0.1–G-0.7), glossary, contradictions (C-001…), timeline, `sources.jsonl` (122 entries), `coverage.md`, notes |
 | Diagram registry | `ultra-ai-v2/diagrams/` | 116 extracted `.mmd` files + `graphs/registry.json` + `graphs/index.md` |
-| Tooling | `scripts/preservation.sh` | Manifest / verify-tag / verify-additive preservation checker |
+| Tooling | `infrastructure/automation/preservation.sh` | Manifest / verify-tag / verify-additive preservation checker |
 
 ## What is deliberately unchanged
 
@@ -46,11 +46,11 @@ All changes are **additions only** — zero existing files were modified, delete
 
 ```bash
 # additions-only proof (run from repo root)
-bash scripts/preservation.sh verify-additive baseline/pre-planning-20261111 HEAD
+bash infrastructure/automation/preservation.sh verify-additive baseline/pre-planning-20261111 HEAD
 # expect: "OK: 236 files added, 0 changed, 0 deleted" (count may grow with this file)
 
 # baseline integrity: every baseline file unchanged at this tag
-bash scripts/preservation.sh verify-tag HEAD PLANNING_BASELINE_c863ef8.sha256
+bash infrastructure/automation/preservation.sh verify-tag HEAD PLANNING_BASELINE_c863ef8.sha256
 # expect: "checked N entries, violations: 0"
 
 # diagram registry completeness

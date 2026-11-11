@@ -4,10 +4,12 @@
  */
 
 import { EventEmitter } from 'events';
-import { ControlCenterConfig, SystemConfig, Service } from '../types';
 import * as os from 'os';
+
 import * as cron from 'node-cron';
 import { ScheduledTask } from 'node-cron';
+
+import { ControlCenterConfig, SystemConfig, Service } from '../types';
 
 export class SystemMonitor extends EventEmitter {
   private config: ControlCenterConfig;
@@ -37,7 +39,7 @@ export class SystemMonitor extends EventEmitter {
     }
 
     this.monitoring = true;
-    
+
     // Monitor every minute
     this.monitorJob = cron.schedule('* * * * *', async () => {
       await this.checkSystem();
@@ -55,7 +57,7 @@ export class SystemMonitor extends EventEmitter {
 
   async checkSystem(): Promise<void> {
     const stats = await this.getSystemStats();
-    
+
     if (this.systemConfig.alertEnabled) {
       if (stats.cpu > this.systemConfig.cpuThreshold) {
         this.emit('alert', {
@@ -95,11 +97,12 @@ export class SystemMonitor extends EventEmitter {
     uptime: number;
   }> {
     const cpus = os.cpus();
-    const cpuUsage = cpus.reduce((acc, cpu) => {
-      const total = Object.values(cpu.times).reduce((a, b) => a + b, 0);
-      const idle = cpu.times.idle;
-      return acc + ((total - idle) / total);
-    }, 0) / cpus.length;
+    const cpuUsage =
+      cpus.reduce((acc, cpu) => {
+        const total = Object.values(cpu.times).reduce((a, b) => a + b, 0);
+        const idle = cpu.times.idle;
+        return acc + (total - idle) / total;
+      }, 0) / cpus.length;
 
     const totalMemory = os.totalmem();
     const freeMemory = os.freemem();
@@ -165,7 +168,11 @@ export class SystemMonitor extends EventEmitter {
       const configPath = `${this.config.dataPath}/system-config.json`;
       const data = await import('fs/promises');
       await data.mkdir(this.config.dataPath, { recursive: true });
-      await data.writeFile(configPath, JSON.stringify(this.systemConfig, null, 2), 'utf-8');
+      await data.writeFile(
+        configPath,
+        JSON.stringify(this.systemConfig, null, 2),
+        'utf-8'
+      );
     } catch (error) {
       console.error('Failed to save system config:', error);
     }

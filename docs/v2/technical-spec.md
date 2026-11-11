@@ -31,7 +31,7 @@
 | Term | Meaning in v2 | Note |
 |---|---|---|
 | **Hermes Agent** | Nous Research's open-source agent (MIT) — the platform brain | Always write "Hermes Agent" in new docs |
-| **Hermes monitoring** (legacy) | Prometheus + Grafana + Alertmanager in `monitoring/hermes` and the `/hermes` page | Proposed rename **Sentinel** (G-0.4); old files stay untouched |
+| **Hermes monitoring** (legacy) | Prometheus + Grafana + Alertmanager in `infrastructure/monitoring/legacy-hermes` and the `/hermes` page | Proposed rename **Sentinel** (G-0.4); old files stay untouched |
 | **ZeroAI** | The adaptive, local-first interaction layer (voice/text → memory → policy → local/cloud) | Existing docs in `wsl-ai-stack/ZeroAI` |
 | **Runtime Supervisor** | Component that installs/starts/stops/updates embedded engines | New |
 | **Memory Bank** | File-based, provenance-tagged knowledge store (facts, ADRs, ledger) | New; Hermes memory holds pointers |
@@ -130,7 +130,7 @@ MIT licence; built by Nous Research; released Feb 2026. Persistent agent memory 
 | **Memory Bank** | Provenance-tagged facts/ADRs/ledger (Super Prompt App. F). Hermes' small memory files hold pointers; heavy knowledge lives in the bank with FTS5 (and optional pgvector). |
 | **Skill Registry** | Import/export agentskills.io skills, semantic versions, signatures, scopes (`global`, `environment:<name>`, `profile:<name>`), review status. |
 | **MCP hub** | One MCP server exposing platform tools (gateway, engines, memory, outbox) to Hermes, OpenClaw and OpenHands, with per-agent allow-lists. |
-| **Provider wiring** | Hermes' custom provider points to the **platform gateway** (OpenAI-compatible `/v1`) so every call gets routing, policy and tracing. The repo already contains this pattern in `config/brain/brain.config.yaml`. |
+| **Provider wiring** | Hermes' custom provider points to the **platform gateway** (OpenAI-compatible `/v1`) so every call gets routing, policy and tracing. The repo already contains this pattern in `brain-stack/models/local-inference/brain.config.yaml`. |
 
 ### 4.3 Open spike (blocks P1A design) — `UNVERIFIED`
 Does the installed Hermes version expose an HTTP/OpenAI-compatible server that Open WebUI can talk to, or only CLI + messaging gateway? **Task P1A-01** must answer with evidence on Linux, WSL2 and native Windows. Fallback: a thin `hermes-bridge` service (OpenAI-compatible → Hermes session API/CLI).
@@ -237,7 +237,7 @@ Every call carries a `PolicyContext` (data class, user consent, region rules) an
 | **Moonshot Kimi** | K2.6 (Apr 2026), **K3** (2.8T total/104B active, weights 27 Jul 2026) | Yes | K2.x **Modified MIT**; **K3 License** (custom) | K3 needs preserved reasoning history across turns (adapter must replay prior assistant reasoning + tool calls); K3 weights ≈1.56 TB → API only for almost all users |
 | **Manus** | hosted agent product, API (`open.manus.ai`) | **No (closed)** | commercial ToS | Integrate only as an optional *agent provider* with the user's key. Meta's acquisition was blocked/unwound in 2026 → availability and data-flow risk; treat as volatile |
 | **OpenManus** | open framework replicating the Manus approach | code | **MIT** (FoundationAgents) | Candidate open agent framework for the agents network |
-| OpenAI, Anthropic, OpenRouter, Ollama | existing adapters | — | provider ToS | already in `packages/ai-core` (OpenAI, Anthropic, Mock) |
+| OpenAI, Anthropic, OpenRouter, Ollama | existing adapters | — | provider ToS | already in `platform/backend/ai-core` (OpenAI, Anthropic, Mock) |
 
 **Hardware reality:** frontier open weights (V4-Pro, GLM-5.x, K3) are datacenter-scale. On user machines the *local* tier is small/quantized models served by Ollama; the Chinese frontier models are reached **by API** (or by the user's own GPU cluster via vLLM/SGLang).
 
@@ -455,7 +455,7 @@ Nothing is built *inside* Gate-OS. We deliver a **contract, packages and tests**
 ```
 - **Outbox:** append-only local log with a hash chain (tamper-evident), offline queue, idempotent export port (`ExportTarget.send(batch)`).
 - **Connector:** `ultra-core-bridge` implements `ExportTarget` against Ultra Core **once the owner supplies its interface** (G-4.1); until then a mock target and contract tests.
-- **Not built:** tokens, wallets, mining/rewards, smart contracts, chain nodes. The legacy `packages/distributed` is **re-scoped** (device mesh first; no "private by chunking" claim — see `MASTER_PLAN.md` D5).
+- **Not built:** tokens, wallets, mining/rewards, smart contracts, chain nodes. The legacy `platform/backend/distributed` is **re-scoped** (device mesh first; no "private by chunking" claim — see `MASTER_PLAN.md` D5).
 - **Legal gate:** any token/crypto feature requires a written legal opinion first (G-4.2).
 
 ---

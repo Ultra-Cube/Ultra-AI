@@ -1,6 +1,6 @@
-import { AIConfig, Task } from '../types';
 import { TASK_MODEL_AFFINITY } from '../models';
 import { LLMProvider } from '../providers/types';
+import { AIConfig, Task } from '../types';
 
 export interface ModelSelection {
   model: string;

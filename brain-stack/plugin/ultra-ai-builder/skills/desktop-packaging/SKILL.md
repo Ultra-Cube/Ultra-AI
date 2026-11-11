@@ -6,4 +6,4 @@ version: 0.1.0
 ---
 
 ## When to use
-platform/apps/desktop/ work (A10), phase P2.
+platform/platform/apps/desktop-ui/ work (A10), phase P2.

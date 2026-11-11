@@ -5,7 +5,7 @@
 > no installs run, no files in the upstreams modified. Produced 2026-10-31.
 
 ## How Ultra-AI probes sub-projects today
-`packages/api/src/services/integration-service.ts` → `probeAdapterStatus()` does
+`platform/backend/core-api/src/services/integration-service.ts` → `probeAdapterStatus()` does
 `GET ${MOCK_ADAPTERS_URL}/adapters/${id}/health` (default `http://localhost:4100`,
 1500 ms timeout). Non-OK / unreachable → `offline`. Every sub-project depends on
 `9router`, so 9router is the keystone to health-gate first.

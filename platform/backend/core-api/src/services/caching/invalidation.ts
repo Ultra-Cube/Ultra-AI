@@ -3,8 +3,10 @@
  */
 
 import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
-import { MultiLayerCache } from './cache';
+
 import { metricsCollector } from '../monitoring/metrics';
+
+import { MultiLayerCache } from './cache';
 
 export interface CacheConfig {
   ttl?: number;
@@ -18,20 +20,19 @@ export interface CacheConfig {
  */
 export async function registerHttpCachingMiddleware(
   app: FastifyInstance,
-  cache: MultiLayerCache,
+  cache: MultiLayerCache
 ): Promise<void> {
   const cacheConfigs = new Map<string, CacheConfig>();
 
   /**
    * Register cache configuration for a route
    */
-  app.decorate('cacheRoute', (
-    method: string,
-    path: string,
-    config: CacheConfig,
-  ) => {
-    cacheConfigs.set(`${method}:${path}`, config);
-  });
+  app.decorate(
+    'cacheRoute',
+    (method: string, path: string, config: CacheConfig) => {
+      cacheConfigs.set(`${method}:${path}`, config);
+    }
+  );
 
   // Add hook to check cache before processing request
   app.addHook('onRequest', async (request, reply) => {
@@ -144,7 +145,8 @@ export class CacheInvalidationService {
  * Event-based cache invalidation
  */
 export class CacheEventBus {
-  private listeners: Map<string, Set<(data?: any) => Promise<void>>> = new Map();
+  private listeners: Map<string, Set<(data?: any) => Promise<void>>> =
+    new Map();
 
   /**
    * Subscribe to cache invalidation event
@@ -169,8 +171,8 @@ export class CacheEventBus {
     const handlers = this.listeners.get(event);
     if (!handlers) return;
 
-    const promises = Array.from(handlers).map(handler => handler(data));
-    await Promise.all(promises).catch(error => {
+    const promises = Array.from(handlers).map((handler) => handler(data));
+    await Promise.all(promises).catch((error) => {
       console.error(`Error publishing event ${event}:`, error);
     });
   }

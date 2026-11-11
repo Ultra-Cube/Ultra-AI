@@ -25,7 +25,7 @@ IDEAL → SPEC → STUB → WORKING → VERIFIED (evidence attached).
 - ULTRA_AI_LEGAL_LICENSING.md — license matrix, policies, regulatory watch
 - DOC_CONVERSION_MAP.csv — 113 docs → skills/ultra-ai-v2/memory/diagrams map
 - ultra-ai-v2/memory/ — facts, decisions+ledger, glossary, contradictions, timeline, sources, coverage
-- scripts/preservation.sh — manifest / verify-additive / verify-tag
+- infrastructure/automation/preservation.sh — manifest / verify-additive / verify-tag
 - skills/ — 33 SKILL.md files (App. D catalog)
 - agents/ — a00–a15 definitions
 - commands/ — /ultra-status /ultra-gate /ultra-verify /ultra-release

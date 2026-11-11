@@ -156,7 +156,7 @@ describe('Blockchain Rewards System', () => {
 
       expect(leaderboard.length).toBe(3);
       expect(leaderboard[0].totalEarned).toBeGreaterThanOrEqual(
-        leaderboard[1].totalEarned,
+        leaderboard[1].totalEarned
       );
     });
 

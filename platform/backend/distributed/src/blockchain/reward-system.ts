@@ -153,7 +153,7 @@ export class BlockchainRewardManager {
     // Cap reputation between 0 and 100
     user.reputationScore = Math.max(
       0,
-      Math.min(100, user.reputationScore + delta),
+      Math.min(100, user.reputationScore + delta)
     );
 
     return user.reputationScore;
@@ -210,7 +210,7 @@ export class BlockchainRewardManager {
    */
   async transferRewardToBlockchain(
     userId: string,
-    _contractConfig: SmartContractConfig,
+    _contractConfig: SmartContractConfig
   ): Promise<string> {
     const user = this.userRewards.get(userId);
     if (!user || user.pendingRewards === 0) {
@@ -293,8 +293,10 @@ contract UltraAIRewards {
  */
 export class RewardDistributionEngine {
   private rewardManager: BlockchainRewardManager;
-  private distributionSchedule: Map<string, { interval: number; lastRun: Date }> =
-    new Map();
+  private distributionSchedule: Map<
+    string,
+    { interval: number; lastRun: Date }
+  > = new Map();
 
   constructor(rewardManager: BlockchainRewardManager) {
     this.rewardManager = rewardManager;
@@ -308,7 +310,7 @@ export class RewardDistributionEngine {
       userId: string;
       taskId: string;
       success: boolean;
-    }>,
+    }>
   ): { totalDistributed: number; distributionDetails: any[] } {
     let totalDistributed = 0;
     const details: any[] = [];
@@ -317,7 +319,7 @@ export class RewardDistributionEngine {
       const reward = this.rewardManager.completeTask(
         dist.taskId,
         dist.userId,
-        dist.success,
+        dist.success
       );
 
       if (!dist.success) {
@@ -342,7 +344,7 @@ export class RewardDistributionEngine {
   scheduleDistribution(
     name: string,
     intervalMs: number,
-    callback: () => void,
+    callback: () => void
   ): void {
     this.distributionSchedule.set(name, {
       interval: intervalMs,
@@ -355,9 +357,7 @@ export class RewardDistributionEngine {
   /**
    * Get distribution schedule info
    */
-  getScheduleInfo(
-    name: string,
-  ): { interval: number; lastRun: Date } | null {
+  getScheduleInfo(name: string): { interval: number; lastRun: Date } | null {
     return this.distributionSchedule.get(name) || null;
   }
 }

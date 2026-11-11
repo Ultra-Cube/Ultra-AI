@@ -11,7 +11,7 @@ description: Desktop Engineer: Linux + Windows desktop app packaging and Devin-l
 Desktop Engineer: Linux + Windows desktop app packaging and Devin-like workspace.
 
 ## Owned paths (exclusive write access)
-platform/apps/desktop/
+platform/platform/apps/desktop-ui/
 
 ## Primary skills
 desktop-packaging, deb-packaging

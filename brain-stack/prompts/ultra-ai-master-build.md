@@ -1,7 +1,7 @@
 # ULTRA AI — MASTER BUILD PROMPT (v1.0)
 
 > **Owner:** Fadhel — Ultra Cube Tech / Ultra Zone · **Owner language:** Arabic (all repo artifacts: English; Question Cards: English + one-line Arabic)
-> **Target repo:** `github.com/Ultra-Cube/Ultra-AI` · **Companion files:** `ULTRA_AI_TODO.md`, `ULTRA_AI_V2_TECHNICAL_SPEC.md`, `ULTRA_AI_LEGAL_LICENSING.md`, `DOC_CONVERSION_MAP.csv`, `PLANNING_BASELINE_1aa16b6.sha256`, `scripts/preservation.sh`
+> **Target repo:** `github.com/Ultra-Cube/Ultra-AI` · **Companion files:** `ULTRA_AI_TODO.md`, `ULTRA_AI_V2_TECHNICAL_SPEC.md`, `ULTRA_AI_LEGAL_LICENSING.md`, `DOC_CONVERSION_MAP.csv`, `PLANNING_BASELINE_1aa16b6.sha256`, `infrastructure/automation/preservation.sh`
 > **Date of research behind this prompt:** 2026-11-09. Every external fact below carries a source in the Legal/Spec files; anything not verified is marked `UNVERIFIED`.
 
 ---
@@ -26,9 +26,9 @@ Turn the Ultra-AI repository — a large collection of ideas plus a partial impl
 | F2 | 3,171 tracked entries = 3,166 files + **5 gitlinks with no `.gitmodules` and empty directories** (`AI-Models_Biome`, `AI-Tools_quant-mind`, `Tools_godmodeanimation`, `ultra-cube-tools/Directory-Control-Systems`, `ultra-cube-tools/project-template`) → their content is **not in the repo** and was at risk; **recovered 2026-11-09**: all 5 upstreams public, pinned SHA = upstream tip (R-013) | `PLANNING_BASELINE_1aa16b6.sha256` lines starting `gitlink:` |
 | F3 | No git tags; branch `master`; `package.json` version `0.1.0`; README claims `1.0.0`; **no `package-lock.json`** (CI uses `npm ci`); **no `LICENSE` file** | `git tag -l`, file listing |
 | F4 | Verified passing tests: ai-core 3, api-gateway 45, distributed 55 (=103). `@ultra-ai/api` (documented 306) **not verifiable** without Prisma engine download | run `npx turbo run test` on a networked machine |
-| F5 | **Name collision:** in the repo "Hermes" = a Prometheus/Grafana stack (`monitoring/hermes`, `/hermes` page). The owner's "Hermes" = **Hermes Agent by Nous Research** (MIT; persistent memory, skills in `SKILL.md`/agentskills.io format, MCP, multi-platform gateway) | repo grep; `github.com/NousResearch/hermes-agent` |
-| F6 | `packages/desktop-ui` is described as "Electron-based" (`package.json:4`) but has **no Electron dependency or window code** (deps: express, socket.io; `"test": "echo no tests yet"`) — a TypeScript control-surface model, not a shell | `packages/desktop-ui/src` |
-| F7 | The repo already has an Agent Studio (32 agents, 3 tiers) and a `kanban-orchestrator` skill with an **ask-before-write** protocol — reuse, do not reinvent | `packages/api/src/services/agents/REGISTRY_SUMMARY.md`, `skills/devops/kanban-orchestrator/SKILL.md` |
+| F5 | **Name collision:** in the repo "Hermes" = a Prometheus/Grafana stack (`infrastructure/monitoring/legacy-hermes`, `/hermes` page). The owner's "Hermes" = **Hermes Agent by Nous Research** (MIT; persistent memory, skills in `SKILL.md`/agentskills.io format, MCP, multi-platform gateway) | repo grep; `github.com/NousResearch/hermes-agent` |
+| F6 | `platform/platform/apps/desktop-ui-ui` is described as "Electron-based" (`package.json:4`) but has **no Electron dependency or window code** (deps: express, socket.io; `"test": "echo no tests yet"`) — a TypeScript control-surface model, not a shell | `platform/platform/apps/desktop-ui-ui/src` |
+| F7 | The repo already has an Agent Studio (32 agents, 3 tiers) and a `kanban-orchestrator` skill with an **ask-before-write** protocol — reuse, do not reinvent | `platform/backend/core-api/src/services/agents/REGISTRY_SUMMARY.md`, `skills/devops/kanban-orchestrator/SKILL.md` |
 | F8 | Gate-OS is real: one adaptable edition, seven switchable environments (**Everyday, Gaming, Dev, Design, Media, Security, Business**), no reboot; AI-adaptive experience "powered by Ultra AI" | `github.com/Ultra-Cube/Gate-OS` |
 | F9 | The repo vendors **Skales under BSL 1.1** (non-commercial only until 2030-04-19) — must never ship in a product build | `external-integrations/skales/LICENSE` |
 | F10 | Public information about **Ultra Core** could not be found → its interface is **unknown** and must come from the owner | web search 2026-11-09 |
@@ -38,7 +38,7 @@ Turn the Ultra-AI repository — a large collection of ideas plus a partial impl
 
 ## 2. PRIME DIRECTIVES (non-negotiable)
 
-1. **PRESERVE EVERYTHING.** Until the planning release tag exists, you may only **add** files. After it, you may move/replace files only via `git mv`/normal commits on a branch (never `push --force`, `filter-repo`, history rewrite, squash of baseline commits, or deleting `.git`). A removed doc must be reachable at `docs/archive/<original-path>` with an identical SHA-256, or by the baseline tag. Run `scripts/preservation.sh` (section 8) before every merge.
+1. **PRESERVE EVERYTHING.** Until the planning release tag exists, you may only **add** files. After it, you may move/replace files only via `git mv`/normal commits on a branch (never `push --force`, `filter-repo`, history rewrite, squash of baseline commits, or deleting `.git`). A removed doc must be reachable at `docs/archive/<original-path>` with an identical SHA-256, or by the baseline tag. Run `infrastructure/automation/preservation.sh` (section 8) before every merge.
 2. **NO FABRICATION.** Each statement about the repo cites a path (and line/heading); each statement about an external project cites a URL and date. Unknown ⇒ write `UNVERIFIED`. Never describe aspirational work as implemented. Status vocabulary only: `IDEAL` (idea only) → `SPEC` → `STUB` → `WORKING` → `VERIFIED` (evidence attached).
 3. **NEVER STOP SILENTLY — ASK WITH OPTIONS.** When blocked or when a decision is needed, follow the **Question Card protocol** (section 3). Free-form "what should I do?" questions are forbidden.
 4. **LICENSE GATE BEFORE VENDORING.** No third-party code/weights enter the repo, installer, or container image before its license row in `ULTRA_AI_LEGAL_LICENSING.md` is `APPROVED` and `THIRD_PARTY.md` + SBOM are updated.
@@ -111,7 +111,7 @@ The Orchestrator may map these roles onto the existing 32-agent Studio personas 
 | **A07** | Gateway & Models Engineer | `platform/packages/gateway/` | `provider-adapters`, `model-policy` (incl. DeepSeek, GLM, Kimi, Manus connector) |
 | **A08** | Integrations Engineer | `platform/packages/engines/*` | `engine-adapter` (OpenClaw, Ollama, 9router, n8n, Langflow, Dify, Open WebUI, OpenHands) |
 | **A09** | Experience Engineer | `platform/apps/console/` (chat, automation, 3D, adaptive UI) | `adaptive-ui-spec`, `threejs-control-center`, `i18n-rtl` |
-| **A10** | Desktop Engineer | `platform/apps/desktop/` | `desktop-packaging` |
+| **A10** | Desktop Engineer | `platform/platform/apps/desktop-ui/` | `desktop-packaging` |
 | **A11** | Model Foundry Engineer | `platform/packages/foundry/` | `model-foundry`, `eval-harness` |
 | **A12** | Gate-OS Bridge Engineer | `platform/packages/gate-os-bridge/`, `contracts/gate-os/` | `gate-os-contract`, `deb-packaging` |
 | **A13** | Ledger Bridge Engineer | `platform/packages/ultra-core-bridge/` | `signed-event-outbox` |
@@ -144,10 +144,10 @@ The Orchestrator may map these roles onto the existing 32-agent Studio personas 
 
 ### STEP S3 — The Planning & Study Release (owner step 3)
 Goal: a release that **keeps every current file unchanged** and adds the planning/study artifacts.
-1. **Baseline:** record the exact live `HEAD`; run `scripts/preservation.sh manifest HEAD baseline.sha256`; create annotated tag `baseline/pre-planning-YYYYMMDD` on it and push the tag (R2 card first).
+1. **Baseline:** record the exact live `HEAD`; run `infrastructure/automation/preservation.sh manifest HEAD baseline.sha256`; create annotated tag `baseline/pre-planning-YYYYMMDD` on it and push the tag (R2 card first).
 2. **Recover orphan content (F2):** for each of the 5 gitlinks, record its commit SHA in `external-integrations/_PINS.md` (new file) and ask the owner (R2 card) whether to **mirror** the upstream forks (`Fadhel-SH/*`) into `Ultra-Cube` and add a proper `.gitmodules` *after* the release.
-3. **Branch** `release/planning-study` from the baseline tag. Commit **only additions**: `ultra-ai-v2/**`, `ultra-ai-v2/memory/**` (or under `ultra-ai-v2/memory/` — decided by ADR), `ultra-ai-v2/diagrams/**`, `legal/**`, `scripts/preservation.sh`, the baseline manifest, `PLANNING_RELEASE_NOTES.md`.
-4. **Gate:** `scripts/preservation.sh verify-additive <baseline-tag> HEAD` must print `OK … 0 changed, 0 deleted`. Also `verify-tag` against the manifest. Do **not** edit `package.json` (version stays `0.1.0`), README, or any existing file in this release — fixes like the lockfile, LICENSE and README rewrite belong to Phase 0 *after* the tag.
+3. **Branch** `release/planning-study` from the baseline tag. Commit **only additions**: `ultra-ai-v2/**`, `ultra-ai-v2/memory/**` (or under `ultra-ai-v2/memory/` — decided by ADR), `ultra-ai-v2/diagrams/**`, `legal/**`, `infrastructure/automation/preservation.sh`, the baseline manifest, `PLANNING_RELEASE_NOTES.md`.
+4. **Gate:** `infrastructure/automation/preservation.sh verify-additive <baseline-tag> HEAD` must print `OK … 0 changed, 0 deleted`. Also `verify-tag` against the manifest. Do **not** edit `package.json` (version stays `0.1.0`), README, or any existing file in this release — fixes like the lockfile, LICENSE and README rewrite belong to Phase 0 *after* the tag.
 5. **Tag & release:** default tag name `v0.2.0-planning` (GitHub **pre-release**; Question Card G-0.2 for the name). Attach: baseline manifest, `git archive` tarball, a full `git bundle`, release notes (what is included, what is deliberately unchanged, known gaps F2/F3/F4/F9, how to verify).
 **DoD:** an independent run of `verify-tag` + `verify-additive` by A14 is green; the owner approved the publish card.
 
@@ -186,11 +186,11 @@ Blockchain **preparation hooks** (signed, hash-chained event outbox; no keys hel
 
 ```bash
 # at start (read-only):
-bash scripts/preservation.sh manifest HEAD baseline.sha256
+bash infrastructure/automation/preservation.sh manifest HEAD baseline.sha256
 # before every merge on the release branch (additions only):
-bash scripts/preservation.sh verify-additive baseline/pre-planning-YYYYMMDD HEAD
+bash infrastructure/automation/preservation.sh verify-additive baseline/pre-planning-YYYYMMDD HEAD
 # any time, prove the baseline tag is intact:
-bash scripts/preservation.sh verify-tag baseline/pre-planning-YYYYMMDD baseline.sha256
+bash infrastructure/automation/preservation.sh verify-tag baseline/pre-planning-YYYYMMDD baseline.sha256
 ```
 The script records **gitlinks** separately (content not in the repo) and exits non-zero on any changed, deleted or renamed file. If a violation appears: stop, issue an **R2 card** (options: revert the commit / archive the change under `docs/archive/` / accept as intentional with ADR), never "fix" it by rewriting history.
 **Backups:** `git bundle create ultra-ai-<date>.bundle --all` before S3 and before every phase gate; store outside the working tree.
@@ -214,7 +214,7 @@ The script records **gitlinks** separately (content not in the repo) and exits n
 
 1. Clone `Ultra-Cube/Ultra-AI`; record `HEAD`; run `git tag -l`, `git ls-tree -r HEAD | awk '$2=="commit"'`.
 2. Verify the companion files exist; verify F1–F10 against the live repo; log deviations.
-3. Run `scripts/preservation.sh manifest HEAD baseline.sha256` (read-only).
+3. Run `infrastructure/automation/preservation.sh manifest HEAD baseline.sha256` (read-only).
 4. Create the board from `ULTRA_AI_TODO.md` (mirror into the host's to-do tool if present).
 5. Issue the **first Question Card batch** (≤ 3 cards): **G-0.1** agent runtime (Hermes Agent / Claude Code / both), **G-0.2** release tag name, **G-0.3** license of Ultra AI. Continue S1 groundwork on a branch meanwhile.
 

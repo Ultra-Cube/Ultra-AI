@@ -1,5 +1,6 @@
 import { describe, it, expect, beforeEach } from '@jest/globals';
-import { AuthIntegration, AuthConfig } from './auth-integration';
+
+import { AuthIntegration } from './auth-integration';
 
 describe('AuthIntegration', () => {
   let authIntegration: AuthIntegration;
@@ -76,7 +77,9 @@ describe('AuthIntegration', () => {
 
     it('should return anonymous context when auth is disabled', () => {
       authIntegration.updateConfig({ verifyAuth: false });
-      const result = authIntegration.authenticateRequest({ Authorization: 'Bearer any-token' });
+      const result = authIntegration.authenticateRequest({
+        Authorization: 'Bearer any-token',
+      });
       expect(result).toEqual({
         userId: 'anonymous',
         email: 'anonymous',
@@ -110,7 +113,9 @@ describe('AuthIntegration', () => {
   describe('hasAnyRole', () => {
     it('should return true for admin role regardless of required roles', () => {
       const context = { userId: '1', email: 'admin@test.com', role: 'admin' };
-      expect(authIntegration.hasAnyRole(context, ['user', 'moderator'])).toBe(true);
+      expect(authIntegration.hasAnyRole(context, ['user', 'moderator'])).toBe(
+        true
+      );
     });
 
     it('should return true when user has one of required roles', () => {
@@ -120,7 +125,9 @@ describe('AuthIntegration', () => {
 
     it('should return false when user has none of required roles', () => {
       const context = { userId: '1', email: 'user@test.com', role: 'user' };
-      expect(authIntegration.hasAnyRole(context, ['admin', 'moderator'])).toBe(false);
+      expect(authIntegration.hasAnyRole(context, ['admin', 'moderator'])).toBe(
+        false
+      );
     });
 
     it('should return false for null context', () => {

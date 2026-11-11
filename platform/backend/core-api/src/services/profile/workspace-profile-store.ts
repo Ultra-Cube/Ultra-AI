@@ -1,6 +1,7 @@
-import { WorkspaceRecommendationRequest } from '../../types';
 import fs from 'node:fs';
 import path from 'node:path';
+
+import { WorkspaceRecommendationRequest } from '../../types';
 
 export interface WorkspaceProfile {
   userId: string;
@@ -15,7 +16,9 @@ export class WorkspaceProfileStore {
   private readonly profiles = new Map<string, WorkspaceProfile>();
   private readonly storagePath: string;
 
-  constructor(storagePath = path.resolve(process.cwd(), 'data/workspace-profiles.json')) {
+  constructor(
+    storagePath = path.resolve(process.cwd(), 'data/workspace-profiles.json')
+  ) {
     this.storagePath = storagePath;
     this.loadFromDisk();
   }
@@ -62,7 +65,7 @@ export class WorkspaceProfileStore {
     fs.writeFileSync(
       this.storagePath,
       JSON.stringify(Array.from(this.profiles.values()), null, 2),
-      'utf8',
+      'utf8'
     );
   }
 }

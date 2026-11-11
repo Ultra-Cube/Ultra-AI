@@ -147,42 +147,50 @@ export const typeDefs = `
 // Resolvers
 export const resolvers = {
   Query: {
-    users: async (_: any, { limit = 50, offset = 0 }: any, context: any) => {
+    users: async (
+      _: any,
+      { limit: _limit = 50, offset: _offset = 0 }: any,
+      _context: any
+    ) => {
       // In production: return await context.services.userService.listUsers(...)
       return [];
     },
-    user: async (_: any, { id }: any, context: any) => {
+    user: async (_: any, { id: _id }: any, _context: any) => {
       // In production: return await context.services.userService.getUser(id)
       return null;
     },
-    files: async (_: any, { limit = 50, offset = 0 }: any, context: any) => {
+    files: async (
+      _: any,
+      { limit: _limit = 50, offset: _offset = 0 }: any,
+      _context: any
+    ) => {
       // In production: return await context.services.fileService.listFiles(...)
       return [];
     },
     notifications: async (
       _: any,
-      { limit = 50, offset = 0 }: any,
-      context: any
+      { limit: _limit = 50, offset: _offset = 0 }: any,
+      _context: any
     ) => {
       // In production: return await context.services.notificationService.listNotifications(...)
       return [];
     },
-    auditLogs: async (_: any, { limit = 50, offset = 0 }: any, context: any) => {
+    auditLogs: async (
+      _: any,
+      { limit: _limit = 50, offset: _offset = 0 }: any,
+      _context: any
+    ) => {
       // In production: return await context.services.auditLoggingService.queryLogs(...)
       return [];
     },
-    webhooks: async (_: any, _args: any, context: any) => {
+    webhooks: async (_: any, _args: any, _context: any) => {
       // In production: return await context.services.webhookService.getTenantWebhooks(...)
       return [];
     },
   },
 
   Mutation: {
-    createUser: async (
-      _: any,
-      { email, name, role }: any,
-      context: any
-    ) => {
+    createUser: async (_: any, { email, name, role }: any, context: any) => {
       // In production: return await context.services.userService.createUser(...)
       return {
         id: Math.random().toString(),
@@ -212,7 +220,7 @@ export const resolvers = {
     sendNotification: async (
       _: any,
       { userId, title, message }: any,
-      context: any
+      _context: any
     ) => {
       // In production: return await context.services.notificationService.send(...)
       return {
@@ -225,7 +233,7 @@ export const resolvers = {
       };
     },
 
-    registerWebhook: async (_: any, { url, events }: any, context: any) => {
+    registerWebhook: async (_: any, { url, events }: any, _context: any) => {
       // In production: return await context.services.webhookService.registerWebhook(...)
       return {
         id: Math.random().toString(),
@@ -236,7 +244,7 @@ export const resolvers = {
       };
     },
 
-    deleteWebhook: async (_: any, { id }: any, context: any) => {
+    deleteWebhook: async (_: any, { id: _id }: any, _context: any) => {
       // In production: await context.services.webhookService.deleteWebhook(id)
       return true;
     },
@@ -244,7 +252,7 @@ export const resolvers = {
 
   Subscription: {
     notificationReceived: {
-      subscribe: async (_: any, _args: any, context: any) => {
+      subscribe: async (_: any, _args: any, _context: any) => {
         // In production: return context.pubsub.asyncIterator(['NOTIFICATION_SENT'])
         return null as any;
       },

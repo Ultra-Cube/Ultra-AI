@@ -1,10 +1,11 @@
 /**
  * Admin API Routes - Protected with RBAC
- * 
+ *
  * Example implementation of role-protected API endpoints
  */
 
 import express from 'express';
+
 import {
   requireRole,
   requirePermission,

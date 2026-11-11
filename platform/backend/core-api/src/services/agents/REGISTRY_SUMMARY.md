@@ -10,7 +10,7 @@ Built a comprehensive agent definition registry for Ultra-AI's multi-agent studi
 ## Deliverables
 
 ### 1. Agent Registry Module
-**File:** `packages/api/src/services/agents/agent-registry.ts`
+**File:** `platform/backend/core-api/src/services/agents/agent-registry.ts`
 
 - **32 agent definitions** (exceeds 30+ requirement)
 - **Full TypeScript types** with proper exports
@@ -84,7 +84,7 @@ Each agent includes:
 - `getEscalationChain(agentId)` - Get full escalation path
 
 ### 5. Validation Script
-**File:** `packages/api/src/services/agents/validate-registry.ts`
+**File:** `platform/backend/core-api/src/services/agents/validate-registry.ts`
 
 Comprehensive validation including:
 - ✅ Unique agent IDs
@@ -103,7 +103,7 @@ Updated `coordination-service.ts` to use the new registry API:
 
 ### ✅ Build Green
 ```bash
-cd packages/api && npx tsc --noEmit
+cd platform/backend/core-api && npx tsc --noEmit
 # Exit code: 0 ✅
 ```
 
@@ -181,12 +181,12 @@ The registry is ready for:
 ## Files Created/Modified
 
 **Created:**
-- `packages/api/src/services/agents/agent-registry.ts` (28KB, 32 agents)
-- `packages/api/src/services/agents/validate-registry.ts` (5.6KB)
-- `packages/api/src/services/agents/REGISTRY_SUMMARY.md` (this file)
+- `platform/backend/core-api/src/services/agents/agent-registry.ts` (28KB, 32 agents)
+- `platform/backend/core-api/src/services/agents/validate-registry.ts` (5.6KB)
+- `platform/backend/core-api/src/services/agents/REGISTRY_SUMMARY.md` (this file)
 
 **Modified:**
-- `packages/api/src/services/agents/coordination-service.ts` (updated to use new API)
+- `platform/backend/core-api/src/services/agents/coordination-service.ts` (updated to use new API)
 
 ---
 

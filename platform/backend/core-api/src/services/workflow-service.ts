@@ -1,11 +1,16 @@
+import { execFile } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
-import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 
 const execFileAsync = promisify(execFile);
 
-export type WorkflowStatus = 'draft' | 'ready' | 'running' | 'complete' | 'failed';
+export type WorkflowStatus =
+  | 'draft'
+  | 'ready'
+  | 'running'
+  | 'complete'
+  | 'failed';
 
 export interface WorkflowDefinition {
   type: 'shell' | 'n8n-flow';
@@ -52,13 +57,19 @@ export class WorkflowService {
   private readonly storagePath: string;
   private state: WorkflowStoreShape;
 
-  constructor(storagePath = path.resolve(process.cwd(), 'data/n8n-workflows.json')) {
+  constructor(
+    storagePath = path.resolve(process.cwd(), 'data/n8n-workflows.json')
+  ) {
     this.storagePath = storagePath;
     this.state = this.loadFromDisk();
   }
 
   listWorkflows(tenantId?: string, limit = 50, offset = 0): WorkflowRecord[] {
-    const items = tenantId ? this.state.workflows.filter((workflow) => workflow.tenantId === tenantId) : this.state.workflows;
+    const items = tenantId
+      ? this.state.workflows.filter(
+          (workflow) => workflow.tenantId === tenantId
+        )
+      : this.state.workflows;
     return this.clone(items.slice(offset, offset + limit));
   }
 
@@ -72,7 +83,7 @@ export class WorkflowService {
     userId: string,
     name: string,
     definition: WorkflowDefinition,
-    description?: string,
+    description?: string
   ): WorkflowRecord {
     const workflow: WorkflowRecord = {
       id: createId('wf'),
@@ -105,16 +116,24 @@ export class WorkflowService {
 
   deleteWorkflow(id: string): void {
     const before = this.state.workflows.length;
-    this.state.workflows = this.state.workflows.filter((workflow) => workflow.id !== id);
+    this.state.workflows = this.state.workflows.filter(
+      (workflow) => workflow.id !== id
+    );
     if (this.state.workflows.length === before) {
       throw new Error('Workflow not found');
     }
     this.persist();
   }
 
-  listExecutions(workflowId?: string, limit = 50, offset = 0): WorkflowExecutionRecord[] {
+  listExecutions(
+    workflowId?: string,
+    limit = 50,
+    offset = 0
+  ): WorkflowExecutionRecord[] {
     const executions = workflowId
-      ? this.state.executions.filter((execution) => execution.workflowId === workflowId)
+      ? this.state.executions.filter(
+          (execution) => execution.workflowId === workflowId
+        )
       : this.state.executions;
 
     return this.clone(executions.slice(offset, offset + limit));
@@ -125,8 +144,13 @@ export class WorkflowService {
     return execution ? this.clone(execution) : null;
   }
 
-  async createExecution(workflowId: string, input?: unknown): Promise<WorkflowExecutionRecord> {
-    const workflow = this.state.workflows.find((item) => item.id === workflowId);
+  async createExecution(
+    workflowId: string,
+    input?: unknown
+  ): Promise<WorkflowExecutionRecord> {
+    const workflow = this.state.workflows.find(
+      (item) => item.id === workflowId
+    );
     if (!workflow) {
       throw new Error('Workflow not found');
     }
@@ -163,7 +187,8 @@ export class WorkflowService {
 
       return this.clone(execution);
     } catch (error) {
-      const message = error instanceof Error ? error.message : 'Workflow execution failed';
+      const message =
+        error instanceof Error ? error.message : 'Workflow execution failed';
       execution.status = 'failed';
       execution.error = message;
       execution.completedAt = new Date().toISOString();
@@ -176,7 +201,10 @@ export class WorkflowService {
     }
   }
 
-  async updateExecution(id: string, patch: Partial<WorkflowExecutionRecord>): Promise<WorkflowExecutionRecord> {
+  async updateExecution(
+    id: string,
+    patch: Partial<WorkflowExecutionRecord>
+  ): Promise<WorkflowExecutionRecord> {
     const execution = this.state.executions.find((item) => item.id === id);
     if (!execution) {
       throw new Error('Execution not found');
@@ -212,7 +240,8 @@ export class WorkflowService {
           tenantId: 'local-zeroai',
           userId: 'system',
           name: 'OpenClaw status check',
-          description: 'Summarize the current assistant routing and local stack health.',
+          description:
+            'Summarize the current assistant routing and local stack health.',
           definition: {
             type: 'shell',
             command:
@@ -234,7 +263,11 @@ export class WorkflowService {
       fs.mkdirSync(dir, { recursive: true });
     }
 
-    fs.writeFileSync(this.storagePath, JSON.stringify(this.state, null, 2), 'utf8');
+    fs.writeFileSync(
+      this.storagePath,
+      JSON.stringify(this.state, null, 2),
+      'utf8'
+    );
   }
 
   private clone<T>(value: T): T {

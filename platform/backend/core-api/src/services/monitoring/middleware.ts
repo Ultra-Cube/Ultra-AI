@@ -1,13 +1,14 @@
 /**
  * Monitoring Middleware for Request Tracking and Metrics Collection
- * 
+ *
  * Tracks request duration, logs requests, and collects metrics
  */
 
-import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
+import { FastifyInstance } from 'fastify';
 import { v4 as uuidv4 } from 'uuid';
-import { metricsCollector } from './metrics';
+
 import { appLogger } from './logger';
+import { metricsCollector } from './metrics';
 
 /**
  * Extract size in bytes of a value
@@ -24,13 +25,16 @@ function getSize(obj: any): number {
 /**
  * Register monitoring middleware on Fastify instance
  */
-export async function registerMonitoringMiddleware(app: FastifyInstance): Promise<void> {
+export async function registerMonitoringMiddleware(
+  app: FastifyInstance
+): Promise<void> {
   // Add correlation ID to all requests
   app.addHook('preHandler', async (request, reply) => {
-    const correlationId = request.headers['x-correlation-id'] as string || uuidv4();
+    const correlationId =
+      (request.headers['x-correlation-id'] as string) || uuidv4();
     request.id = correlationId;
     reply.header('x-correlation-id', correlationId);
-    
+
     appLogger.setCorrelationId(correlationId);
   });
 
@@ -60,7 +64,7 @@ export async function registerMonitoringMiddleware(app: FastifyInstance): Promis
       statusCode,
       duration,
       requestSize,
-      responseSize,
+      responseSize
     );
 
     // Log the request
@@ -72,7 +76,12 @@ export async function registerMonitoringMiddleware(app: FastifyInstance): Promis
   app.setErrorHandler(async (error, request, reply) => {
     const correlationId = request.id;
     const errorType = error.name || 'UnknownError';
-    const severity = reply.statusCode >= 500 ? 'high' : reply.statusCode >= 400 ? 'medium' : 'low';
+    const severity =
+      reply.statusCode >= 500
+        ? 'high'
+        : reply.statusCode >= 400
+          ? 'medium'
+          : 'low';
 
     // Record error metric
     metricsCollector.recordError(errorType, severity as any);
@@ -97,30 +106,36 @@ export async function registerMonitoringMiddleware(app: FastifyInstance): Promis
 /**
  * Metrics endpoint middleware
  */
-export async function registerMetricsEndpoint(app: FastifyInstance): Promise<void> {
-  app.get('/metrics', {
-    schema: {
-      tags: ['Monitoring'],
-      summary: 'Get Prometheus metrics',
-      description: 'Returns metrics in Prometheus format for scraping',
-      response: {
-        200: {
-          type: 'string',
-          description: 'Prometheus format metrics',
+export async function registerMetricsEndpoint(
+  app: FastifyInstance
+): Promise<void> {
+  app.get(
+    '/metrics',
+    {
+      schema: {
+        tags: ['Monitoring'],
+        summary: 'Get Prometheus metrics',
+        description: 'Returns metrics in Prometheus format for scraping',
+        response: {
+          200: {
+            type: 'string',
+            description: 'Prometheus format metrics',
+          },
         },
       },
     },
-  }, async (request, reply) => {
-    try {
-      const metrics = await metricsCollector.metricsAsPrometheus();
-      reply.type('text/plain');
-      return metrics;
-    } catch (error) {
-      appLogger.error('Failed to generate metrics', error as Error);
-      reply.status(500);
-      return { error: 'Failed to generate metrics' };
+    async (request, reply) => {
+      try {
+        const metrics = await metricsCollector.metricsAsPrometheus();
+        reply.type('text/plain');
+        return metrics;
+      } catch (error) {
+        appLogger.error('Failed to generate metrics', error as Error);
+        reply.status(500);
+        return { error: 'Failed to generate metrics' };
+      }
     }
-  });
+  );
 }
 
 /**
@@ -140,65 +155,76 @@ export interface HealthCheckResult {
 
 export async function registerHealthCheckEndpoint(
   app: FastifyInstance,
-  checks: { [key: string]: () => Promise<boolean> } = {},
+  checks: { [key: string]: () => Promise<boolean> } = {}
 ): Promise<void> {
-  app.get('/health/detailed', {
-    schema: {
-      tags: ['Health'],
-      summary: 'Detailed health check',
-      description: 'Returns detailed health status of all system components',
-      response: {
-        200: {
-          type: 'object',
-          properties: {
-            status: { type: 'string', enum: ['healthy', 'degraded', 'unhealthy'] },
-            timestamp: { type: 'string', format: 'date-time' },
-            uptime: { type: 'number' },
-            components: { type: 'object' },
+  app.get(
+    '/health/detailed',
+    {
+      schema: {
+        tags: ['Health'],
+        summary: 'Detailed health check',
+        description: 'Returns detailed health status of all system components',
+        response: {
+          200: {
+            type: 'object',
+            properties: {
+              status: {
+                type: 'string',
+                enum: ['healthy', 'degraded', 'unhealthy'],
+              },
+              timestamp: { type: 'string', format: 'date-time' },
+              uptime: { type: 'number' },
+              components: { type: 'object' },
+            },
           },
         },
       },
     },
-  }, async (request, reply) => {
-    const results: HealthCheckResult['components'] = {};
-    let hasUnhealthy = false;
-    let hasDegraded = false;
+    async (request, reply) => {
+      const results: HealthCheckResult['components'] = {};
+      let hasUnhealthy = false;
+      const hasDegraded = false;
 
-    // Run all health checks
-    for (const [name, check] of Object.entries(checks)) {
-      try {
-        const healthy = await check();
-        const status = healthy ? 'healthy' : 'unhealthy';
-        
-        results[name] = { status };
-        metricsCollector.setHealthStatus(name, healthy);
+      // Run all health checks
+      for (const [name, check] of Object.entries(checks)) {
+        try {
+          const healthy = await check();
+          const status = healthy ? 'healthy' : 'unhealthy';
 
-        if (!healthy) {
+          results[name] = { status };
+          metricsCollector.setHealthStatus(name, healthy);
+
+          if (!healthy) {
+            hasUnhealthy = true;
+          }
+        } catch (error) {
+          results[name] = {
+            status: 'unhealthy',
+            message: (error as Error).message,
+          };
+          metricsCollector.setHealthStatus(name, false);
           hasUnhealthy = true;
         }
-      } catch (error) {
-        results[name] = {
-          status: 'unhealthy',
-          message: (error as Error).message,
-        };
-        metricsCollector.setHealthStatus(name, false);
-        hasUnhealthy = true;
       }
+
+      const overallStatus = hasUnhealthy
+        ? 'unhealthy'
+        : hasDegraded
+          ? 'degraded'
+          : 'healthy';
+      const statusCode = overallStatus === 'healthy' ? 200 : 503;
+
+      const healthResponse: HealthCheckResult = {
+        status: overallStatus,
+        timestamp: new Date().toISOString(),
+        uptime: process.uptime(),
+        components: results,
+      };
+
+      reply.status(statusCode);
+      return healthResponse;
     }
-
-    const overallStatus = hasUnhealthy ? 'unhealthy' : hasDegraded ? 'degraded' : 'healthy';
-    const statusCode = overallStatus === 'healthy' ? 200 : 503;
-
-    const healthResponse: HealthCheckResult = {
-      status: overallStatus,
-      timestamp: new Date().toISOString(),
-      uptime: process.uptime(),
-      components: results,
-    };
-
-    reply.status(statusCode);
-    return healthResponse;
-  });
+  );
 }
 
 /**
@@ -221,7 +247,7 @@ export class DistributedTracing {
   static createSpan(
     traceId: string,
     name: string,
-    parentSpanId?: string,
+    parentSpanId?: string
   ): SpanContext {
     return {
       traceId,

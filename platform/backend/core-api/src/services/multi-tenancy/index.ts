@@ -1,6 +1,6 @@
 /**
  * Multi-Tenancy Module
- * 
+ *
  * Exports all multi-tenancy functionality
  */
 
@@ -13,7 +13,4 @@ export {
   requireTenantMiddleware,
 } from './tenant-service';
 
-export type {
-  TenantContext,
-  TenantConfig,
-} from './tenant-service';
+export type { TenantContext, TenantConfig } from './tenant-service';

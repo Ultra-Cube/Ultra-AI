@@ -91,7 +91,7 @@ flowchart LR
 - [ ] **P0-16** Commit `package-lock.json`; make CI `npm ci` green · A05 · `WORKING` — evidence: root cause: package-lock.json was git-ignored (.gitignore:138); removed; lockfile committed (780 KB); `npm ci --ignore-scripts` from a clean tree = 1376 packages in 36 s; real CI run and Prisma postinstall still UNVERIFIED (branch v2/foundation, not merged)
 - [ ] **P0-17** Add `LICENSE` per G-0.3; replace over-claiming README sections; fix clone URL · A15 · `WORKING` 🔒 — evidence: LICENSE (Apache-2.0 text), NOTICE, package.json licence fields (7 files incl. wsl-ai-stack ISC), new README with status table, old README archived at docs/archive/README.v0.1.0.md (branch v2/foundation, R1: not merged until the owner confirms)
 - [ ] **P0-18** Archive stale `.github/copilot-instructions.md` (`git mv` to archive) and write a correct one · A15 · `IDEA` 🔒 R2
-- [ ] **P0-19** Sentinel rename (copy; old stack kept with deprecation note) · A09 · `WORKING` 🔒 G-0.4 — evidence: monitoring/sentinel created (renamed copy, YAML/JSON parse OK, script syntax OK, 0 'hermes' left) + deprecation note in monitoring/hermes/README.md; the /hermes web page rename is still pending
+- [ ] **P0-19** Sentinel rename (copy; old stack kept with deprecation note) · A09 · `WORKING` 🔒 G-0.4 — evidence: monitoring/sentinel created (renamed copy, YAML/JSON parse OK, script syntax OK, 0 'hermes' left) + deprecation note in infrastructure/monitoring/legacy-hermes/README.md; the /hermes web page rename is still pending
 - [ ] **P0-20** "Gata-OS" → "Gate-OS" in all *new* docs; legacy fixed via archive+replace · A15 · `WORKING` — evidence: new README uses Gate-OS; legacy files containing 'Gata-OS' untouched until archive-and-replace
 - [ ] **P0-21** Run the documented 306 API tests and Prisma migrations on a networked host · A14 · `IDEA`
 - [ ] **P0-22** Build allowlist that excludes Skales (BSL 1.1) and any `PENDING` licence · A04 · `WORKING` — evidence: scripts/licence-gate.mjs + `npm run licence:gate` + CI job; passes on 34 build-surface files, fails when a Dockerfile references external-integrations/skales (negative test); PENDING licences are not enforced yet
@@ -175,7 +175,7 @@ flowchart LR
 - [ ] **P2-05** First-run wizard: hardware probe, model suggestions, engine opt-ins with licence screens · `IDEA`
 - [ ] **P2-06** Embedded OpenHands workspace (agentic coding, Devin-style) · `IDEA`
 - [ ] **P2-07** *If chosen:* **Ultra Studio** — Code-OSS build, Open VSX registry, Microsoft branding/telemetry/Marketplace endpoints removed · `IDEA`
-- [ ] **P2-08** `packages/desktop-ui`: reuse as config model or archive (it has no real shell) · `IDEA` 🔒 R2 (touches baseline)
+- [ ] **P2-08** `platform/platform/apps/desktop-ui-ui`: reuse as config model or archive (it has no real shell) · `IDEA` 🔒 R2 (touches baseline)
 - [ ] **P2-09** E2E tests on Linux and Windows (AR/EN) · A14 · `IDEA`
 - [ ] **P2-10** Release candidate with notices and SBOM · A04 · `IDEA`
 
@@ -198,7 +198,7 @@ flowchart LR
 - [ ] **P4-03** Outbox + exporter port + offline queue · `IDEA`
 - [ ] **P4-04** Ultra Core connector (mock) + contract tests · `IDEA`
 - [ ] **P4-05** Legal gate: written opinion before any token/crypto feature · A04 · 🔒 G-4.2 R2
-- [ ] **P4-06** Re-scope legacy `packages/distributed` (device mesh first; no privacy-by-chunking claim) · A03 · `IDEA`
+- [ ] **P4-06** Re-scope legacy `platform/backend/distributed` (device mesh first; no privacy-by-chunking claim) · A03 · `IDEA`
 
 ---
 

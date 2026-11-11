@@ -4,7 +4,8 @@
  */
 
 import { EventEmitter } from 'events';
-import { VoiceConfig, RecognitionResult } from './types';
+
+import { VoiceConfig } from './types';
 
 export class VoiceRecognition extends EventEmitter {
   private config: VoiceConfig;
@@ -28,7 +29,7 @@ export class VoiceRecognition extends EventEmitter {
 
     this.listening = true;
     this.emit('listening-started');
-    
+
     // This would integrate with Web Speech API or similar
     // For now, emit placeholder events
     this.emit('result', {

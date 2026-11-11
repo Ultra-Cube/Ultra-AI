@@ -50,7 +50,7 @@ Current data chunking system may allow inferring original content through:
 #### **Proposed Solution:**
 
 ```typescript
-// packages/distributed/src/chunking/secure-chunker.ts
+// platform/backend/distributed/src/chunking/secure-chunker.ts
 
 interface SecureChunkingConfig {
   // Variable chunk sizes to prevent size-based analysis
@@ -198,7 +198,7 @@ No clear mechanism for handling:
 #### **Proposed Solution:**
 
 ```typescript
-// packages/distributed/src/orchestration/resilient-orchestrator.ts
+// platform/backend/distributed/src/orchestration/resilient-orchestrator.ts
 
 interface ResilienceConfig {
   redundancy: {
@@ -469,7 +469,7 @@ Gata-OS mentioned in documentation is a hypothetical system that doesn't current
 **Option A: Mock Gata-OS API (Recommended for Phase 1)**
 
 ```typescript
-// packages/api/src/integrations/gata-os/mock-gateway.ts
+// platform/backend/core-api/src/integrations/gata-os/mock-gateway.ts
 
 /**
  * Mock implementation of Gata-OS API Gateway
@@ -514,7 +514,7 @@ class MockGataOSGateway implements GataOSGateway {
 **Option B: Create Abstraction Layer**
 
 ```typescript
-// packages/api/src/integrations/os-integration/interface.ts
+// platform/backend/core-api/src/integrations/os-integration/interface.ts
 
 /**
  * OS Integration abstraction layer
@@ -527,7 +527,7 @@ interface OSIntegration {
   executeCommand(command: Command): Promise<CommandResult>;
 }
 
-// packages/api/src/integrations/os-integration/factory.ts
+// platform/backend/core-api/src/integrations/os-integration/factory.ts
 
 class OSIntegrationFactory {
   static create(type: string, config: Config): OSIntegration {
@@ -580,7 +580,7 @@ System doesn't clarify how to handle:
 **Network Sharding Strategy:**
 
 ```typescript
-// packages/distributed/src/network/sharding-coordinator.ts
+// platform/backend/distributed/src/network/sharding-coordinator.ts
 
 interface ShardingStrategy {
   method: 'geographic' | 'capacity' | 'hybrid';
@@ -656,7 +656,7 @@ CS token and data processing may require:
 **Compliance Framework:**
 
 ```typescript
-// packages/api/src/compliance/framework.ts
+// platform/backend/core-api/src/compliance/framework.ts
 
 interface ComplianceConfig {
   gdpr: {

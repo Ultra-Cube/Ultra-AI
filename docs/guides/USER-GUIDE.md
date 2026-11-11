@@ -496,7 +496,7 @@ The platform includes automatic memory optimization:
 - **Leak Detection**: Identifies memory leaks
 - **Cache Management**: Optimizes cache usage
 
-Configure in `packages/memory-optimizer/config.json`:
+Configure in `platform/services/memory-optimizer/config.json`:
 
 ```json
 {
@@ -512,7 +512,7 @@ Configure in `packages/memory-optimizer/config.json`:
 Enable voice commands and speech-to-text:
 
 ```bash
-cd packages/voice-recognition
+cd platform/services/voice-recognition
 npm install
 npm start
 ```
@@ -533,7 +533,7 @@ npm start
 Manage the entire platform from the control center:
 
 ```bash
-cd packages/control-center
+cd platform/devtools/control-center
 npm start
 ```
 

@@ -85,10 +85,10 @@
 - Distributed Processing Engine
 
 **Deliverables**:
-- [`packages/ai-core/src/core/ai-core.ts`](../../packages/ai-core/src/core/ai-core.ts) - 150+ lines
-- [`packages/ai-core/src/core/ai-core.test.ts`](../../packages/ai-core/src/core/ai-core.test.ts) - Comprehensive tests
-- [`packages/distributed/src/chunking/chunker.ts`](../../packages/distributed/src/chunking/chunker.ts) - Task chunking
-- [`packages/distributed/src/orchestration/orchestrator.ts`](../../packages/distributed/src/orchestration/orchestrator.ts) - Task orchestration
+- [`platform/backend/ai-core/src/core/ai-core.ts`](../../platform/backend/ai-core/src/core/ai-core.ts) - 150+ lines
+- [`platform/backend/ai-core/src/core/ai-core.test.ts`](../../platform/backend/ai-core/src/core/ai-core.test.ts) - Comprehensive tests
+- [`platform/backend/distributed/src/chunking/chunker.ts`](../../platform/backend/distributed/src/chunking/chunker.ts) - Task chunking
+- [`platform/backend/distributed/src/orchestration/orchestrator.ts`](../../platform/backend/distributed/src/orchestration/orchestrator.ts) - Task orchestration
 
 **Key Features**:
 - Support for AR/English language processing
@@ -109,9 +109,9 @@
 - Profile management
 
 **Deliverables**:
-- [`packages/api/src/index.ts`](../../packages/api/src/index.ts) - API endpoints
-- [`packages/api/src/services/workspace-recommender.ts`](../../packages/api/src/services/workspace-recommender.ts) - 300+ lines
-- [`packages/api/src/services/profile/workspace-profile-store.ts`](../../packages/api/src/services/profile/workspace-profile-store.ts) - Profile storage
+- [`platform/backend/core-api/src/index.ts`](../../platform/backend/core-api/src/index.ts) - API endpoints
+- [`platform/backend/core-api/src/services/workspace-recommender.ts`](../../platform/backend/core-api/src/services/workspace-recommender.ts) - 300+ lines
+- [`platform/backend/core-api/src/services/profile/workspace-profile-store.ts`](../../platform/backend/core-api/src/services/profile/workspace-profile-store.ts) - Profile storage
 
 **Endpoints**:
 ```
@@ -159,8 +159,8 @@ PUT    /user/workspace-profile             - Update user profile
 - Authorization middleware
 
 **Deliverables**:
-- [`packages/api/src/services/auth/auth-service.ts`](../../packages/api/src/services/auth/auth-service.ts) - 150+ lines
-- [`packages/api/src/index.test.ts`](../../packages/api/src/index.test.ts) - Integration tests
+- [`platform/backend/core-api/src/services/auth/auth-service.ts`](../../platform/backend/core-api/src/services/auth/auth-service.ts) - 150+ lines
+- [`platform/backend/core-api/src/index.test.ts`](../../platform/backend/core-api/src/index.test.ts) - Integration tests
 
 **Endpoints**:
 ```
@@ -184,10 +184,10 @@ PUT    /user/workspace-profile             - Update profile (protected)
 - Database migrations
 
 **Deliverables**:
-- [`packages/api/prisma/schema.prisma`](../../packages/api/prisma/schema.prisma) - Database schema
-- [`packages/api/src/services/auth/db-user-service.ts`](../../packages/api/src/services/auth/db-user-service.ts) - Database operations
-- [`packages/api/.env.development`](../../packages/api/.env.development) - Dev configuration
-- [`packages/api/.env.test`](../../packages/api/.env.test) - Test configuration
+- [`platform/backend/core-api/prisma/schema.prisma`](../../platform/backend/core-api/prisma/schema.prisma) - Database schema
+- [`platform/backend/core-api/src/services/auth/db-user-service.ts`](../../platform/backend/core-api/src/services/auth/db-user-service.ts) - Database operations
+- [`platform/backend/core-api/.env.development`](../../platform/backend/core-api/.env.development) - Dev configuration
+- [`platform/backend/core-api/.env.test`](../../platform/backend/core-api/.env.test) - Test configuration
 
 **Features**:
 - User registration & login with database
@@ -209,8 +209,8 @@ PUT    /user/workspace-profile             - Update profile (protected)
 - Request routing
 
 **Deliverables**:
-- [`packages/api/src/services/ai/model-gateway.ts`](../../packages/api/src/services/ai/model-gateway.ts) - 350+ lines
-- [`packages/api/src/services/ai/model-gateway.test.ts`](../../packages/api/src/services/ai/model-gateway.test.ts) - Comprehensive tests
+- [`platform/backend/core-api/src/services/ai/model-gateway.ts`](../../platform/backend/core-api/src/services/ai/model-gateway.ts) - 350+ lines
+- [`platform/backend/core-api/src/services/ai/model-gateway.test.ts`](../../platform/backend/core-api/src/services/ai/model-gateway.test.ts) - Comprehensive tests
 
 **Providers**:
 - OpenAI (gpt-4o, gpt-4o-mini)
@@ -244,8 +244,8 @@ POST   /ai/advanced-process                - Advanced request with routing
 - Reputation tracking
 
 **Deliverables**:
-- [`packages/distributed/src/p2p-node.ts`](../../packages/distributed/src/p2p-node.ts) - 400+ lines
-- [`packages/distributed/src/p2p-node.test.ts`](../../packages/distributed/src/p2p-node.test.ts) - 250+ lines tests
+- [`platform/backend/distributed/src/p2p-node.ts`](../../platform/backend/distributed/src/p2p-node.ts) - 400+ lines
+- [`platform/backend/distributed/src/p2p-node.test.ts`](../../platform/backend/distributed/src/p2p-node.test.ts) - 250+ lines tests
 
 **Features**:
 - Automatic task chunking
@@ -268,8 +268,8 @@ POST   /ai/advanced-process                - Advanced request with routing
 - Integrity verification
 
 **Deliverables**:
-- [`packages/distributed/src/encryption/data-encryption.ts`](../../packages/distributed/src/encryption/data-encryption.ts) - 350+ lines
-- [`packages/distributed/src/encryption/data-encryption.test.ts`](../../packages/distributed/src/encryption/data-encryption.test.ts) - 280+ lines tests
+- [`platform/backend/distributed/src/encryption/data-encryption.ts`](../../platform/backend/distributed/src/encryption/data-encryption.ts) - 350+ lines
+- [`platform/backend/distributed/src/encryption/data-encryption.test.ts`](../../platform/backend/distributed/src/encryption/data-encryption.test.ts) - 280+ lines tests
 
 **Features**:
 - AES-256-GCM cipher
@@ -299,8 +299,8 @@ POST   /ai/advanced-process                - Advanced request with routing
 - Security headers
 
 **Deliverables**:
-- [`packages/api/src/services/security/security-hardening.ts`](../../packages/api/src/services/security/security-hardening.ts) - 700+ lines
-- [`packages/api/src/services/security/security-hardening.test.ts`](../../packages/api/src/services/security/security-hardening.test.ts) - Comprehensive tests
+- [`platform/backend/core-api/src/services/security/security-hardening.ts`](../../platform/backend/core-api/src/services/security/security-hardening.ts) - 700+ lines
+- [`platform/backend/core-api/src/services/security/security-hardening.test.ts`](../../platform/backend/core-api/src/services/security/security-hardening.test.ts) - Comprehensive tests
 
 **Features**:
 - **RateLimiter**: 100 requests per 15 minutes per IP
@@ -333,8 +333,8 @@ GET    /compliance/status                  - Compliance status
 - Leaderboard system
 
 **Deliverables**:
-- [`packages/distributed/src/blockchain/reward-system.ts`](../../packages/distributed/src/blockchain/reward-system.ts) - 450+ lines
-- [`packages/distributed/src/blockchain/reward-system.test.ts`](../../packages/distributed/src/blockchain/reward-system.test.ts) - 280+ lines tests
+- [`platform/backend/distributed/src/blockchain/reward-system.ts`](../../platform/backend/distributed/src/blockchain/reward-system.ts) - 450+ lines
+- [`platform/backend/distributed/src/blockchain/reward-system.test.ts`](../../platform/backend/distributed/src/blockchain/reward-system.test.ts) - 280+ lines tests
 
 **Features**:
 - **Reward Formula**: Base × Task Complexity × Success × Reputation

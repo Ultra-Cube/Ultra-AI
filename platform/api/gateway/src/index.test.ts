@@ -1,6 +1,8 @@
 import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { APIGateway } from './index';
+
 import { NineRouterConfig } from './9router-bridge';
+
+import { APIGateway } from './index';
 
 // Mock the NineRouterBridge
 jest.mock('./9router-bridge', () => {
@@ -85,12 +87,24 @@ describe('APIGateway', () => {
     });
 
     it('should overwrite existing provider', () => {
-      const config1 = { name: 'Provider 1', type: 'api-key' as const, endpoint: 'https://api1.com', models: [], credentials: {} };
-      const config2 = { name: 'Provider 2', type: 'api-key' as const, endpoint: 'https://api2.com', models: [], credentials: {} };
-      
+      const config1 = {
+        name: 'Provider 1',
+        type: 'api-key' as const,
+        endpoint: 'https://api1.com',
+        models: [],
+        credentials: {},
+      };
+      const config2 = {
+        name: 'Provider 2',
+        type: 'api-key' as const,
+        endpoint: 'https://api2.com',
+        models: [],
+        credentials: {},
+      };
+
       gateway.addProvider('test', config1);
       gateway.addProvider('test', config2);
-      
+
       const retrieved = gateway.getProvider('test');
       expect(retrieved).toEqual(config2);
     });
@@ -103,7 +117,13 @@ describe('APIGateway', () => {
     });
 
     it('should return provider config', () => {
-      const config = { name: 'Test', type: 'api-key' as const, endpoint: 'https://test.com', models: [], credentials: {} };
+      const config = {
+        name: 'Test',
+        type: 'api-key' as const,
+        endpoint: 'https://test.com',
+        models: [],
+        credentials: {},
+      };
       gateway.addProvider('test', config);
       const retrieved = gateway.getProvider('test');
       expect(retrieved).toEqual(config);
@@ -117,7 +137,7 @@ describe('APIGateway', () => {
         messages: [{ role: 'user' as const, content: 'Hello' }],
         parameters: {},
       };
-      
+
       const response = await gateway.routeRequest(request);
       expect(response.success).toBe(true);
       expect(response.provider).toBe('9router');
@@ -125,13 +145,13 @@ describe('APIGateway', () => {
 
     it('should route request internally when 9router unavailable', async () => {
       gateway.setUseNineRouter(false);
-      
+
       const request = {
         model: 'gpt-4',
         messages: [{ role: 'user' as const, content: 'Hello' }],
         parameters: {},
       };
-      
+
       const response = await gateway.routeRequest(request);
       expect(response.success).toBe(true);
       expect(response.provider).toBe('internal');
@@ -143,8 +163,10 @@ describe('APIGateway', () => {
         messages: [{ role: 'user' as const, content: 'Hello' }],
         parameters: {},
       };
-      
-      const response = await gateway.routeRequest(request, { Authorization: 'invalid' });
+
+      const response = await gateway.routeRequest(request, {
+        Authorization: 'invalid',
+      });
       expect(response.success).toBe(false);
       expect(response.provider).toBe('auth');
     });
@@ -193,7 +215,7 @@ describe('APIGateway', () => {
     it('should toggle 9router usage', () => {
       gateway.setUseNineRouter(false);
       expect(gateway.isUsingNineRouter()).toBe(false);
-      
+
       gateway.setUseNineRouter(true);
       expect(gateway.isUsingNineRouter()).toBe(true);
     });
@@ -203,7 +225,7 @@ describe('APIGateway', () => {
     it('should return current 9router usage status', () => {
       gateway.setUseNineRouter(true);
       expect(gateway.isUsingNineRouter()).toBe(true);
-      
+
       gateway.setUseNineRouter(false);
       expect(gateway.isUsingNineRouter()).toBe(false);
     });

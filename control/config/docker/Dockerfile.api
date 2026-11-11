@@ -15,7 +15,7 @@ RUN npm ci
 RUN npm run build --workspace=@ultra-ai/api
 
 # Generate Prisma Client
-RUN npx prisma generate --schema=packages/api/prisma/schema.prisma
+RUN npx prisma generate --schema=platform/backend/core-api/prisma/schema.prisma
 
 # Stage 2: Production
 FROM node:20-alpine
@@ -32,13 +32,13 @@ COPY package.json package-lock.json ./
 RUN npm ci --only=production && npm cache clean --force
 
 # Copy built application from builder
-COPY --from=builder /app/packages/api/dist ./packages/api/dist
-COPY --from=builder /app/packages/api/node_modules ./packages/api/node_modules
-COPY --from=builder /app/packages/api/prisma ./packages/api/prisma
+COPY --from=builder /app/platform/backend/core-api/dist ./platform/backend/core-api/dist
+COPY --from=builder /app/platform/backend/core-api/node_modules ./platform/backend/core-api/node_modules
+COPY --from=builder /app/platform/backend/core-api/prisma ./platform/backend/core-api/prisma
 
 # Copy shared packages if they exist
-COPY packages/shared packages/shared
-COPY packages/ai-core packages/ai-core
+COPY platform/shared platform/shared
+COPY platform/backend/ai-core platform/backend/ai-core
 
 # Set environment
 ENV NODE_ENV=production
@@ -64,4 +64,4 @@ EXPOSE 4000
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
 
 # Start the application
-CMD ["node", "packages/api/dist/server.js"]
+CMD ["node", "platform/backend/core-api/dist/server.js"]

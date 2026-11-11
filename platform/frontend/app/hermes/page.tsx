@@ -111,8 +111,8 @@ export default function HermesPage() {
           <strong>Monitoring stack is offline.</strong>
           <p className="muted">
             Hermes is an optional layer. Start it with{' '}
-            <code>./scripts/ultra-stack.sh up --with-hermes</code> (or{' '}
-            <code>cd monitoring/hermes &amp;&amp; ./start-hermes.sh up</code>).
+            <code>./infrastructure/automation/ultra-stack.sh up --with-hermes</code> (or{' '}
+            <code>cd infrastructure/monitoring/legacy-hermes &amp;&amp; ./start-hermes.sh up</code>).
             This page will populate automatically once Prometheus is reachable.
           </p>
         </div>

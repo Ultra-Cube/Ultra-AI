@@ -62,7 +62,9 @@ export class AgentStaffStore {
   private readonly storagePath: string;
   private state: AgentStaffState;
 
-  constructor(storagePath = path.resolve(process.cwd(), 'data/agent-staff-state.json')) {
+  constructor(
+    storagePath = path.resolve(process.cwd(), 'data/agent-staff-state.json')
+  ) {
     this.storagePath = storagePath;
     this.state = this.loadFromDisk();
   }
@@ -82,11 +84,15 @@ export class AgentStaffStore {
   /** Tasks grouped under their agent — the "staff roster with workload" view. */
   getRoster(): Array<StaffAgent & { tasks: AgentTask[]; openTasks: number }> {
     return this.state.agents.map((agent) => {
-      const tasks = this.state.tasks.filter((t) => t.assignedAgentId === agent.id);
+      const tasks = this.state.tasks.filter(
+        (t) => t.assignedAgentId === agent.id
+      );
       return {
         ...this.clone(agent),
         tasks: this.clone(tasks),
-        openTasks: tasks.filter((t) => t.status === 'queued' || t.status === 'in_progress').length,
+        openTasks: tasks.filter(
+          (t) => t.status === 'queued' || t.status === 'in_progress'
+        ).length,
       };
     });
   }
@@ -118,7 +124,12 @@ export class AgentStaffStore {
 
   updateAgent(
     id: string,
-    patch: Partial<Pick<StaffAgent, 'name' | 'avatar' | 'position' | 'status' | 'capabilities' | 'model'>>
+    patch: Partial<
+      Pick<
+        StaffAgent,
+        'name' | 'avatar' | 'position' | 'status' | 'capabilities' | 'model'
+      >
+    >
   ): StaffAgent | null {
     const agent = this.state.agents.find((a) => a.id === id);
     if (!agent) return null;
@@ -137,7 +148,14 @@ export class AgentStaffStore {
     this.state.agents = this.state.agents.filter((a) => a.id !== id);
     // Unassign that agent's tasks rather than deleting them.
     this.state.tasks = this.state.tasks.map((t) =>
-      t.assignedAgentId === id ? { ...t, assignedAgentId: '', status: 'blocked', updatedAt: new Date().toISOString() } : t
+      t.assignedAgentId === id
+        ? {
+            ...t,
+            assignedAgentId: '',
+            status: 'blocked',
+            updatedAt: new Date().toISOString(),
+          }
+        : t
     );
     const changed = this.state.agents.length !== before;
     if (changed) this.bumpState();
@@ -183,7 +201,11 @@ export class AgentStaffStore {
     return this.clone(task);
   }
 
-  updateTaskStatus(taskId: string, status: TaskStatus, result?: string): AgentTask | null {
+  updateTaskStatus(
+    taskId: string,
+    status: TaskStatus,
+    result?: string
+  ): AgentTask | null {
     const task = this.state.tasks.find((t) => t.id === taskId);
     if (!task) return null;
     task.status = status;
@@ -196,9 +218,13 @@ export class AgentStaffStore {
   private loadFromDisk(): AgentStaffState {
     try {
       if (!fs.existsSync(this.storagePath)) return this.createDefaultState();
-      const parsed = JSON.parse(fs.readFileSync(this.storagePath, 'utf8')) as Partial<AgentStaffState>;
+      const parsed = JSON.parse(
+        fs.readFileSync(this.storagePath, 'utf8')
+      ) as Partial<AgentStaffState>;
       return {
-        agents: Array.isArray(parsed.agents) ? parsed.agents : this.createDefaultState().agents,
+        agents: Array.isArray(parsed.agents)
+          ? parsed.agents
+          : this.createDefaultState().agents,
         tasks: Array.isArray(parsed.tasks) ? parsed.tasks : [],
         updatedAt: parsed.updatedAt ?? new Date().toISOString(),
       };
@@ -231,10 +257,42 @@ export class AgentStaffStore {
 
     return {
       agents: [
-        seed('Atlas', '🧭', 'Orchestration Lead', 'Operations', 'lead', ['routing', 'planning', 'delegation'], 'gpt-5'),
-        seed('Scribe', '✍️', 'Content Specialist', 'Content', 'senior', ['generate', 'summarize', 'translate'], 'claude-sonnet-4.5'),
-        seed('Probe', '🔎', 'Research Analyst', 'Intelligence', 'standard', ['analyze', 'search', 'osint'], 'claude-opus-4.1'),
-        seed('Ledger', '💰', 'Finance Agent', 'Finance', 'standard', ['quant', 'analyze'], 'gpt-4.1'),
+        seed(
+          'Atlas',
+          '🧭',
+          'Orchestration Lead',
+          'Operations',
+          'lead',
+          ['routing', 'planning', 'delegation'],
+          'gpt-5'
+        ),
+        seed(
+          'Scribe',
+          '✍️',
+          'Content Specialist',
+          'Content',
+          'senior',
+          ['generate', 'summarize', 'translate'],
+          'claude-sonnet-4.5'
+        ),
+        seed(
+          'Probe',
+          '🔎',
+          'Research Analyst',
+          'Intelligence',
+          'standard',
+          ['analyze', 'search', 'osint'],
+          'claude-opus-4.1'
+        ),
+        seed(
+          'Ledger',
+          '💰',
+          'Finance Agent',
+          'Finance',
+          'standard',
+          ['quant', 'analyze'],
+          'gpt-4.1'
+        ),
       ],
       tasks: [],
       updatedAt: now,
@@ -249,7 +307,11 @@ export class AgentStaffStore {
   private saveToDisk(): void {
     const dir = path.dirname(this.storagePath);
     if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-    fs.writeFileSync(this.storagePath, JSON.stringify(this.state, null, 2), 'utf8');
+    fs.writeFileSync(
+      this.storagePath,
+      JSON.stringify(this.state, null, 2),
+      'utf8'
+    );
   }
 
   private clone<T>(value: T): T {

@@ -1,6 +1,6 @@
 /**
  * Multi-Tenancy System for Ultra AI Platform
- * 
+ *
  * Provides tenant isolation, context management, and row-level security
  */
 
@@ -39,12 +39,12 @@ export class TenantService {
    */
   async createTenant(config: TenantConfig): Promise<Tenant> {
     const slug = config.slug || this.generateSlug(config.name);
-    
+
     // Check if slug already exists
     const existing = await this.prisma.tenant.findUnique({
       where: { slug },
     });
-    
+
     if (existing) {
       throw new Error(`Tenant with slug '${slug}' already exists`);
     }
@@ -162,7 +162,8 @@ export class TenantService {
     return {
       userCount,
       storageUsed,
-      isOverLimit: userCount > tenant.maxUsers || storageUsed > tenant.maxStorage,
+      isOverLimit:
+        userCount > tenant.maxUsers || storageUsed > tenant.maxStorage,
     };
   }
 
@@ -211,7 +212,9 @@ export class TenantContextManager {
    * 3. Header: X-Tenant-Slug
    * 4. Path: /api/tenants/:slug/...
    */
-  async extractTenantContext(request: FastifyRequest): Promise<TenantContext | null> {
+  async extractTenantContext(
+    request: FastifyRequest
+  ): Promise<TenantContext | null> {
     // Strategy 1: Check X-Tenant-Slug header
     const tenantHeader = request.headers['x-tenant-slug'] as string;
     if (tenantHeader) {
@@ -253,7 +256,9 @@ export class TenantContextManager {
   /**
    * Get tenant context by domain
    */
-  async getTenantContextByDomain(domain: string): Promise<TenantContext | null> {
+  async getTenantContextByDomain(
+    domain: string
+  ): Promise<TenantContext | null> {
     const tenant = await this.tenantService.getTenantByDomain(domain);
     if (!tenant) {
       return null;
@@ -295,7 +300,7 @@ export class TenantContextManager {
 export function createTenantMiddleware(contextManager: TenantContextManager) {
   return async (request: FastifyRequest, reply: any) => {
     const tenantContext = await contextManager.extractTenantContext(request);
-    
+
     if (tenantContext) {
       // Check if tenant is active
       if (tenantContext.status === TenantStatus.SUSPENDED) {
@@ -318,11 +323,16 @@ export function createTenantMiddleware(contextManager: TenantContextManager) {
  * Require tenant middleware - ensures tenant context exists
  */
 export function requireTenantMiddleware(request: FastifyRequest, reply: any) {
-  const tenantContext = (request as any).tenantContext as TenantContext | undefined;
-  
+  const tenantContext = (request as any).tenantContext as
+    | TenantContext
+    | undefined;
+
   if (!tenantContext) {
     reply.status(400);
-    return { error: 'Tenant context required. Provide X-Tenant-Slug header or use tenant subdomain' };
+    return {
+      error:
+        'Tenant context required. Provide X-Tenant-Slug header or use tenant subdomain',
+    };
   }
 }
 

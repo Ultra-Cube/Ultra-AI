@@ -63,9 +63,9 @@ echo "Environment: $ENVIRONMENT"
 
 # Build images
 echo "Building Docker images..."
-docker build -t ultra-ai/api:$VERSION -f packages/api/Dockerfile .
+docker build -t ultra-ai/api:$VERSION -f platform/backend/core-api/Dockerfile .
 docker build -t ultra-ai/web:$VERSION -f packages/web/Dockerfile .
-docker build -t ultra-ai/distributed:$VERSION -f packages/distributed/Dockerfile .
+docker build -t ultra-ai/distributed:$VERSION -f platform/backend/distributed/Dockerfile .
 
 # Push to registry
 echo "Pushing to container registry..."

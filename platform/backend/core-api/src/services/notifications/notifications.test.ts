@@ -9,6 +9,7 @@ import {
   NotificationStatus,
   NotificationChannel,
 } from '@prisma/client';
+
 import {
   NotificationService,
   CreateNotificationData,
@@ -99,8 +100,12 @@ describe('NotificationService', () => {
         expiresAt: null,
       };
 
-      (mockPrisma.notificationPreference.findUnique as jest.Mock).mockResolvedValue(mockPreferences);
-      (mockPrisma.notification.create as jest.Mock).mockResolvedValue(mockNotification);
+      (
+        mockPrisma.notificationPreference.findUnique as jest.Mock
+      ).mockResolvedValue(mockPreferences);
+      (mockPrisma.notification.create as jest.Mock).mockResolvedValue(
+        mockNotification
+      );
 
       const result = await service.create(tenantId, notificationData);
 
@@ -143,7 +148,9 @@ describe('NotificationService', () => {
         updatedAt: new Date(),
       };
 
-      (mockPrisma.notificationPreference.findUnique as jest.Mock).mockResolvedValue(mockPreferences);
+      (
+        mockPrisma.notificationPreference.findUnique as jest.Mock
+      ).mockResolvedValue(mockPreferences);
 
       await expect(service.create(tenantId, notificationData)).rejects.toThrow(
         'Notification type is muted for this user'
@@ -160,7 +167,9 @@ describe('NotificationService', () => {
         message: 'Important update',
       };
 
-      (mockPrisma.notification.createMany as jest.Mock).mockResolvedValue({ count: 3 });
+      (mockPrisma.notification.createMany as jest.Mock).mockResolvedValue({
+        count: 3,
+      });
 
       const result = await service.createBulk(tenantId, userIds, data);
 
@@ -204,7 +213,9 @@ describe('NotificationService', () => {
         },
       ];
 
-      (mockPrisma.notification.findMany as jest.Mock).mockResolvedValue(mockNotifications);
+      (mockPrisma.notification.findMany as jest.Mock).mockResolvedValue(
+        mockNotifications
+      );
 
       const result = await service.getNotifications(tenantId, { userId });
 
@@ -317,7 +328,9 @@ describe('NotificationService', () => {
         readAt: new Date(),
       };
 
-      (mockPrisma.notification.update as jest.Mock).mockResolvedValue(mockNotification);
+      (mockPrisma.notification.update as jest.Mock).mockResolvedValue(
+        mockNotification
+      );
 
       const result = await service.markAsRead(tenantId, 'notif_123', userId);
 
@@ -338,7 +351,9 @@ describe('NotificationService', () => {
     });
 
     it('should mark all notifications as read', async () => {
-      (mockPrisma.notification.updateMany as jest.Mock).mockResolvedValue({ count: 10 });
+      (mockPrisma.notification.updateMany as jest.Mock).mockResolvedValue({
+        count: 10,
+      });
 
       const result = await service.markAllAsRead(tenantId, userId);
 
@@ -367,7 +382,9 @@ describe('NotificationService', () => {
         archivedAt: new Date(),
       };
 
-      (mockPrisma.notification.update as jest.Mock).mockResolvedValue(mockNotification);
+      (mockPrisma.notification.update as jest.Mock).mockResolvedValue(
+        mockNotification
+      );
 
       const result = await service.archive(tenantId, 'notif_123', userId);
 
@@ -404,7 +421,9 @@ describe('NotificationService', () => {
     });
 
     it('should delete all read notifications', async () => {
-      (mockPrisma.notification.deleteMany as jest.Mock).mockResolvedValue({ count: 15 });
+      (mockPrisma.notification.deleteMany as jest.Mock).mockResolvedValue({
+        count: 15,
+      });
 
       const result = await service.deleteAllRead(tenantId, userId);
 
@@ -439,7 +458,9 @@ describe('NotificationService', () => {
         updatedAt: new Date(),
       };
 
-      (mockPrisma.notificationPreference.findUnique as jest.Mock).mockResolvedValue(mockPreferences);
+      (
+        mockPrisma.notificationPreference.findUnique as jest.Mock
+      ).mockResolvedValue(mockPreferences);
 
       const result = await service.getOrCreatePreferences(tenantId, userId);
 
@@ -465,8 +486,12 @@ describe('NotificationService', () => {
         updatedAt: new Date(),
       };
 
-      (mockPrisma.notificationPreference.findUnique as jest.Mock).mockResolvedValue(null);
-      (mockPrisma.notificationPreference.create as jest.Mock).mockResolvedValue(mockPreferences);
+      (
+        mockPrisma.notificationPreference.findUnique as jest.Mock
+      ).mockResolvedValue(null);
+      (mockPrisma.notificationPreference.create as jest.Mock).mockResolvedValue(
+        mockPreferences
+      );
 
       const result = await service.getOrCreatePreferences(tenantId, userId);
 
@@ -500,7 +525,9 @@ describe('NotificationService', () => {
         updatedAt: new Date(),
       };
 
-      (mockPrisma.notificationPreference.upsert as jest.Mock).mockResolvedValue(mockUpdatedPreferences);
+      (mockPrisma.notificationPreference.upsert as jest.Mock).mockResolvedValue(
+        mockUpdatedPreferences
+      );
 
       const result = await service.updatePreferences(tenantId, userId, updates);
 
@@ -534,8 +561,12 @@ describe('NotificationService', () => {
         type: NotificationType.SYSTEM,
       };
 
-      (mockPrisma.notificationPreference.findUnique as jest.Mock).mockResolvedValue(mockPreferences);
-      (mockPrisma.notification.create as jest.Mock).mockResolvedValue(mockNotification);
+      (
+        mockPrisma.notificationPreference.findUnique as jest.Mock
+      ).mockResolvedValue(mockPreferences);
+      (mockPrisma.notification.create as jest.Mock).mockResolvedValue(
+        mockNotification
+      );
 
       await service.sendSystemNotification(
         tenantId,
@@ -557,14 +588,12 @@ describe('NotificationService', () => {
 
   describe('Broadcast to Tenant', () => {
     it('should broadcast notification to all tenant users', async () => {
-      const mockUsers = [
-        { id: 'user1' },
-        { id: 'user2' },
-        { id: 'user3' },
-      ];
+      const mockUsers = [{ id: 'user1' }, { id: 'user2' }, { id: 'user3' }];
 
       (mockPrisma.user.findMany as jest.Mock).mockResolvedValue(mockUsers);
-      (mockPrisma.notification.createMany as jest.Mock).mockResolvedValue({ count: 3 });
+      (mockPrisma.notification.createMany as jest.Mock).mockResolvedValue({
+        count: 3,
+      });
 
       const result = await service.broadcastToTenant(
         tenantId,
@@ -581,20 +610,16 @@ describe('NotificationService', () => {
     });
 
     it('should exclude specific users from broadcast', async () => {
-      const mockUsers = [
-        { id: 'user1' },
-        { id: 'user3' },
-      ];
+      const mockUsers = [{ id: 'user1' }, { id: 'user3' }];
 
       (mockPrisma.user.findMany as jest.Mock).mockResolvedValue(mockUsers);
-      (mockPrisma.notification.createMany as jest.Mock).mockResolvedValue({ count: 2 });
+      (mockPrisma.notification.createMany as jest.Mock).mockResolvedValue({
+        count: 2,
+      });
 
-      await service.broadcastToTenant(
-        tenantId,
-        'Broadcast',
-        'Message',
-        { excludeUserIds: ['user2'] }
-      );
+      await service.broadcastToTenant(tenantId, 'Broadcast', 'Message', {
+        excludeUserIds: ['user2'],
+      });
 
       expect(mockPrisma.user.findMany).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -608,7 +633,9 @@ describe('NotificationService', () => {
 
   describe('Cleanup', () => {
     it('should cleanup expired notifications', async () => {
-      (mockPrisma.notification.deleteMany as jest.Mock).mockResolvedValue({ count: 25 });
+      (mockPrisma.notification.deleteMany as jest.Mock).mockResolvedValue({
+        count: 25,
+      });
 
       const result = await service.cleanupExpired();
 
@@ -625,7 +652,9 @@ describe('NotificationService', () => {
     });
 
     it('should cleanup old archived notifications', async () => {
-      (mockPrisma.notification.deleteMany as jest.Mock).mockResolvedValue({ count: 50 });
+      (mockPrisma.notification.deleteMany as jest.Mock).mockResolvedValue({
+        count: 50,
+      });
 
       const result = await service.cleanupOldArchived(30);
 

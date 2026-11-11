@@ -1,9 +1,7 @@
 import {
   AgentDefinition,
-  AgentTier,
   getAgentById,
   getAgentsByTier,
-  getSubordinates,
   getEscalationChain,
   AGENT_REGISTRY,
 } from './agent-registry';
@@ -11,14 +9,14 @@ import { AgentStaffStore } from './agent-staff-store';
 
 /**
  * Coordination Service
- * 
+ *
  * Enforces Ultra-AI's agent studio coordination rules:
  * - Tier delegation (vertical hierarchy)
  * - Escalation paths (conflict resolution)
  * - Ask-before-write protocol (approval gates)
  * - Horizontal consultation (peer collaboration)
  * - Domain boundaries (cross-domain change propagation)
- * 
+ *
  * Based on AGENT_STUDIO_ARCHITECTURE.md coordination rules.
  */
 
@@ -105,7 +103,7 @@ export class CoordinationService {
 
   /**
    * Validates delegation from one agent to another according to tier rules.
-   * 
+   *
    * Rules:
    * - Leadership (Tier 1) delegates to leads (Tier 2)
    * - Leads (Tier 2) delegate to specialists (Tier 3)
@@ -142,7 +140,8 @@ export class CoordinationService {
     if (tierDiff === 0) {
       return {
         valid: false,
-        reason: 'Cannot delegate to same-tier agent. Use consultPeers() for horizontal collaboration.',
+        reason:
+          'Cannot delegate to same-tier agent. Use consultPeers() for horizontal collaboration.',
         suggestion: 'Use horizontal consultation instead',
       };
     }
@@ -151,7 +150,8 @@ export class CoordinationService {
     if (tierDiff < 0) {
       return {
         valid: false,
-        reason: 'Cannot delegate upward. Use escalate() for upward communication.',
+        reason:
+          'Cannot delegate upward. Use escalate() for upward communication.',
         suggestion: `Escalate to ${toAgent.name} instead`,
       };
     }
@@ -183,7 +183,7 @@ export class CoordinationService {
 
   /**
    * Escalates a task up the hierarchy for conflict resolution or strategic decisions.
-   * 
+   *
    * Escalation paths:
    * - Specialist → Lead → Leadership
    * - Cross-domain conflicts go to shared parent or Engineering Manager
@@ -229,7 +229,7 @@ export class CoordinationService {
         if (!escalationPath.includes(chiefArchitect.id)) {
           escalationPath.push(chiefArchitect.id);
         }
-        escalatedTo = chiefArchitect.id;  // Always escalate to Chief Architect for arch concerns
+        escalatedTo = chiefArchitect.id; // Always escalate to Chief Architect for arch concerns
       }
     }
 
@@ -249,7 +249,7 @@ export class CoordinationService {
 
   /**
    * Implements ask-before-write protocol: determines if an action requires approval.
-   * 
+   *
    * All file writes require approval unless:
    * - Agent memory files
    * - Session state checkpoints
@@ -286,7 +286,9 @@ export class CoordinationService {
       case 'edit-file':
         // Specialists (Tier 3) need lead approval
         if (agent.tier === 3) {
-          const supervisor = agent.escalatesTo ? getAgentById(agent.escalatesTo) : undefined;
+          const supervisor = agent.escalatesTo
+            ? getAgentById(agent.escalatesTo)
+            : undefined;
           if (supervisor) approvers.push(supervisor.id);
           reason = 'Specialist implementations require lead approval';
         } else if (agent.tier === 2) {
@@ -300,24 +302,30 @@ export class CoordinationService {
         }
         break;
 
-      case 'delete-file':
+      case 'delete-file': {
         // Deletions always require supervisor or user approval
-        const supervisor = agent.escalatesTo ? getAgentById(agent.escalatesTo) : undefined;
+        const supervisor = agent.escalatesTo
+          ? getAgentById(agent.escalatesTo)
+          : undefined;
         approvers.push(supervisor?.id || 'user');
         reason = 'File deletions require approval from supervisor or user';
         break;
+      }
 
       case 'modify-architecture':
-      case 'change-api-contract':
+      case 'change-api-contract': {
         // Architecture changes require Chief Architect review
-        const chiefArchitect = getAgentsByTier(1)
-          .find((a) => a.name === 'Chief Architect');
+        const chiefArchitect = getAgentsByTier(1).find(
+          (a) => a.name === 'Chief Architect'
+        );
         if (chiefArchitect) approvers.push(chiefArchitect.id);
         approvers.push('user');
-        reason = 'Architecture and API changes require Chief Architect review and user approval';
+        reason =
+          'Architecture and API changes require Chief Architect review and user approval';
         break;
+      }
 
-      case 'cross-domain-change':
+      case 'cross-domain-change': {
         // Cross-domain requires all affected domain leads
         const affectedDomains = this.identifyAffectedDomains(affectedFiles);
         affectedDomains.forEach((domain) => {
@@ -325,22 +333,26 @@ export class CoordinationService {
             (a) =>
               a.tier === 2 &&
               (a.role.toLowerCase().includes(domain.toLowerCase()) ||
-                a.responsibilities.some((r) => r.toLowerCase().includes(domain.toLowerCase())))
+                a.responsibilities.some((r) =>
+                  r.toLowerCase().includes(domain.toLowerCase())
+                ))
           );
           domainLeads.forEach((lead) => approvers.push(lead.id));
         });
         approvers.push('user');
-        reason = 'Cross-domain changes require review from all affected domain leads';
+        reason =
+          'Cross-domain changes require review from all affected domain leads';
         break;
+      }
 
-      case 'deploy':
+      case 'deploy': {
         // Deployments require DevOps Lead and user approval
-        const devopsLead = AGENT_REGISTRY
-          .find((a) => a.name === 'DevOps Lead');
+        const devopsLead = AGENT_REGISTRY.find((a) => a.name === 'DevOps Lead');
         if (devopsLead) approvers.push(devopsLead.id);
         approvers.push('user');
         reason = 'Deployments require DevOps Lead and user approval';
         break;
+      }
     }
 
     return {
@@ -352,7 +364,7 @@ export class CoordinationService {
 
   /**
    * Facilitates horizontal consultation between same-tier agents.
-   * 
+   *
    * Agents at the same tier may consult each other but cannot make
    * binding decisions outside their domain.
    */
@@ -368,16 +380,16 @@ export class CoordinationService {
     );
 
     // Check if consultation crosses domains by looking at responsibilities
-    const agentDomains = agent.responsibilities.map(r => r.toLowerCase());
-    const requestedDomains = consultation.domains.map(d => d.toLowerCase());
+    const agentDomains = agent.responsibilities.map((r) => r.toLowerCase());
+    const requestedDomains = consultation.domains.map((d) => d.toLowerCase());
     const crossDomain = requestedDomains.some(
-      (d) => !agentDomains.some(ad => ad.includes(d))
+      (d) => !agentDomains.some((ad) => ad.includes(d))
     );
 
     // Find peers who have responsibilities in the requested domains
     const peers = sameTierAgents.filter((peer) =>
-      peer.responsibilities.some(r => 
-        requestedDomains.some(d => r.toLowerCase().includes(d))
+      peer.responsibilities.some((r) =>
+        requestedDomains.some((d) => r.toLowerCase().includes(d))
       )
     );
 
@@ -386,7 +398,7 @@ export class CoordinationService {
     if (crossDomain) {
       requestedDomains.forEach((domain) => {
         const domainOwner = sameTierAgents.find((a) =>
-          a.responsibilities.some(r => r.toLowerCase().includes(domain))
+          a.responsibilities.some((r) => r.toLowerCase().includes(domain))
         );
         if (domainOwner && !requiredReviewers.includes(domainOwner.id)) {
           requiredReviewers.push(domainOwner.id);
@@ -403,11 +415,14 @@ export class CoordinationService {
 
   /**
    * Propagates changes across affected domains and notifies dependent agents.
-   * 
+   *
    * When a decision affects multiple domains, the Engineering Manager or
    * Product Director coordinates propagation.
    */
-  propagateChange(change: DomainChange, affectedDomains: string[]): PropagationResult {
+  propagateChange(
+    change: DomainChange,
+    affectedDomains: string[]
+  ): PropagationResult {
     const initiator = getAgentById(change.initiator);
     if (!initiator) {
       throw new Error(`Initiating agent "${change.initiator}" not found`);
@@ -418,7 +433,9 @@ export class CoordinationService {
     const engineeringManager = tier1Agents.find(
       (a) => a.name === 'Engineering Manager'
     );
-    const productDirector = tier1Agents.find((a) => a.name === 'Product Director');
+    const productDirector = tier1Agents.find(
+      (a) => a.name === 'Product Director'
+    );
 
     // Product/Design changes coordinated by Product Director, technical by Engineering Manager
     const isProductChange =
@@ -439,7 +456,9 @@ export class CoordinationService {
         (a) =>
           a.tier === 2 &&
           (a.role.toLowerCase().includes(domain.toLowerCase()) ||
-            a.responsibilities.some((r) => r.toLowerCase().includes(domain.toLowerCase())))
+            a.responsibilities.some((r) =>
+              r.toLowerCase().includes(domain.toLowerCase())
+            ))
       );
 
       domainAgents.forEach((agent) => {
@@ -460,7 +479,10 @@ export class CoordinationService {
 
   // Helper methods
 
-  private isInReportingChain(subordinateId: string, supervisorId: string): boolean {
+  private isInReportingChain(
+    subordinateId: string,
+    supervisorId: string
+  ): boolean {
     const chain = getEscalationChain(subordinateId);
     return chain.some((agent) => agent.id === supervisorId);
   }
@@ -469,13 +491,23 @@ export class CoordinationService {
     const domains = new Set<string>();
 
     files.forEach((file) => {
-      if (file.includes('apps/api/') || file.includes('packages/backend-')) {
+      if (
+        file.includes('platform/backend/core-api/') ||
+        file.includes('packages/backend-')
+      ) {
         domains.add('backend');
       }
-      if (file.includes('apps/web/') || file.includes('packages/ui-')) {
+      if (
+        file.includes('platform/frontend/') ||
+        file.includes('packages/ui-')
+      ) {
         domains.add('frontend');
       }
-      if (file.includes('apps/ml-') || file.includes('packages/ml-') || file.includes('models/')) {
+      if (
+        file.includes('apps/ml-') ||
+        file.includes('packages/ml-') ||
+        file.includes('models/')
+      ) {
         domains.add('ml');
       }
       if (
@@ -485,7 +517,10 @@ export class CoordinationService {
       ) {
         domains.add('infrastructure');
       }
-      if (file.includes('design/') || file.includes('packages/design-system/')) {
+      if (
+        file.includes('design/') ||
+        file.includes('packages/design-system/')
+      ) {
         domains.add('design');
       }
       if (file.includes('docs/')) {

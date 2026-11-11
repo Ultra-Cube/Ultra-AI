@@ -238,7 +238,7 @@ cd /path/to/Ultra-AI
 ls -la package.json
 
 # Verify monorepo structure
-ls -la packages/api/
+ls -la platform/backend/core-api/
 ls -la packages/web/
 ```
 

@@ -10,17 +10,17 @@ Consolidated from all 63 markdown files under `docs/` (architecture/, ui/, secur
 
 | Service | Package | Stack | Default Port | Notes |
 |---|---|---|---|---|
-| Web UI | `@ultra-ai/web` (`packages/web`, also referenced as `apps/web`) | Next.js 14+, Tailwind, TS | **3000** | ZeroAI control surface at `/zeroai`; role selector landing page |
-| API server | `@ultra-ai/api` (`packages/api`) | Fastify + TS + Prisma | **5555** in Docker/K8s docs; **4000** in dev/test guides (`LOCAL_RUN_GUIDE`, `API_ENDPOINT_TESTING_GUIDE`, Phase 10/11 examples use 4000) | Swagger at `/api-docs`, Prometheus at `/metrics` |
+| Web UI | `@ultra-ai/web` (`packages/web`, also referenced as `platform/frontend`) | Next.js 14+, Tailwind, TS | **3000** | ZeroAI control surface at `/zeroai`; role selector landing page |
+| API server | `@ultra-ai/api` (`platform/backend/core-api`) | Fastify + TS + Prisma | **5555** in Docker/K8s docs; **4000** in dev/test guides (`LOCAL_RUN_GUIDE`, `API_ENDPOINT_TESTING_GUIDE`, Phase 10/11 examples use 4000) | Swagger at `/api-docs`, Prometheus at `/metrics` |
 | AI core engine | `@ultra-ai/ai-core` | Node/TS; TF.js, Transformers.js/LangChain, PyTorch via Python bridge | library (in-process) | NLP, intent recognition, task planning |
 | Distributed/P2P | `@ultra-ai/distributed` | Node/TS custom mesh | worker pods | chunker, orchestrator, p2p-node, encryption, reward-system |
 
 ### 1.2 Local ZeroAI edge stack (WSL)
 - Speech-to-text: `wsl-ai-stack/scripts/transcribe-audio.py`
 - Voice bridge: `wsl-ai-stack/scripts/voice-bridge.sh`
-- Memory store: `packages/api/src/services/zeroai/zeroai-store.ts` (durable JSON state file per ai-os-blueprint)
-- Control surface: `apps/web/app/zeroai/page.tsx`
-- Workflow API: `packages/api/src/routes/workflows.routes.ts`
+- Memory store: `platform/backend/core-api/src/services/zeroai/zeroai-store.ts` (durable JSON state file per ai-os-blueprint)
+- Control surface: `platform/frontend/app/zeroai/page.tsx`
+- Workflow API: `platform/backend/core-api/src/routes/workflows.routes.ts`
 - Routing policy: **OpenClaw** bridge; local model = **Ollama** (AirLLM later); automation backbone = **n8n**; optional local UI shells: Open WebUI or LocalAI.
 
 ### 1.3 Infra dependencies
@@ -169,7 +169,7 @@ n8n workflows proxy (system-architecture endpoint list)
 ### Doc-vs-doc conflicts (gaps)
 1. **API port**: dev guides say **4000** (`LOCAL_RUN_GUIDE`, testing guide, tenant/analytics curl examples); Docker/K8s say **5555**. Likely PORT env-dependent but never reconciled.
 2. **Postgres version**: compose says 16; K8s/tool-versions say 15/15.5.
-3. **Package layout**: IMPLEMENTATION_SUMMARY uses `packages/web/...`; system-architecture references `apps/web/app/zeroai/page.tsx` — both appear in docs; actual repo layout must be verified.
+3. **Package layout**: IMPLEMENTATION_SUMMARY uses `packages/web/...`; system-architecture references `platform/frontend/app/zeroai/page.tsx` — both appear in docs; actual repo layout must be verified.
 4. **Test counts drift**: 104 (early) → 191 (post Ph6-9) → 230 (post Ph11) all claimed "100%".
 5. **"100% complete" claims** (FEATURES_IMPLEMENTED, COMPLETION_REPORT) contradict planning docs listing TIER-1 critical items as open (production DB backups, env management, security validation, load testing) and CRITICAL_ISSUES marking core distributed-security work "In Progress".
 6. **Old numbering vs new three-phase plan**: DEVELOPMENT_ROADMAP contains two concatenated documents (July 2026 3-phase model atop March 2026 phase 0-5 plan); docs acknowledge this drift [planning/CRITICAL_ISSUES].
@@ -188,7 +188,7 @@ n8n workflows proxy (system-architecture endpoint list)
 ## 6. Minimum Viable Platform Checklist (boot web + api + gateway/ai-core end-to-end locally)
 
 1. **Infra up**: `docker-compose up -d postgres redis` (Mongo/IPFS not needed for MVP path). Copy `.env.example` → `.env`: set `DATABASE_URL`, `REDIS_URL`, `JWT_SECRET`, `PORT=4000` (or 5555 — pick one and fix docs).
-2. **Database**: `npx prisma migrate deploy` (+ optional seed) in `packages/api`.
+2. **Database**: `npx prisma migrate deploy` (+ optional seed) in `platform/backend/core-api`.
 3. **API**: install deps; `npm run dev --workspace=@ultra-ai/api`. Verify `GET /health/detailed` shows database+redis healthy; `/metrics` and `/api-docs` respond.
 4. **Model provider**: point model-gateway at one reachable provider — Ollama local (no key) or set OPENAI/ANTHROPIC key; verify `GET /ai/models` and `GET /ai/gateway/health`.
 5. **Web**: `npm run dev --workspace=@ultra-ai/web` with `NEXT_PUBLIC_API_URL` matching the chosen API port; verify `/` role selector and `/zeroai` control surface loads Simple + Professional views.

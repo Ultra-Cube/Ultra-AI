@@ -17,11 +17,15 @@ export class CommandProcessor {
   }
 
   processCommand(result: RecognitionResult): RecognitionResult {
-    const text = this.config.caseSensitive ? result.text : result.text.toLowerCase();
-    
+    const text = this.config.caseSensitive
+      ? result.text
+      : result.text.toLowerCase();
+
     for (const [command, action] of Object.entries(this.config.commands)) {
-      const commandText = this.config.caseSensitive ? command : command.toLowerCase();
-      
+      const commandText = this.config.caseSensitive
+        ? command
+        : command.toLowerCase();
+
       if (this.config.enableFuzzyMatching) {
         if (this.fuzzyMatch(text, commandText)) {
           return {
@@ -48,17 +52,17 @@ export class CommandProcessor {
     // Simple fuzzy matching implementation
     const textLower = text.toLowerCase();
     const patternLower = pattern.toLowerCase();
-    
+
     let textIndex = 0;
     let patternIndex = 0;
-    
+
     while (textIndex < textLower.length && patternIndex < patternLower.length) {
       if (textLower[textIndex] === patternLower[patternIndex]) {
         patternIndex++;
       }
       textIndex++;
     }
-    
+
     return patternIndex === patternLower.length;
   }
 

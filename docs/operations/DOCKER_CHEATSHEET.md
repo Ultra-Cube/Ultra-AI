@@ -430,7 +430,7 @@ docker-compose exec redis redis-cli ping
 services:
   api:
     volumes:
-      - ./packages/api/src:/app/packages/api/src
+      - ./platform/backend/core-api/src:/app/platform/backend/core-api/src
 
 # Change to development environment
 environment:

@@ -26,4 +26,4 @@ Dispatching work to the multi-agent crew; updating phase/task status.
 - ULTRA_AI_SUPER_PROMPT.md sections 4, 6; ULTRA_AI_TODO.md
 
 ## Ultra-AI context
-Repo already has `ultra-ai-builder/kanban-orchestrator` skill (read-only board + ask-before-write protocol) — inspect it and reuse before reinventing dispatch conventions. Staged execution phases (F0–F5) exist in docs but are aspirational; current plan phases are S0–S4. Gate handoff contracts: Gate-OS (stable interface, Gate-OS unchanged), Ultra Core (neutral signed-event outbox until owner spec). Existing `apps/api` module boundaries are the natural owned-path units for cards.
+Repo already has `ultra-ai-builder/kanban-orchestrator` skill (read-only board + ask-before-write protocol) — inspect it and reuse before reinventing dispatch conventions. Staged execution phases (F0–F5) exist in docs but are aspirational; current plan phases are S0–S4. Gate handoff contracts: Gate-OS (stable interface, Gate-OS unchanged), Ultra Core (neutral signed-event outbox until owner spec). Existing `platform/backend/core-api` module boundaries are the natural owned-path units for cards.

@@ -17,28 +17,30 @@ describe('RBAC Roles', () => {
     it('should return USER permissions', () => {
       const permissions = getRolePermissions(UserRole.USER);
       expect(permissions.length).toBeGreaterThan(0);
-      expect(permissions.some(p => p.resource === 'profile')).toBe(true);
+      expect(permissions.some((p) => p.resource === 'profile')).toBe(true);
     });
 
     it('should include inherited permissions for MODERATOR', () => {
       const permissions = getRolePermissions(UserRole.MODERATOR);
       // Should have moderator permissions + user permissions
-      expect(permissions.some(p => p.resource === 'profile')).toBe(true); // from USER
-      expect(permissions.some(p => p.resource === 'report')).toBe(true); // from MODERATOR
+      expect(permissions.some((p) => p.resource === 'profile')).toBe(true); // from USER
+      expect(permissions.some((p) => p.resource === 'report')).toBe(true); // from MODERATOR
     });
 
     it('should include all inherited permissions for ADMIN', () => {
       const permissions = getRolePermissions(UserRole.ADMIN);
       // Should have admin + moderator + user permissions
-      expect(permissions.some(p => p.resource === 'profile')).toBe(true); // from USER
-      expect(permissions.some(p => p.resource === 'report')).toBe(true); // from MODERATOR
-      expect(permissions.some(p => p.resource === 'system')).toBe(true); // from ADMIN
+      expect(permissions.some((p) => p.resource === 'profile')).toBe(true); // from USER
+      expect(permissions.some((p) => p.resource === 'report')).toBe(true); // from MODERATOR
+      expect(permissions.some((p) => p.resource === 'system')).toBe(true); // from ADMIN
     });
 
     it('should include all inherited permissions for SUPER_ADMIN', () => {
       const permissions = getRolePermissions(UserRole.SUPER_ADMIN);
       expect(permissions.length).toBeGreaterThan(10);
-      expect(permissions.some(p => p.resource === 'infrastructure')).toBe(true);
+      expect(permissions.some((p) => p.resource === 'infrastructure')).toBe(
+        true
+      );
     });
   });
 
@@ -60,8 +62,12 @@ describe('RBAC Roles', () => {
     });
 
     it('should return true for SUPER_ADMIN all permissions', () => {
-      expect(hasPermission(UserRole.SUPER_ADMIN, 'system', 'manage')).toBe(true);
-      expect(hasPermission(UserRole.SUPER_ADMIN, 'infrastructure', 'manage')).toBe(true);
+      expect(hasPermission(UserRole.SUPER_ADMIN, 'system', 'manage')).toBe(
+        true
+      );
+      expect(
+        hasPermission(UserRole.SUPER_ADMIN, 'infrastructure', 'manage')
+      ).toBe(true);
     });
 
     it('should grant all actions when user has manage permission', () => {
@@ -88,7 +94,9 @@ describe('RBAC Roles', () => {
 
     it('should return false when comparing lower role to higher role', () => {
       expect(isSeniorRole(UserRole.USER, UserRole.ADMIN)).toBe(false);
-      expect(isSeniorRole(UserRole.MODERATOR, UserRole.SUPER_ADMIN)).toBe(false);
+      expect(isSeniorRole(UserRole.MODERATOR, UserRole.SUPER_ADMIN)).toBe(
+        false
+      );
     });
 
     it('should return false when comparing same role', () => {
@@ -99,7 +107,9 @@ describe('RBAC Roles', () => {
   describe('canManageUser', () => {
     it('should allow SUPER_ADMIN to manage anyone', () => {
       expect(canManageUser(UserRole.SUPER_ADMIN, UserRole.ADMIN)).toBe(true);
-      expect(canManageUser(UserRole.SUPER_ADMIN, UserRole.MODERATOR)).toBe(true);
+      expect(canManageUser(UserRole.SUPER_ADMIN, UserRole.MODERATOR)).toBe(
+        true
+      );
       expect(canManageUser(UserRole.SUPER_ADMIN, UserRole.USER)).toBe(true);
     });
 
@@ -131,7 +141,9 @@ describe('RBAC Roles', () => {
       expect(getRoleDisplayName(UserRole.USER)).toBe('User');
       expect(getRoleDisplayName(UserRole.MODERATOR)).toBe('Moderator');
       expect(getRoleDisplayName(UserRole.ADMIN)).toBe('Administrator');
-      expect(getRoleDisplayName(UserRole.SUPER_ADMIN)).toBe('Super Administrator');
+      expect(getRoleDisplayName(UserRole.SUPER_ADMIN)).toBe(
+        'Super Administrator'
+      );
     });
   });
 

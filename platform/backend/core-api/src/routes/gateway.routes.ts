@@ -1,5 +1,5 @@
-import { Router } from 'express';
 import { APIGateway } from '@ultra-ai/api-gateway';
+import { Router } from 'express';
 
 export function createGatewayRoutes(gateway: APIGateway): Router {
   const router = Router();

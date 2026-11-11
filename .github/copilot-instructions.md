@@ -14,12 +14,12 @@ Ultra AI is an AI-native platform that makes the operating system adapt to the u
 
 ### Core
 - **TypeScript** - Primary language across all packages
-- **Next.js 14+** - Web application framework (apps/web)
+- **Next.js 14+** - Web application framework (platform/frontend)
 - **React** - UI components
 - **Tailwind CSS** - Styling
 
 ### Backend Services
-- **NestJS or FastAPI** - API services (packages/api)
+- **NestJS or FastAPI** - API services (platform/backend/core-api)
 - **Python** - ML/AI processing
 - **PostgreSQL** - Primary database
 - **Redis** - Caching and session management
@@ -52,7 +52,7 @@ Ultra AI is an AI-native platform that makes the operating system adapt to the u
 npm install
 
 # Start development server (web app)
-cd apps/web && npm run dev
+cd platform/frontend && npm run dev
 
 # Run all workspaces in dev mode
 npm run dev

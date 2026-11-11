@@ -122,7 +122,9 @@ export class AuditLoggingService {
         {} as Record<string, number>
       ),
       riskEvents: logs.filter(
-        (l) => l.severity === AuditSeverity.HIGH || l.severity === AuditSeverity.CRITICAL
+        (l) =>
+          l.severity === AuditSeverity.HIGH ||
+          l.severity === AuditSeverity.CRITICAL
       ).length,
     };
   }

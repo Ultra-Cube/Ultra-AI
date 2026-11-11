@@ -1,15 +1,15 @@
 /**
  * Ultra-AI Agent Studio Registry
- * 
+ *
  * Defines the complete multi-agent studio system with 30+ specialized agents
  * organized in a three-tier hierarchy. Sourced from AGENT_STUDIO_ARCHITECTURE.md.
- * 
+ *
  * @see /opt/data/Ultra-AI/docs/AGENT_STUDIO_ARCHITECTURE.md
  */
 
 export type AgentTier = 1 | 2 | 3;
 export type AgentModel = 'opus' | 'sonnet' | 'inherit';
-export type Department = 
+export type Department =
   | 'Leadership'
   | 'Engineering'
   | 'AI/ML'
@@ -70,7 +70,7 @@ const TIER_3_PERMISSIONS: ToolPermissions = {
 
 /**
  * Complete agent registry for Ultra-AI Studio.
- * 
+ *
  * Tier 1: Strategic leadership (3 agents)
  * Tier 2: Department leads (9 agents)
  * Tier 3: Specialist contributors (20+ agents)
@@ -96,7 +96,8 @@ export const AGENT_REGISTRY: AgentDefinition[] = [
     model: 'opus',
     consultsWith: ['product-director', 'engineering-manager'],
     toolPermissions: TIER_1_PERMISSIONS,
-    description: 'Sets technical vision, makes architecture decisions, resolves cross-department technical conflicts. Presents 2-3 strategic options with trade-offs for user decision.',
+    description:
+      'Sets technical vision, makes architecture decisions, resolves cross-department technical conflicts. Presents 2-3 strategic options with trade-offs for user decision.',
   },
   {
     id: 'product-director',
@@ -115,7 +116,8 @@ export const AGENT_REGISTRY: AgentDefinition[] = [
     model: 'opus',
     consultsWith: ['chief-architect', 'engineering-manager'],
     toolPermissions: TIER_1_PERMISSIONS,
-    description: 'Defines product vision, prioritizes features strategically, ensures market fit. Presents strategic product options with trade-offs for user decision.',
+    description:
+      'Defines product vision, prioritizes features strategically, ensures market fit. Presents strategic product options with trade-offs for user decision.',
   },
   {
     id: 'engineering-manager',
@@ -134,7 +136,8 @@ export const AGENT_REGISTRY: AgentDefinition[] = [
     model: 'opus',
     consultsWith: ['chief-architect', 'product-director'],
     toolPermissions: TIER_1_PERMISSIONS,
-    description: 'Coordinates delivery across teams, manages sprints and milestones, resolves cross-domain conflicts. Arbitrates when tech and product need alignment.',
+    description:
+      'Coordinates delivery across teams, manages sprints and milestones, resolves cross-domain conflicts. Arbitrates when tech and product need alignment.',
   },
 
   // ============================================================================
@@ -156,9 +159,15 @@ export const AGENT_REGISTRY: AgentDefinition[] = [
     ],
     model: 'sonnet',
     escalatesTo: 'chief-architect',
-    consultsWith: ['backend-lead', 'frontend-lead', 'devops-lead', 'product-manager'],
+    consultsWith: [
+      'backend-lead',
+      'frontend-lead',
+      'devops-lead',
+      'product-manager',
+    ],
     toolPermissions: TIER_2_PERMISSIONS,
-    description: 'Owns code architecture, reviews implementations, enforces technical standards. Proposes architecture before implementing, delegates to domain leads.',
+    description:
+      'Owns code architecture, reviews implementations, enforces technical standards. Proposes architecture before implementing, delegates to domain leads.',
   },
   {
     id: 'backend-lead',
@@ -176,9 +185,15 @@ export const AGENT_REGISTRY: AgentDefinition[] = [
     ],
     model: 'sonnet',
     escalatesTo: 'tech-lead',
-    consultsWith: ['frontend-lead', 'devops-lead', 'ml-architect', 'data-engineer-lead'],
+    consultsWith: [
+      'frontend-lead',
+      'devops-lead',
+      'ml-architect',
+      'data-engineer-lead',
+    ],
     toolPermissions: TIER_2_PERMISSIONS,
-    description: 'Designs backend systems, defines API contracts, reviews backend implementations. Consults with frontend on API design, delegates to backend specialists.',
+    description:
+      'Designs backend systems, defines API contracts, reviews backend implementations. Consults with frontend on API design, delegates to backend specialists.',
   },
   {
     id: 'frontend-lead',
@@ -198,7 +213,8 @@ export const AGENT_REGISTRY: AgentDefinition[] = [
     escalatesTo: 'tech-lead',
     consultsWith: ['backend-lead', 'design-lead', 'devops-lead'],
     toolPermissions: TIER_2_PERMISSIONS,
-    description: 'Architects frontend systems, designs component structure, enforces UI patterns. Consults with backend on API contracts, delegates to frontend specialists.',
+    description:
+      'Architects frontend systems, designs component structure, enforces UI patterns. Consults with backend on API contracts, delegates to frontend specialists.',
   },
   {
     id: 'devops-lead',
@@ -218,7 +234,8 @@ export const AGENT_REGISTRY: AgentDefinition[] = [
     escalatesTo: 'tech-lead',
     consultsWith: ['backend-lead', 'frontend-lead', 'ml-architect'],
     toolPermissions: TIER_2_PERMISSIONS,
-    description: 'Designs infrastructure, manages CI/CD, ensures deployment reliability. Enforces security standards, delegates to infrastructure specialists.',
+    description:
+      'Designs infrastructure, manages CI/CD, ensures deployment reliability. Enforces security standards, delegates to infrastructure specialists.',
   },
 
   // ============================================================================
@@ -242,7 +259,8 @@ export const AGENT_REGISTRY: AgentDefinition[] = [
     escalatesTo: 'chief-architect',
     consultsWith: ['data-engineer-lead', 'backend-lead', 'devops-lead'],
     toolPermissions: TIER_2_PERMISSIONS,
-    description: 'Designs ML systems, selects models, defines training strategy. Coordinates ML infrastructure with DevOps, delegates to ML specialists.',
+    description:
+      'Designs ML systems, selects models, defines training strategy. Coordinates ML infrastructure with DevOps, delegates to ML specialists.',
   },
   {
     id: 'data-engineer-lead',
@@ -262,7 +280,8 @@ export const AGENT_REGISTRY: AgentDefinition[] = [
     escalatesTo: 'ml-architect',
     consultsWith: ['backend-lead', 'devops-lead'],
     toolPermissions: TIER_2_PERMISSIONS,
-    description: 'Designs data pipelines, ensures data quality, manages feature stores. Coordinates with backend on data access, delegates to data specialists.',
+    description:
+      'Designs data pipelines, ensures data quality, manages feature stores. Coordinates with backend on data access, delegates to data specialists.',
   },
 
   // ============================================================================
@@ -286,7 +305,8 @@ export const AGENT_REGISTRY: AgentDefinition[] = [
     escalatesTo: 'product-director',
     consultsWith: ['design-lead', 'tech-lead', 'qa-lead'],
     toolPermissions: TIER_2_PERMISSIONS,
-    description: 'Writes feature specs, defines acceptance criteria, manages backlog. Clarifies requirements for engineers, validates completed work.',
+    description:
+      'Writes feature specs, defines acceptance criteria, manages backlog. Clarifies requirements for engineers, validates completed work.',
   },
   {
     id: 'design-lead',
@@ -306,7 +326,8 @@ export const AGENT_REGISTRY: AgentDefinition[] = [
     escalatesTo: 'product-director',
     consultsWith: ['frontend-lead', 'product-manager'],
     toolPermissions: TIER_2_PERMISSIONS,
-    description: 'Defines design system, sets UX patterns, ensures accessibility. Reviews designs for consistency, delegates to design specialists.',
+    description:
+      'Defines design system, sets UX patterns, ensures accessibility. Reviews designs for consistency, delegates to design specialists.',
   },
   {
     id: 'qa-lead',
@@ -326,7 +347,8 @@ export const AGENT_REGISTRY: AgentDefinition[] = [
     escalatesTo: 'engineering-manager',
     consultsWith: ['tech-lead', 'product-manager'],
     toolPermissions: TIER_2_PERMISSIONS,
-    description: 'Defines test strategy, sets quality gates, assesses release readiness. Reviews test coverage, delegates to QA specialists.',
+    description:
+      'Defines test strategy, sets quality gates, assesses release readiness. Reviews test coverage, delegates to QA specialists.',
   },
 
   // ============================================================================
@@ -349,7 +371,8 @@ export const AGENT_REGISTRY: AgentDefinition[] = [
     escalatesTo: 'backend-lead',
     consultsWith: ['database-engineer', 'systems-engineer'],
     toolPermissions: TIER_3_PERMISSIONS,
-    description: 'Implements API endpoints following approved contracts. Asks for clarification on ambiguous specs, proposes implementation before coding.',
+    description:
+      'Implements API endpoints following approved contracts. Asks for clarification on ambiguous specs, proposes implementation before coding.',
   },
   {
     id: 'database-engineer',
@@ -368,7 +391,8 @@ export const AGENT_REGISTRY: AgentDefinition[] = [
     escalatesTo: 'backend-lead',
     consultsWith: ['api-developer', 'systems-engineer'],
     toolPermissions: TIER_3_PERMISSIONS,
-    description: 'Designs schemas, optimizes queries, manages migrations. Flags schema conflicts with specs, proposes migration strategy before executing.',
+    description:
+      'Designs schemas, optimizes queries, manages migrations. Flags schema conflicts with specs, proposes migration strategy before executing.',
   },
   {
     id: 'systems-engineer',
@@ -387,7 +411,8 @@ export const AGENT_REGISTRY: AgentDefinition[] = [
     escalatesTo: 'backend-lead',
     consultsWith: ['api-developer', 'database-engineer', 'devops-lead'],
     toolPermissions: TIER_3_PERMISSIONS,
-    description: 'Implements core services, manages background jobs, ensures reliability. Coordinates with DevOps on deployment, escalates performance issues.',
+    description:
+      'Implements core services, manages background jobs, ensures reliability. Coordinates with DevOps on deployment, escalates performance issues.',
   },
 
   // ============================================================================
@@ -410,7 +435,8 @@ export const AGENT_REGISTRY: AgentDefinition[] = [
     escalatesTo: 'frontend-lead',
     consultsWith: ['frontend-integrator', 'ux-designer', 'visual-designer'],
     toolPermissions: TIER_3_PERMISSIONS,
-    description: 'Implements UI components following design specs. Ensures accessibility, asks about design edge cases, proposes component structure before coding.',
+    description:
+      'Implements UI components following design specs. Ensures accessibility, asks about design edge cases, proposes component structure before coding.',
   },
   {
     id: 'frontend-integrator',
@@ -429,7 +455,8 @@ export const AGENT_REGISTRY: AgentDefinition[] = [
     escalatesTo: 'frontend-lead',
     consultsWith: ['ui-developer', 'api-developer'],
     toolPermissions: TIER_3_PERMISSIONS,
-    description: 'Integrates frontend with APIs, manages state, handles routing. Coordinates API contracts with backend, escalates integration issues.',
+    description:
+      'Integrates frontend with APIs, manages state, handles routing. Coordinates API contracts with backend, escalates integration issues.',
   },
 
   // ============================================================================
@@ -452,7 +479,8 @@ export const AGENT_REGISTRY: AgentDefinition[] = [
     escalatesTo: 'ml-architect',
     consultsWith: ['data-scientist', 'mlops-engineer'],
     toolPermissions: TIER_3_PERMISSIONS,
-    description: 'Trains models, tunes hyperparameters, tracks experiments. Reports training metrics, escalates model performance issues.',
+    description:
+      'Trains models, tunes hyperparameters, tracks experiments. Reports training metrics, escalates model performance issues.',
   },
   {
     id: 'mlops-engineer',
@@ -471,7 +499,8 @@ export const AGENT_REGISTRY: AgentDefinition[] = [
     escalatesTo: 'ml-architect',
     consultsWith: ['ml-engineer', 'cloud-engineer', 'devops-lead'],
     toolPermissions: TIER_3_PERMISSIONS,
-    description: 'Deploys models, monitors performance, manages serving infrastructure. Coordinates with DevOps, escalates deployment issues.',
+    description:
+      'Deploys models, monitors performance, manages serving infrastructure. Coordinates with DevOps, escalates deployment issues.',
   },
   {
     id: 'data-scientist',
@@ -490,7 +519,8 @@ export const AGENT_REGISTRY: AgentDefinition[] = [
     escalatesTo: 'ml-architect',
     consultsWith: ['ml-engineer', 'data-engineer-lead'],
     toolPermissions: TIER_3_PERMISSIONS,
-    description: 'Analyzes data, engineers features, selects models. Proposes feature engineering approach, coordinates data requirements with data engineers.',
+    description:
+      'Analyzes data, engineers features, selects models. Proposes feature engineering approach, coordinates data requirements with data engineers.',
   },
 
   // ============================================================================
@@ -513,7 +543,8 @@ export const AGENT_REGISTRY: AgentDefinition[] = [
     escalatesTo: 'devops-lead',
     consultsWith: ['platform-engineer', 'systems-engineer'],
     toolPermissions: TIER_3_PERMISSIONS,
-    description: 'Provisions cloud resources, configures networking, optimizes costs. Proposes infrastructure changes, escalates security concerns.',
+    description:
+      'Provisions cloud resources, configures networking, optimizes costs. Proposes infrastructure changes, escalates security concerns.',
   },
   {
     id: 'platform-engineer',
@@ -532,7 +563,8 @@ export const AGENT_REGISTRY: AgentDefinition[] = [
     escalatesTo: 'devops-lead',
     consultsWith: ['cloud-engineer', 'systems-engineer'],
     toolPermissions: TIER_3_PERMISSIONS,
-    description: 'Manages containers, configures observability, responds to incidents. Proposes platform improvements, escalates service outages.',
+    description:
+      'Manages containers, configures observability, responds to incidents. Proposes platform improvements, escalates service outages.',
   },
   {
     id: 'security-engineer',
@@ -551,7 +583,8 @@ export const AGENT_REGISTRY: AgentDefinition[] = [
     escalatesTo: 'devops-lead',
     consultsWith: ['cloud-engineer', 'backend-lead'],
     toolPermissions: TIER_3_PERMISSIONS,
-    description: 'Audits security, implements auth, manages secrets. Flags security vulnerabilities immediately, escalates critical issues.',
+    description:
+      'Audits security, implements auth, manages secrets. Flags security vulnerabilities immediately, escalates critical issues.',
   },
 
   // ============================================================================
@@ -574,7 +607,8 @@ export const AGENT_REGISTRY: AgentDefinition[] = [
     escalatesTo: 'qa-lead',
     consultsWith: ['api-developer', 'ui-developer', 'performance-engineer'],
     toolPermissions: TIER_3_PERMISSIONS,
-    description: 'Writes tests, automates testing, reports bugs. Documents test evidence, escalates test coverage gaps.',
+    description:
+      'Writes tests, automates testing, reports bugs. Documents test evidence, escalates test coverage gaps.',
   },
   {
     id: 'performance-engineer',
@@ -593,7 +627,8 @@ export const AGENT_REGISTRY: AgentDefinition[] = [
     escalatesTo: 'qa-lead',
     consultsWith: ['systems-engineer', 'qa-engineer'],
     toolPermissions: TIER_3_PERMISSIONS,
-    description: 'Tests performance, profiles bottlenecks, recommends optimizations. Reports performance metrics, escalates performance regressions.',
+    description:
+      'Tests performance, profiles bottlenecks, recommends optimizations. Reports performance metrics, escalates performance regressions.',
   },
 
   // ============================================================================
@@ -616,7 +651,8 @@ export const AGENT_REGISTRY: AgentDefinition[] = [
     escalatesTo: 'design-lead',
     consultsWith: ['visual-designer', 'product-manager', 'ui-developer'],
     toolPermissions: TIER_3_PERMISSIONS,
-    description: 'Designs user flows, creates wireframes, conducts usability tests. Proposes UX solutions, coordinates with product on requirements.',
+    description:
+      'Designs user flows, creates wireframes, conducts usability tests. Proposes UX solutions, coordinates with product on requirements.',
   },
   {
     id: 'visual-designer',
@@ -635,7 +671,8 @@ export const AGENT_REGISTRY: AgentDefinition[] = [
     escalatesTo: 'design-lead',
     consultsWith: ['ux-designer', 'ui-developer'],
     toolPermissions: TIER_3_PERMISSIONS,
-    description: 'Creates UI mockups, designs components, maintains visual consistency. Proposes design options, coordinates with UX on flows.',
+    description:
+      'Creates UI mockups, designs components, maintains visual consistency. Proposes design options, coordinates with UX on flows.',
   },
 
   // ============================================================================
@@ -658,7 +695,8 @@ export const AGENT_REGISTRY: AgentDefinition[] = [
     escalatesTo: 'product-manager',
     consultsWith: ['tech-lead', 'product-manager'],
     toolPermissions: TIER_3_PERMISSIONS,
-    description: 'Writes documentation, maintains guides, creates ADRs. Asks engineers for technical details, proposes documentation structure.',
+    description:
+      'Writes documentation, maintains guides, creates ADRs. Asks engineers for technical details, proposes documentation structure.',
   },
   {
     id: 'devops-engineer',
@@ -677,7 +715,8 @@ export const AGENT_REGISTRY: AgentDefinition[] = [
     escalatesTo: 'devops-lead',
     consultsWith: ['cloud-engineer', 'platform-engineer'],
     toolPermissions: TIER_3_PERMISSIONS,
-    description: 'Implements CI/CD, automates deployments, writes infrastructure code. Proposes automation improvements, escalates pipeline failures.',
+    description:
+      'Implements CI/CD, automates deployments, writes infrastructure code. Proposes automation improvements, escalates pipeline failures.',
   },
   {
     id: 'backend-developer',
@@ -696,7 +735,8 @@ export const AGENT_REGISTRY: AgentDefinition[] = [
     escalatesTo: 'backend-lead',
     consultsWith: ['api-developer', 'database-engineer', 'systems-engineer'],
     toolPermissions: TIER_3_PERMISSIONS,
-    description: 'Implements backend features, writes business logic, integrates services. Follows approved architecture, asks about ambiguous requirements.',
+    description:
+      'Implements backend features, writes business logic, integrates services. Follows approved architecture, asks about ambiguous requirements.',
   },
   {
     id: 'frontend-developer',
@@ -715,7 +755,8 @@ export const AGENT_REGISTRY: AgentDefinition[] = [
     escalatesTo: 'frontend-lead',
     consultsWith: ['ui-developer', 'frontend-integrator'],
     toolPermissions: TIER_3_PERMISSIONS,
-    description: 'Implements frontend features, builds UI components, writes client logic. Follows design system, asks about design edge cases.',
+    description:
+      'Implements frontend features, builds UI components, writes client logic. Follows design system, asks about design edge cases.',
   },
   {
     id: 'data-engineer',
@@ -734,7 +775,8 @@ export const AGENT_REGISTRY: AgentDefinition[] = [
     escalatesTo: 'data-engineer-lead',
     consultsWith: ['data-scientist', 'database-engineer'],
     toolPermissions: TIER_3_PERMISSIONS,
-    description: 'Builds data pipelines, implements ETL, validates data quality. Proposes pipeline architecture, coordinates with data scientists on features.',
+    description:
+      'Builds data pipelines, implements ETL, validates data quality. Proposes pipeline architecture, coordinates with data scientists on features.',
   },
 ];
 
@@ -742,28 +784,30 @@ export const AGENT_REGISTRY: AgentDefinition[] = [
  * Get agent definition by ID
  */
 export function getAgentById(id: string): AgentDefinition | undefined {
-  return AGENT_REGISTRY.find(agent => agent.id === id);
+  return AGENT_REGISTRY.find((agent) => agent.id === id);
 }
 
 /**
  * Get agents by tier
  */
 export function getAgentsByTier(tier: AgentTier): AgentDefinition[] {
-  return AGENT_REGISTRY.filter(agent => agent.tier === tier);
+  return AGENT_REGISTRY.filter((agent) => agent.tier === tier);
 }
 
 /**
  * Get agents by department
  */
-export function getAgentsByDepartment(department: Department): AgentDefinition[] {
-  return AGENT_REGISTRY.filter(agent => agent.department === department);
+export function getAgentsByDepartment(
+  department: Department
+): AgentDefinition[] {
+  return AGENT_REGISTRY.filter((agent) => agent.department === department);
 }
 
 /**
  * Get subordinate agents (agents that escalate to the given agent)
  */
 export function getSubordinates(agentId: string): AgentDefinition[] {
-  return AGENT_REGISTRY.filter(agent => agent.escalatesTo === agentId);
+  return AGENT_REGISTRY.filter((agent) => agent.escalatesTo === agentId);
 }
 
 /**
@@ -789,10 +833,10 @@ export function getEscalationChain(agentId: string): AgentDefinition[] {
 export const REGISTRY_METADATA = {
   version: '1.0.0',
   totalAgents: AGENT_REGISTRY.length,
-  tier1Count: AGENT_REGISTRY.filter(a => a.tier === 1).length,
-  tier2Count: AGENT_REGISTRY.filter(a => a.tier === 2).length,
-  tier3Count: AGENT_REGISTRY.filter(a => a.tier === 3).length,
-  departments: Array.from(new Set(AGENT_REGISTRY.map(a => a.department))),
+  tier1Count: AGENT_REGISTRY.filter((a) => a.tier === 1).length,
+  tier2Count: AGENT_REGISTRY.filter((a) => a.tier === 2).length,
+  tier3Count: AGENT_REGISTRY.filter((a) => a.tier === 3).length,
+  departments: Array.from(new Set(AGENT_REGISTRY.map((a) => a.department))),
   sourceDocument: '/opt/data/Ultra-AI/docs/AGENT_STUDIO_ARCHITECTURE.md',
   lastUpdated: '2026-11-01',
 };

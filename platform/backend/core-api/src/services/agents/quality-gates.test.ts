@@ -38,7 +38,11 @@ describe('Quality Gates', () => {
             throughput: '1000 req/s',
             latency: '50ms',
           },
-          securityRequirements: ['HTTPS only', 'Token encryption', 'Rate limiting'],
+          securityRequirements: [
+            'HTTPS only',
+            'Token encryption',
+            'Rate limiting',
+          ],
           testStrategy: 'Unit tests + integration tests + security tests',
         };
 
@@ -62,7 +66,9 @@ describe('Quality Gates', () => {
         const result = archFeasibilityGate(context);
 
         expect(result.verdict).toBe('CONCERNS');
-        expect(result.recommendations.some((r) => r.includes('performance budgets'))).toBe(true);
+        expect(
+          result.recommendations.some((r) => r.includes('performance budgets'))
+        ).toBe(true);
       });
 
       it('returns HIGH_RISK when too many constraints exist', () => {
@@ -96,7 +102,11 @@ describe('Quality Gates', () => {
         const result = archFeasibilityGate(context);
 
         expect(result.verdict).toBe('NOT_ASSESSED');
-        expect(result.blockers.some((b) => b.includes('Requirements must be defined'))).toBe(true);
+        expect(
+          result.blockers.some((b) =>
+            b.includes('Requirements must be defined')
+          )
+        ).toBe(true);
       });
     });
 
@@ -184,7 +194,9 @@ describe('Quality Gates', () => {
         const result = archChangeImpactGate(context);
 
         expect(result.verdict).toBe('HIGH_IMPACT');
-        expect(result.blockers.some((b) => b.includes('migration plan'))).toBe(true);
+        expect(result.blockers.some((b) => b.includes('migration plan'))).toBe(
+          true
+        );
       });
     });
   });
@@ -279,7 +291,9 @@ describe('Quality Gates', () => {
         const result = apiContractGate(context);
 
         expect(result.verdict).toBe('BREAKING_CHANGE_REQUIRED');
-        expect(result.blockers.some((b) => b.includes('API versioning'))).toBe(true);
+        expect(result.blockers.some((b) => b.includes('API versioning'))).toBe(
+          true
+        );
       });
     });
   });
@@ -328,7 +342,9 @@ describe('Quality Gates', () => {
         const result = specReadyGate(context);
 
         expect(result.verdict).toBe('NEEDS_WORK');
-        expect(result.blockers.some((b) => b.includes('Acceptance criteria'))).toBe(true);
+        expect(
+          result.blockers.some((b) => b.includes('Acceptance criteria'))
+        ).toBe(true);
       });
     });
 
@@ -477,7 +493,9 @@ describe('Quality Gates', () => {
         const result = releaseReadyGate(context);
 
         expect(result.verdict).toBe('BLOCKED');
-        expect(result.blockers.some((b) => b.includes('Build is failing'))).toBe(true);
+        expect(
+          result.blockers.some((b) => b.includes('Build is failing'))
+        ).toBe(true);
       });
 
       it('returns BLOCKED when security scan failed', () => {
@@ -535,7 +553,9 @@ describe('Quality Gates', () => {
         const result = uxReviewGate(context);
 
         expect(result.verdict).toBe('REJECT');
-        expect(result.blockers.some((b) => b.includes('Responsive design'))).toBe(true);
+        expect(
+          result.blockers.some((b) => b.includes('Responsive design'))
+        ).toBe(true);
       });
     });
 

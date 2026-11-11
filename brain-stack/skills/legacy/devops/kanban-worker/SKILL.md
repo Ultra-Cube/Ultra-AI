@@ -488,9 +488,9 @@ Specialist → Domain Lead → Product Manager + Tech Lead → Engineering Manag
    ```
    Specialist: "I propose implementing this as [approach]. 
    This will create/modify these files:
-   - apps/api/src/auth/login.ts (new)
-   - apps/api/src/auth/login.test.ts (new)
-   - apps/api/src/routes.ts (edit - add route)
+   - platform/backend/core-api/src/auth/login.ts (new)
+   - platform/backend/core-api/src/auth/login.test.ts (new)
+   - platform/backend/core-api/src/routes.ts (edit - add route)
    
    Does this approach look correct?"
    
@@ -500,9 +500,9 @@ Specialist → Domain Lead → Product Manager + Tech Lead → Engineering Manag
 2. **Implementation phase:**
    ```
    Specialist: "Implementation complete. May I write these files?
-   - apps/api/src/auth/login.ts (142 lines)
-   - apps/api/src/auth/login.test.ts (89 lines)
-   - apps/api/src/routes.ts (add 3 lines)
+   - platform/backend/core-api/src/auth/login.ts (142 lines)
+   - platform/backend/core-api/src/auth/login.test.ts (89 lines)
+   - platform/backend/core-api/src/routes.ts (add 3 lines)
    
    [Show key code snippets if requested]"
    

@@ -1,13 +1,18 @@
 import Anthropic from '@anthropic-ai/sdk';
-import { Task } from '../types';
+
 import { ANTHROPIC_MODELS, resolveAnthropicModel } from '../models';
+import { Task } from '../types';
+
 import { CompletionOptions, LLMProvider } from './types';
 
 const TASK_INSTRUCTIONS: Record<Task['type'], string> = {
-  analyze: 'Analyze the following input. Provide key findings, risks and recommendations.',
+  analyze:
+    'Analyze the following input. Provide key findings, risks and recommendations.',
   generate: 'Generate high-quality content for the following request.',
-  summarize: 'Summarize the following content concisely while preserving key facts.',
-  translate: 'Translate the following content. Preserve meaning, tone and formatting.',
+  summarize:
+    'Summarize the following content concisely while preserving key facts.',
+  translate:
+    'Translate the following content. Preserve meaning, tone and formatting.',
   respond: 'Respond helpfully to the following user message.',
 };
 
@@ -27,7 +32,11 @@ export class AnthropicProvider implements LLMProvider {
     return this.client !== null;
   }
 
-  async complete(task: Task, model: string, options: CompletionOptions = {}): Promise<string> {
+  async complete(
+    task: Task,
+    model: string,
+    options: CompletionOptions = {}
+  ): Promise<string> {
     if (!this.client) {
       throw new Error('AnthropicProvider is not configured (missing API key)');
     }

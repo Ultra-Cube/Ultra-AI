@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
+
 import { AgentStaffStore } from './agent-staff-store';
 
 function tempStore(): { store: AgentStaffStore; file: string } {
@@ -42,11 +43,17 @@ describe('AgentStaffStore', () => {
       position: { title: 'Writer', department: 'Content', rank: 'standard' },
       status: 'idle',
     });
-    const task = store.assignTask({ title: 'Draft the launch post', agentId: agent.id, priority: 'high' });
+    const task = store.assignTask({
+      title: 'Draft the launch post',
+      agentId: agent.id,
+      priority: 'high',
+    });
     expect(task).not.toBeNull();
     expect(task?.assignedAgentId).toBe(agent.id);
     expect(task?.status).toBe('queued');
-    expect(store.getAgents().find((a) => a.id === agent.id)?.status).toBe('busy');
+    expect(store.getAgents().find((a) => a.id === agent.id)?.status).toBe(
+      'busy'
+    );
   });
 
   it('returns null when assigning to a missing agent', () => {
@@ -56,8 +63,14 @@ describe('AgentStaffStore', () => {
 
   it('reassigns a task between agents', () => {
     const { store } = tempStore();
-    const a = store.hireAgent({ name: 'A', position: { title: 'T', department: 'D', rank: 'standard' } });
-    const b = store.hireAgent({ name: 'B', position: { title: 'T', department: 'D', rank: 'standard' } });
+    const a = store.hireAgent({
+      name: 'A',
+      position: { title: 'T', department: 'D', rank: 'standard' },
+    });
+    const b = store.hireAgent({
+      name: 'B',
+      position: { title: 'T', department: 'D', rank: 'standard' },
+    });
     const task = store.assignTask({ title: 'move me', agentId: a.id })!;
     const moved = store.reassignTask(task.id, b.id);
     expect(moved?.assignedAgentId).toBe(b.id);
@@ -65,9 +78,14 @@ describe('AgentStaffStore', () => {
 
   it('moves a task through its lifecycle', () => {
     const { store } = tempStore();
-    const a = store.hireAgent({ name: 'A', position: { title: 'T', department: 'D', rank: 'standard' } });
+    const a = store.hireAgent({
+      name: 'A',
+      position: { title: 'T', department: 'D', rank: 'standard' },
+    });
     const task = store.assignTask({ title: 'ship it', agentId: a.id })!;
-    expect(store.updateTaskStatus(task.id, 'in_progress')?.status).toBe('in_progress');
+    expect(store.updateTaskStatus(task.id, 'in_progress')?.status).toBe(
+      'in_progress'
+    );
     const done = store.updateTaskStatus(task.id, 'done', 'completed ok');
     expect(done?.status).toBe('done');
     expect(done?.result).toBe('completed ok');
@@ -75,7 +93,10 @@ describe('AgentStaffStore', () => {
 
   it('builds a roster with per-agent open task counts', () => {
     const { store } = tempStore();
-    const a = store.hireAgent({ name: 'A', position: { title: 'T', department: 'D', rank: 'standard' } });
+    const a = store.hireAgent({
+      name: 'A',
+      position: { title: 'T', department: 'D', rank: 'standard' },
+    });
     store.assignTask({ title: 't1', agentId: a.id });
     store.assignTask({ title: 't2', agentId: a.id });
     const roster = store.getRoster();
@@ -86,7 +107,10 @@ describe('AgentStaffStore', () => {
 
   it('blocks tasks when their agent is removed', () => {
     const { store } = tempStore();
-    const a = store.hireAgent({ name: 'A', position: { title: 'T', department: 'D', rank: 'standard' } });
+    const a = store.hireAgent({
+      name: 'A',
+      position: { title: 'T', department: 'D', rank: 'standard' },
+    });
     const task = store.assignTask({ title: 'orphan me', agentId: a.id })!;
     expect(store.removeAgent(a.id)).toBe(true);
     const found = store.getTasks().find((t) => t.id === task.id);
@@ -96,15 +120,25 @@ describe('AgentStaffStore', () => {
 
   it('updates an agent position', () => {
     const { store } = tempStore();
-    const a = store.hireAgent({ name: 'A', position: { title: 'T', department: 'D', rank: 'trainee' } });
-    const updated = store.setPosition(a.id, { title: 'Lead', department: 'Ops', rank: 'lead' });
+    const a = store.hireAgent({
+      name: 'A',
+      position: { title: 'T', department: 'D', rank: 'trainee' },
+    });
+    const updated = store.setPosition(a.id, {
+      title: 'Lead',
+      department: 'Ops',
+      rank: 'lead',
+    });
     expect(updated?.position.rank).toBe('lead');
     expect(updated?.position.title).toBe('Lead');
   });
 
   it('persists state across store instances', () => {
     const { store, file } = tempStore();
-    const a = store.hireAgent({ name: 'Persist', position: { title: 'T', department: 'D', rank: 'standard' } });
+    const a = store.hireAgent({
+      name: 'Persist',
+      position: { title: 'T', department: 'D', rank: 'standard' },
+    });
     const reopened = new AgentStaffStore(file);
     expect(reopened.getAgents().some((x) => x.id === a.id)).toBe(true);
   });

@@ -86,7 +86,9 @@ describe('AdvancedSearchService', () => {
     });
 
     it('should return email suggestions', async () => {
-      mockPrisma.user.findMany.mockResolvedValue([{ email: 'test@example.com' }]);
+      mockPrisma.user.findMany.mockResolvedValue([
+        { email: 'test@example.com' },
+      ]);
 
       const suggestions = await service.getSuggestions('test', 'user');
 

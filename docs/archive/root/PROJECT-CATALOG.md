@@ -14,7 +14,7 @@ Ultra AI Platform is a comprehensive, integrated AI platform that combines the b
 
 ## 📦 Product Packages
 
-### 1. 🌐 API Gateway (`packages/api-gateway`)
+### 1. 🌐 API Gateway (`platform/api/gateway`)
 
 **Description**: Enterprise-grade AI gateway with multi-provider support
 
@@ -39,7 +39,7 @@ Ultra AI Platform is a comprehensive, integrated AI platform that combines the b
 **Usage**:
 ```bash
 # Start the gateway
-cd packages/api-gateway
+cd platform/api/gateway
 npm start
 
 # Gateway runs on port 20128
@@ -372,7 +372,7 @@ npm start
 
 ---
 
-## 🎛️ Control Center (`packages/control-center`)
+## 🎛️ Control Center (`platform/devtools/control-center`)
 
 **Description**: Comprehensive system management and monitoring
 
@@ -392,7 +392,7 @@ npm start
 
 **Quick Start**:
 ```bash
-cd packages/control-center
+cd platform/devtools/control-center
 npm install
 npm start
 ```
@@ -401,7 +401,7 @@ npm start
 
 ---
 
-## 🧠 Memory Optimizer (`packages/memory-optimizer`)
+## 🧠 Memory Optimizer (`platform/services/memory-optimizer`)
 
 **Description**: Advanced memory optimization for AI systems
 
@@ -415,7 +415,7 @@ npm start
 
 **Quick Start**:
 ```bash
-cd packages/memory-optimizer
+cd platform/services/memory-optimizer
 npm install
 npm start
 ```
@@ -424,7 +424,7 @@ npm start
 
 ---
 
-## 🎤 Voice Recognition (`packages/voice-recognition`)
+## 🎤 Voice Recognition (`platform/services/voice-recognition`)
 
 **Description**: Speech-to-text and voice command processing
 
@@ -438,7 +438,7 @@ npm start
 
 **Quick Start**:
 ```bash
-cd packages/voice-recognition
+cd platform/services/voice-recognition
 npm install
 npm start
 ```
@@ -447,7 +447,7 @@ npm start
 
 ---
 
-## 🖥️ Desktop UI (`packages/desktop-ui`)
+## 🖥️ Desktop UI (`platform/platform/apps/desktop-ui-ui`)
 
 **Description**: Native desktop interface for the platform
 
@@ -461,7 +461,7 @@ npm start
 
 **Quick Start**:
 ```bash
-cd packages/desktop-ui
+cd platform/platform/apps/desktop-ui-ui
 npm install
 npm start
 ```
@@ -470,7 +470,7 @@ npm start
 
 ---
 
-## 🌐 Web Dashboard (`apps/web`)
+## 🌐 Web Dashboard (`platform/frontend`)
 
 **Description**: Comprehensive web-based dashboard
 
@@ -485,7 +485,7 @@ npm start
 
 **Access**:
 ```bash
-cd apps/web
+cd platform/frontend
 npm install
 npm run dev
 # Access at http://localhost:3000
@@ -529,7 +529,7 @@ npm run dev
 
 1. **Start the API Gateway**:
    ```bash
-   cd packages/api-gateway
+   cd platform/api/gateway
    npm start
    ```
 

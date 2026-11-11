@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server';
  * Integration systems route.
  *
  * Status is derived by probing the mock-adapters service
- * (services/mock-adapters, default http://localhost:4100) rather than being
+ * (platform/services/mock-adapters, default http://localhost:4100) rather than being
  * hardcoded. When an adapter can't be reached the system is reported as
  * 'offline' so the catalog stays honest instead of claiming 'imported'.
  */

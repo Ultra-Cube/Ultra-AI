@@ -1,6 +1,6 @@
 /**
  * Role-Based Access Control (RBAC) System
- * 
+ *
  * Provides role management, permission checking, and access control
  * for the Ultra AI Platform API.
  */
@@ -25,7 +25,7 @@ export interface RolePermissions {
 
 /**
  * Role hierarchy and permissions matrix
- * 
+ *
  * USER: Basic user permissions
  * MODERATOR: Content moderation + user permissions
  * ADMIN: Full resource management + moderator permissions
@@ -136,7 +136,10 @@ export function isSeniorRole(role: UserRole, comparedTo: UserRole): boolean {
 /**
  * Check if role can manage another user
  */
-export function canManageUser(managerRole: UserRole, targetRole: UserRole): boolean {
+export function canManageUser(
+  managerRole: UserRole,
+  targetRole: UserRole
+): boolean {
   // Super admins can manage anyone
   if (managerRole === UserRole.SUPER_ADMIN) return true;
 

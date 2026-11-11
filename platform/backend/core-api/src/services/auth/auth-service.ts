@@ -1,5 +1,7 @@
 import crypto from 'node:crypto';
+
 import jwt from 'jsonwebtoken';
+
 import { DatabaseUserService, UserRecord } from './db-user-service';
 
 export interface AuthResult {
@@ -16,7 +18,7 @@ export class AuthService {
 
   constructor(
     dbService: DatabaseUserService,
-    jwtSecret = process.env.ULTRA_AI_JWT_SECRET ?? 'ultra-ai-dev-secret',
+    jwtSecret = process.env.ULTRA_AI_JWT_SECRET ?? 'ultra-ai-dev-secret'
   ) {
     this.dbService = dbService;
     this.jwtSecret = jwtSecret;

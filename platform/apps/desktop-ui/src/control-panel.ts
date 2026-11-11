@@ -4,6 +4,7 @@
  */
 
 import { EventEmitter } from 'events';
+
 import { DesktopUIConfig, ControlPanelConfig } from './types';
 
 export class ControlPanel extends EventEmitter {
@@ -25,7 +26,7 @@ export class ControlPanel extends EventEmitter {
 
   async initialize(): Promise<void> {
     console.log('Initializing Control Panel...');
-    
+
     if (this.panelConfig.enableMonitoring) {
       this.startMonitoring();
     }
@@ -71,7 +72,7 @@ export class ControlPanel extends EventEmitter {
 
   updateConfig(config: Partial<ControlPanelConfig>): void {
     this.panelConfig = { ...this.panelConfig, ...config };
-    
+
     if (config.enableMonitoring !== undefined) {
       if (config.enableMonitoring) {
         this.startMonitoring();

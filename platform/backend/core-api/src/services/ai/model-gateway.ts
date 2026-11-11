@@ -4,7 +4,11 @@
  * with health checks and automatic failover
  */
 
-import { OPENAI_MODELS, ANTHROPIC_MODELS, OLLAMA_MODELS } from '@ultra-ai/ai-core';
+import {
+  OPENAI_MODELS,
+  ANTHROPIC_MODELS,
+  OLLAMA_MODELS,
+} from '@ultra-ai/ai-core';
 
 export interface ProviderConfig {
   name: 'openai' | 'anthropic' | 'ollama';
@@ -169,7 +173,7 @@ export class ModelGateway {
    */
   private findProvidersForModel(model: string): ProviderConfig[] {
     return Array.from(this.providers.values()).filter(
-      (provider) => provider.enabled && provider.models.includes(model),
+      (provider) => provider.enabled && provider.models.includes(model)
     );
   }
 
@@ -257,7 +261,10 @@ export class ModelGateway {
   /**
    * Update provider configuration
    */
-  updateProviderConfig(provider: string, config: Partial<ProviderConfig>): void {
+  updateProviderConfig(
+    provider: string,
+    config: Partial<ProviderConfig>
+  ): void {
     const existing = this.providers.get(provider as any);
     if (!existing) {
       throw new Error(`Provider not found: ${provider}`);
@@ -271,8 +278,6 @@ export class ModelGateway {
 /**
  * Factory function to create a gateway with default configuration
  */
-export function createModelGateway(
-  configs?: ProviderConfig[],
-): ModelGateway {
+export function createModelGateway(configs?: ProviderConfig[]): ModelGateway {
   return new ModelGateway(configs);
 }

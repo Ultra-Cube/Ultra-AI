@@ -485,7 +485,7 @@ setInterval(fetchDashboardData, 30000);
 
 **Run Tests:**
 ```bash
-npm test --workspace=packages/api
+npm test --workspace=platform/backend/core-api
 ```
 
 ## 🎛️ Configuration

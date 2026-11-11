@@ -137,7 +137,7 @@ All tests passing ✅
 ## 📁 File Structure
 
 ```
-packages/api/src/services/caching/
+platform/backend/core-api/src/services/caching/
 ├── index.ts                  # Module exports
 ├── cache.ts                  # L1/L2 cache implementations
 ├── invalidation.ts           # Invalidation service & events

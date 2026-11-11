@@ -12,11 +12,35 @@ import { WebSurface } from './types';
 export const DEFAULT_WEB_BASE_URL = 'http://localhost:3000';
 
 export const WEB_SURFACES: WebSurface[] = [
-  { id: 'dashboard', label: 'Dashboard', path: '/dashboard', icon: '📊', primary: true },
-  { id: 'gateway', label: 'Gateway', path: '/gateway', icon: '🌐', primary: true },
-  { id: 'control-center', label: 'Control Center', path: '/control-center', icon: '🎛️', primary: true },
+  {
+    id: 'dashboard',
+    label: 'Dashboard',
+    path: '/dashboard',
+    icon: '📊',
+    primary: true,
+  },
+  {
+    id: 'gateway',
+    label: 'Gateway',
+    path: '/gateway',
+    icon: '🌐',
+    primary: true,
+  },
+  {
+    id: 'control-center',
+    label: 'Control Center',
+    path: '/control-center',
+    icon: '🎛️',
+    primary: true,
+  },
   { id: 'zeroai', label: 'ZeroAI', path: '/zeroai', icon: '🤖', primary: true },
-  { id: 'hermes', label: 'Hermes Monitoring', path: '/hermes', icon: '📡', primary: true },
+  {
+    id: 'hermes',
+    label: 'Hermes Monitoring',
+    path: '/hermes',
+    icon: '📡',
+    primary: true,
+  },
 ];
 
 /** Resolve a surface's absolute URL against the running web app. */

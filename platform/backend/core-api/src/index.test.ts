@@ -1,10 +1,12 @@
-import { buildApp, AppContext } from './index';
+import { AICore } from '@ultra-ai/ai-core';
+
+import { createModelGateway } from './services/ai/model-gateway';
 import { AuthService } from './services/auth/auth-service';
 import { InMemoryUserService } from './services/auth/in-memory-user-service';
 import { WorkspaceProfileStore } from './services/profile/workspace-profile-store';
 import { WorkspaceRecommender } from './services/workspace-recommender';
-import { AICore } from '@ultra-ai/ai-core';
-import { createModelGateway } from './services/ai/model-gateway';
+
+import { buildApp, AppContext } from './index';
 
 describe('@ultra-ai/api', () => {
   let app: any;
@@ -189,7 +191,10 @@ describe('@ultra-ai/api', () => {
     const response = await app.inject({
       method: 'POST',
       url: '/ai/advanced-process',
-      payload: { input: 'Advanced: Explain quantum computing', model: 'mistral' }, // Use Ollama model as default
+      payload: {
+        input: 'Advanced: Explain quantum computing',
+        model: 'mistral',
+      }, // Use Ollama model as default
     });
 
     expect(response.statusCode).toBe(200);
@@ -201,4 +206,3 @@ describe('@ultra-ai/api', () => {
     expect(data.routing.endpoint).toBeTruthy();
   });
 });
-

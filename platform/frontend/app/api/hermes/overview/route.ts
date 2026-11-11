@@ -11,7 +11,7 @@ export const dynamic = 'force-dynamic';
  *  - a small set of headline metrics queried from Prometheus if up
  *
  * Everything degrades gracefully: if the Hermes stack isn't running (it is an
- * optional `./scripts/ultra-stack.sh up --with-hermes` layer), the route still
+ * optional `./infrastructure/automation/ultra-stack.sh up --with-hermes` layer), the route still
  * returns a well-formed payload with reachable=false so the UI can render an
  * informative "monitoring stack is offline" state instead of erroring.
  */

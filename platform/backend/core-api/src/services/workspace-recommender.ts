@@ -3,13 +3,14 @@ import {
   WorkspaceRecommendationRequest,
 } from '../types';
 
-const ROLE_SECTIONS: Record<WorkspaceRecommendationRequest['role'], string[]> = {
-  'video-designer': ['timeline', 'preview', 'assets', 'captions', 'exports'],
-  developer: ['chat', 'code-tools', 'api-console', 'logs', 'history'],
-  researcher: ['chat', 'datasets', 'analysis', 'citations', 'reports'],
-  marketer: ['chat', 'campaigns', 'content-studio', 'analytics', 'exports'],
-  custom: ['chat', 'tools', 'history', 'settings'],
-};
+const ROLE_SECTIONS: Record<WorkspaceRecommendationRequest['role'], string[]> =
+  {
+    'video-designer': ['timeline', 'preview', 'assets', 'captions', 'exports'],
+    developer: ['chat', 'code-tools', 'api-console', 'logs', 'history'],
+    researcher: ['chat', 'datasets', 'analysis', 'citations', 'reports'],
+    marketer: ['chat', 'campaigns', 'content-studio', 'analytics', 'exports'],
+    custom: ['chat', 'tools', 'history', 'settings'],
+  };
 
 const ROLE_TOOLS: Record<WorkspaceRecommendationRequest['role'], string[]> = {
   'video-designer': ['caption-generator', 'scene-detection', 'export-presets'],

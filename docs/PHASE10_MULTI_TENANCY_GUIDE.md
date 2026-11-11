@@ -382,7 +382,7 @@ if (stats.storageUsed >= tenant.maxStorage) {
 ### Running Tests
 
 ```bash
-npm test --workspace=packages/api -- multi-tenancy.test.ts
+npm test --workspace=platform/backend/core-api -- multi-tenancy.test.ts
 ```
 
 ### Test Coverage

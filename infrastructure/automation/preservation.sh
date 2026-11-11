@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 # preservation.sh — prove that no existing file was lost or changed.
 # Usage:
-#   scripts/preservation.sh manifest <git-ref> <out-file>     # SHA-256 manifest of every tracked file at <ref>
-#   scripts/preservation.sh verify-tag <git-ref> <manifest>   # <ref> still matches the manifest byte-for-byte
-#   scripts/preservation.sh verify-additive <base-ref> [head-ref]
+#   infrastructure/automation/preservation.sh manifest <git-ref> <out-file>     # SHA-256 manifest of every tracked file at <ref>
+#   infrastructure/automation/preservation.sh verify-tag <git-ref> <manifest>   # <ref> still matches the manifest byte-for-byte
+#   infrastructure/automation/preservation.sh verify-additive <base-ref> [head-ref]
 #                                                             # between base and head there are ONLY added files
-#   scripts/preservation.sh verify-moves <moves.tsv> [--post] # pre: every src exists+tracked, dst free;
+#   infrastructure/automation/preservation.sh verify-moves <moves.tsv> [--post] # pre: every src exists+tracked, dst free;
 #                                                             # post: src gone, dst present, same file set
 # Exit code 0 = OK, 1 = violation (changed / deleted / renamed files), 2 = usage error.
 set -euo pipefail

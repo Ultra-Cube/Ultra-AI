@@ -34,20 +34,24 @@ export class APIGateway {
    */
   async initialize(): Promise<void> {
     console.log(`Initializing API Gateway on port ${this.port}`);
-    
+
     // Load provider configurations
     await this.loadProviders();
     console.log(`Loaded ${this.providers.size} provider configurations`);
-    
+
     // Check 9router availability if configured
     if (this.useNineRouter) {
       const nineRouterAvailable = await this.nineRouterBridge.healthCheck();
       if (nineRouterAvailable) {
-        console.log('9router service is available and will be used for routing');
+        console.log(
+          '9router service is available and will be used for routing'
+        );
         const models = await this.nineRouterBridge.getModels();
         console.log(`9router has ${models.length} available models`);
       } else {
-        console.warn('9router service is not available, falling back to internal routing');
+        console.warn(
+          '9router service is not available, falling back to internal routing'
+        );
         this.useNineRouter = false;
       }
     }
@@ -83,7 +87,7 @@ export class APIGateway {
     headers?: Record<string, string>
   ): Promise<GatewayResponse> {
     console.log(`Routing request to model: ${request.model}`);
-    
+
     // Verify authentication if headers provided
     let authContext: AuthContext | null = null;
     if (headers) {
@@ -96,19 +100,24 @@ export class APIGateway {
           usage: { promptTokens: 0, completionTokens: 0 },
         };
       }
-      console.log(`Authenticated user: ${authContext.email} (${authContext.role})`);
+      console.log(
+        `Authenticated user: ${authContext.email} (${authContext.role})`
+      );
     }
-    
+
     // Use 9router if available and configured
     if (this.useNineRouter) {
       try {
         return await this.nineRouterBridge.routeChatCompletion(request);
       } catch (error) {
-        console.error('9router routing failed, falling back to internal routing:', error);
+        console.error(
+          '9router routing failed, falling back to internal routing:',
+          error
+        );
         // Fall through to internal routing
       }
     }
-    
+
     // Internal routing fallback
     return this.routeInternal(request);
   }
@@ -116,14 +125,16 @@ export class APIGateway {
   /**
    * Internal routing logic (fallback when 9router is unavailable)
    */
-  private async routeInternal(request: GatewayRequest): Promise<GatewayResponse> {
+  private async routeInternal(
+    _request: GatewayRequest
+  ): Promise<GatewayResponse> {
     // TODO: Implement internal routing logic
     // For now, return a placeholder response
     return {
       success: true,
-      data: { message: "Request routed internally (placeholder)" },
-      provider: "internal",
-      usage: { promptTokens: 0, completionTokens: 0 }
+      data: { message: 'Request routed internally (placeholder)' },
+      provider: 'internal',
+      usage: { promptTokens: 0, completionTokens: 0 },
     };
   }
 
@@ -134,7 +145,7 @@ export class APIGateway {
     if (this.useNineRouter) {
       return await this.nineRouterBridge.getModels();
     }
-    
+
     // Return internal models
     return [];
   }
@@ -146,7 +157,7 @@ export class APIGateway {
     if (this.useNineRouter) {
       return await this.nineRouterBridge.getProviderStatus();
     }
-    
+
     // Return internal provider status
     return {
       providers: Array.from(this.providers.entries()).map(([id, config]) => ({
@@ -165,7 +176,7 @@ export class APIGateway {
     if (this.useNineRouter) {
       return await this.nineRouterBridge.getUsageStats();
     }
-    
+
     // Return internal usage stats
     return {
       totalRequests: 0,
@@ -208,13 +219,22 @@ export class APIGateway {
         res.status(400).json({ error: 'Missing required fields' });
         return;
       }
-      this.providers.set(id, { id, name, type, endpoint, models: models ?? [], credentials: credentials ?? {} });
+      this.providers.set(id, {
+        id,
+        name,
+        type,
+        endpoint,
+        models: models ?? [],
+        credentials: credentials ?? {},
+      });
       res.status(201).json({ status: 'created', id });
     });
 
     app.delete('/api/providers/:id', (req, res) => {
       const deleted = this.providers.delete(req.params.id);
-      res.status(deleted ? 200 : 404).json({ status: deleted ? 'deleted' : 'not_found' });
+      res
+        .status(deleted ? 200 : 404)
+        .json({ status: deleted ? 'deleted' : 'not_found' });
     });
 
     this.server = app.listen(this.port, () => {

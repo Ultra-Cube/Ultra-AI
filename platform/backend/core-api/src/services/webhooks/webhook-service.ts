@@ -111,8 +111,8 @@ export class WebhookService {
    * Get webhook deliveries (history)
    */
   async getDeliveries(
-    webhookId: string,
-    limit: number = 50
+    _webhookId: string,
+    _limit: number = 50
   ): Promise<
     Array<{
       id: string;
@@ -129,7 +129,7 @@ export class WebhookService {
   /**
    * Delete webhook
    */
-  async deleteWebhook(webhookId: string): Promise<void> {
+  async deleteWebhook(_webhookId: string): Promise<void> {
     // In production: await this.prisma.webhook.delete()
   }
 

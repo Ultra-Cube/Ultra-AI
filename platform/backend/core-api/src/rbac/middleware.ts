@@ -1,10 +1,11 @@
 /**
  * RBAC Middleware
- * 
+ *
  * Provides middleware functions for role-based access control
  */
 
 import type { Request, Response, NextFunction } from 'express';
+
 import { UserRole, hasPermission, canManageUser, isSeniorRole } from './roles';
 
 export interface AuthenticatedRequest extends Request {
@@ -45,7 +46,10 @@ export function requireRole(...allowedRoles: UserRole[]) {
 /**
  * Middleware to require a specific permission
  */
-export function requirePermission(resource: string, action: 'create' | 'read' | 'update' | 'delete' | 'manage') {
+export function requirePermission(
+  resource: string,
+  action: 'create' | 'read' | 'update' | 'delete' | 'manage'
+) {
   return (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
     if (!req.user) {
       return res.status(401).json({
@@ -98,7 +102,11 @@ export function requireMinimumRole(minimumRole: UserRole) {
 /**
  * Middleware to check if user can manage another user
  */
-export function canManageUserMiddleware(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+export function canManageUserMiddleware(
+  req: AuthenticatedRequest,
+  res: Response,
+  next: NextFunction
+) {
   if (!req.user) {
     return res.status(401).json({
       error: 'Unauthorized',

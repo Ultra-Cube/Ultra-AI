@@ -1,6 +1,6 @@
 /**
  * Multi-Layer Caching System for Ultra AI Platform
- * 
+ *
  * Implements in-memory (L1) and Redis (L2) caching with automatic invalidation
  */
 
@@ -28,7 +28,8 @@ export class MemoryCache {
   private maxSize: number;
   private cleanupInterval: NodeJS.Timer | null = null;
 
-  constructor(maxSizeBytes: number = 100 * 1024 * 1024) { // 100MB default
+  constructor(maxSizeBytes: number = 100 * 1024 * 1024) {
+    // 100MB default
     this.maxSize = maxSizeBytes;
     this.startCleanupInterval();
   }
@@ -38,7 +39,7 @@ export class MemoryCache {
    */
   get<T>(key: string): T | null {
     const entry = this.cache.get(key);
-    
+
     if (!entry) {
       this.stats.misses++;
       return null;
@@ -192,7 +193,7 @@ export class RedisCache {
    */
   async connect(url: string = 'redis://localhost:6379'): Promise<void> {
     this.client = createClient({ url });
-    
+
     this.client.on('error', (err) => {
       console.error('Redis client error:', err);
       this.isConnected = false;
@@ -221,7 +222,7 @@ export class RedisCache {
 
     try {
       const value = await this.client!.get(key);
-      
+
       if (!value) {
         this.stats.misses++;
         return null;
@@ -239,12 +240,17 @@ export class RedisCache {
   /**
    * Set value in cache
    */
-  async set<T>(key: string, value: T, ttlSeconds?: number, tags?: string[]): Promise<void> {
+  async set<T>(
+    key: string,
+    value: T,
+    ttlSeconds?: number,
+    tags?: string[]
+  ): Promise<void> {
     if (!this.isReady()) return;
 
     try {
       const jsonValue = JSON.stringify(value);
-      
+
       if (ttlSeconds) {
         await this.client!.setEx(key, ttlSeconds, jsonValue);
       } else {
@@ -288,7 +294,7 @@ export class RedisCache {
     try {
       const tagKey = `tag:${tag}`;
       const keys = await this.client!.sMembers(tagKey);
-      
+
       if (keys.length > 0) {
         await this.client!.del(keys);
       }
@@ -396,7 +402,12 @@ export class MultiLayerCache {
   /**
    * Set value in both L1 and L2
    */
-  async set<T>(key: string, value: T, ttlSeconds?: number, tags?: string[]): Promise<void> {
+  async set<T>(
+    key: string,
+    value: T,
+    ttlSeconds?: number,
+    tags?: string[]
+  ): Promise<void> {
     this.l1.set(key, value, ttlSeconds, tags);
     await this.l2.set(key, value, ttlSeconds, tags);
   }
@@ -431,7 +442,7 @@ export class MultiLayerCache {
   /**
    * Get combined statistics
    */
-  async getStats(): Promise<{l1: CacheStats, l2: CacheStats}> {
+  async getStats(): Promise<{ l1: CacheStats; l2: CacheStats }> {
     const l2Stats = await this.l2.getStats();
     return {
       l1: this.l1.getStats(),
@@ -452,15 +463,15 @@ export class MultiLayerCache {
  * Cache decorator for functions
  */
 export function Cacheable(ttlSeconds?: number, tags?: string[]) {
-  return function(
+  return function (
     target: any,
     propertyKey: string,
-    descriptor: PropertyDescriptor,
+    descriptor: PropertyDescriptor
   ) {
     const originalMethod = descriptor.value;
     const cacheKey = `${target.constructor.name}:${propertyKey}`;
 
-    descriptor.value = async function(...args: any[]) {
+    descriptor.value = async function (...args: any[]) {
       const cache = (this as any).cache as MultiLayerCache;
       if (!cache) {
         return originalMethod.apply(this, args);

@@ -4,9 +4,10 @@
  */
 
 import { EventEmitter } from 'events';
-import { MemoryConfig, MemoryStats, OptimizationResult } from './types';
+
 import { GarbageCollector } from './garbage-collector';
 import { ResourceMonitor } from './resource-monitor';
+import { MemoryConfig, MemoryStats, OptimizationResult } from './types';
 
 export class MemoryOptimizer extends EventEmitter {
   private config: MemoryConfig;
@@ -30,7 +31,7 @@ export class MemoryOptimizer extends EventEmitter {
 
   initialize(): void {
     console.log('Initializing Memory Optimizer...');
-    
+
     if (this.config.enableAutoGC) {
       this.startAutoGC();
     }
@@ -107,7 +108,7 @@ export class MemoryOptimizer extends EventEmitter {
 
   updateConfig(config: Partial<MemoryConfig>): void {
     this.config = { ...this.config, ...config };
-    
+
     if (config.enableAutoGC !== undefined) {
       if (config.enableAutoGC) {
         this.startAutoGC();

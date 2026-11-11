@@ -3,6 +3,8 @@
  * Comprehensive file management with versioning, backup, and audit logging
  */
 
+import crypto from 'crypto';
+
 import {
   PrismaClient,
   File,
@@ -12,7 +14,6 @@ import {
   FileStatus,
   FileStorageType,
 } from '@prisma/client';
-import crypto from 'crypto';
 
 // ============================================================================
 // Types & Interfaces
@@ -77,7 +78,9 @@ export class FileStorageService {
     }
 
     if (fileSize > quota.maxFileSize) {
-      throw new Error(`File size exceeds maximum allowed size of ${quota.maxFileSize} bytes`);
+      throw new Error(
+        `File size exceeds maximum allowed size of ${quota.maxFileSize} bytes`
+      );
     }
 
     // Calculate file hash for deduplication
@@ -121,7 +124,7 @@ export class FileStorageService {
 
     // Trigger virus scan asynchronously
     setImmediate(() => {
-      this.scanFileForVirus(file.id).catch(error => {
+      this.scanFileForVirus(file.id).catch((error) => {
         console.error('Virus scan error:', error);
       });
     });
@@ -165,7 +168,11 @@ export class FileStorageService {
   /**
    * Get file by ID
    */
-  async getFile(tenantId: string, fileId: string, userId?: string): Promise<File | null> {
+  async getFile(
+    tenantId: string,
+    fileId: string,
+    userId?: string
+  ): Promise<File | null> {
     const file = await this.prisma.file.findFirst({
       where: {
         id: fileId,
@@ -176,7 +183,9 @@ export class FileStorageService {
 
     if (file && userId) {
       // Log access
-      await this.logAccess(tenantId, fileId, userId, 'view', true).catch(_ => {});
+      await this.logAccess(tenantId, fileId, userId, 'view', true).catch(
+        (_) => {}
+      );
     }
 
     return file;
@@ -209,7 +218,9 @@ export class FileStorageService {
 
     // TODO: Actually download file from storage backend
     // This is a placeholder - implement based on storageType
-    console.log(`Downloading file ${fileId} from storage type ${file.storageType}`);
+    console.log(
+      `Downloading file ${fileId} from storage type ${file.storageType}`
+    );
 
     return Buffer.alloc(0); // Placeholder
   }
@@ -251,7 +262,11 @@ export class FileStorageService {
   /**
    * Delete file (soft delete)
    */
-  async deleteFile(tenantId: string, fileId: string, userId: string): Promise<void> {
+  async deleteFile(
+    tenantId: string,
+    fileId: string,
+    userId: string
+  ): Promise<void> {
     const file = await this.getFile(tenantId, fileId, userId);
 
     if (!file) {
@@ -332,10 +347,13 @@ export class FileStorageService {
       totalBytes: quota.usedBytes,
       maxBytes: quota.maxBytes,
       usagePercent: Math.round(usagePercent * 100) / 100,
-      filesByType: filesByType.reduce((acc, item) => {
-        acc[item.mimeType] = item._count.mimeType;
-        return acc;
-      }, {} as Record<string, number>),
+      filesByType: filesByType.reduce(
+        (acc, item) => {
+          acc[item.mimeType] = item._count.mimeType;
+          return acc;
+        },
+        {} as Record<string, number>
+      ),
       recentFiles: recentCount,
       warningStatus: quota.isWarning,
     };
@@ -416,7 +434,11 @@ export class FileStorageService {
   /**
    * Restore from backup
    */
-  async restoreFromBackup(fileId: string, version: number, userId: string): Promise<File> {
+  async restoreFromBackup(
+    fileId: string,
+    version: number,
+    userId: string
+  ): Promise<File> {
     const backup = await this.prisma.fileBackup.findUnique({
       where: {
         fileId_version: { fileId, version },
@@ -454,7 +476,9 @@ export class FileStorageService {
   /**
    * Clean up old files and backups
    */
-  async cleanup(daysToKeep = 30): Promise<{ filesDeleted: number; backupsDeleted: number }> {
+  async cleanup(
+    daysToKeep = 30
+  ): Promise<{ filesDeleted: number; backupsDeleted: number }> {
     const cutoffDate = new Date(Date.now() - daysToKeep * 24 * 60 * 60 * 1000);
 
     const [filesResult, backupsResult] = await Promise.all([
@@ -509,7 +533,11 @@ export class FileStorageService {
   /**
    * Generate unique storage key
    */
-  private generateStorageKey(tenantId: string, userId: string, fileName: string): string {
+  private generateStorageKey(
+    tenantId: string,
+    userId: string,
+    fileName: string
+  ): string {
     const timestamp = Date.now();
     const random = Math.random().toString(36).substring(7);
     return `${tenantId}/${userId}/${timestamp}-${random}-${fileName}`;

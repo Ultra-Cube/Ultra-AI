@@ -1,7 +1,7 @@
 # Hermes / Prometheus scrape configuration for Ultra-AI
 #
 # The api package exposes prom-client metrics at /metrics on the canonical
-# port 4000 (see packages/api/src/services/monitoring). The gateway exposes
+# port 4000 (see platform/backend/core-api/src/services/monitoring). The gateway exposes
 # /health on 20129. Targets use service names on ultra-ai-network first and
 # fall back to host.docker.internal for host-run processes.
 global:

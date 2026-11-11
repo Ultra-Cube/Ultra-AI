@@ -4,6 +4,7 @@
  */
 
 import { EventEmitter } from 'events';
+
 import { AudioConfig } from './types';
 
 export class AudioProcessor extends EventEmitter {

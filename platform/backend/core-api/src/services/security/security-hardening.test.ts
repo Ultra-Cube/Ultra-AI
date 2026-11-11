@@ -91,18 +91,24 @@ describe('Security Hardening & Compliance', () => {
 
     it('should include production HSTS header', () => {
       const headers = SecurityHeadersGenerator.getHeaders({ production: true });
-      expect(headers['Strict-Transport-Security']).toContain('max-age=31536000');
+      expect(headers['Strict-Transport-Security']).toContain(
+        'max-age=31536000'
+      );
       expect(headers['Strict-Transport-Security']).toContain('preload');
     });
 
     it('should use relaxed HSTS for development', () => {
-      const headers = SecurityHeadersGenerator.getHeaders({ production: false });
+      const headers = SecurityHeadersGenerator.getHeaders({
+        production: false,
+      });
       expect(headers['Strict-Transport-Security']).toContain('max-age=0');
     });
 
     it('should set CSP for XSS protection', () => {
       const headers = SecurityHeadersGenerator.getHeaders();
-      expect(headers['Content-Security-Policy']).toContain("default-src 'self'");
+      expect(headers['Content-Security-Policy']).toContain(
+        "default-src 'self'"
+      );
     });
 
     it('should restrict permissions', () => {
@@ -150,19 +156,21 @@ describe('Security Hardening & Compliance', () => {
     it('should detect SQL injection attempts', () => {
       expect(InputValidator.isSQLInjectionAttempt("' or '1'='1")).toBe(true);
       expect(InputValidator.isSQLInjectionAttempt('select * from users')).toBe(
-        true,
+        true
       );
       expect(InputValidator.isSQLInjectionAttempt('drop table users')).toBe(
-        true,
+        true
       );
       expect(InputValidator.isSQLInjectionAttempt('normal input')).toBe(false);
     });
 
     it('should detect comments in injection attempts', () => {
-      expect(InputValidator.isSQLInjectionAttempt('text -- comment')).toBe(true);
+      expect(InputValidator.isSQLInjectionAttempt('text -- comment')).toBe(
+        true
+      );
       expect(InputValidator.isSQLInjectionAttempt('text; delete')).toBe(true);
       expect(InputValidator.isSQLInjectionAttempt('text /* comment */')).toBe(
-        true,
+        true
       );
     });
   });

@@ -49,14 +49,16 @@ export class NineRouterBridge {
     try {
       const response = await fetch(`${this.baseUrl}/v1/models`, {
         headers: {
-          'Authorization': `Bearer ${this.config.apiKey}`,
+          Authorization: `Bearer ${this.config.apiKey}`,
           'Content-Type': 'application/json',
         },
         signal: AbortSignal.timeout(this.config.timeout),
       });
 
       if (!response.ok) {
-        throw new Error(`9router models request failed: ${response.statusText}`);
+        throw new Error(
+          `9router models request failed: ${response.statusText}`
+        );
       }
 
       const data = await response.json();
@@ -74,14 +76,16 @@ export class NineRouterBridge {
     try {
       const response = await fetch(`${this.baseUrl}/api/providers`, {
         headers: {
-          'Authorization': `Bearer ${this.config.apiKey}`,
+          Authorization: `Bearer ${this.config.apiKey}`,
           'Content-Type': 'application/json',
         },
         signal: AbortSignal.timeout(this.config.timeout),
       });
 
       if (!response.ok) {
-        throw new Error(`9router provider status request failed: ${response.statusText}`);
+        throw new Error(
+          `9router provider status request failed: ${response.statusText}`
+        );
       }
 
       return await response.json();
@@ -99,7 +103,7 @@ export class NineRouterBridge {
       const response = await fetch(`${this.baseUrl}/v1/chat/completions`, {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${this.config.apiKey}`,
+          Authorization: `Bearer ${this.config.apiKey}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
@@ -111,11 +115,13 @@ export class NineRouterBridge {
       });
 
       if (!response.ok) {
-        throw new Error(`9router chat completion failed: ${response.statusText}`);
+        throw new Error(
+          `9router chat completion failed: ${response.statusText}`
+        );
       }
 
       const data = await response.json();
-      
+
       return {
         success: true,
         data: data,
@@ -129,7 +135,9 @@ export class NineRouterBridge {
       console.error('Failed to route request through 9router:', error);
       return {
         success: false,
-        data: { error: error instanceof Error ? error.message : 'Unknown error' },
+        data: {
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
         provider: '9router',
         usage: { promptTokens: 0, completionTokens: 0 },
       };
@@ -144,7 +152,7 @@ export class NineRouterBridge {
       const response = await fetch(`${this.baseUrl}/api/providers`, {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${this.config.apiKey}`,
+          Authorization: `Bearer ${this.config.apiKey}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(provider),
@@ -165,14 +173,16 @@ export class NineRouterBridge {
     try {
       const response = await fetch(`${this.baseUrl}/api/usage`, {
         headers: {
-          'Authorization': `Bearer ${this.config.apiKey}`,
+          Authorization: `Bearer ${this.config.apiKey}`,
           'Content-Type': 'application/json',
         },
         signal: AbortSignal.timeout(this.config.timeout),
       });
 
       if (!response.ok) {
-        throw new Error(`9router usage stats request failed: ${response.statusText}`);
+        throw new Error(
+          `9router usage stats request failed: ${response.statusText}`
+        );
       }
 
       return await response.json();

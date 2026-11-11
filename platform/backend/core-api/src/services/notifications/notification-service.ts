@@ -79,7 +79,10 @@ export class NotificationService {
     data: CreateNotificationData
   ): Promise<Notification> {
     // Get user preferences
-    const preferences = await this.getOrCreatePreferences(tenantId, data.userId);
+    const preferences = await this.getOrCreatePreferences(
+      tenantId,
+      data.userId
+    );
 
     // Check if notification type is muted
     if (preferences.mutedTypes.includes(data.type || NotificationType.INFO)) {
@@ -116,7 +119,7 @@ export class NotificationService {
 
     // Trigger delivery (async, don't block)
     setImmediate(() => {
-      this.deliverNotification(notification).catch(error => {
+      this.deliverNotification(notification).catch((error) => {
         console.error('Notification delivery error:', error);
       });
     });
@@ -132,7 +135,7 @@ export class NotificationService {
     userIds: string[],
     data: Omit<CreateNotificationData, 'userId'>
   ): Promise<number> {
-    const notifications = userIds.map(userId => ({
+    const notifications = userIds.map((userId) => ({
       tenantId,
       userId,
       type: data.type || NotificationType.INFO,
@@ -191,15 +194,9 @@ export class NotificationService {
             }
           : {}),
         // Filter out expired notifications
-        OR: [
-          { expiresAt: null },
-          { expiresAt: { gt: new Date() } },
-        ],
+        OR: [{ expiresAt: null }, { expiresAt: { gt: new Date() } }],
       },
-      orderBy: [
-        { priority: 'desc' },
-        { createdAt: 'desc' },
-      ],
+      orderBy: [{ priority: 'desc' }, { createdAt: 'desc' }],
       take: limit,
       skip: offset,
     });
@@ -215,10 +212,7 @@ export class NotificationService {
         userId,
         isRead: false,
         isArchived: false,
-        OR: [
-          { expiresAt: null },
-          { expiresAt: { gt: new Date() } },
-        ],
+        OR: [{ expiresAt: null }, { expiresAt: { gt: new Date() } }],
       },
     });
   }
@@ -268,14 +262,20 @@ export class NotificationService {
     return {
       total,
       unread,
-      byType: byType.reduce((acc, item) => {
-        acc[item.type] = item._count.type;
-        return acc;
-      }, {} as Record<string, number>),
-      byPriority: byPriority.reduce((acc, item) => {
-        acc[item.priority] = item._count.priority;
-        return acc;
-      }, {} as Record<string, number>),
+      byType: byType.reduce(
+        (acc, item) => {
+          acc[item.type] = item._count.type;
+          return acc;
+        },
+        {} as Record<string, number>
+      ),
+      byPriority: byPriority.reduce(
+        (acc, item) => {
+          acc[item.priority] = item._count.priority;
+          return acc;
+        },
+        {} as Record<string, number>
+      ),
       recentCount: recent,
     };
   }
@@ -470,7 +470,7 @@ export class NotificationService {
       select: { id: true },
     });
 
-    const userIds = users.map(u => u.id);
+    const userIds = users.map((u) => u.id);
 
     return this.createBulk(tenantId, userIds, {
       type: options?.type || NotificationType.ANNOUNCEMENT,
@@ -551,18 +551,27 @@ export class NotificationService {
     // Default to in-app if no channels specified
     const requested = requestedChannels || [NotificationChannel.IN_APP];
 
-    if (requested.includes(NotificationChannel.IN_APP) && preferences.enableInApp) {
+    if (
+      requested.includes(NotificationChannel.IN_APP) &&
+      preferences.enableInApp
+    ) {
       channels.push(NotificationChannel.IN_APP);
     }
 
-    if (requested.includes(NotificationChannel.EMAIL) && preferences.enableEmail) {
+    if (
+      requested.includes(NotificationChannel.EMAIL) &&
+      preferences.enableEmail
+    ) {
       // Skip if email digest is enabled (will be sent in digest)
       if (!preferences.emailDigest) {
         channels.push(NotificationChannel.EMAIL);
       }
     }
 
-    if (requested.includes(NotificationChannel.PUSH) && preferences.enablePush) {
+    if (
+      requested.includes(NotificationChannel.PUSH) &&
+      preferences.enablePush
+    ) {
       channels.push(NotificationChannel.PUSH);
     }
 
@@ -622,7 +631,8 @@ export class NotificationService {
         data: {
           status: NotificationStatus.FAILED,
           failedAt: new Date(),
-          errorMessage: error instanceof Error ? error.message : 'Unknown error',
+          errorMessage:
+            error instanceof Error ? error.message : 'Unknown error',
         },
       });
 
@@ -668,12 +678,16 @@ export class NotificationService {
 // ============================================================================
 
 export class NotificationEventEmitter {
-  private listeners: Map<string, Set<(notification: Notification) => void>> = new Map();
+  private listeners: Map<string, Set<(notification: Notification) => void>> =
+    new Map();
 
   /**
    * Subscribe to notifications for a user
    */
-  subscribe(userId: string, callback: (notification: Notification) => void): () => void {
+  subscribe(
+    userId: string,
+    callback: (notification: Notification) => void
+  ): () => void {
     if (!this.listeners.has(userId)) {
       this.listeners.set(userId, new Set());
     }
@@ -698,7 +712,7 @@ export class NotificationEventEmitter {
   emit(userId: string, notification: Notification): void {
     const callbacks = this.listeners.get(userId);
     if (callbacks) {
-      callbacks.forEach(callback => {
+      callbacks.forEach((callback) => {
         try {
           callback(notification);
         } catch (error) {

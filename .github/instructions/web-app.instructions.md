@@ -1,10 +1,10 @@
 # Web App Instructions
 
-**applyTo**: `apps/web/**`
+**applyTo**: `platform/frontend/**`
 
 ## Overview
 
-The web application (`apps/web`) is the primary user interface for Ultra AI. It serves as both a control center and a demonstration platform.
+The web application (`platform/frontend`) is the primary user interface for Ultra AI. It serves as both a control center and a demonstration platform.
 
 ## Key Principles
 
@@ -42,7 +42,7 @@ The web application (`apps/web`) is the primary user interface for Ultra AI. It 
 
 ### Styling
 - Use Tailwind CSS for styling
-- Follow the design system tokens in `apps/web/app/design-system.css`
+- Follow the design system tokens in `platform/frontend/app/design-system.css`
 - Use CSS modules for component-specific styles
 - Ensure RTL support for all layouts
 

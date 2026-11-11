@@ -2,10 +2,12 @@
  * Admin Routes RBAC Integration Tests
  */
 
-import request from 'supertest';
 import express from 'express';
-import adminRoutes from './admin.routes';
+import request from 'supertest';
+
 import { mockAuthMiddleware, UserRole } from '../rbac';
+
+import adminRoutes from './admin.routes';
 
 describe('Admin Routes RBAC', () => {
   let app: express.Application;
@@ -27,7 +29,11 @@ describe('Admin Routes RBAC', () => {
     });
 
     it('should allow SUPER_ADMIN to access dashboard', async () => {
-      app.use('/api/admin', mockAuthMiddleware(UserRole.SUPER_ADMIN), adminRoutes);
+      app.use(
+        '/api/admin',
+        mockAuthMiddleware(UserRole.SUPER_ADMIN),
+        adminRoutes
+      );
 
       const response = await request(app).get('/api/admin/dashboard');
 
@@ -44,7 +50,11 @@ describe('Admin Routes RBAC', () => {
     });
 
     it('should deny MODERATOR access to dashboard', async () => {
-      app.use('/api/admin', mockAuthMiddleware(UserRole.MODERATOR), adminRoutes);
+      app.use(
+        '/api/admin',
+        mockAuthMiddleware(UserRole.MODERATOR),
+        adminRoutes
+      );
 
       const response = await request(app).get('/api/admin/dashboard');
 
@@ -86,7 +96,11 @@ describe('Admin Routes RBAC', () => {
     });
 
     it('should deny MODERATOR from updating user role', async () => {
-      app.use('/api/admin', mockAuthMiddleware(UserRole.MODERATOR), adminRoutes);
+      app.use(
+        '/api/admin',
+        mockAuthMiddleware(UserRole.MODERATOR),
+        adminRoutes
+      );
 
       const response = await request(app)
         .put('/api/admin/users/user-123/role')
@@ -107,7 +121,11 @@ describe('Admin Routes RBAC', () => {
     });
 
     it('should allow SUPER_ADMIN to delete user', async () => {
-      app.use('/api/admin', mockAuthMiddleware(UserRole.SUPER_ADMIN), adminRoutes);
+      app.use(
+        '/api/admin',
+        mockAuthMiddleware(UserRole.SUPER_ADMIN),
+        adminRoutes
+      );
 
       const response = await request(app).delete('/api/admin/users/user-123');
 
@@ -115,7 +133,11 @@ describe('Admin Routes RBAC', () => {
     });
 
     it('should deny MODERATOR from deleting user', async () => {
-      app.use('/api/admin', mockAuthMiddleware(UserRole.MODERATOR), adminRoutes);
+      app.use(
+        '/api/admin',
+        mockAuthMiddleware(UserRole.MODERATOR),
+        adminRoutes
+      );
 
       const response = await request(app).delete('/api/admin/users/user-123');
 
@@ -133,7 +155,11 @@ describe('Admin Routes RBAC', () => {
 
   describe('GET /system/settings', () => {
     it('should allow SUPER_ADMIN to view system settings', async () => {
-      app.use('/api/admin', mockAuthMiddleware(UserRole.SUPER_ADMIN), adminRoutes);
+      app.use(
+        '/api/admin',
+        mockAuthMiddleware(UserRole.SUPER_ADMIN),
+        adminRoutes
+      );
 
       const response = await request(app).get('/api/admin/system/settings');
 
@@ -152,7 +178,11 @@ describe('Admin Routes RBAC', () => {
 
   describe('PUT /system/settings', () => {
     it('should allow SUPER_ADMIN to update system settings', async () => {
-      app.use('/api/admin', mockAuthMiddleware(UserRole.SUPER_ADMIN), adminRoutes);
+      app.use(
+        '/api/admin',
+        mockAuthMiddleware(UserRole.SUPER_ADMIN),
+        adminRoutes
+      );
 
       const response = await request(app)
         .put('/api/admin/system/settings')
@@ -175,7 +205,11 @@ describe('Admin Routes RBAC', () => {
 
   describe('GET /audit-logs', () => {
     it('should allow MODERATOR to view audit logs', async () => {
-      app.use('/api/admin', mockAuthMiddleware(UserRole.MODERATOR), adminRoutes);
+      app.use(
+        '/api/admin',
+        mockAuthMiddleware(UserRole.MODERATOR),
+        adminRoutes
+      );
 
       const response = await request(app).get('/api/admin/audit-logs');
 
@@ -223,7 +257,9 @@ describe('Admin Routes RBAC', () => {
     it('should allow user to access their own profile', async () => {
       app.use('/api/admin', mockAuthMiddleware(UserRole.USER), adminRoutes);
 
-      const response = await request(app).get('/api/admin/users/test-user-id/profile');
+      const response = await request(app).get(
+        '/api/admin/users/test-user-id/profile'
+      );
 
       expect(response.status).toBe(200);
       expect(response.body.profile).toBeDefined();
@@ -232,7 +268,9 @@ describe('Admin Routes RBAC', () => {
     it('should allow ADMIN to access any user profile', async () => {
       app.use('/api/admin', mockAuthMiddleware(UserRole.ADMIN), adminRoutes);
 
-      const response = await request(app).get('/api/admin/users/other-user-id/profile');
+      const response = await request(app).get(
+        '/api/admin/users/other-user-id/profile'
+      );
 
       expect(response.status).toBe(200);
     });
@@ -240,10 +278,14 @@ describe('Admin Routes RBAC', () => {
     it('should deny USER from accessing other users profile', async () => {
       app.use('/api/admin', mockAuthMiddleware(UserRole.USER), adminRoutes);
 
-      const response = await request(app).get('/api/admin/users/other-user-id/profile');
+      const response = await request(app).get(
+        '/api/admin/users/other-user-id/profile'
+      );
 
       expect(response.status).toBe(403);
-      expect(response.body.message).toBe('You can only access your own resources');
+      expect(response.body.message).toBe(
+        'You can only access your own resources'
+      );
     });
   });
 });

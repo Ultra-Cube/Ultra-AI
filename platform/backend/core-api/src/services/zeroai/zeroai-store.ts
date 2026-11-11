@@ -3,7 +3,12 @@ import path from 'node:path';
 
 export type ZeroAIMemoryRole = 'user' | 'assistant' | 'system';
 export type ZeroAIChannel = 'text' | 'voice' | 'workflow' | 'system';
-export type ZeroAIWorkflowStatus = 'draft' | 'ready' | 'running' | 'complete' | 'failed';
+export type ZeroAIWorkflowStatus =
+  | 'draft'
+  | 'ready'
+  | 'running'
+  | 'complete'
+  | 'failed';
 export type ZeroAITraceKind = 'interaction' | 'workflow' | 'system';
 export type ZeroAIHealthStatus = 'ready' | 'degraded' | 'offline' | 'standby';
 
@@ -87,7 +92,9 @@ export class ZeroAIStore {
   private readonly storagePath: string;
   private state: ZeroAIState;
 
-  constructor(storagePath = path.resolve(process.cwd(), 'data/zeroai-state.json')) {
+  constructor(
+    storagePath = path.resolve(process.cwd(), 'data/zeroai-state.json')
+  ) {
     this.storagePath = storagePath;
     this.state = this.loadFromDisk();
   }
@@ -104,7 +111,9 @@ export class ZeroAIStore {
     return this.clone(this.state.workflows);
   }
 
-  appendMemory(entry: Omit<ZeroAIMemoryEntry, 'id' | 'createdAt'>): ZeroAIMemoryEntry {
+  appendMemory(
+    entry: Omit<ZeroAIMemoryEntry, 'id' | 'createdAt'>
+  ): ZeroAIMemoryEntry {
     const record: ZeroAIMemoryEntry = {
       ...entry,
       id: createId('mem'),
@@ -116,7 +125,9 @@ export class ZeroAIStore {
     return this.clone(record);
   }
 
-  appendTrace(entry: Omit<ZeroAITraceEntry, 'id' | 'timestamp'>): ZeroAITraceEntry {
+  appendTrace(
+    entry: Omit<ZeroAITraceEntry, 'id' | 'timestamp'>
+  ): ZeroAITraceEntry {
     const record: ZeroAITraceEntry = {
       ...entry,
       id: createId('trace'),
@@ -128,8 +139,13 @@ export class ZeroAIStore {
     return this.clone(record);
   }
 
-  registerAgent(input: Omit<ZeroAIAgentStatus, 'updatedAt'> & Partial<Pick<ZeroAIAgentStatus, 'updatedAt'>>): ZeroAIAgentStatus {
-    const existingIndex = this.state.agents.findIndex((agent) => agent.id === input.id);
+  registerAgent(
+    input: Omit<ZeroAIAgentStatus, 'updatedAt'> &
+      Partial<Pick<ZeroAIAgentStatus, 'updatedAt'>>
+  ): ZeroAIAgentStatus {
+    const existingIndex = this.state.agents.findIndex(
+      (agent) => agent.id === input.id
+    );
     const agent: ZeroAIAgentStatus = {
       id: input.id,
       name: input.name,
@@ -197,9 +213,16 @@ export class ZeroAIStore {
     });
   }
 
-  upsertWorkflow(input: Omit<ZeroAIWorkflowRecord, 'id' | 'updatedAt' | 'status'> & Partial<Pick<ZeroAIWorkflowRecord, 'id' | 'status' | 'lastRunAt' | 'lastOutput'>>): ZeroAIWorkflowRecord {
+  upsertWorkflow(
+    input: Omit<ZeroAIWorkflowRecord, 'id' | 'updatedAt' | 'status'> &
+      Partial<
+        Pick<ZeroAIWorkflowRecord, 'id' | 'status' | 'lastRunAt' | 'lastOutput'>
+      >
+  ): ZeroAIWorkflowRecord {
     const id = input.id || createId('wf');
-    const existingIndex = this.state.workflows.findIndex((workflow) => workflow.id === id);
+    const existingIndex = this.state.workflows.findIndex(
+      (workflow) => workflow.id === id
+    );
     const workflow: ZeroAIWorkflowRecord = {
       id,
       name: input.name,
@@ -227,7 +250,11 @@ export class ZeroAIStore {
     return this.clone(workflow);
   }
 
-  setWorkflowStatus(id: string, status: ZeroAIWorkflowStatus, output?: string): ZeroAIWorkflowRecord | null {
+  setWorkflowStatus(
+    id: string,
+    status: ZeroAIWorkflowStatus,
+    output?: string
+  ): ZeroAIWorkflowRecord | null {
     const workflow = this.state.workflows.find((item) => item.id === id);
     if (!workflow) {
       return null;
@@ -293,8 +320,10 @@ export class ZeroAIStore {
         {
           id: 'starter-openclaw-status',
           name: 'OpenClaw status check',
-          description: 'Summarize the current assistant routing and local stack health.',
-          command: 'bash /home/pc/ucube/project/Ultra-AI/wsl-ai-stack/scripts/openclaw-bridge.sh "Summarize the current assistant routing and next actions."',
+          description:
+            'Summarize the current assistant routing and local stack health.',
+          command:
+            'bash /home/pc/ucube/project/Ultra-AI/wsl-ai-stack/scripts/openclaw-bridge.sh "Summarize the current assistant routing and next actions."',
           status: 'ready',
           updatedAt: now,
         },
@@ -305,7 +334,8 @@ export class ZeroAIStore {
           kind: 'system',
           title: 'System booted',
           summary: 'ZeroAI control surface is online',
-          detail: 'The local assistant stack is ready for routing and workflow execution.',
+          detail:
+            'The local assistant stack is ready for routing and workflow execution.',
           route: 'boot',
           timestamp: now,
         },
@@ -324,7 +354,8 @@ export class ZeroAIStore {
           name: 'OpenClaw',
           role: 'Routing policy',
           status: 'ready',
-          summary: 'Routes prompts between local, workflow, and network actions.',
+          summary:
+            'Routes prompts between local, workflow, and network actions.',
           updatedAt: now,
         },
         {
@@ -340,7 +371,8 @@ export class ZeroAIStore {
           name: 'Ultra AI network',
           role: 'Distributed platform',
           status: 'standby',
-          summary: 'Handles escalations that require shared or distributed compute.',
+          summary:
+            'Handles escalations that require shared or distributed compute.',
           updatedAt: now,
         },
       ],
@@ -370,7 +402,11 @@ export class ZeroAIStore {
       fs.mkdirSync(dir, { recursive: true });
     }
 
-    fs.writeFileSync(this.storagePath, JSON.stringify(this.state, null, 2), 'utf8');
+    fs.writeFileSync(
+      this.storagePath,
+      JSON.stringify(this.state, null, 2),
+      'utf8'
+    );
   }
 
   private clone<T>(value: T): T {

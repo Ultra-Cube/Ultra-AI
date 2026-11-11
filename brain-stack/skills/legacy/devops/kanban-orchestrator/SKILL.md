@@ -424,7 +424,7 @@ Any Agent → Engineering Manager → User
    Agent: "May I write these changes?
    - docs/stories/user-profile-page.md (new)
    - docs/architecture/adr-023-user-data-model.md (new)
-   - apps/api/src/users/profile.ts (new)
+   - platform/backend/core-api/src/users/profile.ts (new)
    
    Approve?"
    

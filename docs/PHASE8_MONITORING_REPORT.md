@@ -160,7 +160,7 @@ All tests passing ✅
 ## 📁 File Structure
 
 ```
-packages/api/src/services/monitoring/
+platform/backend/core-api/src/services/monitoring/
 ├── index.ts                  # Module exports
 ├── metrics.ts               # Prometheus metrics collection
 ├── logger.ts                # Structured logging with Winston

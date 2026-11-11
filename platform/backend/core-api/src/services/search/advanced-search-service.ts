@@ -61,7 +61,10 @@ export class AdvancedSearchService {
       const files = await this.prisma.file.findMany({
         where: {
           ...(query.tenantId && { tenantId: query.tenantId }),
-          OR: [{ name: { contains: searchTerm } }, { description: { contains: searchTerm } }],
+          OR: [
+            { name: { contains: searchTerm } },
+            { description: { contains: searchTerm } },
+          ],
         },
         take: query.limit || 20,
       });
@@ -99,7 +102,9 @@ export class AdvancedSearchService {
       );
     }
 
-    return results.sort((a, b) => b.score - a.score).slice(0, query.limit || 20);
+    return results
+      .sort((a, b) => b.score - a.score)
+      .slice(0, query.limit || 20);
   }
 
   /**

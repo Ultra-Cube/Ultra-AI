@@ -17,11 +17,11 @@
     "ignoreDeprecations": "5.0",
     "baseUrl": ".",
     "paths": {
-      "@ultra-ai/ai-core": ["./packages/ai-core/src"],
-      "@ultra-ai/distributed": ["./packages/distributed/src"],
-      "@ultra-ai/blockchain": ["./packages/blockchain/src"],
-      "@ultra-ai/api": ["./packages/api/src"],
-      "@ultra-ai/shared": ["./packages/shared/src"]
+      "@ultra-ai/ai-core": ["./platform/backend/ai-core/src"],
+      "@ultra-ai/distributed": ["./platform/backend/distributed/src"],
+      "@ultra-ai/blockchain": ["./platform/blockchain/src"],
+      "@ultra-ai/api": ["./platform/backend/core-api/src"],
+      "@ultra-ai/shared": ["./platform/shared/src"]
     },
     "plugins": [
       {

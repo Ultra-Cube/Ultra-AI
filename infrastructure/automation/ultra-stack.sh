@@ -6,10 +6,10 @@
 # the main monorepo. Brings up every layer in dependency order, waits on health,
 # and prints a single status board.
 #
-#   ./scripts/ultra-stack.sh up        # start full stack (default)
-#   ./scripts/ultra-stack.sh down      # stop everything this script started
-#   ./scripts/ultra-stack.sh status    # health board for all services
-#   ./scripts/ultra-stack.sh smoke     # run the MVP smoke tests
+#   ./infrastructure/automation/ultra-stack.sh up        # start full stack (default)
+#   ./infrastructure/automation/ultra-stack.sh down      # stop everything this script started
+#   ./infrastructure/automation/ultra-stack.sh status    # health board for all services
+#   ./infrastructure/automation/ultra-stack.sh smoke     # run the MVP smoke tests
 #
 # Flags:
 #   --with-hermes     also start the Hermes monitoring stack (docker)
@@ -111,17 +111,17 @@ start_postgres() {
 
 start_api() {
   log "Layer 2/4: API (:$API_PORT)"
-  local envf="$ROOT_DIR/packages/api/.env.local"
+  local envf="$ROOT_DIR/platform/backend/core-api/.env.local"
   if pgrep -f 'tsx src/server.ts' >/dev/null 2>&1; then
     ok "API already running"
   else
     if [ -f "$envf" ]; then
-      ( cd "$ROOT_DIR/packages/api" && set -a && . ./.env.local && set +a \
+      ( cd "$ROOT_DIR/platform/backend/core-api" && set -a && . ./.env.local && set +a \
         && nohup npx tsx src/server.ts >"$LOG_DIR/api.log" 2>&1 & echo $! >"$PID_DIR/api.pid" )
       ok "API started, log: $LOG_DIR/api.log"
     else
       warn "no $envf — starting API without local env"
-      start_bg api "$LOG_DIR/api.log" bash -c "cd '$ROOT_DIR/packages/api' && npx tsx src/server.ts"
+      start_bg api "$LOG_DIR/api.log" bash -c "cd '$ROOT_DIR/platform/backend/core-api' && npx tsx src/server.ts"
     fi
   fi
   wait_for "API" "http://localhost:$API_PORT/health" 40
@@ -130,7 +130,7 @@ start_api() {
 start_gateway() {
   log "Layer 3/4: Gateway (:$GATEWAY_PORT)"
   start_bg gateway "$LOG_DIR/gateway.log" \
-    bash -c "cd '$ROOT_DIR/packages/api-gateway' && npx tsx src/server.ts"
+    bash -c "cd '$ROOT_DIR/platform/api/gateway' && npx tsx src/server.ts"
   wait_for "Gateway" "http://localhost:$GATEWAY_PORT/health" 30
 }
 
@@ -138,17 +138,17 @@ start_web() {
   [ "$NO_WEB" = "1" ] && { log "Layer 4/4: Web (skipped)"; return 0; }
   log "Layer 4/4: Web (:$WEB_PORT)"
   start_bg web "$LOG_DIR/web.log" \
-    bash -c "cd '$ROOT_DIR/apps/web' && npx next dev -p $WEB_PORT"
+    bash -c "cd '$ROOT_DIR/platform/frontend' && npx next dev -p $WEB_PORT"
   wait_for "Web" "http://localhost:$WEB_PORT" 40
 }
 
 start_hermes() {
   [ "$WITH_HERMES" = "1" ] || return 0
   log "Monitoring: Hermes stack"
-  if [ -x "$ROOT_DIR/monitoring/hermes/start-hermes.sh" ]; then
-    "$ROOT_DIR/monitoring/hermes/start-hermes.sh" up || warn "Hermes start reported an error (docker required)"
+  if [ -x "$ROOT_DIR/infrastructure/monitoring/legacy-hermes/start-hermes.sh" ]; then
+    "$ROOT_DIR/infrastructure/monitoring/legacy-hermes/start-hermes.sh" up || warn "Hermes start reported an error (docker required)"
   else
-    miss "monitoring/hermes/start-hermes.sh not found"
+    miss "infrastructure/monitoring/legacy-hermes/start-hermes.sh not found"
   fi
 }
 
@@ -174,7 +174,7 @@ do_up() {
   status_board
   echo
   echo "Open:  http://localhost:$WEB_PORT   (web UI)"
-  echo "Smoke: ./scripts/ultra-stack.sh smoke"
+  echo "Smoke: ./infrastructure/automation/ultra-stack.sh smoke"
 }
 
 do_down() {
@@ -183,17 +183,17 @@ do_down() {
   stop_bg gateway
   stop_bg api
   stop_bg postgres
-  if [ "$WITH_HERMES" = "1" ] && [ -x "$ROOT_DIR/monitoring/hermes/start-hermes.sh" ]; then
-    "$ROOT_DIR/monitoring/hermes/start-hermes.sh" down || true
+  if [ "$WITH_HERMES" = "1" ] && [ -x "$ROOT_DIR/infrastructure/monitoring/legacy-hermes/start-hermes.sh" ]; then
+    "$ROOT_DIR/infrastructure/monitoring/legacy-hermes/start-hermes.sh" down || true
   fi
   ok "shutdown complete"
 }
 
 do_smoke() {
-  if [ -x "$ROOT_DIR/scripts/smoke-test.sh" ]; then
-    bash "$ROOT_DIR/scripts/smoke-test.sh"
+  if [ -x "$ROOT_DIR/infrastructure/automation/smoke-test.sh" ]; then
+    bash "$ROOT_DIR/infrastructure/automation/smoke-test.sh"
   else
-    warn "scripts/smoke-test.sh not found"
+    warn "infrastructure/automation/smoke-test.sh not found"
   fi
 }
 

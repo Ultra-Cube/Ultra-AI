@@ -152,7 +152,7 @@ export default function DashboardPage() {
   ]);
 
   // Provider/model data reflects the canonical catalog in
-  // packages/ai-core/src/models.ts (upgraded model families).
+  // platform/backend/ai-core/src/models.ts (upgraded model families).
   const [providers, setProviders] = useState([
     { id: 'openai', name: 'OpenAI', status: 'active', models: ['gpt-5', 'gpt-4.1'], requests: 1250, errors: 0, latency: 250 },
     { id: 'anthropic', name: 'Anthropic', status: 'active', models: ['claude-opus-4.1', 'claude-sonnet-4.5'], requests: 890, errors: 2, latency: 320 },

@@ -69,7 +69,7 @@ Ultra-AI/
 ## 🎯 Control Center Structure (Directory Control Systems)
 
 ```text
-packages/control-center/
+platform/devtools/control-center/
 ├── src/
 │   ├── core/                        # Core control system
 │   │   ├── controller.ts            # Main controller

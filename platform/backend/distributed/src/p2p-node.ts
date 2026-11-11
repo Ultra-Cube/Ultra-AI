@@ -165,7 +165,9 @@ export class P2PNode {
 
     // Combine chunk results in order
     const results: string[] = [];
-    const sortedChunks = [...task.chunks].sort((a, b) => a.sequence - b.sequence);
+    const sortedChunks = [...task.chunks].sort(
+      (a, b) => a.sequence - b.sequence
+    );
 
     for (const chunk of sortedChunks) {
       if (chunk.result) {
@@ -242,7 +244,7 @@ export class P2PNode {
    * Disconnect peer if reputation too low
    */
   pruneUnreliablePeers(threshold: number = 20): void {
-    for (const [peerId, peer] of this.peers) {
+    for (const peer of this.peers.values()) {
       if (peer.reputation < threshold) {
         peer.available = false;
       }
@@ -295,7 +297,7 @@ export class NetworkCoordinator {
 
   getNetworkHealth(): any {
     const nodeHealths = Array.from(this.nodes.values()).map((node) =>
-      (node as any).getHealth?.(),
+      (node as any).getHealth?.()
     );
 
     const avgSuccessRate =

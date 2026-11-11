@@ -2,11 +2,9 @@
  * Audit Logging Service Tests
  */
 
-import {
-  AuditLoggingService,
-  AuditLogData,
-} from './audit-logging-service';
 import { AuditAction, AuditResource, AuditSeverity } from '@prisma/client';
+
+import { AuditLoggingService, AuditLogData } from './audit-logging-service';
 
 const mockPrisma = {
   auditLog: {
@@ -122,9 +120,21 @@ describe('AuditLoggingService', () => {
   describe('getTenantSummary', () => {
     it('should return audit summary', async () => {
       const mockLogs = [
-        { success: true, severity: AuditSeverity.INFO, action: AuditAction.CREATE },
-        { success: true, severity: AuditSeverity.INFO, action: AuditAction.CREATE },
-        { success: false, severity: AuditSeverity.HIGH, action: AuditAction.DELETE },
+        {
+          success: true,
+          severity: AuditSeverity.INFO,
+          action: AuditAction.CREATE,
+        },
+        {
+          success: true,
+          severity: AuditSeverity.INFO,
+          action: AuditAction.CREATE,
+        },
+        {
+          success: false,
+          severity: AuditSeverity.HIGH,
+          action: AuditAction.DELETE,
+        },
       ];
 
       mockPrisma.auditLog.findMany.mockResolvedValue(mockLogs);

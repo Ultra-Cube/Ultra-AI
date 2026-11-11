@@ -4,6 +4,7 @@
  */
 
 import { EventEmitter } from 'events';
+
 import { DesktopUIConfig } from './types';
 
 export class SystemTray extends EventEmitter {

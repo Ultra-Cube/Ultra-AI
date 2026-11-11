@@ -19,7 +19,7 @@ echo "✅ Redis is ready"
 
 # Run Prisma migrations
 echo "📦 Running database migrations..."
-cd packages/api
+cd platform/backend/core-api
 npx prisma migrate deploy --skip-generate
 npx prisma generate
 echo "✅ Migrations completed"

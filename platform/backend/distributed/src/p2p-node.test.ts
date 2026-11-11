@@ -121,9 +121,7 @@ describe('P2PNode', () => {
     expect(node.getAvailablePeers()[0].reputation).toBeGreaterThan(initialRep);
 
     node.updatePeerReputation(peerId, false);
-    expect(node.getAvailablePeers()[0].reputation).toBeLessThan(
-      initialRep + 5,
-    );
+    expect(node.getAvailablePeers()[0].reputation).toBeLessThan(initialRep + 5);
   });
 
   it('prunes unreliable peers', () => {
@@ -137,7 +135,7 @@ describe('P2PNode', () => {
     const availableAfter = node.getAvailablePeers();
 
     expect(availableAfter.some((p) => p.nodeId === peers[0].nodeId)).toBe(
-      false,
+      false
     );
   });
 
@@ -153,7 +151,7 @@ describe('P2PNode', () => {
     const task = isolatedNode.createTask('Test');
 
     await expect(isolatedNode.distributeTask(task)).rejects.toThrow(
-      'No available peers',
+      'No available peers'
     );
   });
 });

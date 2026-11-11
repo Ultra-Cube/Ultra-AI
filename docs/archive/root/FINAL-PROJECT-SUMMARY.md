@@ -138,7 +138,7 @@ cp .env.example .env
 ### Running the Application
 ```bash
 # Run the web application
-cd apps/web
+cd platform/frontend
 npm run dev
 
 # Access at http://localhost:3000
@@ -350,7 +350,7 @@ cd Ultra-AI
 npm install
 
 # Run
-cd apps/web
+cd platform/frontend
 npm run dev
 
 # Access

@@ -183,8 +183,8 @@ Engineering Manager arbitrates
 
 | Domain | Owned Directories | Approval Required From |
 |--------|------------------|------------------------|
-| Backend | `apps/api/`, `packages/backend-*` | Backend Lead |
-| Frontend | `apps/web/`, `packages/ui-*` | Frontend Lead |
+| Backend | `platform/backend/core-api/`, `packages/backend-*` | Backend Lead |
+| Frontend | `platform/frontend/`, `packages/ui-*` | Frontend Lead |
 | ML/AI | `apps/ml-*`, `packages/ml-*`, `models/` | ML Architect |
 | Infrastructure | `infra/`, `.github/workflows/`, `docker/` | DevOps Lead |
 | Design | `design/`, `packages/design-system/` | Design Lead |
@@ -597,8 +597,8 @@ May I write this to [exact/file/path.ts]?
 For multi-file changes:
 ```
 May I write these changes?
-- apps/api/src/users/service.ts (new file)
-- apps/api/src/users/controller.ts (edit)
+- platform/backend/core-api/src/users/service.ts (new file)
+- platform/backend/core-api/src/users/controller.ts (edit)
 - packages/types/src/user.ts (edit)
 ```
 
@@ -767,10 +767,10 @@ studio:
   # Domain ownership (for cross-domain change validation)
   domains:
     backend:
-      paths: ["apps/api/**", "packages/backend-*/**"]
+      paths: ["platform/backend/core-api/**", "packages/backend-*/**"]
       owner: backend-lead
     frontend:
-      paths: ["apps/web/**", "packages/ui-*/**"]
+      paths: ["platform/frontend/**", "packages/ui-*/**"]
       owner: frontend-lead
     ml:
       paths: ["apps/ml-*/**", "packages/ml-*/**", "models/**"]
@@ -808,7 +808,7 @@ studio:
 
 4. **API Developer** (Tier 3):
    - Implements endpoint following spec
-   - Asks: "May I write to apps/api/src/users/profile.ts?"
+   - Asks: "May I write to platform/backend/core-api/src/users/profile.ts?"
    - User approves
    - Writes implementation + tests
    - Requests code review from Backend Lead
@@ -824,7 +824,7 @@ studio:
 
 7. **UI Developer** (Tier 3):
    - Implements component
-   - Asks: "May I write apps/web/src/components/UserProfile.tsx and .css?"
+   - Asks: "May I write platform/frontend/src/components/UserProfile.tsx and .css?"
    - User approves
    - Runs accessibility scan
    - Frontend Lead reviews → `APPROVE`

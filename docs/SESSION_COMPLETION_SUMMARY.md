@@ -126,13 +126,13 @@ http://localhost:3000/api-docs
 
 ### Test RBAC System
 ```bash
-cd packages/api
+cd platform/backend/core-api
 npm test -- rbac
 ```
 
 ### View RBAC Documentation
 ```bash
-cat packages/api/src/rbac/README.md
+cat platform/backend/core-api/src/rbac/README.md
 ```
 
 ---

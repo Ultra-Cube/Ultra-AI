@@ -15,6 +15,7 @@
  */
 
 import Fastify, { FastifyInstance } from 'fastify';
+
 import {
   ADAPTER_DEFINITIONS,
   buildHealth,
@@ -45,22 +46,32 @@ export function buildApp(): FastifyInstance {
   }));
 
   // Per-adapter health probe.
-  app.get<{ Params: { id: string } }>('/adapters/:id/health', async (request, reply) => {
-    const def = getAdapter(request.params.id);
-    if (!def) {
-      return reply.code(404).send({ error: `Unknown adapter: ${request.params.id}` });
+  app.get<{ Params: { id: string } }>(
+    '/adapters/:id/health',
+    async (request, reply) => {
+      const def = getAdapter(request.params.id);
+      if (!def) {
+        return reply
+          .code(404)
+          .send({ error: `Unknown adapter: ${request.params.id}` });
+      }
+      return buildHealth(def);
     }
-    return buildHealth(def);
-  });
+  );
 
   // Per-adapter rich status.
-  app.get<{ Params: { id: string } }>('/adapters/:id/status', async (request, reply) => {
-    const def = getAdapter(request.params.id);
-    if (!def) {
-      return reply.code(404).send({ error: `Unknown adapter: ${request.params.id}` });
+  app.get<{ Params: { id: string } }>(
+    '/adapters/:id/status',
+    async (request, reply) => {
+      const def = getAdapter(request.params.id);
+      if (!def) {
+        return reply
+          .code(404)
+          .send({ error: `Unknown adapter: ${request.params.id}` });
+      }
+      return buildStatus(def);
     }
-    return buildStatus(def);
-  });
+  );
 
   return app;
 }
@@ -70,9 +81,13 @@ async function main() {
   try {
     await app.listen({ port: PORT, host: HOST });
     // eslint-disable-next-line no-console
-    console.log(`🧩 Ultra AI Mock Adapters listening on http://localhost:${PORT}`);
+    console.log(
+      `🧩 Ultra AI Mock Adapters listening on http://localhost:${PORT}`
+    );
     // eslint-disable-next-line no-console
-    console.log(`   Adapters: ${ADAPTER_DEFINITIONS.map((a) => a.id).join(', ')}`);
+    console.log(
+      `   Adapters: ${ADAPTER_DEFINITIONS.map((a) => a.id).join(', ')}`
+    );
 
     const shutdown = async () => {
       await app.close();
@@ -90,7 +105,8 @@ async function main() {
 // Only auto-start when run directly, not when imported for tests.
 const invokedDirectly =
   process.argv[1] !== undefined &&
-  (process.argv[1].endsWith('server.ts') || process.argv[1].endsWith('server.js'));
+  (process.argv[1].endsWith('server.ts') ||
+    process.argv[1].endsWith('server.js'));
 
 if (invokedDirectly) {
   void main();

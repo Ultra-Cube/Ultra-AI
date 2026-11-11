@@ -4,9 +4,10 @@
  */
 
 import { EventEmitter } from 'events';
-import { ControlCenterConfig, DirectoryConfig } from '../types';
 import * as fs from 'fs/promises';
 import * as path from 'path';
+
+import { ControlCenterConfig, DirectoryConfig } from '../types';
 // chokidar will be added when needed
 // import { chokidar } from 'chokidar';
 
@@ -28,7 +29,7 @@ export class DirectoryManager extends EventEmitter {
 
   async addDirectory(config: DirectoryConfig): Promise<void> {
     const normalizedPath = path.normalize(config.path);
-    
+
     // Check if directory exists
     try {
       await fs.access(normalizedPath);
@@ -37,7 +38,7 @@ export class DirectoryManager extends EventEmitter {
     }
 
     this.directories.set(normalizedPath, config);
-    
+
     if (config.monitored) {
       await this.watchDirectory(normalizedPath);
     }
@@ -48,7 +49,7 @@ export class DirectoryManager extends EventEmitter {
 
   async removeDirectory(path: string): Promise<void> {
     const normalizedPath = path.normalize(path);
-    
+
     // Stop watching if monitored
     if (this.watchers.has(normalizedPath)) {
       const watcher = this.watchers.get(normalizedPath);
@@ -83,7 +84,7 @@ export class DirectoryManager extends EventEmitter {
 
   async cleanup(): Promise<void> {
     console.log('Cleaning up Directory Manager...');
-    
+
     // Clear all watchers
     this.watchers.clear();
   }
@@ -93,7 +94,7 @@ export class DirectoryManager extends EventEmitter {
       const configPath = path.join(this.config.dataPath, 'directories.json');
       const data = await fs.readFile(configPath, 'utf-8');
       const directories = JSON.parse(data) as DirectoryConfig[];
-      
+
       for (const dir of directories) {
         this.directories.set(dir.path, dir);
         if (dir.monitored) {
@@ -109,7 +110,11 @@ export class DirectoryManager extends EventEmitter {
     try {
       await fs.mkdir(this.config.dataPath, { recursive: true });
       const configPath = path.join(this.config.dataPath, 'directories.json');
-      const data = JSON.stringify(Array.from(this.directories.values()), null, 2);
+      const data = JSON.stringify(
+        Array.from(this.directories.values()),
+        null,
+        2
+      );
       await fs.writeFile(configPath, data, 'utf-8');
     } catch (error) {
       console.error('Failed to save directories:', error);

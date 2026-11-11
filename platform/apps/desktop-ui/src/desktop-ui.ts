@@ -4,9 +4,10 @@
  */
 
 import { EventEmitter } from 'events';
-import { DesktopUIConfig, WebSurface } from './types';
+
 import { ControlPanel } from './control-panel';
 import { SystemTray } from './system-tray';
+import { DesktopUIConfig, WebSurface } from './types';
 import { WEB_SURFACES, surfaceUrl, getSurface } from './web-surfaces';
 
 export class DesktopUI extends EventEmitter {
@@ -72,9 +73,9 @@ export class DesktopUI extends EventEmitter {
 
   async initialize(): Promise<void> {
     console.log('Initializing Desktop UI...');
-    
+
     await this.controlPanel.initialize();
-    
+
     if (this.config.enableTray) {
       await this.systemTray.initialize();
       this.systemTray.on('quit', () => {
@@ -98,9 +99,9 @@ export class DesktopUI extends EventEmitter {
 
   async stop(): Promise<void> {
     console.log('Stopping Desktop UI...');
-    
+
     await this.controlPanel.cleanup();
-    
+
     if (this.config.enableTray) {
       await this.systemTray.cleanup();
     }

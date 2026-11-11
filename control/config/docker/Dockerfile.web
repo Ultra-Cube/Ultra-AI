@@ -29,14 +29,14 @@ COPY package.json package-lock.json ./
 RUN npm ci --only=production && npm cache clean --force
 
 # Copy built application from builder
-COPY --from=builder /app/packages/web/.next ./packages/web/.next
-COPY --from=builder /app/packages/web/public ./packages/web/public
-COPY --from=builder /app/packages/web/node_modules ./packages/web/node_modules
-COPY --from=builder /app/packages/web/next.config.js ./packages/web/
-COPY --from=builder /app/packages/web/package.json ./packages/web/
+COPY --from=builder /app/platform/frontend/.next ./platform/frontend/.next
+COPY --from=builder /app/platform/frontend/public ./platform/frontend/public
+COPY --from=builder /app/platform/frontend/node_modules ./platform/frontend/node_modules
+COPY --from=builder /app/platform/frontend/next.config.js ./platform/frontend/
+COPY --from=builder /app/platform/frontend/package.json ./platform/frontend/
 
 # Copy shared packages if they exist
-COPY packages/shared packages/shared
+COPY platform/shared platform/shared
 
 # Set environment
 ENV NODE_ENV=production

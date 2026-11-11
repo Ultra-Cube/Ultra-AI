@@ -10,7 +10,7 @@
 #   - node-exporter:9100  host metrics
 #
 # Usage:
-#   docker compose -f monitoring/hermes/docker-compose.hermes.yml up -d
+#   docker compose -f infrastructure/monitoring/legacy-hermes/docker-compose.hermes.yml up -d
 #
 # The stack attaches to the same `ultra-ai-network` created by the root
 # docker-compose.yml so Prometheus can reach the api by service name. When

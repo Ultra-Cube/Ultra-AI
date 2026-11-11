@@ -8,6 +8,7 @@ import {
   EventSeverity,
   MetricType,
 } from '@prisma/client';
+
 import {
   AnalyticsService,
   EventData,
@@ -72,7 +73,9 @@ describe('AnalyticsService', () => {
         timestamp: new Date(),
       };
 
-      (mockPrisma.analyticsEvent.create as jest.Mock).mockResolvedValue(mockEvent);
+      (mockPrisma.analyticsEvent.create as jest.Mock).mockResolvedValue(
+        mockEvent
+      );
 
       const result = await service.trackEvent(tenantId, userId, eventData);
 
@@ -159,9 +162,15 @@ describe('AnalyticsService', () => {
         timestamp: new Date(),
       };
 
-      (mockPrisma.userActivity.create as jest.Mock).mockResolvedValue(mockActivity);
+      (mockPrisma.userActivity.create as jest.Mock).mockResolvedValue(
+        mockActivity
+      );
 
-      const result = await service.trackActivity(tenantId, userId, activityData);
+      const result = await service.trackActivity(
+        tenantId,
+        userId,
+        activityData
+      );
 
       expect(result).toEqual(mockActivity);
       expect(mockPrisma.userActivity.create).toHaveBeenCalledWith({
@@ -193,7 +202,9 @@ describe('AnalyticsService', () => {
         windowEnd: new Date(),
       };
 
-      (mockPrisma.analyticsMetric.upsert as jest.Mock).mockResolvedValue(mockMetric);
+      (mockPrisma.analyticsMetric.upsert as jest.Mock).mockResolvedValue(
+        mockMetric
+      );
 
       const result = await service.recordMetric(tenantId, metricData);
 
@@ -218,7 +229,8 @@ describe('AnalyticsService', () => {
 
       await service.recordMetric(tenantId, metricData);
 
-      const call = (mockPrisma.analyticsMetric.upsert as jest.Mock).mock.calls[0][0];
+      const call = (mockPrisma.analyticsMetric.upsert as jest.Mock).mock
+        .calls[0][0];
       expect(call.update.count).toEqual({ increment: 1 });
     });
 
@@ -232,7 +244,9 @@ describe('AnalyticsService', () => {
         service: 'api',
       };
 
-      (mockPrisma.systemMetric.create as jest.Mock).mockResolvedValue(mockSystemMetric);
+      (mockPrisma.systemMetric.create as jest.Mock).mockResolvedValue(
+        mockSystemMetric
+      );
 
       const result = await service.recordSystemMetric('cpu_usage', 45.5, {
         unit: 'percent',
@@ -261,7 +275,9 @@ describe('AnalyticsService', () => {
         },
       ];
 
-      (mockPrisma.analyticsEvent.findMany as jest.Mock).mockResolvedValue(mockEvents);
+      (mockPrisma.analyticsEvent.findMany as jest.Mock).mockResolvedValue(
+        mockEvents
+      );
 
       const result = await service.getEvents(tenantId, {
         eventType: EventType.API_CALL,
@@ -312,7 +328,9 @@ describe('AnalyticsService', () => {
         },
       ];
 
-      (mockPrisma.userActivity.findMany as jest.Mock).mockResolvedValue(mockActivities);
+      (mockPrisma.userActivity.findMany as jest.Mock).mockResolvedValue(
+        mockActivities
+      );
 
       const result = await service.getUserActivities(tenantId, userId);
 
@@ -377,10 +395,16 @@ describe('AnalyticsService', () => {
         avgResponseTime: expect.any(Number),
         errorRate: expect.any(Number),
         topEvents: expect.arrayContaining([
-          expect.objectContaining({ eventName: expect.any(String), count: expect.any(Number) }),
+          expect.objectContaining({
+            eventName: expect.any(String),
+            count: expect.any(Number),
+          }),
         ]),
         topPages: expect.arrayContaining([
-          expect.objectContaining({ path: expect.any(String), views: expect.any(Number) }),
+          expect.objectContaining({
+            path: expect.any(String),
+            views: expect.any(Number),
+          }),
         ]),
         userGrowth: expect.any(Array),
         errorsByType: expect.any(Array),
@@ -400,9 +424,15 @@ describe('AnalyticsService', () => {
         },
       ];
 
-      (mockPrisma.analyticsEvent.findMany as jest.Mock).mockResolvedValue(mockEvents);
+      (mockPrisma.analyticsEvent.findMany as jest.Mock).mockResolvedValue(
+        mockEvents
+      );
 
-      const result = await service.generateReport(tenantId, {}, { format: 'json' });
+      const result = await service.generateReport(
+        tenantId,
+        {},
+        { format: 'json' }
+      );
 
       expect(result).toBe(JSON.stringify(mockEvents, null, 2));
     });
@@ -423,9 +453,15 @@ describe('AnalyticsService', () => {
         },
       ];
 
-      (mockPrisma.analyticsEvent.findMany as jest.Mock).mockResolvedValue(mockEvents);
+      (mockPrisma.analyticsEvent.findMany as jest.Mock).mockResolvedValue(
+        mockEvents
+      );
 
-      const result = await service.generateReport(tenantId, {}, { format: 'csv' });
+      const result = await service.generateReport(
+        tenantId,
+        {},
+        { format: 'csv' }
+      );
 
       expect(result).toContain('timestamp,eventType,eventName');
       expect(result).toContain('API_CALL');
@@ -435,7 +471,9 @@ describe('AnalyticsService', () => {
 
   describe('Data Cleanup', () => {
     it('should clean old analytics data', async () => {
-      (mockPrisma.analyticsEvent.deleteMany as jest.Mock).mockResolvedValue({ count: 500 });
+      (mockPrisma.analyticsEvent.deleteMany as jest.Mock).mockResolvedValue({
+        count: 500,
+      });
 
       const result = await service.cleanOldData(90);
 

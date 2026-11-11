@@ -1,5 +1,8 @@
 import type { FastifyPluginAsync } from 'fastify';
-import WorkflowService, { type WorkflowRecord } from '../services/workflow-service';
+
+import WorkflowService, {
+  type WorkflowRecord,
+} from '../services/workflow-service';
 
 interface WorkflowUpdatePayload {
   tenantId?: string;
@@ -22,11 +25,15 @@ const workflowRoutes: FastifyPluginAsync = async (app) => {
   const service = new WorkflowService();
 
   app.get('/n8n/workflows', async (request) => {
-    const query = request.query as { tenantId?: string; limit?: string; offset?: string };
+    const query = request.query as {
+      tenantId?: string;
+      limit?: string;
+      offset?: string;
+    };
     const workflows = service.listWorkflows(
       query.tenantId,
       query.limit ? Number(query.limit) : 50,
-      query.offset ? Number(query.offset) : 0,
+      query.offset ? Number(query.offset) : 0
     );
 
     return { workflows };
@@ -53,18 +60,33 @@ const workflowRoutes: FastifyPluginAsync = async (app) => {
       definition?: Record<string, unknown>;
     };
 
-    if (!body?.tenantId?.trim() || !body?.userId?.trim() || !body?.name?.trim() || !body?.definition) {
+    if (
+      !body?.tenantId?.trim() ||
+      !body?.userId?.trim() ||
+      !body?.name?.trim() ||
+      !body?.definition
+    ) {
       reply.status(400);
       return { error: 'tenantId, userId, name, and definition are required' };
     }
 
-    const workflow = service.createWorkflow(body.tenantId.trim(), body.userId.trim(), body.name.trim(), {
-      type: 'n8n-flow',
-      command: String(body.definition.command ?? 'echo "No command configured"'),
-      trigger: String(body.definition.trigger ?? 'manual'),
-      tags: Array.isArray(body.definition.tags) ? body.definition.tags.map(String) : ['n8n', 'zeroai'],
-      n8n: body.definition,
-    }, body.description?.trim());
+    const workflow = service.createWorkflow(
+      body.tenantId.trim(),
+      body.userId.trim(),
+      body.name.trim(),
+      {
+        type: 'n8n-flow',
+        command: String(
+          body.definition.command ?? 'echo "No command configured"'
+        ),
+        trigger: String(body.definition.trigger ?? 'manual'),
+        tags: Array.isArray(body.definition.tags)
+          ? body.definition.tags.map(String)
+          : ['n8n', 'zeroai'],
+        n8n: body.definition,
+      },
+      body.description?.trim()
+    );
 
     return { workflow };
   });
@@ -118,7 +140,8 @@ const workflowRoutes: FastifyPluginAsync = async (app) => {
     } catch (error) {
       reply.status(404);
       return {
-        error: error instanceof Error ? error.message : 'Unable to execute workflow',
+        error:
+          error instanceof Error ? error.message : 'Unable to execute workflow',
       };
     }
   });

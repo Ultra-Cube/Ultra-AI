@@ -1,10 +1,10 @@
 # Packages Instructions
 
-**applyTo**: `packages/**`
+**applyTo**: `platform/**`
 
 ## Overview
 
-The `packages/` directory contains shared libraries and services used across the monorepo. Each package should be independently testable and versioned.
+The `platform/` directory contains shared libraries and services used across the monorepo. Each package should be independently testable and versioned.
 
 ## Package Structure
 
@@ -22,58 +22,58 @@ The `packages/` directory contains shared libraries and services used across the
 
 ## Package Types
 
-### 1. AI Core (`packages/ai-core`)
+### 1. AI Core (`platform/backend/ai-core`)
 - LLM provider abstractions
 - Model routing logic
 - Intent recognition
 - NLP utilities
 - Provider implementations (OpenAI, Anthropic, etc.)
 
-### 2. API Gateway (`packages/api-gateway`)
+### 2. API Gateway (`platform/api/gateway`)
 - HTTP server implementation
 - Request routing
 - Rate limiting
 - Authentication middleware
 - Logging middleware
 
-### 3. API Services (`packages/api`)
+### 3. API Services (`platform/backend/core-api`)
 - Business logic services
 - Database models
 - Service interfaces
 - Integration services
 - Agent services
 
-### 4. Shared Utilities (`packages/shared`)
+### 4. Shared Utilities (`platform/shared`)
 - Common types
 - Utility functions
 - Constants
 - Helper functions
 
-### 5. Desktop UI (`packages/desktop-ui`)
+### 5. Desktop UI (`platform/apps/desktop-ui`)
 - Desktop-specific UI components
 - Electron integrations
 - Native OS bridges
 - Desktop utilities
 
-### 6. Control Center (`packages/control-center`)
+### 6. Control Center (`platform/devtools/control-center`)
 - System monitoring
 - Resource management
 - Service orchestration
 - Health checks
 
-### 7. Memory Optimizer (`packages/memory-optimizer`)
+### 7. Memory Optimizer (`platform/services/memory-optimizer`)
 - Memory management
 - Cache strategies
 - Storage optimization
 - Data retention policies
 
-### 8. Voice Recognition (`packages/voice-recognition`)
+### 8. Voice Recognition (`platform/services/voice-recognition`)
 - Speech-to-text
 - Text-to-speech
 - Audio processing
 - Voice commands
 
-### 9. Distributed Processing (`packages/distributed`)
+### 9. Distributed Processing (`platform/backend/distributed`)
 - Distributed task execution
 - Chunked file transfer
 - Network coordination
@@ -110,7 +110,7 @@ The `packages/` directory contains shared libraries and services used across the
 
 ### Internal Packages
 - Use TypeScript imports
-- Share types through `packages/shared`
+- Share types through `platform/shared`
 - Avoid circular dependencies
 - Document dependencies
 

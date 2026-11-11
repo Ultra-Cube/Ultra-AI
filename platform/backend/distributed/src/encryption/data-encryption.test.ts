@@ -1,4 +1,4 @@
-import { DataEncryption, SecureChunker, EncryptedChunk } from './data-encryption';
+import { DataEncryption, SecureChunker } from './data-encryption';
 
 describe('DataEncryption', () => {
   let encryption: DataEncryption;
@@ -27,7 +27,7 @@ describe('DataEncryption', () => {
       chunkId,
       taskId,
       sequence,
-      originalData,
+      originalData
     );
 
     expect(encrypted.iv).toBeTruthy();
@@ -44,7 +44,12 @@ describe('DataEncryption', () => {
 
   it('detects tampering with encrypted data', () => {
     const originalData = 'Important data';
-    const encrypted = encryption.encryptChunk('chunk-1', 'task-1', 0, originalData);
+    const encrypted = encryption.encryptChunk(
+      'chunk-1',
+      'task-1',
+      0,
+      originalData
+    );
 
     // Tamper with encrypted data
     const tampered = { ...encrypted };
@@ -54,7 +59,7 @@ describe('DataEncryption', () => {
 
     // Decryption should fail
     expect(() => encryption.decryptChunk(tampered)).toThrow(
-      'Decryption failed',
+      'Decryption failed'
     );
   });
 
@@ -130,7 +135,7 @@ describe('DataEncryption', () => {
   it('handles key rotation for decryption', () => {
     const data = 'Old key data';
     const encrypted = encryption.encryptChunk('chunk-1', 'task-1', 0, data);
-    const oldKeyId = encrypted.keyId;
+    const _oldKeyId = encrypted.keyId;
 
     // Rotate key
     encryption.rotateKey();
@@ -183,7 +188,10 @@ describe('SecureChunker', () => {
     const firstChunk = tampered[0];
     const encryptedBuffer = Buffer.from(firstChunk.encryptedData, 'base64');
     encryptedBuffer[0] = encryptedBuffer[0] ^ 1;
-    tampered[0] = { ...firstChunk, encryptedData: encryptedBuffer.toString('base64') };
+    tampered[0] = {
+      ...firstChunk,
+      encryptedData: encryptedBuffer.toString('base64'),
+    };
 
     // Reassembly should fail
     expect(() => chunker.decryptAndReassemble(tampered)).toThrow();

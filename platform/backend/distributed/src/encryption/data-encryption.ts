@@ -68,7 +68,7 @@ export class DataEncryption {
     chunkId: string,
     taskId: string,
     sequence: number,
-    data: string,
+    data: string
   ): EncryptedChunk {
     const key = this.keys.get(this.currentKeyId);
     if (!key) {
@@ -114,7 +114,11 @@ export class DataEncryption {
 
     try {
       // Create decipher
-      const decipher = crypto.createDecipheriv(this.algorithm, key.key, iv) as any;
+      const decipher = crypto.createDecipheriv(
+        this.algorithm,
+        key.key,
+        iv
+      ) as any;
       decipher.setAuthTag(authTag);
 
       // Decrypt data
@@ -138,10 +142,15 @@ export class DataEncryption {
    * Encrypt multiple chunks
    */
   encryptChunks(
-    chunks: Array<{ chunkId: string; taskId: string; sequence: number; data: string }>,
+    chunks: Array<{
+      chunkId: string;
+      taskId: string;
+      sequence: number;
+      data: string;
+    }>
   ): EncryptedChunk[] {
     return chunks.map((chunk) =>
-      this.encryptChunk(chunk.chunkId, chunk.taskId, chunk.sequence, chunk.data),
+      this.encryptChunk(chunk.chunkId, chunk.taskId, chunk.sequence, chunk.data)
     );
   }
 
@@ -214,9 +223,14 @@ export class SecureChunker {
   splitAndEncrypt(
     taskId: string,
     data: string,
-    chunkSize: number = 1024,
+    chunkSize: number = 1024
   ): EncryptedChunk[] {
-    const chunks: Array<{ chunkId: string; taskId: string; sequence: number; data: string }> = [];
+    const chunks: Array<{
+      chunkId: string;
+      taskId: string;
+      sequence: number;
+      data: string;
+    }> = [];
 
     // First, compress/process data
     const processedData = Buffer.from(data, 'utf8').toString('base64');
@@ -243,7 +257,9 @@ export class SecureChunker {
     const sorted = [...encrypted].sort((a, b) => a.sequence - b.sequence);
 
     // Decrypt all chunks
-    const decrypted = sorted.map((chunk) => this.encryption.decryptChunk(chunk));
+    const decrypted = sorted.map((chunk) =>
+      this.encryption.decryptChunk(chunk)
+    );
 
     // Verify all chunks have integrity
     const allVerified = decrypted.every((chunk) => chunk.integrityVerified);
@@ -252,9 +268,7 @@ export class SecureChunker {
     }
 
     // Reassemble
-    const reassembled = decrypted
-      .map((chunk) => chunk.decryptedData)
-      .join('');
+    const reassembled = decrypted.map((chunk) => chunk.decryptedData).join('');
 
     // Decode from base64
     return Buffer.from(reassembled, 'base64').toString('utf8');

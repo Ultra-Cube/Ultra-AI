@@ -37,10 +37,10 @@ moving data.
 
 ## How the platform consumes it
 
-- `packages/api/src/services/integration-service.ts` — `refreshStatuses()`
+- `platform/backend/core-api/src/services/integration-service.ts` — `refreshStatuses()`
   probes `/adapters/:id/health` and maps the result onto each system's status,
   falling back to `offline` when unreachable.
-- `apps/web/app/api/integration/systems/route.ts` — probes the same endpoint
+- `platform/frontend/app/api/integration/systems/route.ts` — probes the same endpoint
   per request so the UI shows live status.
 
 Both read `MOCK_ADAPTERS_URL` (default `http://localhost:4100`).
