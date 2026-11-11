@@ -59,21 +59,38 @@ verify_additive() {
 }
 
 verify_moves() {
-  local tsv="$1" post="${2:-}" bad=0 n=0
+  local tsv="$1" post="${2:-}" base="${3:-}" bad=0 n=0
   [[ -f "$tsv" ]] || { echo "moves file not found: $tsv"; exit 2; }
+  if [[ "$post" == "--post" && -z "$base" ]]; then
+    echo "verify-moves --post requires a base ref (commit before the moves)"; exit 2
+  fi
   while IFS=$'\t' read -r src dst; do
     [[ -z "${src:-}" || "$src" == \#* ]] && continue
+    src="${src%/}"; dst="${dst%/}"
     n=$((n+1))
     if [[ "$post" == "--post" ]]; then
       if [[ -e "$src" ]]; then bad=$((bad+1)); echo "SRC-STILL-EXISTS $src"; fi
       if [[ ! -e "$dst" ]]; then bad=$((bad+1)); echo "DST-MISSING $dst"; continue; fi
-      # compare relative file sets under src (recorded at move time via git) vs dst
+      # expected file set = tree under src at the pre-move base ref;
+      # actual file set = tracked files under dst now (git ls-files, not find,
+      # so untracked strays don't count and moved files are found by path)
       local a b
-      a="$(git ls-files "$src" | sed "s|^$src/*||" | sort)"
-      b="$(cd "$dst" 2>/dev/null && find . -type f | sed 's|^\./||' | sort)"
-      if [[ "$a" != "$b" ]]; then
-        bad=$((bad+1)); echo "FILESET-DIFF $src -> $dst"
-        diff <(echo "$a") <(echo "$b") | head -10
+      a="$(git ls-tree -r --name-only "$base" -- "$src" | sed -e "s|^$src/||" -e "s|^$src$|$(basename "$src")|" | sort)"
+      b="$(git ls-files "$dst" | sed -e "s|^$dst/||" -e "s|^$dst$|$(basename "$dst")|" | sort)"
+      # single-file moves may rename the file; verify count + tracked dst instead
+      if [[ "$(echo "$a" | wc -l)" == "1" && "$(echo "$b" | wc -l)" == "1" && -f "$dst" ]]; then
+        continue
+      fi
+      local missing extra
+      missing="$(comm -23 <(echo "$a") <(echo "$b"))"
+      extra="$(comm -13 <(echo "$a") <(echo "$b"))"
+      if [[ -n "$missing" ]]; then
+        bad=$((bad+1)); echo "FILESET-DIFF $src -> $dst (missing from dst)"
+        echo "$missing" | head -10
+      fi
+      if [[ -n "$extra" ]]; then
+        echo "WARN-DST-EXTRA $src -> $dst: $(echo "$extra" | wc -l) file(s) added post-move"
+        echo "$extra" | head -5
       fi
     else
       if [[ ! -e "$src" ]]; then bad=$((bad+1)); echo "SRC-MISSING $src"; continue; fi
