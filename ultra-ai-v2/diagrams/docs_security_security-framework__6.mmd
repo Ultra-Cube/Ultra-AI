@@ -1,0 +1,17 @@
+graph TB
+    A[Plaintext Data] --> B[Application Layer Encryption]
+    B --> C[Transport Layer Encryption]
+    C --> D[Storage Layer Encryption]
+    D --> E[Blockchain Layer Encryption]
+    
+    B --> F[AES-256-GCM]
+    C --> G[TLS 1.3]
+    D --> H[ChaCha20-Poly1305]
+    E --> I[Elliptic Curve Cryptography]
+    
+    style A fill:#ffcccb
+    style E fill:#90EE90
+    style F fill:#87CEEB
+    style G fill:#87CEEB
+    style H fill:#87CEEB
+    style I fill:#87CEEB

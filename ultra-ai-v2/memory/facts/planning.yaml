@@ -1,0 +1,90 @@
+# Facts — planning & verified context (seeded from ULTRA_AI_SUPER_PROMPT.md F-table, 2026-11-09 research)
+# Schema: id, statement, status ∈ IDEAL|SPEC|STUB|WORKING|VERIFIED, source, source_sha256, confidence, tags
+
+- id: F1
+  statement: "113 own .md files (vendored upstream docs excluded), 1,149 KB, 117 Mermaid blocks"
+  status: VERIFIED
+  source: DOC_CONVERSION_MAP.csv
+  source_sha256: PENDING
+  confidence: high
+  tags: [docs, inventory]
+
+- id: F2
+  statement: "3,171 tracked entries; 5 gitlinks with no .gitmodules and empty dirs; content not in repo; recovered 2026-11-09, upstreams public, pinned SHA = upstream tip (R-013)"
+  status: VERIFIED
+  source: PLANNING_BASELINE_1aa16b6.sha256
+  source_sha256: PENDING
+  confidence: high
+  tags: [git, orphan-content, risk]
+
+- id: F3
+  statement: "No git tags at research time; branch was assumed master (actual: main); package.json 0.1.0; README claims 1.0.0; no package-lock.json; no LICENSE"
+  status: VERIFIED
+  source: repo inspection
+  source_sha256: PENDING
+  confidence: high
+  tags: [release, hygiene]
+
+- id: F4
+  statement: "Verified passing tests: ai-core 3, api-gateway 45, distributed 55 (=103). @ultra-ai/api (documented 306) not verifiable without Prisma engine download"
+  status: VERIFIED
+  source: turbo test run 2026-11-09
+  source_sha256: PENDING
+  confidence: high
+  tags: [tests]
+
+- id: F5
+  statement: "Name collision: repo 'Hermes' = Prometheus/Grafana monitoring stack; owner's 'Hermes' = Hermes Agent by Nous Research (MIT)"
+  status: VERIFIED
+  source: repo grep + github.com/NousResearch/hermes-agent
+  source_sha256: PENDING
+  confidence: high
+  tags: [naming, hermes]
+
+- id: F6
+  statement: "packages/desktop-ui described as Electron-based but has no Electron dep or window code; it is a TypeScript control-surface model (express + socket.io)"
+  status: VERIFIED
+  source: packages/desktop-ui/package.json + src
+  source_sha256: PENDING
+  confidence: high
+  tags: [desktop-ui]
+
+- id: F7
+  statement: "Repo already has Agent Studio (32 agents, 3 tiers) and kanban-orchestrator skill with ask-before-write protocol — reuse, do not reinvent"
+  status: VERIFIED
+  source: packages/api/src/services/agents/REGISTRY_SUMMARY.md; skills/devops/kanban-orchestrator/SKILL.md
+  source_sha256: PENDING
+  confidence: high
+  tags: [agents, reuse]
+
+- id: F8
+  statement: "Gate-OS: one adaptable edition, seven switchable environments (Everyday, Gaming, Dev, Design, Media, Security, Business), no reboot, AI-adaptive powered by Ultra AI"
+  status: VERIFIED
+  source: github.com/Ultra-Cube/Gate-OS
+  source_sha256: PENDING
+  confidence: high
+  tags: [gate-os]
+
+- id: F9
+  statement: "Repo vendors Skales under BSL 1.1 (non-commercial until 2030-04-19) — must never ship in a product build"
+  status: VERIFIED
+  source: external-integrations/skales/LICENSE
+  source_sha256: PENDING
+  confidence: high
+  tags: [license, legal, risk]
+
+- id: F10
+  statement: "No public information about Ultra Core interface found; must come from owner"
+  status: VERIFIED
+  source: web search 2026-11-09
+  source_sha256: PENDING
+  confidence: high
+  tags: [ultra-core, unknown]
+
+- id: F11
+  statement: "116/117 Mermaid blocks parse; 1 invalid (.github/copilot-instructions.md block #1); port clash n8n 5678 vs JARVIS 5678"
+  status: VERIFIED
+  source: mermaid parser run 2026-11-09; wsl-ai-stack/scripts/setup-n8n.sh; docs/UPSTREAM_INTEGRATION_INVENTORY.md
+  source_sha256: PENDING
+  confidence: high
+  tags: [diagrams, ports]

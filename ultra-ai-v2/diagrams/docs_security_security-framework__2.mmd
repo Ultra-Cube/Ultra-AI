@@ -1,0 +1,32 @@
+sequenceDiagram
+    participant User
+    participant Client
+    participant Chunker
+    participant Network
+    participant Processor
+    participant Aggregator
+    
+    User->>Client: Submit Sensitive Data
+    Client->>Client: Pre-process & Sanitize
+    Client->>Chunker: Send Sanitized Data
+    
+    Note over Chunker: Advanced Chunking Process
+    Chunker->>Chunker: Semantic Analysis
+    Chunker->>Chunker: Context Stripping
+    Chunker->>Chunker: Random Chunking
+    Chunker->>Chunker: Individual Encryption
+    
+    loop For Each Encrypted Chunk
+        Chunker->>Network: Distribute Chunk
+        Network->>Processor: Route to Node
+        Processor->>Processor: Isolated Processing
+        Processor->>Network: Return Encrypted Result
+    end
+    
+    Network->>Aggregator: Collect All Results
+    Aggregator->>Aggregator: Decrypt & Combine
+    Aggregator->>Client: Return Final Result
+    Client->>User: Display Result
+    
+    Note over Processor: No node sees complete data
+    Note over Aggregator: Only aggregator can reconstruct

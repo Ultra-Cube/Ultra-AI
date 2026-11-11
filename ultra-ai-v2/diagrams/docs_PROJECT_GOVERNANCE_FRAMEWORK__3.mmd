@@ -1,0 +1,35 @@
+graph LR
+    subgraph "Risk Categories"
+        TECH[Technical Risks]
+        MKT[Market Risks]
+        REG[Regulatory Risks]
+        FIN[Financial Risks]
+        OP[Operational Risks]
+    end
+    
+    subgraph "Risk Levels"
+        HIGH[High Impact/High Probability]
+        MED[Medium Impact/Medium Probability]
+        LOW[Low Impact/Low Probability]
+    end
+    
+    subgraph "Mitigation Strategies"
+        PREV[Prevention]
+        MON[Monitoring]
+        RESP[Response Plans]
+        REC[Recovery Procedures]
+    end
+    
+    TECH --> HIGH
+    MKT --> MED
+    REG --> HIGH
+    FIN --> MED
+    OP --> LOW
+    
+    HIGH --> PREV
+    MED --> MON
+    LOW --> RESP
+    
+    style HIGH fill:#ff6b6b
+    style MED fill:#ffd93d
+    style LOW fill:#90EE90

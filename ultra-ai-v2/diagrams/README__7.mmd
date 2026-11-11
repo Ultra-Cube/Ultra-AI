@@ -1,0 +1,16 @@
+graph TB
+    A[User Request] --> B[Authentication]
+    B --> C[Authorization Check]
+    C --> D[Data Chunking]
+    D --> E[End-to-end Encryption]
+    E --> F[Distributed Processing]
+    F --> G[Decryption]
+    G --> H[Result Aggregation]
+    H --> I[Return Result]
+    
+    subgraph Data Protection
+        D1[Chunking into Small Parts]
+        D2[Encrypt Each Part with Unique Key]
+        D3[Random Network Distribution]
+        D4[Delete Parts After Processing]
+    end

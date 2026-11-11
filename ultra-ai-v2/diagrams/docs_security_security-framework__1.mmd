@@ -1,0 +1,46 @@
+graph TB
+    subgraph "Application Layer"
+        A1[Input Validation]
+        A2[Authentication]
+        A3[Authorization]
+        A4[Session Management]
+    end
+    
+    subgraph "Processing Layer"
+        B1[Data Chunking]
+        B2[Encryption]
+        B3[Secure Execution]
+        B4[Result Validation]
+    end
+    
+    subgraph "Network Layer"
+        C1[TLS/SSL]
+        C2[VPN Tunneling]
+        C3[P2P Security]
+        C4[DDoS Protection]
+    end
+    
+    subgraph "Infrastructure Layer"
+        D1[Container Security]
+        D2[Node Hardening]
+        D3[Network Segmentation]
+        D4[Monitoring & Logging]
+    end
+    
+    subgraph "Blockchain Layer"
+        E1[Smart Contract Security]
+        E2[Cryptographic Proofs]
+        E3[Consensus Security]
+        E4[Key Management]
+    end
+    
+    A1 --> B1
+    B1 --> C1
+    C1 --> D1
+    D1 --> E1
+    
+    style A1 fill:#ff6b6b
+    style B1 fill:#4ecdc4
+    style C1 fill:#45b7d1
+    style D1 fill:#96ceb4
+    style E1 fill:#f9ca24

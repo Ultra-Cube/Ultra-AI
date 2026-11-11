@@ -1,0 +1,39 @@
+graph TB
+    subgraph "North America Hub"
+        NA_Central[Central Coordinator]
+        NA_Nodes[Local Nodes: 1000+]
+        NA_Cache[Regional Cache]
+    end
+    
+    subgraph "Europe Hub"
+        EU_Central[Central Coordinator]
+        EU_Nodes[Local Nodes: 800+]
+        EU_Cache[Regional Cache]
+    end
+    
+    subgraph "Asia Pacific Hub"
+        AP_Central[Central Coordinator]
+        AP_Nodes[Local Nodes: 1200+]
+        AP_Cache[Regional Cache]
+    end
+    
+    subgraph "Middle East Hub"
+        ME_Central[Central Coordinator]
+        ME_Nodes[Local Nodes: 400+]
+        ME_Cache[Regional Cache]
+    end
+    
+    NA_Central <--> EU_Central
+    EU_Central <--> AP_Central
+    AP_Central <--> ME_Central
+    ME_Central <--> NA_Central
+    
+    NA_Central --> NA_Nodes
+    EU_Central --> EU_Nodes
+    AP_Central --> AP_Nodes
+    ME_Central --> ME_Nodes
+    
+    style NA_Central fill:#ff6b6b
+    style EU_Central fill:#4ecdc4
+    style AP_Central fill:#45b7d1
+    style ME_Central fill:#96ceb4

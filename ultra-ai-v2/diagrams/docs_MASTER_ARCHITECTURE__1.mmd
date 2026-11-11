@@ -1,0 +1,52 @@
+graph TB
+    subgraph L1["1 · Experience Layer"]
+        WEB["apps/web (Next.js 14)<br/>landing · dashboard · gateway · control-center · zeroai"]
+        DESK["packages/desktop-ui<br/>Electron-style shell (stub)"]
+    end
+
+    subgraph L2["2 · Edge / Local Control (ZeroAI)"]
+        ZERO["ZeroAI control surface<br/>simple + professional modes"]
+        VOICE["packages/voice-recognition (stub)"]
+    end
+
+    subgraph L3["3 · Intelligence Layer"]
+        AICORE["packages/ai-core<br/>NLP · intent · planner · model-router"]
+        CATALOG["models.ts — canonical catalog<br/>GPT-5/4.1 · Claude 4.x · Ollama"]
+        PROVS["providers: OpenAI · Anthropic · Mock"]
+    end
+
+    subgraph L4["4 · Platform API Layer"]
+        API["packages/api (Fastify)<br/>auth/RBAC · /ai/process · zeroai · metrics · swagger"]
+        GW["packages/api-gateway<br/>provider CRUD · routing · /health"]
+        SHARED["packages/shared"]
+    end
+
+    subgraph L5["5 · Distributed / Rewards"]
+        DIST["packages/distributed<br/>chunker · P2P · orchestrator · rewards"]
+    end
+
+    subgraph L6["6 · Data & Ops"]
+        PG[("PostgreSQL + Prisma")]
+        REDIS[("Redis (cache)")]
+        HERMES["monitoring/hermes<br/>Prometheus · Grafana · Alertmanager"]
+        K8S["k8s/ · Dockerfiles · ultra-stack.sh"]
+    end
+
+    WEB --> API
+    WEB --> GW
+    WEB --> ZERO
+    DESK -.-> API
+    ZERO --> API
+    VOICE -.-> ZERO
+    API --> AICORE
+    AICORE --> CATALOG
+    AICORE --> PROVS
+    GW --> SHARED
+    API --> AICORE
+    API --> PG
+    API --> REDIS
+    API -. "task dispatch (planned)" .-> DIST
+    GW -. "provider routing" .-> PROVS
+    HERMES -- "scrapes /metrics" --> API
+    HERMES -- "scrapes /health" --> GW
+    K8S --- API

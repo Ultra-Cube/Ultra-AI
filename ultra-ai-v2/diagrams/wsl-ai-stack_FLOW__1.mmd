@@ -1,0 +1,8 @@
+flowchart LR
+    U[User] --> I[Speech or typed prompt]
+    I --> B[Voice bridge]
+    B --> A[OpenClaw agent]
+    A --> M[Model provider]
+    M --> P[n8n planner]
+    P --> T[Linux tools]
+    T --> R[Result]

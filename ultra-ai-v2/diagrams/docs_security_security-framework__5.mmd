@@ -1,0 +1,39 @@
+graph TB
+    subgraph "External Threats"
+        A1[DDoS Attacks]
+        A2[Network Intrusion]
+        A3[Malicious Nodes]
+        A4[Data Poisoning]
+    end
+    
+    subgraph "Internal Threats"
+        B1[Insider Compromise]
+        B2[Privilege Escalation]
+        B3[Data Exfiltration]
+        B4[System Manipulation]
+    end
+    
+    subgraph "Crypto Threats"
+        C1[Key Compromise]
+        C2[Cryptographic Attacks]
+        C3[Quantum Computing]
+        C4[Side-Channel Attacks]
+    end
+    
+    A1 --> D[Network Layer Defense]
+    A2 --> E[Intrusion Detection]
+    A3 --> F[Node Reputation System]
+    
+    B1 --> G[Access Controls]
+    B2 --> H[Privilege Management]
+    
+    C1 --> I[Key Rotation]
+    C2 --> J[Quantum-Resistant Crypto]
+    
+    style D fill:#ff6b6b
+    style E fill:#ff6b6b
+    style F fill:#ff6b6b
+    style G fill:#4ecdc4
+    style H fill:#4ecdc4
+    style I fill:#45b7d1
+    style J fill:#45b7d1

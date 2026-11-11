@@ -1,0 +1,25 @@
+graph TB
+    A[User Data] --> B[Client-Side Encryption]
+    B --> C[Data Chunking]
+    C --> D[Chunk Distribution]
+    D --> E[Isolated Processing]
+    E --> F[Result Encryption]
+    F --> G[Secure Aggregation]
+    G --> H[User Result]
+    
+    subgraph "Security Layers"
+        I[Authentication Layer]
+        J[Authorization Layer]
+        K[Transport Encryption]
+        L[Zero-Knowledge Proofs]
+    end
+    
+    B --> I
+    C --> J
+    D --> K
+    E --> L
+    
+    style B fill:#ff6b6b
+    style C fill:#4ecdc4
+    style E fill:#45b7d1
+    style L fill:#96ceb4

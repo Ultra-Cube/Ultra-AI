@@ -1,0 +1,20 @@
+graph LR
+    A[Node A] --> B[TLS 1.3 Handshake]
+    B --> C[Certificate Verification]
+    C --> D[Key Exchange]
+    D --> E[Encrypted Channel]
+    E --> F[Node B]
+    
+    subgraph "Security Layers"
+        G[Application Layer Encryption]
+        H[Transport Layer Security]
+        I[Network Layer Protection]
+        J[Physical Layer Security]
+    end
+    
+    A --> G
+    B --> H
+    C --> I
+    D --> J
+    
+    style E fill:#90EE90

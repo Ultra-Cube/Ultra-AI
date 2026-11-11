@@ -1,0 +1,26 @@
+graph TB
+    subgraph "Token Flow"
+        A[Users Pay Fiat] --> B[Platform Converts to CS]
+        B --> C[Tasks Distributed]
+        C --> D[Nodes Process Tasks]
+        D --> E[CS Rewards Distributed]
+        E --> F[Nodes Hold or Exchange CS]
+        F --> G[CS Value Appreciation]
+        G --> A
+    end
+    
+    subgraph "Value Creation"
+        H[Network Growth]
+        I[Processing Demand]
+        J[Token Scarcity]
+        K[Utility Expansion]
+    end
+    
+    B --> H
+    C --> I
+    E --> J
+    F --> K
+    
+    style B fill:#ff6b6b
+    style E fill:#4ecdc4
+    style G fill:#45b7d1

@@ -1,0 +1,16 @@
+graph TB
+    A[Root Key] --> B[Master Key]
+    B --> C[Domain Keys]
+    C --> D[Session Keys]
+    D --> E[Data Encryption Keys]
+    
+    B --> F[Key Escrow]
+    C --> G[Key Rotation]
+    D --> H[Perfect Forward Secrecy]
+    E --> I[Ephemeral Keys]
+    
+    style A fill:#ff6b6b
+    style B fill:#4ecdc4
+    style C fill:#45b7d1
+    style D fill:#96ceb4
+    style E fill:#f9ca24

@@ -1,0 +1,37 @@
+graph TB
+    subgraph "Primary Cloud (AWS)"
+        A[EKS Clusters]
+        B[RDS Databases]
+        C[ElastiCache Redis]
+        D[S3 Storage]
+        E[Application Load Balancer]
+    end
+    
+    subgraph "Secondary Cloud (GCP)"
+        F[GKE Clusters]
+        G[Cloud SQL]
+        H[Memorystore]
+        I[Cloud Storage]
+        J[Load Balancer]
+    end
+    
+    subgraph "Edge Locations"
+        K[CDN Nodes]
+        L[Edge Computing]
+        M[P2P Bootstrap Nodes]
+    end
+    
+    subgraph "Distributed Network"
+        N[User Nodes]
+        O[Processing Nodes]
+        P[Storage Nodes]
+    end
+    
+    A --> K
+    F --> K
+    K --> N
+    K --> O
+    K --> P
+    
+    E --> F
+    J --> A

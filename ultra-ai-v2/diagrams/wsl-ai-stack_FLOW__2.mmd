@@ -1,0 +1,16 @@
+sequenceDiagram
+    participant User
+    participant VoiceBridge
+    participant OpenClaw
+    participant Model
+    participant n8n
+    participant Tools
+
+    User->>VoiceBridge: Speak or type a task
+    VoiceBridge->>OpenClaw: Transcript or prompt
+    OpenClaw->>Model: Select answer route
+    Model->>n8n: Produce plan or intent
+    n8n->>Tools: Run shell, file, or workflow step
+    Tools-->>OpenClaw: Return output
+    OpenClaw-->>VoiceBridge: Response text
+    VoiceBridge-->>User: Speak or print result

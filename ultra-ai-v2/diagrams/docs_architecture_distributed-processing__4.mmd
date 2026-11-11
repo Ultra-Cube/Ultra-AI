@@ -1,0 +1,24 @@
+graph LR
+    A[Available Resources] --> B[Resource Allocator]
+    B --> C[Task Queue]
+    C --> D[Priority Scheduler]
+    D --> E[Execution Engine]
+    E --> F[Performance Monitor]
+    F --> G[Feedback Loop]
+    G --> B
+    
+    subgraph "Resource Types"
+        H[CPU Allocation]
+        I[Memory Pool]
+        J[GPU Scheduling]
+        K[Network Bandwidth]
+    end
+    
+    B --> H
+    B --> I
+    B --> J
+    B --> K
+    
+    style B fill:#ff6b6b
+    style D fill:#4ecdc4
+    style F fill:#45b7d1

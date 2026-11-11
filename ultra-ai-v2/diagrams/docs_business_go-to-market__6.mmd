@@ -1,0 +1,27 @@
+graph TB
+    subgraph "Direct Channels"
+        A1[Web Platform]
+        A2[Mobile Apps]
+        A3[Developer Portal]
+        A4[API Marketplace]
+    end
+    
+    subgraph "Partner Channels"
+        B1[System Integrators]
+        B2[Cloud Marketplaces]
+        B3[Technology Partners]
+        B4[Reseller Network]
+    end
+    
+    subgraph "Community Channels"
+        C1[Developer Community]
+        C2[Open Source Projects]
+        C3[Academic Partnerships]
+        C4[User Groups]
+    end
+    
+    A1 --> D[Customer Acquisition]
+    B1 --> D
+    C1 --> D
+    
+    style D fill:#90EE90

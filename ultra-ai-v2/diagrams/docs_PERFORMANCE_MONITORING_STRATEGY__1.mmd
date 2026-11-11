@@ -1,0 +1,25 @@
+graph TB
+    A[User Experience Layer] --> B[Application Performance]
+    B --> C[Infrastructure Performance]
+    C --> D[Network Performance]
+    D --> E[Hardware Performance]
+    
+    A --> A1[Response Time <200ms]
+    A --> A2[UI Responsiveness]
+    A --> A3[Error Rate <1%]
+    
+    B --> B1[API Latency]
+    B --> B2[Processing Speed]
+    B --> B3[Throughput]
+    
+    C --> C1[Server Resources]
+    C --> C2[Database Performance]
+    C --> C3[Cache Efficiency]
+    
+    D --> D1[P2P Connectivity]
+    D --> D2[Data Transfer Speed]
+    D --> D3[Node Reliability]
+    
+    E --> E1[CPU Utilization]
+    E --> E2[Memory Usage]
+    E --> E3[Storage I/O]

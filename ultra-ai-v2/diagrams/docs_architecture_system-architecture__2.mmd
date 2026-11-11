@@ -1,0 +1,31 @@
+graph TB
+    subgraph "Processing Node"
+        NodeAPI[Node API]
+        TaskRunner[Task Runner]
+        ResourceMonitor[Resource Monitor]
+        SecurityManager[Security Manager]
+    end
+    
+    subgraph "Task Processing"
+        TaskQueue[Task Queue]
+        Processor[AI Processor]
+        ResultValidator[Result Validator]
+    end
+    
+    subgraph "Communication"
+        WebRTC[WebRTC Connection]
+        Encryption[AES-256-GCM]
+        Heartbeat[Heartbeat Monitor]
+    end
+    
+    NodeAPI --> TaskQueue
+    TaskQueue --> Processor
+    Processor --> ResultValidator
+    ResultValidator --> NodeAPI
+    
+    ResourceMonitor --> NodeAPI
+    SecurityManager --> Encryption
+    WebRTC --> Encryption
+    
+    style Processor fill:#ff6b6b
+    style Encryption fill:#4ecdc4

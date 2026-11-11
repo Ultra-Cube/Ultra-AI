@@ -1,0 +1,18 @@
+gantt
+    title Phase 0: Foundation Timeline
+    dateFormat YYYY-MM-DD
+    section Infrastructure
+    Git Repository Setup           :done, git1, 2026-03-05, 1d
+    Project Structure Creation     :active, proj1, 2026-03-06, 2d  
+    Development Environment        :dev1, after proj1, 3d
+    CI/CD Pipeline                 :ci1, after dev1, 5d
+    
+    section Documentation
+    Architecture Review            :doc1, 2026-03-05, 3d
+    API Specifications             :doc2, after doc1, 5d
+    Technical Debt Analysis        :doc3, after doc2, 3d
+    
+    section Team Setup
+    Development Team Onboarding    :team1, 2026-03-08, 7d
+    Code Standards Definition      :team2, after team1, 2d
+    Security Guidelines            :team3, after team2, 3d

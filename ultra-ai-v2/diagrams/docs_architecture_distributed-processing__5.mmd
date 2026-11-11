@@ -1,0 +1,25 @@
+graph TB
+    A[Task Result] --> B[Checksum Validation]
+    B --> C[Cross-Node Verification]
+    C --> D[Statistical Analysis]
+    D --> E[Consensus Mechanism]
+    E --> F[Quality Score Assignment]
+    F --> G[Result Acceptance/Rejection]
+    
+    subgraph "Validation Layers"
+        H[Cryptographic Proofs]
+        I[Redundant Processing]
+        J[Reputation Weighting]
+        K[Anomaly Detection]
+    end
+    
+    B --> H
+    C --> I
+    E --> J
+    D --> K
+    
+    style G fill:#90EE90
+    style H fill:#87CEEB
+    style I fill:#87CEEB
+    style J fill:#87CEEB
+    style K fill:#87CEEB

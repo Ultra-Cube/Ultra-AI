@@ -1,0 +1,8 @@
+flowchart LR
+    U[User] --> A[OpenClaw agent]
+    A --> M[Model layer]
+    M --> O[Ollama]
+    M --> G[AirLLM]
+    O --> T[Tools]
+    G --> T
+    T --> R[Result]

@@ -1,0 +1,7 @@
+flowchart TD
+    U[Human intent] --> V[Voice bridge or terminal prompt]
+    V --> C[OpenClaw controller]
+    C --> L[Model alias / provider]
+    L --> P[n8n planner]
+    P --> X[Linux tools]
+    X --> R[Response]

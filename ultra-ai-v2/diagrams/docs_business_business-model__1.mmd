@@ -1,0 +1,46 @@
+graph TB
+    subgraph "Value Propositions"
+        VP1[Cost-effective AI Access]
+        VP2[Privacy-first Processing]
+        VP3[Earn While Contributing]
+        VP4[Natural Language Interface]
+    end
+    
+    subgraph "Customer Segments"
+        CS1[Individual Professionals]
+        CS2[Small-Medium Businesses]
+        CS3[Developers & Creators]
+        CS4[Privacy-conscious Users]
+        CS5[Educational Institutions]
+    end
+    
+    subgraph "Revenue Streams"
+        RS1[Subscription Fees]
+        RS2[Transaction Commissions]
+        RS3[API Usage Fees]
+        RS4[Enterprise Licenses]
+        RS5[Consulting Services]
+    end
+    
+    subgraph "Key Partners"
+        KP1[AI Model Providers]
+        KP2[Cloud Infrastructure]
+        KP3[Blockchain Networks]
+        KP4[Hardware Manufacturers]
+    end
+    
+    VP1 --> CS1
+    VP2 --> CS4
+    VP3 --> CS2
+    VP4 --> CS3
+    
+    CS1 --> RS1
+    CS2 --> RS2
+    CS3 --> RS3
+    CS4 --> RS4
+    CS5 --> RS5
+    
+    style VP1 fill:#ff6b6b
+    style RS1 fill:#4ecdc4
+    style CS1 fill:#45b7d1
+    style KP1 fill:#96ceb4

@@ -1,0 +1,41 @@
+graph TB
+    subgraph "Data Collection"
+        A[Application Metrics]
+        B[Infrastructure Metrics]
+        C[Network Metrics]
+        D[User Metrics]
+    end
+    
+    subgraph "Processing & Storage"
+        E[Prometheus/InfluxDB]
+        F[Elasticsearch]
+        G[Time Series DB]
+    end
+    
+    subgraph "Visualization & Alerting"
+        H[Grafana Dashboards]
+        I[Alert Manager]
+        J[PagerDuty/Slack]
+    end
+    
+    subgraph "Analysis & ML"
+        K[Anomaly Detection]
+        L[Predictive Analytics]
+        M[Performance Forecasting]
+    end
+    
+    A --> E
+    B --> E
+    C --> G
+    D --> F
+    
+    E --> H
+    F --> H
+    G --> H
+    
+    E --> I
+    I --> J
+    
+    E --> K
+    F --> L
+    G --> M

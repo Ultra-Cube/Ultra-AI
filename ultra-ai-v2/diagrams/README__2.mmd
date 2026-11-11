@@ -1,0 +1,13 @@
+flowchart LR
+  U[User voice or text] --> Z[ZeroAI]
+  Z --> S[Speech-to-Text]
+  Z --> M[Memory Layer]
+  Z --> O[OpenClaw]
+  O --> L[Local Models]
+  O --> N[n8n]
+  O --> T[Local Tools]
+  O --> X[Ultra AI Network]
+  L --> R[Response]
+  N --> R
+  T --> R
+  X --> R

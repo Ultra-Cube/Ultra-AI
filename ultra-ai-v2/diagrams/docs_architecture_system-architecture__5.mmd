@@ -1,0 +1,33 @@
+graph TB
+    subgraph "North America"
+        NA1[US-East]
+        NA2[US-West]
+        NA3[Canada]
+    end
+    
+    subgraph "Europe"
+        EU1[UK]
+        EU2[Germany]
+        EU3[France]
+    end
+    
+    subgraph "Asia Pacific"
+        AP1[Singapore]
+        AP2[Japan]
+        AP3[Australia]
+    end
+    
+    subgraph "Middle East"
+        ME1[UAE]
+        ME2[Saudi Arabia]
+    end
+    
+    NA1 <--> EU1
+    EU1 <--> AP1
+    AP1 <--> ME1
+    ME1 <--> NA1
+    
+    style NA1 fill:#ff6b6b
+    style EU1 fill:#4ecdc4
+    style AP1 fill:#45b7d1
+    style ME1 fill:#96ceb4

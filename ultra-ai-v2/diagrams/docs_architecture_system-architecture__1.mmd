@@ -1,0 +1,93 @@
+graph TB
+    subgraph "User Layer"
+        UI[Web/Mobile Interface]
+      AdaptiveUI[Adaptive UI Engine]
+      WorkspaceManager[Workspace Personalization Manager]
+        ZeroAI[ZeroAI Local Control Surface]
+        CLI[CLI Tools]
+        API[Developer APIs]
+    end
+    
+    subgraph "Intelligence Layer"
+        AICore[AI Core Engine]
+        NLP[Natural Language Processor]
+        TaskPlanner[Task Planning Engine]
+        ModelRouter[Model Router]
+        ModelGateway[External AI Provider Gateway]
+        ToolRecommender[Tool Recommendation Engine]
+    end
+    
+    subgraph "Orchestration Layer"
+        Orchestrator[Central Orchestrator]
+        ChunkManager[Chunk Manager]
+        NetworkManager[Network Manager]
+        ResultAggregator[Result Aggregator]
+    end
+    
+    subgraph "Distributed Network"
+        Node1[User Node 1]
+        Node2[User Node 2]
+        Node3[User Node 3]
+        NodeN[User Node N]
+    end
+    
+    subgraph "Blockchain Layer"
+        Rewards[Rewards Contract]
+        Governance[Governance]
+        Storage[IPFS Storage]
+    end
+    
+    subgraph "Data Layer"
+        PostgresDB[(PostgreSQL)]
+        MongoDB[(MongoDB)]
+        Redis[(Redis Cache)]
+        S3[(Object Storage)]
+    end
+    
+    UI --> AdaptiveUI
+    AdaptiveUI --> WorkspaceManager
+    WorkspaceManager --> AICore
+    ZeroAI --> AICore
+    ZeroAI --> OpenClaw[OpenClaw Router]
+    CLI --> AICore
+    API --> AICore
+    
+    AICore --> NLP
+    AICore --> TaskPlanner
+    AICore --> ModelRouter
+    ModelRouter --> ModelGateway
+    AICore --> ToolRecommender
+    OpenClaw --> ModelGateway
+    OpenClaw --> Orchestrator
+    OpenClaw --> ZeroAI
+    
+    TaskPlanner --> Orchestrator
+    Orchestrator --> ChunkManager
+    Orchestrator --> NetworkManager
+    ChunkManager --> Node1
+    ChunkManager --> Node2
+    ChunkManager --> Node3
+    ChunkManager --> NodeN
+    
+    Node1 --> ResultAggregator
+    Node2 --> ResultAggregator
+    Node3 --> ResultAggregator
+    NodeN --> ResultAggregator
+    
+    ResultAggregator --> AICore
+    
+    NetworkManager --> Rewards
+    NetworkManager --> Governance
+    ChunkManager --> Storage
+    
+    AICore --> PostgresDB
+    AICore --> MongoDB
+    AICore --> Redis
+    AICore --> S3
+    
+    style AICore fill:#ff6b6b
+    style Orchestrator fill:#4ecdc4
+    style Node1 fill:#45b7d1
+    style Node2 fill:#45b7d1
+    style Node3 fill:#45b7d1
+    style NodeN fill:#45b7d1

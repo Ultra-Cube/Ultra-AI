@@ -1,0 +1,47 @@
+graph TB
+    subgraph "Central Coordination"
+        Orchestrator[Task Orchestrator]
+        NodeRegistry[Node Registry]
+        RewardEngine[Reward Engine]
+        HealthMonitor[Network Health Monitor]
+      ZeroAIIngress[ZeroAI / OpenClaw Ingress]
+    end
+    
+    subgraph "Processing Nodes"
+        Node1[Node 1]
+        Node2[Node 2]
+        Node3[Node 3]
+        NodeN[Node N]
+    end
+    
+    subgraph "Blockchain Layer"
+        SmartContract[Rewards Contract]
+        IPFS[IPFS Storage]
+        Oracle[Performance Oracle]
+    end
+    
+    Orchestrator --> NodeRegistry
+    ZeroAIIngress --> Orchestrator
+    Orchestrator --> Node1
+    Orchestrator --> Node2
+    Orchestrator --> Node3
+    Orchestrator --> NodeN
+    
+    NodeRegistry --> HealthMonitor
+    HealthMonitor --> RewardEngine
+    RewardEngine --> SmartContract
+    
+    Node1 --> IPFS
+    Node2 --> IPFS
+    Node3 --> IPFS
+    NodeN --> IPFS
+    
+    Oracle --> SmartContract
+    
+    style Orchestrator fill:#ff6b6b
+    style Node1 fill:#4ecdc4
+    style Node2 fill:#4ecdc4
+    style Node3 fill:#4ecdc4
+    style NodeN fill:#4ecdc4
+    style SmartContract fill:#45b7d1
+    style ZeroAIIngress fill:#ff6b6b

@@ -1,0 +1,28 @@
+sequenceDiagram
+    participant User
+    participant WebApp
+    participant AICore
+    participant Orchestrator
+    participant Network
+    participant Blockchain
+    
+    User->>WebApp: Submit Request
+    WebApp->>AICore: Process Request
+    AICore->>AICore: Analyze & Plan
+    AICore->>Orchestrator: Create Execution Plan
+    
+    Orchestrator->>Orchestrator: Chunk Task
+    Orchestrator->>Network: Distribute Chunks
+    
+    loop For Each Chunk
+        Network->>Network: Process Chunk
+        Network->>Orchestrator: Return Result
+    end
+    
+    Orchestrator->>Orchestrator: Aggregate Results
+    Orchestrator->>AICore: Return Final Result
+    AICore->>WebApp: Format Response
+    WebApp->>User: Display Result
+    
+    Orchestrator->>Blockchain: Record Contributions
+    Blockchain->>Network: Distribute Rewards

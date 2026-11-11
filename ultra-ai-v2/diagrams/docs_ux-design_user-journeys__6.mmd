@@ -1,0 +1,14 @@
+graph TB
+    A[Initial Interest] --> B[Security Assessment]
+    B --> C[IRB Submission]
+    C --> D[Committee Review]
+    D --> E{Approval Decision}
+    
+    E -->|Approved| F[Implementation]
+    E -->|Conditional| G[Address Concerns]
+    E -->|Rejected| H[Find Alternatives]
+    
+    G --> C
+    
+    style F fill:#90EE90
+    style H fill:#ffcccb

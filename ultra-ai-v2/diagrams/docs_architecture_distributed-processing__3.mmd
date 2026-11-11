@@ -1,0 +1,30 @@
+graph TB
+    A[Original Data] --> B[Semantic Analysis]
+    B --> C[Context Stripping]
+    C --> D[Data Chunking]
+    D --> E[Individual Encryption]
+    E --> F[Metadata Anonymization]
+    F --> G[Random Distribution]
+    G --> H[Isolated Processing]
+    H --> I[Encrypted Results]
+    I --> J[Secure Aggregation]
+    J --> K[Final Result]
+    
+    subgraph "Privacy Layers"
+        L[Zero-Knowledge Proofs]
+        M[Homomorphic Encryption]
+        N[Differential Privacy]
+        O[Secure Multi-Party Computation]
+    end
+    
+    D --> L
+    E --> M
+    H --> N
+    J --> O
+    
+    style A fill:#ffcccb
+    style K fill:#90EE90
+    style L fill:#87CEEB
+    style M fill:#87CEEB
+    style N fill:#87CEEB
+    style O fill:#87CEEB

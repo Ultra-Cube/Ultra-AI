@@ -1,0 +1,53 @@
+graph TB
+    subgraph "Board Level"
+        BOD[Board of Directors]
+        BOA[Board of Advisors]
+    end
+    
+    subgraph "Executive Team"
+        CEO[Chief Executive Officer]
+        CTO[Chief Technology Officer]
+        CPO[Chief Product Officer]
+        CFO[Chief Financial Officer]
+    end
+    
+    subgraph "Department Heads"
+        ENG[VP Engineering]
+        AI[Head of AI Research]
+        BC[Head of Blockchain]
+        SEC[Head of Security]
+        MKT[Head of Marketing]
+        BDV[Head of Business Dev]
+    end
+    
+    subgraph "Team Leads"
+        FE[Frontend Lead]
+        BE[Backend Lead]
+        ML[ML Engineering Lead]
+        DV[DevOps Lead]
+        QA[QA Lead]
+        UX[UX/UI Lead]
+    end
+    
+    BOD --> CEO
+    BOA --> CEO
+    CEO --> CTO
+    CEO --> CPO
+    CEO --> CFO
+    CTO --> ENG
+    CTO --> AI
+    CTO --> BC
+    CTO --> SEC
+    CEO --> MKT
+    CEO --> BDV
+    ENG --> FE
+    ENG --> BE
+    ENG --> ML
+    ENG --> DV
+    ENG --> QA
+    CPO --> UX
+    
+    style CEO fill:#ff6b6b
+    style CTO fill:#4ecdc4
+    style CPO fill:#45b7d1
+    style CFO fill:#96ceb4

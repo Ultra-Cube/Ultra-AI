@@ -1,0 +1,48 @@
+sequenceDiagram
+    participant User
+    participant ZeroAI
+    participant OpenClaw
+    participant Orchestrator
+    participant ChunkManager
+    participant Node1
+    participant Node2
+    participant Node3
+    participant Aggregator
+    participant Blockchain
+    
+    User->>ZeroAI: Speak or type a task
+    ZeroAI->>OpenClaw: Route and classify request
+    OpenClaw->>Orchestrator: Escalate distributed task
+    Orchestrator->>ChunkManager: Analyze & Chunk Task
+    
+    Note over ChunkManager: Split task into secure chunks
+    ChunkManager->>ChunkManager: Encrypt Each Chunk
+    
+    par Parallel Processing
+        ChunkManager->>Node1: Chunk A
+        ChunkManager->>Node2: Chunk B
+        ChunkManager->>Node3: Chunk C
+    end
+    
+    par Node Processing
+        Node1->>Node1: Process Chunk A
+        Node2->>Node2: Process Chunk B
+        Node3->>Node3: Process Chunk C
+    end
+    
+    par Result Return
+        Node1->>Aggregator: Result A
+        Node2->>Aggregator: Result B
+        Node3->>Aggregator: Result C
+    end
+    
+    Aggregator->>Aggregator: Validate & Combine Results
+    Aggregator->>OpenClaw: Final Result
+    OpenClaw->>ZeroAI: Local result or escalation summary
+    ZeroAI->>User: Final Result
+    
+    Aggregator->>Blockchain: Record Contributions
+    Blockchain->>Blockchain: Calculate Rewards
+    Blockchain-->>Node1: CS Tokens
+    Blockchain-->>Node2: CS Tokens
+    Blockchain-->>Node3: CS Tokens

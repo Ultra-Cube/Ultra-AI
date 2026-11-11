@@ -1,0 +1,16 @@
+sequenceDiagram
+    participant User
+    participant Zero
+    participant OpenClaw
+    participant Ollama
+    participant n8n
+    participant Tools
+
+    User->>Zero: Speak or type a request
+    Zero->>OpenClaw: Forward the raw input
+    OpenClaw->>Ollama: Choose or call the model
+    Ollama->>n8n: Provide plan or response context
+    n8n->>Tools: Execute workflow or shell step
+    Tools-->>OpenClaw: Return result
+    OpenClaw-->>Zero: Send answer text
+    Zero-->>User: Speak or print the answer

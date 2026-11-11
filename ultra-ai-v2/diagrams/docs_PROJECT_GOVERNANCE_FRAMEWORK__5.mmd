@@ -1,0 +1,26 @@
+graph TB
+    subgraph "Team Health Metrics"
+        ENG[Engineering Velocity]
+        QUA[Quality Metrics]
+        SAT[Team Satisfaction]
+        RET[Retention Rate]
+    end
+    
+    subgraph "Targets"
+        ENG --> T1["+/- 10% sprint variance"]
+        QUA --> T2["<5% bug rate"]
+        SAT --> T3[">4.2/5.0 rating"]
+        RET --> T4[">90% annual retention"]
+    end
+    
+    subgraph "Actions"
+        T1 --> A1["Process optimization"]
+        T2 --> A2["Quality improvements"]
+        T3 --> A3["Culture initiatives"]
+        T4 --> A4["Retention programs"]
+    end
+    
+    style T1 fill:#90EE90
+    style T2 fill:#90EE90
+    style T3 fill:#90EE90
+    style T4 fill:#90EE90

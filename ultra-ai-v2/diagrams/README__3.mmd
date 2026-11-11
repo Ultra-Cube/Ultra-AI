@@ -1,0 +1,19 @@
+graph LR
+    U[User Request] --> AI[Central AI Core]
+    AI --> DP[Request Chunking]
+    DP --> N[Participant User Network]
+    N --> P[Parallel Processing]
+    P --> RC[Result Reassembly]
+    RC --> U[Return Result to User]
+    
+    subgraph User Network
+        N1[User Device 1]
+        N2[User Device 2]
+        N3[User Device 3]
+        N4[User Device 4]
+        N5[User Device 5]
+    end
+    
+    style U fill:#e1f5fe
+    style AI fill:#fff3e0
+    style N fill:#c8e6c9
