@@ -1,0 +1,214 @@
+# Ultra-AI Repository Layout Map (WP-0 deliverable)
+# Generated from ACTUAL repository contents on 2026-11-11 (branch release/planning-study).
+# Authoritative for the staged reorganization in ULTRA_AI_BUILD_PROMPT.md §4/§4.1.
+# Owner decisions applied (see ERRATA & OWNER DECISIONS in ULTRA_AI_BUILD_PROMPT.md):
+#   - contracts/            -> platform/api/contracts/          (Option A)
+#   - memory/ (project)     -> brain-stack/memory/ops/          (Option A)
+#   - skills/ (root)        -> brain-stack/skills/legacy/       (Option A)
+#   - environments/ = root *.env.example per environment;
+#     control/config/env/ = internal service env templates.
+#   - monitoring/hermes -> infrastructure/monitoring/legacy-hermes (temporary);
+#     monitoring/sentinel is a WP-2 CREATE task, NOT a move.
+#   - packages/*, services/*, apps/* enumerated individually below.
+#   - dotfiles = .devin/ .cursor/ .github/ (+ .claude/ .cortex/ .kombai/ .husky/ .turbo/)
+#   - build caches (*.tsbuildinfo, dist/, .turbo/, .next/) gitignored, never moved.
+
+meta:
+  version: 1.0
+  generated: "2026-11-11"
+  baseline_tag: baseline/pre-planning-20261111
+  naming: lowercase-kebab-case
+  rule: "package names @ultra-ai/* do NOT change; only directories move"
+
+# ---------------------------------------------------------------------------
+# STEP 0 — exclusions: never moved, never committed
+# ---------------------------------------------------------------------------
+exclusions:
+  - { path: node_modules/,            action: stay, reason: "npm install artifact" }
+  - { path: release-assets/,          action: stay, reason: "local release bundle/tarball; gitignored" }
+  - { path: external/,                action: stay, reason: "local-only: github-forks + mdskills-catalog; gitignored" }
+  - { path: .git/,                    action: stay, reason: "VCS internals" }
+  - { path: .turbo/,                  action: stay, reason: "turbo cache; gitignored" }
+  - { path: "**/*.tsbuildinfo",       action: stay, reason: "build cache; gitignored" }
+  - { path: "**/dist/", "**/.next/", "**/coverage/", action: stay, reason: "build artifacts" }
+  - { path: external-integrations/,   action: stay-pending-manifest, reason: "contains local-only content + 20+ third-party repos; requires owner-run manifest-local BEFORE any git mv" }
+  - { path: wsl-ai-stack/,            action: stay-pending-manifest, reason: "local WSL runtime stack + airllm_run.log; requires owner-run manifest-local BEFORE any git mv" }
+
+# ---------------------------------------------------------------------------
+# STEP 1 — files WE created post-baseline (new-file moves, lowest risk)
+# ---------------------------------------------------------------------------
+step1_new_files:
+  # ultra-ai-v2 planning memory / skills / plugin / diagrams
+  - { src: ultra-ai-v2/skills,            dst: brain-stack/skills/ultra-ai-v2,   note: "v2 skill set (33 skills); keep separate from legacy" }
+  - { src: ultra-ai-v2/plugin,            dst: brain-stack/plugin,               note: "plugin ultra-ai-builder (agents/commands/hooks)" }
+  - { src: ultra-ai-v2/memory,            dst: brain-stack/memory/planning,      note: "S1-S2b planning memory bank" }
+  - { src: ultra-ai-v2/diagrams,          dst: brain-stack/memory/diagrams,      note: "116 extracted+validated Mermaid registry" }
+  # root project memory (live ops memory)
+  - { src: memory,                        dst: brain-stack/memory/ops,           note: "owner decision A: live project memory under brain-stack" }
+  # skills created by us at repo root
+  - { src: skills/,                       dst: brain-stack/skills/legacy,        note: "owner decision A: legacy/imported skills (skills/devops/{architecture-review,kanban-orchestrator,kanban-worker}); inspect before merge" }
+  # planning docs authored post-baseline
+  - { src: ULTRA_AI_SUPER_PROMPT.md,      dst: brain-stack/prompts/ultra-ai-master-build.md }
+  - { src: ULTRA_AI_BUILD_PROMPT.md,      dst: brain-stack/prompts/ultra-ai-build-prompt.md }
+  - { src: ULTRA_AI_TODO.md,              dst: brain-stack/workflows/ULTRA_AI_TODO.md }
+  - { src: ULTRA_AI_MASTER_PLAN_LATEST.md,dst: docs/v2/master-plan.md }
+  - { src: ULTRA_AI_V2_TECHNICAL_SPEC.md, dst: docs/v2/technical-spec.md }
+  - { src: ULTRA_AI_LEGAL_LICENSING.md,   dst: docs/v2/legal-licensing.md }
+  - { src: PLANNING_RELEASE_NOTES.md,     dst: docs/v2/release-notes-v0.2.0-planning.md }
+  - { src: PLANNING_BASELINE_1aa16b6.sha256,    dst: distribution/assets/releases/v0.2.0-planning/PLANNING_BASELINE_1aa16b6.sha256 }
+  - { src: PLANNING_BASELINE_c863ef8.sha256,    dst: distribution/assets/releases/v0.2.0-planning/PLANNING_BASELINE_c863ef8.sha256 }
+  - { src: DOC_CONVERSION_MAP.csv,        dst: docs/v2/doc-conversion-map.csv }
+  - { src: llms.txt,                      dst: docs/v2/llms.txt,                 note: "verify content is v2-scoped before moving; else stay" }
+  # legal/licensing material (real file is licence matrix in root legal/ + docs)
+  - { src: legal/,                        dst: control/compliance/licensing/legal-docs, note: "currently EMPTY dir; create only if files appear; licence_matrix.yaml authored under control/compliance/licensing/" }
+  # scripts authored post-baseline (preservation tooling)
+  - { src: scripts/preservation.sh,       dst: infrastructure/automation/preservation.sh }
+
+# ---------------------------------------------------------------------------
+# STEP 2 — root documentation -> docs/archive + docs/guides  (R2: needs owner OK per file class — G-0.7 approved class-based)
+# ---------------------------------------------------------------------------
+step2_root_docs:
+  - { src: BUILD_PLAN.md,                 dst: docs/archive/root/BUILD_PLAN.md }
+  - { src: FINAL-PROJECT-SUMMARY.md,      dst: docs/archive/root/FINAL-PROJECT-SUMMARY.md }
+  - { src: FINAL-SUMMARY.md,              dst: docs/archive/root/FINAL-SUMMARY.md }
+  - { src: PRODUCTION-RELEASE.md,         dst: docs/archive/root/PRODUCTION-RELEASE.md }
+  - { src: PROJECT-CATALOG.md,            dst: docs/archive/root/PROJECT-CATALOG.md }
+  - { src: PROJECT_STRUCTURE.md,          dst: docs/archive/root/PROJECT_STRUCTURE.md, note: "describes OLD layout; superseded by layout-map.yaml" }
+  - { src: TASKS-CHECKLIST.md,            dst: docs/archive/root/TASKS-CHECKLIST.md }
+  - { src: README-template.md,            dst: docs/archive/root/README-template.md }
+  - { src: QUICK-START.md,                dst: docs/guides/QUICK-START.md }
+  - { src: USER-GUIDE.md,                 dst: docs/guides/USER-GUIDE.md }
+  # root agent-facing docs STAY at root (tooling contract)
+  - { src: README.md,                     dst: "(stay)", note: "project entry point; update links after moves" }
+  - { src: AGENTS.md,                     dst: "(stay)", note: "agent guide; update paths after moves" }
+  - { src: CLAUDE.md,                     dst: "(stay)", note: "Cortex memory block; agent tooling" }
+  - { src: CONTRIBUTING.md,               dst: "(stay)" }
+  - { src: CODE_OF_CONDUCT.md,            dst: "(stay)" }
+  # docs/ tree itself stays; new subdirs created
+  - { src: docs/,                         dst: "(stay)", note: "create docs/v2 docs/archive docs/guides inside" }
+
+# ---------------------------------------------------------------------------
+# STEP 3 — code workspaces: apps/ packages/ services/  (R2)
+# ---------------------------------------------------------------------------
+step3_code:
+  # apps
+  - { src: apps/web,                      dst: platform/frontend,             note: "Next.js web app -> platform/frontend root" }
+  # packages — enumerated individually
+  - { src: packages/api-gateway,          dst: platform/api/gateway }
+  - { src: packages/api,                  dst: platform/backend/core-api }
+  - { src: packages/ai-core,              dst: platform/backend/ai-core }
+  - { src: packages/distributed,          dst: platform/backend/distributed, note: "PARKED: device-mesh first; drop 'private by chunking' claim until legacy design fixed" }
+  - { src: packages/blockchain,           dst: platform/backend/blockchain,  note: "PARKED/DEFERRED: blockchain foundation deferred per owner; placeholder only, no chain features" }
+  - { src: packages/shared,               dst: platform/shared }
+  - { src: packages/control-center,       dst: platform/devtools/control-center }
+  - { src: packages/desktop-ui,           dst: platform/apps/desktop-ui }
+  - { src: packages/voice-recognition,    dst: platform/services/voice-recognition }
+  - { src: packages/memory-optimizer,     dst: platform/services/memory-optimizer }
+  # services — enumerated individually
+  - { src: services/auth-service,         dst: platform/services/auth-service }
+  - { src: services/mock-adapters,        dst: platform/services/mock-adapters }
+  # contracts (owner decision A)
+  - { src: contracts/,                    dst: platform/api/contracts,        note: "currently EMPTY; Gate-OS /v1 contract lands here later (WP-11)" }
+  # tests
+  - { src: tests/e2e,                     dst: platform/testing/e2e }
+  - { src: tests/integration,             dst: platform/testing/integration }
+  - { src: tests/performance,             dst: platform/testing/performance }
+  # prisma schema -> platform/database/prisma (later step; needs networked CI)
+  - { src: "**/prisma/schema.prisma",     dst: platform/database/prisma,      note: "LATER STEP — do not move in WP-0" }
+
+# ---------------------------------------------------------------------------
+# STEP 4 — config / docker / k8s / monitoring / scripts  (R2)
+# ---------------------------------------------------------------------------
+step4_infra_config:
+  # docker assets
+  - { src: docker-compose.yml,            dst: control/config/docker/docker-compose.yml }
+  - { src: Dockerfile.api,                dst: control/config/docker/Dockerfile.api }
+  - { src: Dockerfile.web,                dst: control/config/docker/Dockerfile.web }
+  - { src: docker-entrypoint.sh,          dst: control/config/docker/docker-entrypoint.sh }
+  - { src: docker-manage.sh,              dst: infrastructure/automation/docker-manage.sh }
+  # k8s
+  - { src: k8s/,                          dst: control/templates/kubernetes/ }
+  - { src: k8s-deploy.sh,                 dst: infrastructure/automation/k8s-deploy.sh, note: "leave shim at old path for one release" }
+  # monitoring (sentinel does NOT exist — it is a WP-2 create task)
+  - { src: monitoring/hermes,             dst: infrastructure/monitoring/legacy-hermes, note: "temporary home until Sentinel stack proven" }
+  # monitoring/sentinel -> infrastructure/monitoring/stack  == CREATE in WP-2, not a move
+  # config
+  - { src: config/brain,                  dst: brain-stack/models/local-inference }
+  # scripts (remaining; preservation.sh already moved in step1)
+  - { src: scripts/fetch-repositories.py, dst: infrastructure/automation/fetch-repositories.py }
+  - { src: scripts/import-critical-repos.sh, dst: infrastructure/automation/import-critical-repos.sh }
+  - { src: scripts/setup.sh,              dst: infrastructure/automation/setup.sh }
+  - { src: scripts/shoot-landing.mjs,     dst: infrastructure/automation/shoot-landing.mjs }
+  - { src: scripts/shoot.mjs,             dst: infrastructure/automation/shoot.mjs }
+  - { src: scripts/smoke-test.sh,         dst: infrastructure/automation/smoke-test.sh }
+  - { src: scripts/test-api-features.sh,  dst: infrastructure/automation/test-api-features.sh }
+  - { src: scripts/ultra-stack.sh,        dst: infrastructure/automation/ultra-stack.sh }
+  - { src: scripts/verify-dom.mjs,        dst: infrastructure/automation/verify-dom.mjs }
+  - { src: scripts/verify-ui2.mjs,        dst: infrastructure/automation/verify-ui2.mjs }
+  # infrastructure/ existing content merges (do not replace)
+  - { src: infrastructure/docker,         dst: infrastructure/docker, note: "already correct; merge if needed" }
+
+# ---------------------------------------------------------------------------
+# STEP 5 — agent tooling + CI: STAY at root (explicit, replaces 'dotfiles')
+# ---------------------------------------------------------------------------
+step5_stays:
+  - { path: .devin/,      action: stay, reason: "agent tooling: skills/, agents/, mcp_config*.json" }
+  - { path: .cursor/,     action: stay, reason: "agent tooling: rules/*.mdc" }
+  - { path: .github/,     action: stay, reason: "GitHub only reads .github/workflows" }
+  - { path: .claude/,     action: stay, reason: "agent tooling" }
+  - { path: .cortex/,     action: stay, reason: "Cortex memory" }
+  - { path: .kombai/,     action: stay, reason: "design tooling" }
+  - { path: .husky/,      action: stay, reason: "git hooks" }
+  - { path: .editorconfig, .eslintrc.js, .prettierrc, .dockerignore, .gitignore, action: stay, reason: "tool configs" }
+  - { path: package.json, turbo.json, tsconfig.json, package-lock.json, action: stay, reason: "monorepo root manifests (workspace globs updated to new paths)" }
+  - { path: .env.example, action: stay->environments/, note: "MOVE to environments/development.env.example — see env rule below" }
+
+# ---------------------------------------------------------------------------
+# ENV RULE (owner-approved distinction)
+# ---------------------------------------------------------------------------
+env_rule:
+  environments/:        "root-level *.env.example per environment (development/staging/production/testing) + manage-environment.sh; only *.example tracked"
+  control/config/env/:  "internal service env TEMPLATES (docker, database, nginx, monitoring, security)"
+  action: ".env.example -> environments/development.env.example"
+
+# ---------------------------------------------------------------------------
+# PLACEHOLDERS — create dir + README(status), NO content (deferred scope)
+# ---------------------------------------------------------------------------
+placeholders:
+  brain_stack: [mcp, prompts, workflows, rules, models]
+  control_policies: [dao-governance, access-control, token-policies, voting-mechanisms]
+  control_compliance: [kyc-aml, audit-trails, regulatory-reports, risk-assessment, licensing]
+  control_templates: [terraform, cloudformation, kubernetes, helm-charts]
+  control_workflows: [github-actions, deployment-pipelines, testing-workflows, security-scans]
+  control_operations: [incident-response, maintenance-procedures, backup-strategies, disaster-recovery]
+  control_config: [docker, env, monitoring, security, database, nginx]
+  distribution: [assets/branding, assets/releases]
+  environments: [development, staging, production, testing]
+  infrastructure_monitoring: [dashboards, metrics, health-checks, alerts, logs, stack]
+  platform: [frontend, api, backend, apps, devtools, services, database, testing, shared,
+             enterprise/dashboard, enterprise/multi-tenant, enterprise/white-label, enterprise/expansion]
+  deferred_note: >
+    control/policies/* and control/compliance/kyc-aml are blockchain-gated (G-4.2).
+    platform/enterprise/{multi-tenant,white-label} are counsel-gated (Dify/Open WebUI/n8n terms).
+    platform/backend/blockchain is PARKED — owner deferred chain/token/wallet work.
+
+# ---------------------------------------------------------------------------
+# FUTURE TASKS (explicitly NOT moves — recorded so nobody assumes they exist)
+# ---------------------------------------------------------------------------
+future_tasks:
+  - id: WP-2-sentinel
+    desc: "Create monitoring/sentinel -> infrastructure/monitoring/stack (replaces absent v2/foundation work)"
+  - id: manifest-local
+    desc: "Owner runs manifest on external-integrations/ + wsl-ai-stack/ before any git mv of those trees"
+  - id: prisma-move
+    desc: "Move prisma schema to platform/database/prisma in a later step needing networked CI"
+  - id: npm-workspace-globs
+    desc: "Update package.json workspaces globs (apps/*->platform/frontend etc.) during step-3 move"
+
+# ---------------------------------------------------------------------------
+# VERIFICATION (run after each step)
+# ---------------------------------------------------------------------------
+verify:
+  dry_run: "generate moves.tsv from this map; confirm every src exists and no dst collides"
+  per_step: "bash infrastructure/automation/preservation.sh verify-moves baseline/pre-planning-20261111 moves.tsv"
+  post: "npm run lint && npm run type-check && npm test"

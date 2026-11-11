@@ -129,7 +129,7 @@ graph TB
 - Trigger local tools, local model generation, or n8n workflows
 - Escalate to Ultra AI only when shared or distributed capabilities are needed
 
-**Current supporting stack**:
+**Current supporting stack** (pre-WP-0 paths; target layout per `docs/planning/layout-map.yaml`: `packages/api → platform/backend/core-api`, `apps/web → platform/frontend`, `wsl-ai-stack/` stays pending manifest-local):
 - Speech-to-text: `wsl-ai-stack/scripts/transcribe-audio.py`
 - Voice bridge: `wsl-ai-stack/scripts/voice-bridge.sh`
 - Memory store: `packages/api/src/services/zeroai/zeroai-store.ts`

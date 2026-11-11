@@ -90,6 +90,22 @@ graph TB
     K8S --- API
 ```
 
+> **Repository layout note (WP-0, `docs/planning/layout-map.yaml`):** the paths
+> shown above are the *current* locations. The adopted target layout moves them
+> to: `apps/web → platform/frontend`, `packages/api → platform/backend/core-api`,
+> `packages/api-gateway → platform/api/gateway`, `packages/ai-core →
+> platform/backend/ai-core`, `packages/shared → platform/shared`,
+> `packages/desktop-ui → platform/apps/desktop-ui`, `packages/voice-recognition`
+> and `packages/memory-optimizer → platform/services/`, `packages/control-center
+> → platform/devtools/`, `packages/distributed → platform/backend/distributed`
+> (parked), `packages/blockchain → platform/backend/blockchain` (deferred),
+> `monitoring/hermes → infrastructure/monitoring/legacy-hermes`,
+> `k8s/ + docker assets → control/config|templates`, `scripts/* →
+> infrastructure/automation/`, `memory/ → brain-stack/memory/ops/`,
+> `skills/ → brain-stack/skills/legacy/`, `contracts/ → platform/api/contracts/`.
+> Package names (`@ultra-ai/*`) and runtime behavior do not change — only
+> directories move, per step-gated `git mv` in WP-0.
+
 ### Layer responsibilities & ground-truth status
 
 | Layer | Package(s) | Real? | LOC (src) | Notes |
@@ -154,7 +170,8 @@ drift the docs repeatedly flagged:
 
 Hermes is the observability layer. Two parts:
 
-1. **`monitoring/hermes/`** — the infra stack (Prometheus scrapes the API's 40+
+1. **`monitoring/hermes/`** (target: `infrastructure/monitoring/legacy-hermes/`)
+   — the infra stack (Prometheus scrapes the API's 40+
    prom-client metrics + gateway health + host metrics; Grafana auto-provisions
    the "Ultra-AI Overview" dashboard; Alertmanager routes alerts).
 2. **In-app Hermes UI** (`apps/web/app/hermes`) — a native monitoring page inside
