@@ -163,3 +163,6 @@ external/
 # Devin local MCP config (may contain secrets)
 .devin/mcp_config.local.json
 .devin/config.local.json
+
+# Local release bundles (not for VCS)
+release-assets/
