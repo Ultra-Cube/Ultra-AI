@@ -1,0 +1,114 @@
+path,bytes,headings,mermaid_blocks,sha256_16,target_type,class,instruction
+.github/copilot-instructions.md,3537,11,1,55ef0fbae54bb5a7,memory,conventions-STALE,"Says ""no code yet""; extract only still-valid conventions; flag rest as obsolete"
+BUILD_PLAN.md,10008,18,0,28088f8fa0568e5a,memory,product-STALE-RISK,Contains over-claims; extract with status flags
+CODE_OF_CONDUCT.md,3021,7,0,1bbd2279af6bf801,review,unclassified,Agent must read and classify
+CONTRIBUTING.md,6436,40,0,7cb9249e4a6b5f64,review,unclassified,Agent must read and classify
+FINAL-PROJECT-SUMMARY.md,11252,65,0,83be653a0f68f340,memory,history,Timeline entry only; keep file untouched; record contradiction ledger entries
+FINAL-SUMMARY.md,10507,38,0,ad423b71b17c9c50,memory,history,Timeline entry only; keep file untouched; record contradiction ledger entries
+PRODUCTION-RELEASE.md,9205,47,0,70560ae6cc771238,review,unclassified,Agent must read and classify
+PROJECT-CATALOG.md,14555,53,0,84ba51b619b788d1,memory,product-STALE-RISK,Contains over-claims; extract with status flags
+PROJECT_STRUCTURE.md,8913,28,0,c05ede14f55b9963,memory+diagram+adr,normative-architecture,Extract facts with provenance; extract every mermaid block to diagram registry; write ADR per decision; mark aspirational vs implemented
+QUICK-START.md,4735,47,0,5a661254704d93fa,memory,product-STALE-RISK,Contains over-claims; extract with status flags
+README-template.md,12436,78,0,60f4230bfdc61188,review,unclassified,Agent must read and classify
+README.md,21702,81,10,8380bb1486cc3e45,memory,product-STALE-RISK,Contains over-claims; extract with status flags
+TASKS-CHECKLIST.md,3505,23,0,20a55b05bc6c76ad,memory,history,Timeline entry only; keep file untouched; record contradiction ledger entries
+USER-GUIDE.md,14295,106,0,03e22851c74b7104,memory,product-STALE-RISK,Contains over-claims; extract with status flags
+config/brain/README.md,3337,6,0,832aa8eadf8829e7,memory+skill,brain-config,Brain/provider config knowledge
+docs/AGENT_STUDIO_ARCHITECTURE.md,35929,67,0,14295110c51854fa,memory+diagram+adr,normative-architecture,Extract facts with provenance; extract every mermaid block to diagram registry; write ADR per decision; mark aspirational vs implemented
+docs/API_DOCUMENTATION.md,10239,29,0,3f71bf1c0814fc9f,review,unclassified,Agent must read and classify
+docs/API_ENDPOINT_TESTING_GUIDE.md,17189,59,0,38b748882cc3b191,review,unclassified,Agent must read and classify
+docs/COMPLETION_REPORT.md,14974,76,0,e155e0560a6d9900,memory,history,Timeline entry only; keep file untouched; record contradiction ledger entries
+docs/CONSOLIDATED_ENGINEERING_SPEC.md,17078,19,0,e54d5219a84a1f17,memory+diagram+adr,normative-architecture,Extract facts with provenance; extract every mermaid block to diagram registry; write ADR per decision; mark aspirational vs implemented
+docs/DEPLOYMENT_DEVOPS_STRATEGY.md,32258,62,2,2f797f916efd8564,review,unclassified,Agent must read and classify
+docs/DEPLOYMENT_SCRIPTS.md,8424,57,0,a2e6756f9a5ff5a3,review,unclassified,Agent must read and classify
+docs/DOCKER_SETUP.md,8665,72,0,bab3cef34534e240,review,unclassified,Agent must read and classify
+docs/DOCUMENTATION_INDEX.md,13465,66,0,2e840540694b4651,review,unclassified,Agent must read and classify
+docs/FEATURES_IMPLEMENTED.md,13417,58,0,3ff72b4832cf836d,review,unclassified,Agent must read and classify
+docs/IMPLEMENTATION_READINESS.md,14153,55,6,d6245431df89d66b,review,unclassified,Agent must read and classify
+docs/IMPLEMENTATION_SUMMARY.md,20776,45,0,1b3a8e8c5224ee32,memory,history,Timeline entry only; keep file untouched; record contradiction ledger entries
+docs/INTEGRATION_VERIFICATION_REPORT.md,11447,71,0,e643ea1c2621ef70,memory,history,Timeline entry only; keep file untouched; record contradiction ledger entries
+docs/LEGAL_COMPLIANCE_FRAMEWORK.md,14298,52,3,1ef87fae5fc78445,memory+skill,policy,Facts to policy memory; checklist to security/compliance skill
+docs/MASTER_ARCHITECTURE.md,10636,14,1,399c50c06bb27e8e,memory+diagram+adr,normative-architecture,Extract facts with provenance; extract every mermaid block to diagram registry; write ADR per decision; mark aspirational vs implemented
+docs/PERFORMANCE_MONITORING_STRATEGY.md,20042,33,3,4eac5b918069ca11,review,unclassified,Agent must read and classify
+docs/PHASE10_MULTI_TENANCY_GUIDE.md,15456,54,0,10c0d03d8b40fc0a,review,unclassified,Agent must read and classify
+docs/PHASE11_ANALYTICS_DASHBOARD_GUIDE.md,14936,56,0,790eb64f4bb70c94,review,unclassified,Agent must read and classify
+docs/PHASE6_PROGRESS_REPORT.md,7820,43,0,f83699358c77ef32,memory,history,Timeline entry only; keep file untouched; record contradiction ledger entries
+docs/PHASE8_MONITORING_REPORT.md,9235,37,0,66a6fdf8d7170990,memory,history,Timeline entry only; keep file untouched; record contradiction ledger entries
+docs/PHASE9_CACHING_REPORT.md,7916,42,0,6845b6691f763f93,memory,history,Timeline entry only; keep file untouched; record contradiction ledger entries
+docs/PHASES_6_9_SUMMARY.md,9056,61,0,60d2e678a75d8c90,memory,history,Timeline entry only; keep file untouched; record contradiction ledger entries
+docs/POC_VALIDATION_STRATEGY.md,34041,47,3,5f9fe58d3be8e814,review,unclassified,Agent must read and classify
+docs/PRODUCTION_DEPLOYMENT.md,11253,59,0,01a9088a7f4751c4,review,unclassified,Agent must read and classify
+docs/PROJECT_ENHANCEMENT_SUMMARY.md,9477,33,0,f97f3cf7f6862a62,memory,history,Timeline entry only; keep file untouched; record contradiction ledger entries
+docs/PROJECT_GOVERNANCE_FRAMEWORK.md,18746,44,6,5bd8441d63b329a5,memory,aspirational-business,Store as flagged context (status=aspirational); never treat as engineering input
+docs/README.md,1210,7,0,e2c2c22592569b6e,memory,product-STALE-RISK,Contains over-claims; extract with status flags
+docs/RESOURCE_ACQUISITION_STRATEGY.md,15705,58,4,095200746ca00427,memory,aspirational-business,Store as flagged context (status=aspirational); never treat as engineering input
+docs/ROADMAP_NEXT_PHASES.md,13036,77,0,c071f0c1801f8b6d,memory,history,Timeline entry only; keep file untouched; record contradiction ledger entries
+docs/SESSION_COMPLETION_SUMMARY.md,6439,30,0,d317d6af23e9f7d0,memory,history,Timeline entry only; keep file untouched; record contradiction ledger entries
+docs/SESSION_EXECUTION_SUMMARY.md,13671,62,0,cce37620d8fb0ecf,memory,history,Timeline entry only; keep file untouched; record contradiction ledger entries
+docs/TEST_RESULTS_REPORT.md,13560,42,0,ffce42e38616a756,memory,history,Timeline entry only; keep file untouched; record contradiction ledger entries
+docs/UPSTREAM_INTEGRATION_INVENTORY.md,4808,6,0,379393eb64bbe55c,review,unclassified,Agent must read and classify
+docs/architecture/ai-os-blueprint.md,2148,7,0,e3101b2372b433e8,memory+diagram+adr,normative-architecture,Extract facts with provenance; extract every mermaid block to diagram registry; write ADR per decision; mark aspirational vs implemented
+docs/architecture/distributed-processing.md,16281,27,6,05a080b6603112c6,memory+diagram+adr,normative-architecture,Extract facts with provenance; extract every mermaid block to diagram registry; write ADR per decision; mark aspirational vs implemented
+docs/architecture/system-architecture.md,15439,28,5,5967c8de487bbb7d,memory+diagram+adr,normative-architecture,Extract facts with provenance; extract every mermaid block to diagram registry; write ADR per decision; mark aspirational vs implemented
+docs/architecture/zero-ai-integration.md,3103,7,1,f327ed061bcc67ca,memory+diagram+adr,normative-architecture,Extract facts with provenance; extract every mermaid block to diagram registry; write ADR per decision; mark aspirational vs implemented
+docs/business/business-model.md,11441,45,6,f3450f6ee155aee9,memory,aspirational-business,Store as flagged context (status=aspirational); never treat as engineering input
+docs/business/competitive-analysis.md,7531,29,2,9e5026ca15258dc3,memory,aspirational-business,Store as flagged context (status=aspirational); never treat as engineering input
+docs/business/go-to-market.md,14612,50,9,8f61ca310de6bf9c,memory,aspirational-business,Store as flagged context (status=aspirational); never treat as engineering input
+docs/business/market-analysis.md,8874,53,6,ac62363797531e09,memory,aspirational-business,Store as flagged context (status=aspirational); never treat as engineering input
+docs/operations/DOCKER_BUILD_VERIFICATION.md,8648,95,0,be1472e002962f8f,review,unclassified,Agent must read and classify
+docs/operations/DOCKER_CHEATSHEET.md,9432,157,0,18135045ea46c30d,review,unclassified,Agent must read and classify
+docs/operations/K8S_COMMANDS_REFERENCE.md,16428,218,0,80236b968ea130cf,review,unclassified,Agent must read and classify
+docs/operations/LOCAL_RUN_GUIDE.md,1535,6,0,1818b1d3c87858a7,review,unclassified,Agent must read and classify
+docs/operations/PHASE_19_K8S_GUIDE.md,13399,68,0,356bdf2881d76b48,review,unclassified,Agent must read and classify
+docs/phases/PHASE_18_CHECKLIST.md,11591,46,0,0a36af030958820d,memory,history,Timeline entry only; keep file untouched; record contradiction ledger entries
+docs/phases/PHASE_18_COMPLETION_REPORT.md,19290,90,0,bbf5c4f59b7ce235,memory,history,Timeline entry only; keep file untouched; record contradiction ledger entries
+docs/phases/PHASE_18_DELIVERABLES.md,11194,60,0,ca2259290167c3ee,memory,history,Timeline entry only; keep file untouched; record contradiction ledger entries
+docs/phases/PHASE_18_DELIVERY.md,7688,33,0,72a99fa660c1cb4b,memory,history,Timeline entry only; keep file untouched; record contradiction ledger entries
+docs/phases/PHASE_19_COMPLETION.md,11161,63,0,959f8b59bf66330a,memory,history,Timeline entry only; keep file untouched; record contradiction ledger entries
+docs/phases/PHASE_19_DELIVERY.md,11597,79,0,603d70cdfd9a748b,memory,history,Timeline entry only; keep file untouched; record contradiction ledger entries
+docs/planning/COMPLETION_STATUS.md,12515,39,0,42ad9c9514fe497b,memory,history,Timeline entry only; keep file untouched; record contradiction ledger entries
+docs/planning/CRITICAL_ISSUES.md,19345,41,0,38b2cac35f038e4d,memory,history,Timeline entry only; keep file untouched; record contradiction ledger entries
+docs/planning/DEPLOYMENT_TIMELINE.md,11496,28,0,30a325646c598ce4,memory,history,Timeline entry only; keep file untouched; record contradiction ledger entries
+docs/planning/DEVELOPMENT_ROADMAP.md,28444,105,2,e5e21ca921e1d02b,memory,history,Timeline entry only; keep file untouched; record contradiction ledger entries
+docs/planning/PROJECT_STATUS_REPORT.md,12225,47,0,ce7e4e49bc64ce90,memory,history,Timeline entry only; keep file untouched; record contradiction ledger entries
+docs/planning/REMAINING_TASKS.md,23603,30,0,1ffc7ab5529f23d0,memory,history,Timeline entry only; keep file untouched; record contradiction ledger entries
+docs/reference/PROJECT_DOCUMENTATION_INDEX.md,987,4,0,471d745e57870dad,review,unclassified,Agent must read and classify
+docs/reports/SESSION_COMPLETION_FINAL_SUMMARY.md,14245,70,0,65ed06442ae7d763,memory,history,Timeline entry only; keep file untouched; record contradiction ledger entries
+docs/reports/SESSION_EXTENDED_COMPLETION_REPORT.md,13180,75,0,74dd71fad1489ac2,memory,history,Timeline entry only; keep file untouched; record contradiction ledger entries
+docs/reports/SESSION_REPORT_PHASE_18.md,14183,64,0,f7af400256fcd308,memory,history,Timeline entry only; keep file untouched; record contradiction ledger entries
+docs/security/security-framework.md,19147,48,8,fc0fd04a612926b4,memory+skill,policy,Facts to policy memory; checklist to security/compliance skill
+docs/ui/zeroai-ui-spec.md,2930,11,1,f5a31c98e7d4d42c,review,unclassified,Agent must read and classify
+docs/ux-design/user-journeys.md,13862,43,13,9eae58beefe98324,memory+skill,ux,Personas/journeys to UX memory; adaptive-UI skill inputs
+docs/ux-design/user-personas.md,12074,32,8,4b23dd04171d40c1,memory+skill,ux,Personas/journeys to UX memory; adaptive-UI skill inputs
+external-integrations/ADDITIONAL-REPOS-INTEGRATION.md,2871,14,0,5d9fd82fd4779a41,memory,integrations,Inventory of upstreams + licenses; link to licensing matrix
+external-integrations/FADHEL-SH-COMPLETE-ANALYSIS.md,26404,22,0,9000bff6d9ac3e2c,memory,history,Timeline entry only; keep file untouched; record contradiction ledger entries
+external-integrations/FADHEL-SH-COMPLETE-LIST.md,7473,14,0,da2b87eb397a91dd,memory,history,Timeline entry only; keep file untouched; record contradiction ledger entries
+external-integrations/FADHEL-SH-REPOSITORIES.md,4337,17,0,1a53ae6143597a7b,memory,integrations,Inventory of upstreams + licenses; link to licensing matrix
+external-integrations/INTEGRATION_PLAN.md,6715,12,0,f4093b005ff5b02f,memory,integrations,Inventory of upstreams + licenses; link to licensing matrix
+external-integrations/README.md,1782,9,0,08d1d1ffb431569d,memory,integrations,Inventory of upstreams + licenses; link to licensing matrix
+monitoring/hermes/README.md,2727,7,0,31e6a44246556dcf,skill,ops-runbook,Runbook to ops skill
+packages/ai-core/README.md,607,8,0,468db1457d5e0831,memory,code-docs,Package README facts; verify against code
+packages/api/src/rbac/README.md,9076,38,0,38f27c2a8d02719a,memory,code-docs,Package README facts; verify against code
+packages/api/src/services/agents/REGISTRY_SUMMARY.md,5246,22,0,c8fd65bd12d9218f,memory,history,Timeline entry only; keep file untouched; record contradiction ledger entries
+packages/api/src/services/caching/README.md,9472,41,0,4cbadbfb9e245ec0,memory,code-docs,Package README facts; verify against code
+packages/api/src/services/monitoring/README.md,9112,44,0,805822164e22ffbf,memory,code-docs,Package README facts; verify against code
+packages/distributed/README.md,513,4,0,26d161c70f077930,memory,code-docs,Package README facts; verify against code
+services/mock-adapters/README.md,1700,7,0,1ac01b0bb89b6f65,memory,code-docs,Package README facts; verify against code
+skills/devops/architecture-review/SKILL.md,23885,21,0,3f270caf659d36a9,skill,import-as-is,"Existing skill; validate frontmatter against agentskills.io, add to skills/ catalog"
+skills/devops/kanban-orchestrator/SKILL.md,15690,18,0,cbe77749a6017738,skill,import-as-is,"Existing skill; validate frontmatter against agentskills.io, add to skills/ catalog"
+skills/devops/kanban-worker/SKILL.md,18305,20,0,c58440841f945419,skill,import-as-is,"Existing skill; validate frontmatter against agentskills.io, add to skills/ catalog"
+wsl-ai-stack/AIRLLM.md,1896,8,1,82dc4906f081f401,memory+skill,zeroai-edge,Edge-stack facts to memory; runbooks to zeroai-ops skill
+wsl-ai-stack/FLOW.md,1738,7,2,e9d85fa44dda3581,memory+skill,zeroai-edge,Edge-stack facts to memory; runbooks to zeroai-ops skill
+wsl-ai-stack/MODELS.md,1317,5,0,e3be8599435de8ce,memory+skill,zeroai-edge,Edge-stack facts to memory; runbooks to zeroai-ops skill
+wsl-ai-stack/PLAN.md,3366,11,2,6427f80f9dfd477c,memory+skill,zeroai-edge,Edge-stack facts to memory; runbooks to zeroai-ops skill
+wsl-ai-stack/README.md,2976,8,1,06a0c6be7d8a8e82,memory+skill,zeroai-edge,Edge-stack facts to memory; runbooks to zeroai-ops skill
+wsl-ai-stack/VOICE.md,1368,7,1,82ec180d3f3d681f,memory+skill,zeroai-edge,Edge-stack facts to memory; runbooks to zeroai-ops skill
+wsl-ai-stack/ZeroAI/AGENT_LAYER.md,856,4,0,0b0ce4fc2fe55a39,memory+skill,zeroai-edge,Edge-stack facts to memory; runbooks to zeroai-ops skill
+wsl-ai-stack/ZeroAI/ARCHITECTURE.md,3463,15,1,62fcbcf642d6710c,memory+skill,zeroai-edge,Edge-stack facts to memory; runbooks to zeroai-ops skill
+wsl-ai-stack/ZeroAI/FLOW.md,1083,4,1,21f6760e3bbee369,memory+skill,zeroai-edge,Edge-stack facts to memory; runbooks to zeroai-ops skill
+wsl-ai-stack/ZeroAI/MEMORY_DESIGN.md,887,8,0,b195e8b92df3a4e9,memory+skill,zeroai-edge,Edge-stack facts to memory; runbooks to zeroai-ops skill
+wsl-ai-stack/ZeroAI/MODEL_STACK.md,447,4,0,6a37b5450e40b76d,memory+skill,zeroai-edge,Edge-stack facts to memory; runbooks to zeroai-ops skill
+wsl-ai-stack/ZeroAI/OPEN_SOURCE_OPTIONS.md,800,7,0,d5c2bae2bd94972b,memory+skill,zeroai-edge,Edge-stack facts to memory; runbooks to zeroai-ops skill
+wsl-ai-stack/ZeroAI/README.md,1721,6,1,08140c1fdacadbf0,memory+skill,zeroai-edge,Edge-stack facts to memory; runbooks to zeroai-ops skill
+wsl-ai-stack/ZeroAI/ROADMAP.md,707,5,0,ac206d85735ec97c,memory,history,Timeline entry only; keep file untouched; record contradiction ledger entries
+wsl-ai-stack/ZeroAI/UI_DESIGN.md,1692,6,1,44eba49c056edf72,memory+skill,zeroai-edge,Edge-stack facts to memory; runbooks to zeroai-ops skill
