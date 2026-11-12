@@ -1,0 +1,269 @@
+openapi: 3.1.0
+info:
+  title: Ultra AI — Gate-OS Integration Contract
+  version: 1.0.0-draft
+  description: >
+    Stable contract allowing Gate-OS to adopt Ultra AI as its AI core.
+    Ultra AI remains a separate process behind a network boundary; nothing
+    is built inside Gate-OS. Contract-first: Gate-OS maintainers confirm
+    endpoint shapes before implementation locks.
+  contact:
+    name: Ultra-Cube
+    url: https://github.com/Ultra-Cube/Gate-OS
+servers:
+  - url: http://127.0.0.1:9300
+    description: Local socket (default; loopback only in readiness phase)
+tags:
+  - name: meta
+  - name: environments
+  - name: intents
+  - name: events
+paths:
+  /v1/health:
+    get:
+      tags: [meta]
+      summary: Liveness/readiness probe
+      responses:
+        '200':
+          description: Service is up
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Health' }
+  /v1/capabilities:
+    get:
+      tags: [meta]
+      summary: What this Ultra AI instance supports
+      responses:
+        '200':
+          description: Capability discovery document
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Capabilities' }
+  /v1/environments:
+    get:
+      tags: [environments]
+      summary: List switchable environment presets
+      responses:
+        '200':
+          description: Known environments and their AI profiles
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/EnvironmentList' }
+  /v1/environments/{env}/profile:
+    parameters:
+      - name: env
+        in: path
+        required: true
+        schema: { $ref: '#/components/schemas/EnvironmentId' }
+    put:
+      tags: [environments]
+      summary: Set AI profile for an environment (models, engines on/off, budgets)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/EnvironmentProfile' }
+      responses:
+        '200':
+          description: Profile applied
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/EnvironmentProfile' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '422': { $ref: '#/components/responses/Unprocessable' }
+  /v1/ui-spec/{env}:
+    get:
+      tags: [environments]
+      parameters:
+        - name: env
+          in: path
+          required: true
+          schema: { $ref: '#/components/schemas/EnvironmentId' }
+      summary: Adaptive UI spec for the Gate-OS shell to render
+      responses:
+        '200':
+          description: UI spec for the requested environment
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/UiSpec' }
+        '404': { $ref: '#/components/responses/NotFound' }
+  /v1/intents:
+    post:
+      tags: [intents]
+      summary: Natural-language intent → adaptive UI spec / actions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/IntentRequest' }
+      responses:
+        '200':
+          description: Classified intent with suggested actions
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/IntentResponse' }
+        '422': { $ref: '#/components/responses/Unprocessable' }
+  /v1/events:
+    post:
+      tags: [events]
+      summary: Orchestrator → AI events (environment switched, resource pressure)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/PlatformEvent' }
+      responses:
+        '202':
+          description: Event accepted into the outbox
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/EventAck' }
+        '422': { $ref: '#/components/responses/Unprocessable' }
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: >
+        Optional shared-secret bearer token (GATE_OS_BRIDGE_TOKEN). When
+        configured, all /v1/* endpoints except /v1/health require it.
+  schemas:
+    EnvironmentId:
+      type: string
+      enum: [everyday, gaming, dev, design, media, security, business]
+    Health:
+      type: object
+      required: [status, contractVersion, uptimeSeconds]
+      properties:
+        status: { type: string, enum: [ok] }
+        contractVersion: { type: string, example: '1.0.0-draft' }
+        uptimeSeconds: { type: number }
+    Capabilities:
+      type: object
+      required: [contractVersion, environments, providers, engines, skills, features]
+      properties:
+        contractVersion: { type: string }
+        environments: { type: array, items: { $ref: '#/components/schemas/EnvironmentId' } }
+        providers: { type: array, items: { type: string } }
+        engines: { type: array, items: { type: string } }
+        skills: { type: array, items: { type: string } }
+        features:
+          type: object
+          additionalProperties: { type: boolean }
+    EnvironmentList:
+      type: object
+      required: [environments]
+      properties:
+        environments:
+          type: array
+          items:
+            type: object
+            required: [id, label, aiProfile, enginesOn, resourceNote]
+            properties:
+              id: { $ref: '#/components/schemas/EnvironmentId' }
+              label: { type: string }
+              aiProfile: { type: string }
+              enginesOn: { type: array, items: { type: string } }
+              resourceNote: { type: string }
+    EnvironmentProfile:
+      type: object
+      required: [env]
+      properties:
+        env: { $ref: '#/components/schemas/EnvironmentId' }
+        models: { type: object, additionalProperties: { type: string } }
+        engines: { type: object, additionalProperties: { type: boolean } }
+        budgets:
+          type: object
+          properties:
+            maxConcurrentTasks: { type: integer, minimum: 1 }
+            offlineOnly: { type: boolean }
+        updatedAt: { type: string, format: date-time }
+    UiSpec:
+      type: object
+      required: [env, specVersion, panels, assistant]
+      properties:
+        env: { $ref: '#/components/schemas/EnvironmentId' }
+        specVersion: { type: string }
+        panels:
+          type: array
+          items:
+            type: object
+            required: [id, kind]
+            properties:
+              id: { type: string }
+              kind: { type: string, enum: [assistant, search, dashboard, editor, monitor, media, security, automation] }
+              visible: { type: boolean, default: true }
+        assistant:
+          type: object
+          required: [enabled]
+          properties:
+            enabled: { type: boolean }
+            mode: { type: string, enum: [inline, overlay, hidden], default: inline }
+        resourceHints:
+          type: object
+          additionalProperties: { type: string }
+    IntentRequest:
+      type: object
+      required: [text]
+      properties:
+        text: { type: string, minLength: 1, maxLength: 4000 }
+        env: { $ref: '#/components/schemas/EnvironmentId' }
+    IntentResponse:
+      type: object
+      required: [intent, confidence, suggestedEnvironment, actions]
+      properties:
+        intent: { type: string }
+        confidence: { type: number, minimum: 0, maximum: 1 }
+        suggestedEnvironment: { $ref: '#/components/schemas/EnvironmentId' }
+        actions:
+          type: array
+          items:
+            type: object
+            required: [type, label]
+            properties:
+              type: { type: string }
+              label: { type: string }
+              payload: { type: object }
+    PlatformEvent:
+      type: object
+      required: [type, ts]
+      properties:
+        type:
+          type: string
+          enum:
+            - environment.switched
+            - resource.pressure
+            - user.preference.changed
+            - notification.request
+        env: { $ref: '#/components/schemas/EnvironmentId' }
+        ts: { type: string, format: date-time }
+        payload: { type: object }
+        idempotencyKey: { type: string }
+    EventAck:
+      type: object
+      required: [id, accepted]
+      properties:
+        id: { type: string }
+        accepted: { type: boolean }
+  responses:
+    NotFound:
+      description: Unknown environment or resource
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [error]
+            properties:
+              error: { type: string }
+              code: { type: string, enum: [NOT_FOUND] }
+    Unprocessable:
+      description: Request failed contract validation
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [error]
+            properties:
+              error: { type: string }
+              details: { type: array, items: { type: string } }
+              code: { type: string, enum: [VALIDATION_ERROR] }

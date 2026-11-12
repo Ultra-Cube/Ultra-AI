@@ -41,7 +41,7 @@ Ultra-AI/
 |---|---|
 | `frontend/` | apps/web → Next.js web app (@ultra-ai/web) |
 | `api/gateway/` | @ultra-ai/api-gateway |
-| `api/contracts/` | Gate-OS /v1 contract (empty placeholder; WP-11) |
+| `api/contracts/` | Gate-OS /v1 contract — openapi.yaml + README (S4-P3 done; WP-11 note superseded) |
 | `backend/core-api/` | @ultra-ai/api |
 | `backend/ai-core/` | @ultra-ai/ai-core |
 | `backend/distributed/` | PARKED device-mesh |

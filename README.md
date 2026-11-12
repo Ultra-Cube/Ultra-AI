@@ -301,7 +301,7 @@ brain-stack/
 | **WP-2 — monitoring/sentinel** | ✅ Done | `infrastructure/monitoring/stack/sentinel/` — zero-dep Node watchdog: HTTP+TCP target polling, UP/DEGRADED/DOWN state machine, `/status`+`/health` on :9200, Alertmanager-compatible webhook alerts |
 | **WP-2b — monitoring expansion** | ✅ Done | `stack/hermes/` compose stack (Prometheus+Grafana+Alertmanager, relocated from legacy-hermes), sentinel `/metrics` endpoint, monitoring dirs populated under `infrastructure/monitoring/` |
 | **S4-P1 — platform core** | ✅ Done | `platform/backend/hermes-runtime` (`@ultra-ai/hermes-runtime`): HermesRuntime with sessions/tasks, adapter contracts (`EngineAdapter`, `ProviderAdapter`, `ToolAdapter`), `InMemoryMemoryStore`, `SkillRegistry`, `ReActReasoner` + `ReasonerEngineAdapter`, runtime events, mock provider; 4/4 tests, ESM+CJS build green |
-| **S4 — Phased build** | 🔄 In progress | P1 platform core ✅ → P2 desktop → P3 Gate-OS readiness → P4 Ultra Core bridge |
+| **S4 — Phased build** | 🔄 In progress | P1 platform core ✅ → P2 desktop ✅ → P3 Gate-OS readiness ✅ → P4 Ultra Core bridge ⏳ |
 
 **Upcoming / deferred (planned, not yet built):**
 - Monitoring expansion: Grafana dashboards, Prometheus alert rules, health-check collectors, log aggregation under `infrastructure/monitoring/` (sentinel core done in WP-2)
