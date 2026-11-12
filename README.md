@@ -175,6 +175,120 @@ sequenceDiagram
 | **Storage** | PostgreSQL, MongoDB, Redis, S3 |
 | **Deployment** | Docker, Kubernetes, AWS, GitHub Actions |
 
+## 🗂️ Repository Layout (post-migration, WP-0/WP-0b)
+
+The repository was reorganized into seven top-level trees. The canonical machine-readable map lives in [`docs/planning/layout-map.yaml`](docs/planning/layout-map.yaml) and the agent-facing project map in [`brain-stack/memory/ops/project-map.md`](brain-stack/memory/ops/project-map.md).
+
+```text
+Ultra-AI/
+├── brain-stack/            # The "mind" of the project: AI memory, skills, agents, plugins
+│   ├── memory/             # Persistent AI memory (planning facts, decisions, diagrams, ops status)
+│   ├── skills/             # Project skills: ultra-ai-v2/ (33 packs) + legacy/devops
+│   ├── agents/             # A00–A15 agent definitions (orchestrator → docs/i18n)
+│   ├── commands/           # Slash commands: ultra-gate, ultra-release, ultra-status, ultra-verify
+│   ├── hooks/              # hooks.json — lifecycle hook configuration
+│   ├── mcp/                # MCP server registry for the agent stack
+│   ├── rules/              # Project-level agent rules
+│   ├── prompts/            # Master build prompts (ultra-ai-build-prompt, ultra-ai-master-build)
+│   ├── workflows/          # Agent workflow definitions (incl. ULTRA_AI_TODO.md tracking)
+│   ├── models/             # Model registry / policy placeholders
+│   └── plugin/ultra-ai-builder/  # Plugin manifest + runtime-neutral AGENTS.md/README
+├── platform/               # The product monorepo (npm workspaces + Turborepo)
+│   ├── frontend/           # Main web app (React/Next.js)
+│   ├── api/                # API gateway & marketplace services (+ api/contracts stubs)
+│   ├── backend/            # Core backend services & AI engine
+│   ├── apps/               # Secondary applications (e.g. mobile)
+│   ├── devtools/           # Developer tools & portal
+│   ├── services/           # Business-logic microservices
+│   ├── shared/             # Shared packages/utilities
+│   ├── database/           # Database schemas & configurations (placeholder; prisma still under backend)
+│   ├── testing/            # Testing infrastructure (e2e, integration, performance)
+│   └── enterprise/         # Enterprise tier: dashboard, multi-tenant, white-label, expansion
+├── control/                # Governance, ops & delivery control plane
+│   ├── config/             # docker/, env/, monitoring/, security/, database/, nginx/
+│   ├── policies/           # dao-governance/, access-control/, token-policies/, voting-mechanisms/
+│   ├── compliance/         # kyc-aml/, audit-trails/, regulatory-reports/, risk-assessment/
+│   ├── templates/          # terraform/, cloudformation/, kubernetes/, helm-charts/
+│   ├── workflows/          # github-actions/, deployment-pipelines/, testing-workflows/, security-scans/
+│   └── operations/         # incident-response/, maintenance-procedures/, backup-strategies/, disaster-recovery/
+├── environments/           # Per-environment configuration & lifecycle
+│   ├── manage-environment.sh
+│   ├── development/  staging/  production/  testing/
+│   └── (each: configs/, scripts|deployment/, tools|logs|monitoring|backups)
+├── distribution/           # Release & brand distribution
+│   └── assets/
+│       ├── branding/       # Full brand system: logos, colors, fonts, templates, social, patterns, icons
+│       └── releases/       # Release artifacts
+├── infrastructure/         # Ops & observability infrastructure
+│   ├── automation/         # Ops scripts & tools (incl. preservation.sh, gen-moves.mjs)
+│   ├── docker/             # Container definitions
+│   ├── terraform/          # IaC environments
+│   ├── Test/               # Test environment: master-test.js, test.config.js, unit/integration/e2e/performance/security/blockchain suites, reports/, alerts/
+│   └── monitoring/         # dashboards/ (grafana, kibana, custom), metrics/, health-checks/, alerts/, logs/, stack/
+├── docs/                   # All documentation (incl. docs/v2 planning specs, docs/planning/layout-map.yaml)
+└── external/               # Imported third-party material (mdskills catalog, github-forks reference)
+```
+
+### Section functions
+
+| Section | Function |
+|---------|----------|
+| `brain-stack/` | The project's AI "mind": persistent memory, skill packs, agent roster, commands, hooks, MCP config, prompts, workflows. This is where agent-facing knowledge lives — start at `memory/ops/project-map.md`. |
+| `platform/` | The shippable product: all TypeScript workspaces (frontend, api, backend, services, shared, apps, devtools) plus database/testing/enterprise extension points. |
+| `control/` | Governance & operations: configs, policies (incl. deferred token/DAO areas), compliance, IaC templates, CI/CD workflows, incident & DR procedures. |
+| `environments/` | Environment lifecycle: development/staging/production/testing configs, scripts, and the `manage-environment.sh` entry point. |
+| `distribution/` | What ships to users: brand assets under `assets/branding/` and release artifacts under `assets/releases/`. |
+| `infrastructure/` | Operations plane: automation scripts, docker, terraform, the `Test/` harness, and the `monitoring/` observability tree. |
+| `docs/` | Human documentation: architecture, planning, v2 specs, reports. |
+| `external/` | Reference-only imports (skill catalogs, forked repos); not part of the build. |
+
+### brain-stack in detail — memory, skills & agents
+
+`brain-stack/` is the canonical home for everything agent-related in this repository. It consolidates what was previously scattered (and what used to live inside `plugin/ultra-ai-builder/`).
+
+```text
+brain-stack/
+├── memory/
+│   ├── planning/     # Long-term planning memory: facts/, decisions/ (ADRs + ledger),
+│   │                 #   notes/, glossary.md, timeline.md, coverage.md, contradictions.md,
+│   │                 #   sources.jsonl, headings-digest.txt
+│   ├── diagrams/     # 116 Mermaid diagrams + graphs/registry.json
+│   └── ops/          # Operational memory: README.md, status.md, project-map.md (live repo map)
+├── skills/
+│   ├── ultra-ai-v2/  # 33 project skill packs (adaptive-ui-spec, contract-first-api,
+│   │                 #   engine-adapter, gate-os-contract, hermes-integration, memory-bank,
+│   │                 #   model-foundry, plugin-packaging, preservation-guard, ...)
+│   └── legacy/       # Legacy devops skills retained for reference
+├── agents/           # A00 orchestrator … A15 docs-i18n (16 role definitions)
+├── commands/         # ultra-gate / ultra-release / ultra-status / ultra-verify
+├── hooks/hooks.json  # Agent lifecycle hooks
+├── mcp/mcp.json      # MCP server wiring for the agent stack
+├── rules/            # Project agent rules
+├── prompts/          # Master prompts that drive the build
+├── workflows/        # Workflow defs + ULTRA_AI_TODO.md (agent task tracking)
+├── models/           # Model registry placeholders
+└── plugin/ultra-ai-builder/  # Plugin-facing manifest only (plugin.json + AGENTS.md + README)
+```
+
+| brain-stack folder | Contents | Docs / key files |
+|--------------------|----------|------------------|
+| `memory/planning/` | Facts, ADRs, decisions ledger, coverage, glossary, timeline | `facts/architecture-master.md`, `decisions/ADR-0001-runtime-hybrid.md`, `decisions/ledger.md` |
+| `memory/diagrams/` | Mermaid diagram corpus + registry | `graphs/registry.json` |
+| `memory/ops/` | Live operational memory & repo map | `README.md`, `status.md`, `project-map.md` |
+| `skills/ultra-ai-v2/` | 33 project skill packs | each `<skill>/SKILL.md` |
+| `skills/legacy/` | Legacy devops skills | `devops/` packs |
+| `agents/` | A00–A15 agent personas | `a00-orchestrator.md` … `a15-docs-i18n.md` |
+| `commands/` | Operator slash commands | `ultra-gate.md`, `ultra-release.md`, `ultra-status.md`, `ultra-verify.md` |
+| `hooks/` | Lifecycle hook config | `hooks.json` |
+| `mcp/` | MCP server registry | `mcp.json`, `README.md` |
+| `rules/` | Agent rules | `README.md` |
+| `prompts/` | Master build prompts | `ultra-ai-build-prompt.md`, `ultra-ai-master-build.md` |
+| `workflows/` | Workflow definitions & task tracking | `ULTRA_AI_TODO.md` |
+| `models/` | Model registry placeholders | — |
+| `plugin/ultra-ai-builder/` | Plugin manifest surface | `plugin.json` (via AGENTS.md/README) |
+
+> **Note:** `.devin/skills/` (~2,269 imported skill packs) and `.devin/agents/` are the *tooling* skill library used by the Devin/Cursor harness; `brain-stack/skills/` holds the *project-domain* skills authored for Ultra-AI itself. Both coexist by design.
+
 ## 🚀 Getting Started
 
 ### Prerequisites
