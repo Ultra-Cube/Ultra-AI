@@ -8,7 +8,7 @@
 [![Documentation](https://img.shields.io/badge/Docs-Comprehensive-blue)](docs/README.md)
 [![Security](https://img.shields.io/badge/Security-Built--in-red)](docs/security/security-framework.md)
 
-> **v2 planning status:** the current authoritative build specification is [`ULTRA_AI_BUILD_PROMPT.md`](ULTRA_AI_BUILD_PROMPT.md) (adopted 2026-11-11). The pre-experimental planning release `v0.2.0-planning` (tag + branch) is published on the remote; baseline tag `baseline/pre-planning-20261111` preserves the pre-planning tree. Agent-facing tracking: [`ULTRA_AI_TODO.md`](ULTRA_AI_TODO.md).
+> **v2 planning status:** the current authoritative build specification is [`ULTRA_AI_BUILD_PROMPT.md`](ULTRA_AI_BUILD_PROMPT.md) (adopted 2026-11-11). The repo has been physically reorganized into the seven-tree layout (`brain-stack/`, `platform/`, `control/`, `environments/`, `distribution/`, `infrastructure/`, `docs/`) under `layout-map.yaml`. Latest planning release: `v0.3.0-planning` (2026-11-12, post-migration); prior `v0.2.0-planning` covered the planning corpus + skills. Baseline tag `baseline/pre-planning-20261111` preserves the pre-planning tree. Agent-facing tracking: [`ULTRA_AI_TODO.md`](ULTRA_AI_TODO.md).
 
 ## 🌟 Overview
 
@@ -288,6 +288,24 @@ brain-stack/
 | `plugin/ultra-ai-builder/` | Plugin manifest surface | `plugin.json` (via AGENTS.md/README) |
 
 > **Note:** `.devin/skills/` (~2,269 imported skill packs) and `.devin/agents/` are the *tooling* skill library used by the Devin/Cursor harness; `brain-stack/skills/` holds the *project-domain* skills authored for Ultra-AI itself. Both coexist by design.
+
+## 🧭 Development & Release Status (as of 2026-11-12)
+
+| Stage | State | Details |
+|-------|-------|---------|
+| **S1/S2 — Planning corpus** | ✅ Done | Facts, ADRs, decisions ledger, 116 Mermaid diagrams, `sources.jsonl` (122 entries) under `brain-stack/memory/planning/` |
+| **v0.2.0-planning** | ✅ Tagged & pushed | 236 files, additions-only vs `baseline/pre-planning-20261111` |
+| **WP-0 — Repository migration** | ✅ Done | Seven-tree layout; `verify-moves --post`: 58/58 moves, 0 violations; lint 9/9, type-check 10/10, tests 21/21 |
+| **WP-0b — Layout conformance** | ✅ Done | All `layout-map.yaml` paths exist as placeholders; `brain-stack/memory/ops/project-map.md` live repo map; legacy dirs removed |
+| **v0.3.0-planning** | ✅ This release | Post-migration snapshot; see `docs/v2/release-notes-v0.3.0-planning.md` |
+| **WP-2 — monitoring/sentinel** | ⏭️ Next | Sentinel/monitoring implementation under `infrastructure/monitoring/` |
+| **S4 — Phased build** | 📋 Planned | P1 platform core → P2 desktop → P3 Gate-OS readiness → P4 Ultra Core bridge |
+
+**Upcoming / deferred (planned, not yet built):**
+- `monitoring/sentinel` service (WP-2)
+- `platform/database` Prisma relocation (`platform/backend/core-api/prisma` → `platform/database`, pending package.json path updates)
+- Hermes runtime integration, provider/engine/tool adapters, 3D control center, Linux/Windows packaging, Gate-OS contract
+- Blockchain/crypto/token layers — intentionally deferred to later phases (interfaces preserved only)
 
 ## 🚀 Getting Started
 
