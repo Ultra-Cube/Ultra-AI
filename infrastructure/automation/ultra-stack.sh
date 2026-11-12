@@ -145,10 +145,10 @@ start_web() {
 start_hermes() {
   [ "$WITH_HERMES" = "1" ] || return 0
   log "Monitoring: Hermes stack"
-  if [ -x "$ROOT_DIR/infrastructure/monitoring/legacy-hermes/start-hermes.sh" ]; then
-    "$ROOT_DIR/infrastructure/monitoring/legacy-hermes/start-hermes.sh" up || warn "Hermes start reported an error (docker required)"
+  if [ -x "$ROOT_DIR/infrastructure/monitoring/stack/hermes/start-hermes.sh" ]; then
+    "$ROOT_DIR/infrastructure/monitoring/stack/hermes/start-hermes.sh" up || warn "Hermes start reported an error (docker required)"
   else
-    miss "infrastructure/monitoring/legacy-hermes/start-hermes.sh not found"
+    miss "infrastructure/monitoring/stack/hermes/start-hermes.sh not found"
   fi
 }
 
@@ -183,8 +183,8 @@ do_down() {
   stop_bg gateway
   stop_bg api
   stop_bg postgres
-  if [ "$WITH_HERMES" = "1" ] && [ -x "$ROOT_DIR/infrastructure/monitoring/legacy-hermes/start-hermes.sh" ]; then
-    "$ROOT_DIR/infrastructure/monitoring/legacy-hermes/start-hermes.sh" down || true
+  if [ "$WITH_HERMES" = "1" ] && [ -x "$ROOT_DIR/infrastructure/monitoring/stack/hermes/start-hermes.sh" ]; then
+    "$ROOT_DIR/infrastructure/monitoring/stack/hermes/start-hermes.sh" down || true
   fi
   ok "shutdown complete"
 }

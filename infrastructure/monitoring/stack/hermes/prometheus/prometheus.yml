@@ -47,3 +47,12 @@ scrape_configs:
       - targets: ['node-exporter:9100']
         labels:
           service: host
+
+  - job_name: ultra-ai-sentinel
+    metrics_path: /metrics
+    scrape_interval: 15s
+    static_configs:
+      - targets: [host.docker.internal:9200]
+        labels:
+          service: sentinel
+          component: watchdog

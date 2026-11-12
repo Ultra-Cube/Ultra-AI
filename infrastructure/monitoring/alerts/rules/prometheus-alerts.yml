@@ -60,3 +60,23 @@ groups:
         annotations:
           summary: 'Host memory usage > 85%'
           description: 'Available memory has dropped below 15% for 10 minutes.'
+
+  - name: ultra-ai-sentinel
+    rules:
+      - alert: SentinelDown
+        expr: up{job="ultra-ai-sentinel"} == 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Ultra-AI Sentinel watchdog is down"
+          description: "Prometheus cannot scrape sentinel /metrics for >2m. Application health polling is not running."
+
+      - alert: SentinelTargetDown
+        expr: sentinel_target_up == 0
+        for: 3m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Sentinel reports target {{ $labels.target }} DOWN"
+          description: "The sentinel watchdog has marked {{ $labels.target }} as DOWN for >3m."

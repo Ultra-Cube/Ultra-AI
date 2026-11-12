@@ -69,7 +69,7 @@ Ultra-AI/
 - `automation/` — preservation.sh (manifest/verify-moves/verify-additive/verify-tag), docker-manage.sh, k8s-deploy.sh, setup.sh, smoke-test.sh, ultra-stack.sh, fetch-repositories.py, import-critical-repos.sh, shoot*.mjs, verify-dom.mjs, verify-ui2.mjs, gen-moves.mjs
 - `docker/` — postgres init.sql etc.
 - `terraform/` — IaC
-- `monitoring/` — `legacy-hermes/` (temp home for monitoring/hermes); `dashboards/ metrics/ health-checks/ alerts/ logs/` placeholders; `stack/sentinel/` — WP-2 app watchdog (sentinel.mjs, Node>=20, port 9200)
+- `infrastructure/monitoring/` — `stack/hermes/` (Prometheus+Grafana+Alertmanager compose, relocated from legacy-hermes in WP-2b); `stack/sentinel/` WP-2 app watchdog (sentinel.mjs, Node>=20, port 9200, /status + /health + /metrics); `dashboards/` Grafana provisioning+dashboard; `alerts/` rules+channels+templates; `metrics/`, `health-checks/`, `logs/` placeholder dirs
 - `Test/` — test environment (master-test.js, test.config.js, suites, reports, alerts)
 
 ## distribution/

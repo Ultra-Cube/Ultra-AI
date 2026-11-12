@@ -2,7 +2,7 @@
 /**
  * Ultra-AI Sentinel — application-level watchdog (WP-2).
  *
- * Complements the infra-level Hermes stack (legacy-hermes: Prometheus/Grafana)
+ * Complements the infra-level Hermes stack (stack/hermes: Prometheus/Grafana)
  * by polling application health endpoints and dependency reachability, keeping
  * per-target state (UP / DEGRADED / DOWN), and emitting alerts to the console
  * and an optional webhook (Alertmanager/Slack compatible).
@@ -156,6 +156,35 @@ function snapshot() {
   };
 }
 
+function renderMetrics() {
+  const lines = [
+    '# HELP sentinel_target_up Whether the sentinel considers the target reachable (1=UP/DEGRADED, 0=DOWN).',
+    '# TYPE sentinel_target_up gauge',
+  ];
+  for (const [name, s] of state) {
+    const up = s.status === 'DOWN' ? 0 : 1;
+    const esc = name.replace(/"/g, '\\"');
+    lines.push(`sentinel_target_up{target="${esc}"} ${up}`);
+    lines.push(
+      `sentinel_target_status{target="${esc}",status="${s.status.toLowerCase()}"} 1`,
+    );
+    if (s.latencyMs != null) {
+      lines.push(`sentinel_target_latency_ms{target="${esc}"} ${s.latencyMs}`);
+    }
+  }
+  const snap = snapshot();
+  lines.push(
+    '# HELP sentinel_overall_status Overall sentinel status (1 for current overall state).',
+    '# TYPE sentinel_overall_status gauge',
+    `sentinel_overall_status{status="${snap.overall.toLowerCase()}"} 1`,
+    `sentinel_targets_total ${snap.summary.total}`,
+    `sentinel_targets_down ${snap.summary.down}`,
+    `sentinel_targets_degraded ${snap.summary.degraded}`,
+    '',
+  );
+  return lines.join('\n');
+}
+
 function persistStatus() {
   try {
     mkdirSync(dirname(STATUS_FILE), { recursive: true });
@@ -173,12 +202,15 @@ const server = createServer((req, res) => {
   } else if (req.url === '/status' || req.url === '/') {
     res.writeHead(200, { 'content-type': 'application/json' });
     res.end(JSON.stringify(snapshot(), null, 2));
+  } else if (req.url === '/metrics') {
+    res.writeHead(200, { 'content-type': 'text/plain; version=0.0.4; charset=utf-8' });
+    res.end(renderMetrics());
   } else {
     res.writeHead(404); res.end();
   }
 });
 server.listen(STATUS_PORT, () => {
-  console.log(`${now()} sentinel listening on :${STATUS_PORT} (/status, /health)`);
+  console.log(`${now()} sentinel listening on :${STATUS_PORT} (/status, /health, /metrics)`);
 });
 
 // --- main loop ------------------------------------------------------------

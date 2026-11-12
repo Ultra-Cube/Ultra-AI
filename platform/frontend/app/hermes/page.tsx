@@ -112,7 +112,7 @@ export default function HermesPage() {
           <p className="muted">
             Hermes is an optional layer. Start it with{' '}
             <code>./infrastructure/automation/ultra-stack.sh up --with-hermes</code> (or{' '}
-            <code>cd infrastructure/monitoring/legacy-hermes &amp;&amp; ./start-hermes.sh up</code>).
+            <code>cd infrastructure/monitoring/stack/hermes &amp;&amp; ./start-hermes.sh up</code>).
             This page will populate automatically once Prometheus is reachable.
           </p>
         </div>

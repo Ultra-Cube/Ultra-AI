@@ -2,7 +2,7 @@
 
 Application-level watchdog for the Ultra-AI stack. Zero dependencies — plain
 Node >= 20 ESM (`sentinel.mjs`). Complements the infra-level Hermes stack
-(`infrastructure/monitoring/legacy-hermes/`: Prometheus + Grafana + Alertmanager)
+(`infrastructure/monitoring/stack/hermes/`: Prometheus + Grafana + Alertmanager)
 by polling **application health endpoints** and dependency reachability, keeping
 per-target state, and emitting alerts.
 
@@ -55,7 +55,7 @@ alerts when the monitoring stack dies.
 
 | Layer | Component | Role |
 |-------|-----------|------|
-| Infra metrics | `legacy-hermes/` (Prometheus/Grafana) | Time-series, dashboards, alert rules |
+| Infra metrics | `stack/hermes/` (Prometheus/Grafana) | Time-series, dashboards, alert rules |
 | App watchdog | `stack/sentinel/` (this) | Health-endpoint polling, state transitions, webhook alerts |
 
 Both are independent: sentinel runs fine with Hermes down and vice versa.

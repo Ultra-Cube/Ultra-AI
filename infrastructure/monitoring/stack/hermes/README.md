@@ -29,7 +29,7 @@ Hermes scrapes these plus host metrics from node-exporter.
 ## Quick start
 
 ```bash
-cd infrastructure/monitoring/legacy-hermes
+cd infrastructure/monitoring/stack/hermes
 ./start-hermes.sh up        # start
 ./start-hermes.sh status    # check
 ./start-hermes.sh down      # stop
@@ -61,7 +61,7 @@ stubbed — inject secrets at deploy time, never commit them).
 ## Files
 
 ```
-infrastructure/monitoring/legacy-hermes/
+infrastructure/monitoring/stack/hermes/
   docker-compose.hermes.yml        # the stack
   start-hermes.sh                  # up / down / status helper
   prometheus/prometheus.yml        # scrape config
