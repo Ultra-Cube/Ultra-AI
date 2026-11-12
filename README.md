@@ -298,11 +298,12 @@ brain-stack/
 | **WP-0 — Repository migration** | ✅ Done | Seven-tree layout; `verify-moves --post`: 58/58 moves, 0 violations; lint 9/9, type-check 10/10, tests 21/21 |
 | **WP-0b — Layout conformance** | ✅ Done | All `layout-map.yaml` paths exist as placeholders; `brain-stack/memory/ops/project-map.md` live repo map; legacy dirs removed |
 | **v0.3.0-planning** | ✅ This release | Post-migration snapshot; see `docs/v2/release-notes-v0.3.0-planning.md` |
-| **WP-2 — monitoring/sentinel** | ⏭️ Next | Sentinel/monitoring implementation under `infrastructure/monitoring/` |
+| **WP-2 — monitoring/sentinel** | ✅ Done | `infrastructure/monitoring/stack/sentinel/` — zero-dep Node watchdog: HTTP+TCP target polling, UP/DEGRADED/DOWN state machine, `/status`+`/health` on :9200, Alertmanager-compatible webhook alerts |
+| **WP-2b — monitoring expansion** | ⏭️ Next | Populate `monitoring/{dashboards,metrics,health-checks,alerts,logs}` beyond the sentinel core |
 | **S4 — Phased build** | 📋 Planned | P1 platform core → P2 desktop → P3 Gate-OS readiness → P4 Ultra Core bridge |
 
 **Upcoming / deferred (planned, not yet built):**
-- `monitoring/sentinel` service (WP-2)
+- Monitoring expansion: Grafana dashboards, Prometheus alert rules, health-check collectors, log aggregation under `infrastructure/monitoring/` (sentinel core done in WP-2)
 - `platform/database` Prisma relocation (`platform/backend/core-api/prisma` → `platform/database`, pending package.json path updates)
 - Hermes runtime integration, provider/engine/tool adapters, 3D control center, Linux/Windows packaging, Gate-OS contract
 - Blockchain/crypto/token layers — intentionally deferred to later phases (interfaces preserved only)

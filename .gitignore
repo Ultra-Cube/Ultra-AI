@@ -166,3 +166,6 @@ external/
 
 # Local release bundles (not for VCS)
 release-assets/
+
+# sentinel runtime state
+infrastructure/monitoring/stack/sentinel/status.json

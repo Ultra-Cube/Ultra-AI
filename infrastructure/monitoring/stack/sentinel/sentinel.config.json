@@ -1,0 +1,21 @@
+{
+  "pollIntervalMs": 15000,
+  "timeoutMs": 5000,
+  "failThreshold": 2,
+  "statusPort": 9200,
+  "statusFile": "status.json",
+  "alertWebhook": null,
+  "targets": [
+    { "name": "api-health", "type": "http", "url": "http://127.0.0.1:4000/health" },
+    { "name": "api-health-detailed", "type": "http", "url": "http://127.0.0.1:4000/health/detailed" },
+    { "name": "api-metrics", "type": "http", "url": "http://127.0.0.1:4000/metrics" },
+    { "name": "gateway-health", "type": "http", "url": "http://127.0.0.1:20129/health" },
+    { "name": "web", "type": "http", "url": "http://127.0.0.1:3000/" },
+    { "name": "postgres", "type": "tcp", "host": "127.0.0.1", "port": 5432 },
+    { "name": "redis", "type": "tcp", "host": "127.0.0.1", "port": 6379 },
+    { "name": "mongodb", "type": "tcp", "host": "127.0.0.1", "port": 27017 },
+    { "name": "ipfs-api", "type": "tcp", "host": "127.0.0.1", "port": 5001 },
+    { "name": "prometheus", "type": "http", "url": "http://127.0.0.1:9090/-/healthy" },
+    { "name": "grafana", "type": "http", "url": "http://127.0.0.1:3001/api/health" }
+  ]
+}
