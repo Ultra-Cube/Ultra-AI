@@ -114,6 +114,10 @@ export class HermesRuntime {
     return this.sessions.get(id);
   }
 
+  listSessions(): HermesSession[] {
+    return [...this.sessions.values()];
+  }
+
   // -- tasks ----------------------------------------------------------------
 
   async runTask(sessionId: SessionId, prompt: string): Promise<HermesTask> {
@@ -209,6 +213,14 @@ export class HermesRuntime {
 
   getTask(id: string): HermesTask | undefined {
     return this.tasks.get(id);
+  }
+
+  listTasks(): HermesTask[] {
+    return [...this.tasks.values()];
+  }
+
+  getConfig(): HermesConfig {
+    return { ...this.config };
   }
 
   private async invokeTool(
