@@ -43,13 +43,17 @@ Ultra-AI/
 | `api/gateway/` | @ultra-ai/api-gateway |
 | `api/contracts/` | Gate-OS /v1 contract — openapi.yaml + README (S4-P3 done; WP-11 note superseded) |
 | `backend/core-api/` | @ultra-ai/api |
+| `backend/hermes-runtime/` | @ultra-ai/hermes-runtime (S4-P1 — sessions/tasks, adapter contracts, memory, skills, ReAct reasoner) |
 | `backend/ai-core/` | @ultra-ai/ai-core |
 | `backend/distributed/` | PARKED device-mesh |
 | `backend/blockchain/` | **DEFERRED** — owner parked chain/token/wallet |
 | `shared/` | @ultra-ai/shared |
 | `devtools/control-center/` | @ultra-ai/control-center |
+| `devtools/desktop-bridge/` | @ultra-ai/desktop-bridge (S4-P2 — JSON-RPC 2.0 over WebSocket control plane) |
 | `apps/desktop-ui/` | @ultra-ai/desktop-ui |
 | `services/{voice-recognition,memory-optimizer,mock-adapters,auth-service}/` | service packages (auth-service placeholder) |
+| `services/gate-os-bridge/` | @ultra-ai/gate-os-bridge (S4-P3 — /v1 readiness surface, Gate-OS untouched) |
+| `services/ultra-core-bridge/` | @ultra-ai/ultra-core-bridge (S4-P4 — signed hash-chained ultra.event.v1 outbox + ExportTarget port; readiness only) |
 | `database/` | DB schemas/configs (prisma move pending) |
 | `testing/{e2e,integration,performance}/` | test trees (placeholders; sources were empty) |
 | `enterprise/{dashboard,multi-tenant,white-label,expansion}/` | enterprise tier (expansion = former global/) |

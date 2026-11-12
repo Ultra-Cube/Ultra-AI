@@ -301,12 +301,12 @@ brain-stack/
 | **WP-2 — monitoring/sentinel** | ✅ Done | `infrastructure/monitoring/stack/sentinel/` — zero-dep Node watchdog: HTTP+TCP target polling, UP/DEGRADED/DOWN state machine, `/status`+`/health` on :9200, Alertmanager-compatible webhook alerts |
 | **WP-2b — monitoring expansion** | ✅ Done | `stack/hermes/` compose stack (Prometheus+Grafana+Alertmanager, relocated from legacy-hermes), sentinel `/metrics` endpoint, monitoring dirs populated under `infrastructure/monitoring/` |
 | **S4-P1 — platform core** | ✅ Done | `platform/backend/hermes-runtime` (`@ultra-ai/hermes-runtime`): HermesRuntime with sessions/tasks, adapter contracts (`EngineAdapter`, `ProviderAdapter`, `ToolAdapter`), `InMemoryMemoryStore`, `SkillRegistry`, `ReActReasoner` + `ReasonerEngineAdapter`, runtime events, mock provider; 4/4 tests, ESM+CJS build green |
-| **S4 — Phased build** | 🔄 In progress | P1 platform core ✅ → P2 desktop ✅ → P3 Gate-OS readiness ✅ → P4 Ultra Core bridge ⏳ |
+| **S4-P4 — Ultra Core bridge** | ✅ Done | `platform/services/ultra-core-bridge` (`@ultra-ai/ultra-core-bridge`): signed `ultra.event.v1` hash-chained outbox (Ed25519, ULID, JSONL persistence), `ExportTarget` idempotent port + `MockExportTarget`; 10/10 Jest tests; lint/type-check/build green; readiness-only — no chain features |
+| **S4 — Phased build** | ✅ P1–P4 Done | P1 platform core → P2 desktop bridge → P3 Gate-OS readiness → P4 Ultra Core bridge — all committed & verified |
 
 **Upcoming / deferred (planned, not yet built):**
-- Monitoring expansion: Grafana dashboards, Prometheus alert rules, health-check collectors, log aggregation under `infrastructure/monitoring/` (sentinel core done in WP-2)
 - `platform/database` Prisma relocation (`platform/backend/core-api/prisma` → `platform/database`, pending package.json path updates)
-- Hermes runtime integration, provider/engine/tool adapters, 3D control center, Linux/Windows packaging, Gate-OS contract
+- Hermes runtime deep integration, provider/engine/tool adapters wiring, 3D control center, Linux/Windows packaging, real Ultra Core/Gate-OS endpoints (contracts ready)
 - Blockchain/crypto/token layers — intentionally deferred to later phases (interfaces preserved only)
 
 ## 🚀 Getting Started
