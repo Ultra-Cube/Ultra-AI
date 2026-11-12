@@ -5,7 +5,7 @@ export function createGatewayRoutes(gateway: APIGateway): Router {
   const router = Router();
 
   /**
-   * GET /api/gateway/health
+   * GET /platform/api/gateway/health
    * Check gateway service health
    */
   router.get('/health', async (req, res) => {
@@ -22,7 +22,7 @@ export function createGatewayRoutes(gateway: APIGateway): Router {
   });
 
   /**
-   * GET /api/gateway/providers
+   * GET /platform/api/gateway/providers
    * Get all configured providers
    */
   router.get('/providers', async (req, res) => {
@@ -35,7 +35,7 @@ export function createGatewayRoutes(gateway: APIGateway): Router {
   });
 
   /**
-   * POST /api/gateway/providers
+   * POST /platform/api/gateway/providers
    * Add a new provider
    */
   router.post('/providers', async (req, res) => {
@@ -68,7 +68,7 @@ export function createGatewayRoutes(gateway: APIGateway): Router {
   });
 
   /**
-   * GET /api/gateway/models
+   * GET /platform/api/gateway/models
    * Get available models
    */
   router.get('/models', async (req, res) => {
@@ -81,7 +81,7 @@ export function createGatewayRoutes(gateway: APIGateway): Router {
   });
 
   /**
-   * GET /api/gateway/usage
+   * GET /platform/api/gateway/usage
    * Get usage statistics
    */
   router.get('/usage', async (req, res) => {
@@ -94,7 +94,7 @@ export function createGatewayRoutes(gateway: APIGateway): Router {
   });
 
   /**
-   * POST /api/gateway/route
+   * POST /platform/api/gateway/route
    * Route a request through the gateway
    */
   router.post('/route', async (req, res) => {
@@ -122,7 +122,7 @@ export function createGatewayRoutes(gateway: APIGateway): Router {
   });
 
   /**
-   * GET /api/gateway/config
+   * GET /platform/api/gateway/config
    * Get gateway configuration
    */
   router.get('/config', async (req, res) => {
@@ -138,7 +138,7 @@ export function createGatewayRoutes(gateway: APIGateway): Router {
   });
 
   /**
-   * PATCH /api/gateway/config
+   * PATCH /platform/api/gateway/config
    * Update gateway configuration
    */
   router.patch('/config', async (req, res) => {

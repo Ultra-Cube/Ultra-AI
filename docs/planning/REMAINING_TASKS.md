@@ -165,23 +165,23 @@ SUCCESS CRITERIA:
 ```
 
 **Files to Create**:
-- `k8s/namespace.yaml` (new)
-- `k8s/deployment-api.yaml` (new)
-- `k8s/deployment-web.yaml` (new)
-- `k8s/service-api.yaml` (new)
-- `k8s/service-web.yaml` (new)
-- `k8s/configmap-api.yaml` (new)
-- `k8s/configmap-web.yaml` (new)
-- `k8s/secret-example.yaml` (new, template only)
-- `k8s/ingress.yaml` (new)
-- `k8s/statefulset-postgres.yaml` (new)
-- `k8s/statefulset-redis.yaml` (new)
-- `k8s/hpa.yaml` (new)
-- `k8s/kustomization.yaml` (new, optional)
+- `control/templates/kubernetes/namespace.yaml` (new)
+- `control/templates/kubernetes/deployment-api.yaml` (new)
+- `control/templates/kubernetes/deployment-web.yaml` (new)
+- `control/templates/kubernetes/service-api.yaml` (new)
+- `control/templates/kubernetes/service-web.yaml` (new)
+- `control/templates/kubernetes/configmap-api.yaml` (new)
+- `control/templates/kubernetes/configmap-web.yaml` (new)
+- `control/templates/kubernetes/secret-example.yaml` (new, template only)
+- `control/templates/kubernetes/ingress.yaml` (new)
+- `control/templates/kubernetes/statefulset-postgres.yaml` (new)
+- `control/templates/kubernetes/statefulset-redis.yaml` (new)
+- `control/templates/kubernetes/hpa.yaml` (new)
+- `control/templates/kubernetes/kustomization.yaml` (new, optional)
 
 **Commands**:
 ```bash
-kubectl apply -k k8s/
+kubectl apply -k control/templates/kubernetes/
 kubectl get pods
 kubectl logs -f deployment/ultra-ai-api
 ```
@@ -235,8 +235,8 @@ SUCCESS CRITERIA:
 
 **Files/Changes**:
 - `prisma/migrations/` (deploy existing)
-- `scripts/backup-db.sh` (new)
-- `scripts/restore-db.sh` (new)
+- `infrastructure/automation/backup-db.sh` (new)
+- `infrastructure/automation/restore-db.sh` (new)
 - `pgbouncer.ini` (new)
 - `docs/DATABASE_ADMIN.md` (new)
 
@@ -250,7 +250,7 @@ SUCCESS CRITERIA:
 
 ```
 SUBTASKS:
-- [ ] Create .env.example with all variables
+- [ ] Create environments/.env.example with all variables
       - DATABASE_URL
       - JWT_SECRET
       - REDIS_URL
@@ -279,7 +279,7 @@ SUBTASKS:
       - etc.
 
 SUCCESS CRITERIA:
-✅ .env.example covers all variables
+✅ environments/.env.example covers all variables
 ✅ Each profile has correct values
 ✅ Secret injection works in K8s
 ✅ No credentials in source code
@@ -287,7 +287,7 @@ SUCCESS CRITERIA:
 ```
 
 **Files to Create**:
-- `.env.example` (update)
+- `environments/.env.example` (update)
 - `.env.local.example` (new)
 - `.env.staging.example` (new)
 - `.env.production.example` (new)
@@ -514,7 +514,7 @@ SUCCESS CRITERIA:
 **Files to Create**:
 - `docs/SECURITY_CHECKLIST.md` (new)
 - `docs/SECURITY_VALIDATION_REPORT.md` (new)
-- `scripts/security-audit.sh` (new)
+- `infrastructure/automation/security-audit.sh` (new)
 
 ---
 
@@ -597,7 +597,7 @@ SUCCESS CRITERIA:
 - `load-tests/analytics.js` (new)
 - `load-tests/realtime.js` (new)
 - `docs/PERFORMANCE_REPORT.md` (new)
-- `scripts/run-load-tests.sh` (new)
+- `infrastructure/automation/run-load-tests.sh` (new)
 
 ---
 

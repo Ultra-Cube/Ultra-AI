@@ -28,4 +28,4 @@ Daily digest: Arabic summary + English table (board snapshot, pending decisions,
 - Prime directive 6: "done" requires commands + outputs + file paths — no claim without evidence.
 - Status vocabulary enforced: IDEAL → SPEC → STUB → WORKING → VERIFIED (evidence attached).
 - Precedent artifacts: PLANNING_BASELINE_c863ef8.sha256 (7,233 entries), infrastructure/automation/preservation.sh verify-additive output, BUILD_PLAN.md live-state table.
-- Report format used in this project: ✅/⚠️/⏳ bullets with exact commands run and file paths touched. Facts: ultra-ai-v2/memory/facts/root-docs-build-state.md, ultra-ai-v2/memory/facts/planning.yaml (F3).
+- Report format used in this project: ✅/⚠️/⏳ bullets with exact commands run and file paths touched. Facts: brain-stack/memory/planning/facts/root-docs-build-state.md, brain-stack/memory/planning/facts/planning.yaml (F3).

@@ -70,19 +70,19 @@ flowchart LR
 ## P0 — FOUNDATION (owner steps 1–3)
 
 ### P0a — Before the planning tag (additions only)
-- [x] **P0-01** Verify facts F1–F10 against the live repo; log deviations · A01 · `VERIFIED` — evidence: F1-F11 re-checked on live HEAD 1aa16b6 (ultra-ai-v2/memory/facts/repo-state.yaml)
+- [x] **P0-01** Verify facts F1–F10 against the live repo; log deviations · A01 · `VERIFIED` — evidence: F1-F11 re-checked on live HEAD 1aa16b6 (brain-stack/memory/planning/facts/repo-state.yaml)
 - [ ] **P0-02** Baseline manifest + `git bundle` backup · A01 · `WORKING` · 🔒 R2 (tag push) — evidence: local tag baseline/pre-planning-20261109 + baseline/baseline.sha256 done; push of the tag awaits the R2 card
-- [x] **P0-03** Issue gate cards G-0.1 … G-0.6 · A00 · `VERIFIED` — evidence: G-0.1…G-0.6 answered 2026-11-09 (ultra-ai-v2/memory/decisions/ledger.md); G-1.9 raised
-- [x] **P0-04** Author the 33 skills (App. D) and lint frontmatter · A02 · `VERIFIED` — evidence: 33 skills, scripts/lint_skills.py = 0 problems
+- [x] **P0-03** Issue gate cards G-0.1 … G-0.6 · A00 · `VERIFIED` — evidence: G-0.1…G-0.6 answered 2026-11-09 (brain-stack/memory/planning/decisions/ledger.md); G-1.9 raised
+- [x] **P0-04** Author the 33 skills (App. D) and lint frontmatter · A02 · `VERIFIED` — evidence: 33 skills, infrastructure/automation/lint_skills.py = 0 problems
 - [ ] **P0-05** Build plugin `ultra-ai-builder`; install in a clean sandbox · A02 · `WORKING` (verify manifest format online first) — evidence: plugin built; guard.sh tested; clean-sandbox install and manifest-format check still UNVERIFIED
 - [x] **P0-06** Memory Bank scaffold + glossary (Hermes agent vs Hermes monitoring, etc.) · A01 · `VERIFIED` — evidence: memory bank scaffold, glossary, YAML parses
-- [ ] **P0-07** Ingest 113 `.md` files into facts / skills / diagrams per `DOC_CONVERSION_MAP.csv` (incl. the 25 `unclassified`) · A01 · `WORKING` — evidence: 113/113 files indexed; stages: 27 done (139 KB) + 2 partial (41 KB) + 84 mechanical (967 KB, script extracts in ultra-ai-v2/memory/extracts/, NOT reads) + 0 pending; 119 legacy facts; ADR-0009
+- [ ] **P0-07** Ingest 113 `.md` files into facts / skills / diagrams per `DOC_CONVERSION_MAP.csv` (incl. the 25 `unclassified`) · A01 · `WORKING` — evidence: 113/113 files indexed; stages: 27 done (139 KB) + 2 partial (41 KB) + 84 mechanical (967 KB, script extracts in brain-stack/memory/planning/extracts/, NOT reads) + 0 pending; 119 legacy facts; ADR-0009
 - [ ] **P0-07b** Agent read of the mechanical-extract files (priority: ux, product-STALE-RISK, code-docs, history, business) and conversion to facts/skills · A01 · `IDEA` — backlog; does not block the planning tag (ADR-0009)
-- [x] **P0-08** Extract and syntax-validate all 117 Mermaid blocks; graph JSON for each · A01 · `VERIFIED` — evidence: 117/117 extracted (116 valid, 1 invalid kept); 84 graph JSON files; ultra-ai-v2/diagrams/registry.json
-- [ ] **P0-09** Contradiction ledger (phases, ports, versions, "100% complete" claims) · A01+A03 · `WORKING` — evidence: 35 rows with citations in ultra-ai-v2/memory/contradictions.md (C-001…C-035); some rows marked verify
+- [x] **P0-08** Extract and syntax-validate all 117 Mermaid blocks; graph JSON for each · A01 · `VERIFIED` — evidence: 117/117 extracted (116 valid, 1 invalid kept); 84 graph JSON files; brain-stack/memory/diagrams/registry.json
+- [ ] **P0-09** Contradiction ledger (phases, ports, versions, "100% complete" claims) · A01+A03 · `WORKING` — evidence: 35 rows with citations in brain-stack/memory/planning/contradictions.md (C-001…C-035); some rows marked verify
 - [ ] **P0-10** ADR-0001…0010 (layout, licence, naming, Hermes core, supervisor, data policy, engine policy, desktop, Gate-OS contract, outbox) · A03 · `WORKING` — evidence: ADR-0001..0007 written (PROPOSED until their gates are answered)
 - [ ] **P0-11** Legal matrix review, `THIRD_PARTY.md`, SBOM template · A04 · `WORKING` — evidence: legal/licence_matrix.yaml (20 rows) + THIRD_PARTY.md placeholder; SBOM template pending
-- [ ] **P0-12** Orphan recovery plan for the 5 gitlinks (record SHAs, mirror plan) · A04+A01 · `WORKING` — evidence: 5 pins recorded (external-integrations/_PINS.md); all 5 upstreams verified public with pinned SHA = tip (git ls-remote 2026-11-09); licences read (Biome GPL-3.0!); scripts/mirror_gitlinks.sh dry-run OK; execution awaits owner `gh` login
+- [ ] **P0-12** Orphan recovery plan for the 5 gitlinks (record SHAs, mirror plan) · A04+A01 · `WORKING` — evidence: 5 pins recorded (external-integrations/_PINS.md); all 5 upstreams verified public with pinned SHA = tip (git ls-remote 2026-11-09); licences read (Biome GPL-3.0!); infrastructure/automation/mirror_gitlinks.sh dry-run OK; execution awaits owner `gh` login
 - [ ] **P0-13** Commit additions on `release/planning-study` · A00 · `WORKING` — evidence: additive commits on release/planning-study (local)
 - [ ] **P0-14** Independent `verify-additive` + `verify-tag` run · A14 · `IDEA`
 - [ ] **P0-15** Publish pre-release + assets (manifest, tarball, bundle, notes) · A00 · `IDEA` 🔒 R2 G-0.2
@@ -94,7 +94,7 @@ flowchart LR
 - [ ] **P0-19** Sentinel rename (copy; old stack kept with deprecation note) · A09 · `WORKING` 🔒 G-0.4 — evidence: monitoring/sentinel created (renamed copy, YAML/JSON parse OK, script syntax OK, 0 'hermes' left) + deprecation note in infrastructure/monitoring/legacy-hermes/README.md; the /hermes web page rename is still pending
 - [ ] **P0-20** "Gata-OS" → "Gate-OS" in all *new* docs; legacy fixed via archive+replace · A15 · `WORKING` — evidence: new README uses Gate-OS; legacy files containing 'Gata-OS' untouched until archive-and-replace
 - [ ] **P0-21** Run the documented 306 API tests and Prisma migrations on a networked host · A14 · `IDEA`
-- [ ] **P0-22** Build allowlist that excludes Skales (BSL 1.1) and any `PENDING` licence · A04 · `WORKING` — evidence: scripts/licence-gate.mjs + `npm run licence:gate` + CI job; passes on 34 build-surface files, fails when a Dockerfile references external-integrations/skales (negative test); PENDING licences are not enforced yet
+- [ ] **P0-22** Build allowlist that excludes Skales (BSL 1.1) and any `PENDING` licence · A04 · `WORKING` — evidence: infrastructure/automation/licence-gate.mjs + `npm run licence:gate` + CI job; passes on 34 build-surface files, fails when a Dockerfile references external-integrations/skales (negative test); PENDING licences are not enforced yet
 
 ---
 
@@ -222,8 +222,8 @@ Errata in the build prompt (tag `baseline/pre-planning-20261111`, `v0.2.0-planni
 ## Decision ledger (filled by A00 as the owner answers)
 | Gate | Date | Choice | Rationale | Evidence |
 |---|---|---|---|---|
-| G-0.1 | 2026-11-09 | Hermes Agent + Claude Code (hybrid) | shared SKILL.md format | ultra-ai-v2/memory/decisions/ledger.md |
-| G-0.2 | 2026-11-09 | `v0.2.0-planning` | recommended default | ultra-ai-v2/memory/decisions/ledger.md |
+| G-0.1 | 2026-11-09 | Hermes Agent + Claude Code (hybrid) | shared SKILL.md format | brain-stack/memory/planning/decisions/ledger.md |
+| G-0.2 | 2026-11-09 | `v0.2.0-planning` | recommended default | brain-stack/memory/planning/decisions/ledger.md |
 | G-0.3 | 2026-11-09 | Apache-2.0 | patent grant; matrix-compatible | ADR-0008 |
 | G-0.4 | 2026-11-09 | Rename monitoring to Sentinel | name clash with Hermes Agent | ADR-0002 |
 | G-0.5 | 2026-11-09 | New `platform/` tree beside legacy | legacy stays buildable | ADR-0001 |

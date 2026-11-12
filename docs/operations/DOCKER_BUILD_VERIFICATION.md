@@ -11,7 +11,7 @@ All Docker configuration files have been created and are ready for use:
 ✅ Dockerfile.web              - Frontend containerization
 ✅ docker-compose.yml          - Multi-service orchestration
 ✅ .dockerignore               - Build context optimization
-✅ .env.example                - Environment template
+✅ environments/.env.example                - Environment template
 ✅ docker-manage.sh            - Service management script
 ✅ docker-entrypoint.sh        - Backend initialization
 ✅ docs/DOCKER_SETUP.md        - Complete Docker documentation
@@ -41,7 +41,7 @@ docker ps
 
 ```bash
 # Copy environment template
-cp .env.example .env
+cp environments/.env.example .env
 
 # Edit variables as needed (optional for development)
 nano .env
@@ -352,7 +352,7 @@ When ready to move to Kubernetes:
 
 3. Deploy to Kubernetes cluster:
    ```bash
-   kubectl apply -f k8s/
+   kubectl apply -f control/templates/kubernetes/
    ```
 
 ## Success Criteria ✅

@@ -12,4 +12,4 @@ All UI work; docs for owner-facing material.
 - Arabic is a first-class requirement: ai-core has Arabic intent keywords alongside English; UI must ship AR/EN bilingual with RTL layout from the first screen.
 - ZeroAI subtree docs are English-only by its own rule — i18n applies to product UI, not that docs tree.
 - RTL considerations for threejs-control-center and adaptive-ui-spec: mirrored layouts, Arabic font shaping, bidi text in chat surfaces.
-- No i18n library selected — next-intl or similar decision deferred to web/desktop phase; record via ADR when chosen. Facts: ultra-ai-v2/memory/facts/architecture-master.md, ultra-ai-v2/memory/facts/docs-classification-batch3.md.
+- No i18n library selected — next-intl or similar decision deferred to web/desktop phase; record via ADR when chosen. Facts: brain-stack/memory/planning/facts/architecture-master.md, brain-stack/memory/planning/facts/docs-classification-batch3.md.

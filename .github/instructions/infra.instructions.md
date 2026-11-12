@@ -1,6 +1,6 @@
 # Infrastructure Instructions
 
-**applyTo**: `infrastructure/**`, `k8s/**`, Dockerfiles, `docker-compose.yml`
+**applyTo**: `infrastructure/**`, `control/templates/kubernetes/**`, Dockerfiles, `docker-compose.yml`
 
 ## Overview
 

@@ -139,7 +139,7 @@ kubectl get nodes
 ./k8s-deploy.sh full
 
 # Or use Kustomize
-kubectl apply -k k8s/
+kubectl apply -k control/templates/kubernetes/
 ```
 
 ### Verify Deployment
@@ -301,19 +301,19 @@ Pod Restarts:          Failure tracking
 
 All 14 deliverables are production-ready:
 
-- [x] `k8s/01-namespace.yaml` - Namespace & security
-- [x] `k8s/02-configmap.yaml` - Configuration
-- [x] `k8s/03-secrets.yaml` - Credentials
-- [x] `k8s/04-storage.yaml` - Storage infrastructure
-- [x] `k8s/05-postgres.yaml` - PostgreSQL
-- [x] `k8s/06-redis.yaml` - Redis + Sentinel
-- [x] `k8s/07-mongodb.yaml` - MongoDB ReplicaSet
-- [x] `k8s/08-api-deployment.yaml` - API service
-- [x] `k8s/09-web-deployment.yaml` - Web service
-- [x] `k8s/10-services.yaml` - Service definitions
-- [x] `k8s/11-ingress.yaml` - Routing + TLS
-- [x] `k8s/12-hpa-and-policies.yaml` - Scaling & security
-- [x] `k8s/kustomization.yaml` - Kustomize overlay
+- [x] `control/templates/kubernetes/01-namespace.yaml` - Namespace & security
+- [x] `control/templates/kubernetes/02-configmap.yaml` - Configuration
+- [x] `control/templates/kubernetes/03-secrets.yaml` - Credentials
+- [x] `control/templates/kubernetes/04-storage.yaml` - Storage infrastructure
+- [x] `control/templates/kubernetes/05-postgres.yaml` - PostgreSQL
+- [x] `control/templates/kubernetes/06-redis.yaml` - Redis + Sentinel
+- [x] `control/templates/kubernetes/07-mongodb.yaml` - MongoDB ReplicaSet
+- [x] `control/templates/kubernetes/08-api-deployment.yaml` - API service
+- [x] `control/templates/kubernetes/09-web-deployment.yaml` - Web service
+- [x] `control/templates/kubernetes/10-services.yaml` - Service definitions
+- [x] `control/templates/kubernetes/11-ingress.yaml` - Routing + TLS
+- [x] `control/templates/kubernetes/12-hpa-and-policies.yaml` - Scaling & security
+- [x] `control/templates/kubernetes/kustomization.yaml` - Kustomize overlay
 - [x] `PHASE_19_K8S_GUIDE.md` - Complete guide
 - [x] `K8S_COMMANDS_REFERENCE.md` - Command reference
 - [x] `k8s-deploy.sh` - Deployment automation

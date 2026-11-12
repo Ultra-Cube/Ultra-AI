@@ -166,7 +166,7 @@ ultra-ai/
 ├── integrations/             # git submodules (9router, jarvis, ...)
 ├── wsl-ai-stack/             # ZeroAI edge scripts
 ├── infrastructure/monitoring/legacy-hermes/
-├── k8s/  infrastructure/  scripts/
+├── control/templates/kubernetes/  infrastructure/  infrastructure/automation/
 └── docs/
     ├── architecture/  api/  operations/  security/  ux-design/
     └── archive/              # phase reports, business plans, old roadmaps

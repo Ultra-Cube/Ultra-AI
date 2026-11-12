@@ -86,14 +86,14 @@ external-integrations/FADHEL-SH-COMPLETE-LIST.md,7473,14,0,da2b87eb397a91dd,memo
 external-integrations/FADHEL-SH-REPOSITORIES.md,4337,17,0,1a53ae6143597a7b,memory,integrations,Inventory of upstreams + licenses; link to licensing matrix
 external-integrations/INTEGRATION_PLAN.md,6715,12,0,f4093b005ff5b02f,memory,integrations,Inventory of upstreams + licenses; link to licensing matrix
 external-integrations/README.md,1782,9,0,08d1d1ffb431569d,memory,integrations,Inventory of upstreams + licenses; link to licensing matrix
-monitoring/hermes/README.md,2727,7,0,31e6a44246556dcf,skill,ops-runbook,Runbook to ops skill
+infrastructure/monitoring/legacy-hermes/README.md,2727,7,0,31e6a44246556dcf,skill,ops-runbook,Runbook to ops skill
 packages/ai-core/README.md,607,8,0,468db1457d5e0831,memory,code-docs,Package README facts; verify against code
 packages/api/src/rbac/README.md,9076,38,0,38f27c2a8d02719a,memory,code-docs,Package README facts; verify against code
 packages/api/src/services/agents/REGISTRY_SUMMARY.md,5246,22,0,c8fd65bd12d9218f,memory,history,Timeline entry only; keep file untouched; record contradiction ledger entries
 packages/api/src/services/caching/README.md,9472,41,0,4cbadbfb9e245ec0,memory,code-docs,Package README facts; verify against code
 packages/api/src/services/monitoring/README.md,9112,44,0,805822164e22ffbf,memory,code-docs,Package README facts; verify against code
 packages/distributed/README.md,513,4,0,26d161c70f077930,memory,code-docs,Package README facts; verify against code
-services/mock-adapters/README.md,1700,7,0,1ac01b0bb89b6f65,memory,code-docs,Package README facts; verify against code
+platform/services/mock-adapters/README.md,1700,7,0,1ac01b0bb89b6f65,memory,code-docs,Package README facts; verify against code
 skills/devops/architecture-review/SKILL.md,23885,21,0,3f270caf659d36a9,skill,import-as-is,"Existing skill; validate frontmatter against agentskills.io, add to skills/ catalog"
 skills/devops/kanban-orchestrator/SKILL.md,15690,18,0,cbe77749a6017738,skill,import-as-is,"Existing skill; validate frontmatter against agentskills.io, add to skills/ catalog"
 skills/devops/kanban-worker/SKILL.md,18305,20,0,c58440841f945419,skill,import-as-is,"Existing skill; validate frontmatter against agentskills.io, add to skills/ catalog"

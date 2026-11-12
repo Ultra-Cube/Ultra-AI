@@ -585,7 +585,7 @@ Ultra-AI/
 │   │   ├── base/
 │   │   └── overlays/
 │   └── terraform/              # Infrastructure as Code
-├── scripts/
+├── infrastructure/automation/
 │   ├── setup.sh
 │   ├── deploy.sh
 │   └── migrate.sh

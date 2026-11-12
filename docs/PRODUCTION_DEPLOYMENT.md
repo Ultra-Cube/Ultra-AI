@@ -121,13 +121,13 @@ kubectl create secret generic db-creds \\
   -n ultra-ai
 
 # Apply manifests
-kubectl apply -f k8s/namespace.yaml
-kubectl apply -f k8s/configmap.yaml
-kubectl apply -f k8s/deployment-api.yaml
-kubectl apply -f k8s/deployment-web.yaml
-kubectl apply -f k8s/deployment-p2p.yaml
-kubectl apply -f k8s/service-api.yaml
-kubectl apply -f k8s/ingress.yaml
+kubectl apply -f control/templates/kubernetes/namespace.yaml
+kubectl apply -f control/templates/kubernetes/configmap.yaml
+kubectl apply -f control/templates/kubernetes/deployment-api.yaml
+kubectl apply -f control/templates/kubernetes/deployment-web.yaml
+kubectl apply -f control/templates/kubernetes/deployment-p2p.yaml
+kubectl apply -f control/templates/kubernetes/service-api.yaml
+kubectl apply -f control/templates/kubernetes/ingress.yaml
 
 # Verify deployment
 kubectl get pods -n ultra-ai
@@ -312,7 +312,7 @@ kubectl logs deployment/api -n ultra-ai
 ### Manual Rollback
 1. Identify last known good version
 2. Update image tag in manifest
-3. Apply manifest: `kubectl apply -f k8s/deployment-api.yaml`
+3. Apply manifest: `kubectl apply -f control/templates/kubernetes/deployment-api.yaml`
 4. Monitor metrics and logs
 5. Verify service health
 

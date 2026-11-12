@@ -67,7 +67,7 @@ graph TB
         PG[("PostgreSQL + Prisma")]
         REDIS[("Redis (cache)")]
         HERMES["infrastructure/monitoring/legacy-hermes<br/>Prometheus · Grafana · Alertmanager"]
-        K8S["k8s/ · Dockerfiles · ultra-stack.sh"]
+        K8S["control/templates/kubernetes/ · Dockerfiles · ultra-stack.sh"]
     end
 
     WEB --> API
@@ -100,7 +100,7 @@ graph TB
 > → platform/devtools/`, `platform/backend/distributed → platform/backend/distributed`
 > (parked), `packages/blockchain → platform/backend/blockchain` (deferred),
 > `infrastructure/monitoring/legacy-hermes → infrastructure/monitoring/legacy-hermes`,
-> `k8s/ + docker assets → control/config|templates`, `scripts/* →
+> `control/templates/kubernetes/ + docker assets → control/config|templates`, `infrastructure/automation/* →
 > infrastructure/automation/`, `memory/ → brain-stack/memory/ops/`,
 > `skills/ → brain-stack/skills/legacy/`, `contracts/ → platform/api/contracts/`.
 > Package names (`@ultra-ai/*`) and runtime behavior do not change — only
@@ -121,7 +121,7 @@ graph TB
 | 5 Distributed | `platform/backend/distributed` | 🟡 real-but-unwired | 1.0k | chunker, P2P, orchestrator, rewards; not behind API yet |
 | 5 Memory-opt | `platform/services/memory-optimizer` | 🟡 stub | 268 | GC/optimizer skeletons |
 | 6 Monitoring | `infrastructure/monitoring/legacy-hermes` | ✅ real | — | Prometheus+Grafana+Alertmanager+node-exporter |
-| 6 Ops | `k8s/`, `infrastructure/automation/ultra-stack.sh` | ✅ real | — | manifests validated (not cluster-deployed); launcher boots full stack |
+| 6 Ops | `control/templates/kubernetes/`, `infrastructure/automation/ultra-stack.sh` | ✅ real | — | manifests validated (not cluster-deployed); launcher boots full stack |
 
 **Dependency graph (verified from package.json):**
 `api → ai-core`; `api-gateway → shared`; `desktop-ui → shared + control-center`;

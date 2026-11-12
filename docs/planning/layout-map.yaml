@@ -213,3 +213,15 @@ verify:
   dry_run: "generate moves.tsv from this map; confirm every src exists and no dst collides"
   per_step: "bash infrastructure/automation/preservation.sh verify-moves baseline/pre-planning-20261111 moves.tsv"
   post: "npm run lint && npm run type-check && npm test"
+
+# --- WP-0b status (2026-11-12) ---
+# IMPLEMENTED: all placeholders above created (control/{policies,compliance,workflows,operations,config/*},
+# infrastructure/monitoring/{dashboards,metrics,health-checks,alerts,logs,stack}, infrastructure/Test,
+# platform/{database,testing,e2e,integration,performance,enterprise/*}, platform/api/contracts,
+# distribution/assets/branding, environments/{development,staging,production,testing}+manage-environment.sh,
+# brain-stack/{agents,commands,hooks,mcp,rules,models} + memory/ops/ + ops/project-map.md).
+# brain-stack is canonical home for memory/skills/agents/plugin. plugin/ultra-ai-builder now holds
+# only plugin.json + AGENTS.md + README.md (agents/commands/hooks/skills moved to brain-stack/*).
+# Legacy empty dirs removed. scripts/gen-moves.mjs -> infrastructure/automation/gen-moves.mjs.
+# Deferred: blockchain (owner-parked), monitoring/sentinel (WP-2), prisma->platform/database (later),
+# external-integrations/, wsl-ai-stack/ (owner-run manifest-local), Gate-OS contract (WP-11).

@@ -30,7 +30,7 @@
 ```
 1. ✅ Dockerfile.api                    (20 KB) - Backend containerization
 2. ✅ Dockerfile.web                    (18 KB) - Frontend containerization
-3. ✅ .env.example                      (2 KB)  - Environment template
+3. ✅ environments/.env.example                      (2 KB)  - Environment template
 4. ✅ .dockerignore                     (1.5 KB) - Build optimization
 5. ✅ docker-entrypoint.sh              (800 B) - Init automation
 6. ✅ docker-manage.sh                  (3.5 KB) - Management script
@@ -195,7 +195,7 @@ Restart Policy:    unless-stopped
 - [x] docker-entrypoint.sh (init automation)
 
 **Configuration Files**
-- [x] .env.example (45+ variables)
+- [x] environments/.env.example (45+ variables)
 - [x] .dockerignore (build optimization)
 
 **Helper Scripts**
@@ -392,7 +392,7 @@ User Request
 8. HPA (auto-scaling)
 
 **Deliverables**:
-- k8s/*.yaml files
+- control/templates/kubernetes/*.yaml files
 - Kustomization setup
 - Namespace isolation
 - Multi-replica configuration

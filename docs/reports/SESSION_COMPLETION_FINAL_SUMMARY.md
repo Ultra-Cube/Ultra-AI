@@ -31,7 +31,7 @@
 ✅ Dockerfile.api               - Backend container (20 KB)
 ✅ Dockerfile.web               - Frontend container (18 KB)
 ✅ docker-compose.yml           - Orchestration (enhanced)
-✅ .env.example                 - 45+ config variables (2 KB)
+✅ environments/.env.example                 - 45+ config variables (2 KB)
 ✅ .dockerignore                - Build optimization (1.5 KB)
 ```
 
@@ -297,7 +297,7 @@ Phases 25-30:  ⏳ Monitoring, CI/CD, Launch
 
 **Step 1 - Setup**
 ```bash
-cp .env.example .env
+cp environments/.env.example .env
 chmod +x docker-manage.sh
 ```
 
@@ -342,7 +342,7 @@ Docker Files:
 ├─ Dockerfile.api
 ├─ Dockerfile.web
 ├─ docker-compose.yml
-├─ .env.example
+├─ environments/.env.example
 ├─ .dockerignore
 ├─ docker-entrypoint.sh
 ├─ docker-manage.sh

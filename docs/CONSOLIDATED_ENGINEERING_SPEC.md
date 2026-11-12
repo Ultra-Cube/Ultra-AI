@@ -41,13 +41,13 @@ Core: `DATABASE_URL`, `REDIS_URL`, `MONGO*`, `PORT` (5555), `NODE_ENV`, `JWT_SEC
 Feature flags: `ENABLE_GRAPHQL`, `ENABLE_WEBHOOKS`, `ENABLE_ANALYTICS`.
 Multi-tenancy: `DEFAULT_MAX_USERS=5`, `DEFAULT_MAX_STORAGE=1073741824`, `BASE_DOMAIN=ultra-ai.com`, `ENABLE_CUSTOM_DOMAINS=true`.
 Analytics: `REDIS_HOST`, `REDIS_PORT`, `ANALYTICS_RETENTION_DAYS=90`, `ANALYTICS_DETAILED_LOGGING=true`.
-Misc: `OS_INTEGRATION_TYPE` (mock default), `NODE_OPTIONS=--max-old-space-size=...`. `.env.example` claims ~45 variables total.
+Misc: `OS_INTEGRATION_TYPE` (mock default), `NODE_OPTIONS=--max-old-space-size=...`. `environments/.env.example` claims ~45 variables total.
 
 ### 1.5 Kubernetes topology (Phase 19, namespace `ultra-ai`)
-- 13 manifests under `k8s/` (namespace/RBAC/quota, configmap 100+ vars, secrets, storage 3 StorageClasses + 6 PVCs, Postgres StatefulSet 50Gi, Redis master + 3 Sentinels 20Gi, MongoDB 3-node RS 100Gi, API Deployment ×3 (500m–2000m CPU, 512Mi–2Gi), Web Deployment ×2 (250m–1000m, 256Mi–1Gi), 8 services, ingress + cert-manager + NetworkPolicies, HPA/VPA/LimitRange, kustomization).
+- 13 manifests under `control/templates/kubernetes/` (namespace/RBAC/quota, configmap 100+ vars, secrets, storage 3 StorageClasses + 6 PVCs, Postgres StatefulSet 50Gi, Redis master + 3 Sentinels 20Gi, MongoDB 3-node RS 100Gi, API Deployment ×3 (500m–2000m CPU, 512Mi–2Gi), Web Deployment ×2 (250m–1000m, 256Mi–1Gi), 8 services, ingress + cert-manager + NetworkPolicies, HPA/VPA/LimitRange, kustomization).
 - HPA: API 3→20 @70% CPU; Web 2→10 @75% CPU. Pods run non-root UID 1001.
 - Ingress subdomains: api/app/graphql/admin/health/metrics `.ultra-ai.local`.
-- Deploy: `./k8s-deploy.sh full|config|databases|apps|verify|delete` or `kubectl apply -k k8s/`.
+- Deploy: `./k8s-deploy.sh full|config|databases|apps|verify|delete` or `kubectl apply -k control/templates/kubernetes/`.
 
 ### 1.6 Docker Compose
 8 services (postgres, mongodb, redis, ipfs, api, web, adminer, redis-commander) on `ultra-ai-network` bridge; entrypoint waits for PG/Redis, runs `prisma migrate deploy`, generates client, seeds. Managed by `docker-manage.sh {build,start,stop,restart,logs,status,cleanup}`.
@@ -187,7 +187,7 @@ n8n workflows proxy (system-architecture endpoint list)
 
 ## 6. Minimum Viable Platform Checklist (boot web + api + gateway/ai-core end-to-end locally)
 
-1. **Infra up**: `docker-compose up -d postgres redis` (Mongo/IPFS not needed for MVP path). Copy `.env.example` → `.env`: set `DATABASE_URL`, `REDIS_URL`, `JWT_SECRET`, `PORT=4000` (or 5555 — pick one and fix docs).
+1. **Infra up**: `docker-compose up -d postgres redis` (Mongo/IPFS not needed for MVP path). Copy `environments/.env.example` → `.env`: set `DATABASE_URL`, `REDIS_URL`, `JWT_SECRET`, `PORT=4000` (or 5555 — pick one and fix docs).
 2. **Database**: `npx prisma migrate deploy` (+ optional seed) in `platform/backend/core-api`.
 3. **API**: install deps; `npm run dev --workspace=@ultra-ai/api`. Verify `GET /health/detailed` shows database+redis healthy; `/metrics` and `/api-docs` respond.
 4. **Model provider**: point model-gateway at one reachable provider — Ollama local (no key) or set OPENAI/ANTHROPIC key; verify `GET /ai/models` and `GET /ai/gateway/health`.

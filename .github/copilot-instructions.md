@@ -91,7 +91,7 @@ docker-compose down
 ./k8s-deploy.sh
 
 # Apply manifests
-kubectl apply -f k8s/
+kubectl apply -f control/templates/kubernetes/
 
 # Check pods
 kubectl get pods -n ultra-ai

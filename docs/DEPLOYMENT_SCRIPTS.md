@@ -75,13 +75,13 @@ docker push ultra-ai/distributed:$VERSION
 
 # Update Kubernetes manifests
 echo "Updating Kubernetes manifests..."
-sed -i "s|ultra-ai/api:latest|ultra-ai/api:$VERSION|g" k8s/manifests.yaml
-sed -i "s|ultra-ai/web:latest|ultra-ai/web:$VERSION|g" k8s/manifests.yaml
-sed -i "s|ultra-ai/distributed:latest|ultra-ai/distributed:$VERSION|g" k8s/manifests.yaml
+sed -i "s|ultra-ai/api:latest|ultra-ai/api:$VERSION|g" control/templates/kubernetes/manifests.yaml
+sed -i "s|ultra-ai/web:latest|ultra-ai/web:$VERSION|g" control/templates/kubernetes/manifests.yaml
+sed -i "s|ultra-ai/distributed:latest|ultra-ai/distributed:$VERSION|g" control/templates/kubernetes/manifests.yaml
 
 # Deploy to Kubernetes
 echo "Deploying to Kubernetes..."
-kubectl apply -f k8s/manifests.yaml
+kubectl apply -f control/templates/kubernetes/manifests.yaml
 
 # Wait for rollout
 echo "Waiting for rollout..."

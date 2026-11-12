@@ -15,7 +15,7 @@
 - ✅ `Dockerfile.api` - Backend containerization
 - ✅ `Dockerfile.web` - Frontend containerization  
 - ✅ `docker-compose.yml` - 8 services orchestrated
-- ✅ `.env.example` - 45+ configuration variables
+- ✅ `environments/.env.example` - 45+ configuration variables
 - ✅ `.dockerignore` - Build optimization
 
 **Automation Scripts (2)**
@@ -43,7 +43,7 @@
 ### Quick Start (3 Commands)
 ```bash
 # 1. Setup environment
-cp .env.example .env && chmod +x docker-manage.sh
+cp environments/.env.example .env && chmod +x docker-manage.sh
 
 # 2. Build & start
 ./docker-manage.sh build && ./docker-manage.sh start
@@ -118,7 +118,7 @@ Data Persistence:           ✅ Named volumes
 - [x] Dockerfile.api (production-optimized)
 - [x] Dockerfile.web (Next.js optimized)
 - [x] docker-compose.yml (8 services)
-- [x] Environment configuration (.env.example)
+- [x] Environment configuration (environments/.env.example)
 - [x] Build optimization (.dockerignore)
 - [x] Container initialization (docker-entrypoint.sh)
 - [x] Service management (docker-manage.sh)
@@ -234,7 +234,7 @@ All items verified as complete:
 ```
 1. Dockerfile.api
 2. Dockerfile.web
-3. .env.example
+3. environments/.env.example
 4. .dockerignore
 5. docker-entrypoint.sh
 6. docker-manage.sh
@@ -257,7 +257,7 @@ All items verified as complete:
 
 ### For Developers
 ```bash
-cp .env.example .env
+cp environments/.env.example .env
 chmod +x docker-manage.sh
 ./docker-manage.sh build
 ./docker-manage.sh start

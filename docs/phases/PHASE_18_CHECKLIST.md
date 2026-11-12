@@ -41,7 +41,7 @@
   - ✅ Service dependencies
 
 ### Configuration Files
-- [x] **.env.example**
+- [x] **environments/.env.example**
   - ✅ 45+ variables documented
   - ✅ Database configuration
   - ✅ Cache configuration
@@ -435,7 +435,7 @@
 - [x] Dockerfile.api
 - [x] Dockerfile.web
 - [x] docker-compose.yml
-- [x] .env.example
+- [x] environments/.env.example
 - [x] .dockerignore
 - [x] docker-entrypoint.sh
 - [x] docker-manage.sh

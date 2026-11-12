@@ -8,17 +8,17 @@ source: docs/MASTER_ARCHITECTURE.md | status: VERIFIED-GROUND-TRUTH (written fro
   2. ZeroAI local-first assistant surface — real, demo-grade, NO auth
   3. Distributed processing network (P2P chunking/orchestration/rewards) — substantive code, NOT wired into API task path
   4. Blockchain reward layer — off-chain math only, NO deployed contract (aspirational)
-- Monitoring layer = "Hermes" (Prometheus+Grafana+Alertmanager in monitoring/hermes + in-app page apps/web/app/hermes)
-- scripts/ultra-stack.sh boots full system; ports: API 4000, Gateway 20129, Web 3000, Grafana 3001, Prometheus 9090
+- Monitoring layer = "Hermes" (Prometheus+Grafana+Alertmanager in infrastructure/monitoring/legacy-hermes + in-app page apps/web/app/hermes)
+- infrastructure/automation/ultra-stack.sh boots full system; ports: API 4000, Gateway 20129, Web 3000, Grafana 3001, Prometheus 9090
 - 409 tests pass, 20/20 turbo tasks green (api 306, distributed 55, api-gateway 45, ai-core 3)
 
 ## Six-layer model
 1 Experience: apps/web (Next.js 14, 5 pages), packages/desktop-ui (Electron stub)
 2 Edge/ZeroAI: dual simple/operator mode, JSON state file, no auth; packages/voice-recognition (stub)
 3 Intelligence: packages/ai-core (NLP/intent/planner/model-router), models.ts canonical catalog, providers OpenAI/Anthropic/Mock
-4 Platform API: packages/api (Fastify+Prisma+RBAC, 44 src files), packages/api-gateway, packages/shared
+4 Platform API: packages/api (Fastify+Prisma+RBAC, 44 src files), packages/api-gateway, platform/shared
 5 Distributed/Rewards: packages/distributed (chunker, P2P, orchestrator, rewards — unwired); packages/memory-optimizer (stub)
-6 Data & Ops: Postgres15+Prisma, Redis, monitoring/hermes, k8s/+Dockerfiles+ultra-stack.sh
+6 Data & Ops: Postgres15+Prisma, Redis, infrastructure/monitoring/legacy-hermes, control/templates/kubernetes/+Dockerfiles+ultra-stack.sh
 
 ## Model catalog (single source: packages/ai-core/src/models.ts)
 - OpenAI: gpt-5, gpt-5-mini, gpt-4.1, gpt-4.1-mini, gpt-4o, gpt-4o-mini

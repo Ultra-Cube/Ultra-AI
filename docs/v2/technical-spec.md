@@ -1,7 +1,7 @@
 # ULTRA AI — V2 TECHNICAL SPECIFICATION
 
 **Status:** PROPOSED (needs owner gates G-0.x … G-4.x) · **Date:** 2026-11-09 · **Language:** English (user-facing UI: Arabic RTL + English)
-**Relation to existing docs:** this spec **adds to and corrects** `docs/MASTER_ARCHITECTURE.md` and the earlier `MASTER_PLAN.md`; it deletes nothing. Items that conflict are logged in `ultra-ai-v2/memory/contradictions.md`.
+**Relation to existing docs:** this spec **adds to and corrects** `docs/MASTER_ARCHITECTURE.md` and the earlier `MASTER_PLAN.md`; it deletes nothing. Items that conflict are logged in `brain-stack/memory/planning/contradictions.md`.
 **Status vocabulary:** `IDEA` → `SPEC` → `STUB` → `WORKING` → `VERIFIED`. External facts carry a source in `ULTRA_AI_LEGAL_LICENSING.md` §2; anything else unverified is marked `UNVERIFIED`.
 
 ---

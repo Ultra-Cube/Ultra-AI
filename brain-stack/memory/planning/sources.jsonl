@@ -6,7 +6,7 @@
 {"path":"PLANNING_BASELINE_1aa16b6.sha256","sha256":"1cbfd0c15426ebd2a7050e54aab89d9f33ef02c0fc3e14b15bef7a0ea750810f","class":"planning","targets":["preservation"],"stage":"mechanical"}
 {"path":"PLANNING_BASELINE_c863ef8.sha256","sha256":"11c5bca6a8b1d1397b11d230dae1bdaa597a0af4e3b4a9ed91fc1399324761fb","class":"planning","targets":["preservation"],"stage":"mechanical"}
 {"path":"ULTRA_AI_MASTER_PLAN_LATEST.md","sha256":"c639adf8b3caeff3889f714a20284afa91aca2160baea8c9af5435dce8cadbd1","class":"planning","targets":["facts"],"stage":"done"}
-{"path":"scripts/preservation.sh","sha256":"a6bb384ebaa4bdb0746ff150e907d0c655b50e86fd4dd8ed202a7eb8ed1f6cd9","class":"tooling","targets":["preservation"],"stage":"mechanical"}
+{"path":"infrastructure/automation/preservation.sh","sha256":"a6bb384ebaa4bdb0746ff150e907d0c655b50e86fd4dd8ed202a7eb8ed1f6cd9","class":"tooling","targets":["preservation"],"stage":"mechanical"}
 {"path":".github/copilot-instructions.md","sha256":"6341459f82769e4013c60ce115e0a5932c1b9205a483bd2c3fd834f422de9b53","class":"doc","stage":"partial"}
 {"path":"BUILD_PLAN.md","sha256":"70d2f636486d05521ed07b57f91e4846c2b006f7f7d4a9d630c2f0ac823d60c6","class":"doc","stage":"done"}
 {"path":"CODE_OF_CONDUCT.md","sha256":"1bbd2279af6bf801f19017a034be452a58d083a4482363b2549d7df85025ae87","class":"doc","stage":"partial"}
@@ -94,14 +94,14 @@
 {"path":"external-integrations/FADHEL-SH-REPOSITORIES.md","sha256":"1a53ae6143597a7be9767ba611c5e0f6e8875c1eecf1a67772a4a230af3555cf","class":"doc","stage":"partial"}
 {"path":"external-integrations/INTEGRATION_PLAN.md","sha256":"f4093b005ff5b02f3cb963a429eae6b8939802ac41ba35c657f6b7512b582700","class":"doc","stage":"partial"}
 {"path":"external-integrations/README.md","sha256":"08d1d1ffb431569d68e5e1f473078fb296353b88d0acdda7b98b65de83f2e089","class":"doc","stage":"partial"}
-{"path":"monitoring/hermes/README.md","sha256":"996078ef2f5fd67b8b8789cd37f3665a200f9d1be079fc108462943afd74a7ff","class":"doc","stage":"partial"}
+{"path":"infrastructure/monitoring/legacy-hermes/README.md","sha256":"996078ef2f5fd67b8b8789cd37f3665a200f9d1be079fc108462943afd74a7ff","class":"doc","stage":"partial"}
 {"path":"packages/ai-core/README.md","sha256":"468db1457d5e0831d919a26fd63d309837ff93a456aa46f6785a8c09f24d1448","class":"doc","stage":"partial"}
 {"path":"packages/api/src/rbac/README.md","sha256":"38f27c2a8d02719a562a805e55d57fe90b4fafd7ba926dafd1b9318720e1eb7f","class":"doc","stage":"partial"}
 {"path":"packages/api/src/services/agents/REGISTRY_SUMMARY.md","sha256":"9d7574d143d09ec8da8e37c6af0d9a85513e0c52f156aafe07b52146d456d1cf","class":"doc","stage":"partial"}
 {"path":"packages/api/src/services/caching/README.md","sha256":"4cbadbfb9e245ec0dd1d2e8cfaeea085941a2e77f6d96ac10350cc0a353adf99","class":"doc","stage":"partial"}
 {"path":"packages/api/src/services/monitoring/README.md","sha256":"805822164e22ffbf10a10069af191f8008cc80187188ecc806d82bdc29825d44","class":"doc","stage":"partial"}
 {"path":"packages/distributed/README.md","sha256":"26d161c70f07793003f1b06478af4691d6a9c35a833b494e0ca2546316a81b08","class":"doc","stage":"partial"}
-{"path":"services/mock-adapters/README.md","sha256":"340e543109a051ba7436d1346321bc468be9612d2d543376ee1decc3496378bd","class":"doc","stage":"partial"}
+{"path":"platform/services/mock-adapters/README.md","sha256":"340e543109a051ba7436d1346321bc468be9612d2d543376ee1decc3496378bd","class":"doc","stage":"partial"}
 {"path":"skills/devops/architecture-review/SKILL.md","sha256":"1a0b175ffbd660aa74d35c79fb486c12675ff058629b894d012ba4521a0c2cf9","class":"doc","stage":"partial"}
 {"path":"skills/devops/kanban-orchestrator/SKILL.md","sha256":"17a31b7deabf8e4b7dd9122ada5fdab052f324dc797f7ca147a59d9f419b1760","class":"doc","stage":"partial"}
 {"path":"skills/devops/kanban-worker/SKILL.md","sha256":"64f57647cd9c724d0298ebe9bada14d00df844ac9ed7f525fff300421f34d746","class":"doc","stage":"partial"}

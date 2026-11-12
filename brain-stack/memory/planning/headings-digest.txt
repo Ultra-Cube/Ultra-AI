@@ -686,9 +686,9 @@
 303:# Application Secrets
 322:### Kubernetes Manifests
 324:#### **Application Deployment**
-327:# k8s/deployments/api-gateway.yaml
+327:# control/templates/kubernetes/deployments/api-gateway.yaml
 440:#### **AI Processing Deployment**
-443:# k8s/deployments/ai-processor.yaml
+443:# control/templates/kubernetes/deployments/ai-processor.yaml
 524:## 🔄 CI/CD Pipeline
 526:### GitLab CI/CD Configuration
 528:#### **Complete Pipeline**
@@ -704,7 +704,7 @@
 755:### Deployment Automation Scripts
 757:#### **Blue-Green Deployment Script**
 760:#!/bin/bash
-761:# scripts/blue-green-deploy.sh
+761:# infrastructure/automation/blue-green-deploy.sh
 765:# Configuration
 776:# Function to check deployment health
 === docs/DEPLOYMENT_SCRIPTS.md ===
@@ -2143,7 +2143,7 @@
 76:#### 2. **Dockerfile.web** (Frontend)
 105:#### 3. **docker-compose.yml** (Orchestration)
 155:### Configuration Files
-157:#### 4. **.env.example** (Environment Template)
+157:#### 4. **environments/.env.example** (Environment Template)
 182:# Database
 185:# Cache
 188:# API
@@ -2179,7 +2179,7 @@
 11:### Docker Configuration Files (4 files)
 13:#### 1. **Dockerfile.api** ✅
 26:#### 2. **Dockerfile.web** ✅
-39:#### 3. **.env.example** ✅
+39:#### 3. **environments/.env.example** ✅
 55:#### 4. **.dockerignore** ✅
 68:### Helper Scripts (2 files)
 70:#### 5. **docker-entrypoint.sh** ✅
@@ -2902,7 +2902,7 @@
 35:## Integration Plan
 39:## Integration Status
 49:## Notes
-=== monitoring/hermes/README.md ===
+=== infrastructure/monitoring/legacy-hermes/README.md ===
 1:# Hermes Monitoring Stack
 8:## What it monitors
 18:## Components
@@ -3068,7 +3068,7 @@
 5:## Features
 13:## Status
 17:## Usage
-=== services/mock-adapters/README.md ===
+=== platform/services/mock-adapters/README.md ===
 1:# @ultra-ai/mock-adapters
 11:## Port
 15:## Run

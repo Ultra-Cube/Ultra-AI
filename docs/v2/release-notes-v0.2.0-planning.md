@@ -12,10 +12,10 @@ All changes are **additions only** — zero existing files were modified, delete
 | Area | Path | Contents |
 |------|------|----------|
 | Planning artifacts | `ULTRA_AI_*.md`, `DOC_CONVERSION_MAP.csv`, `PLANNING_BASELINE_*.sha256` | Super prompt, TODO, technical spec, legal/licensing, master plan, doc map, sha256 baselines |
-| Project skills | `ultra-ai-v2/skills/` | 33 domain skills with Ultra-AI project context (Hermes, providers/engines/tool adapters, signed-event outbox, Gate-OS contract, 3D control center, packaging, SBOM, threat model, i18n/RTL, …) |
-| Builder plugin | `ultra-ai-v2/plugin/ultra-ai-builder/` | `plugin.json`, 33 mirrored skills, 16 agents (A00–A15), 4 commands, hooks (preservation-guard), `.mcp.json`, `AGENTS.md` |
-| Memory bank | `ultra-ai-v2/memory/` | Facts corpus (7 files), decisions ledger (ADR-0001/0002 + G-0.1–G-0.7), glossary, contradictions (C-001…), timeline, `sources.jsonl` (122 entries), `coverage.md`, notes |
-| Diagram registry | `ultra-ai-v2/diagrams/` | 116 extracted `.mmd` files + `graphs/registry.json` + `graphs/index.md` |
+| Project skills | `brain-stack/skills/ultra-ai-v2/` | 33 domain skills with Ultra-AI project context (Hermes, providers/engines/tool adapters, signed-event outbox, Gate-OS contract, 3D control center, packaging, SBOM, threat model, i18n/RTL, …) |
+| Builder plugin | `brain-stack/plugin/ultra-ai-builder/` | `plugin.json`, 33 mirrored skills, 16 agents (A00–A15), 4 commands, hooks (preservation-guard), `.mcp.json`, `AGENTS.md` |
+| Memory bank | `brain-stack/memory/planning/` | Facts corpus (7 files), decisions ledger (ADR-0001/0002 + G-0.1–G-0.7), glossary, contradictions (C-001…), timeline, `sources.jsonl` (122 entries), `coverage.md`, notes |
+| Diagram registry | `brain-stack/memory/diagrams/` | 116 extracted `.mmd` files + `graphs/registry.json` + `graphs/index.md` |
 | Tooling | `infrastructure/automation/preservation.sh` | Manifest / verify-tag / verify-additive preservation checker |
 
 ## What is deliberately unchanged
@@ -54,12 +54,12 @@ bash infrastructure/automation/preservation.sh verify-tag HEAD PLANNING_BASELINE
 # expect: "checked N entries, violations: 0"
 
 # diagram registry completeness
-ls ultra-ai-v2/diagrams/*.mmd | wc -l        # 116
-node -e "console.log(require('./ultra-ai-v2/diagrams/graphs/registry.json').length)"  # 116
+ls brain-stack/memory/diagrams/*.mmd | wc -l        # 116
+node -e "console.log(require('./brain-stack/memory/diagrams/graphs/registry.json').length)"  # 116
 ```
 
 ## Decision record
 
 - Runtime: Hermes Agent core + Claude Code parallel agent (ADR-0001, G-0.1).
 - Tag name `v0.2.0-planning`, license Apache-2.0 planned (ADR-0002, G-0.2/G-0.3).
-- All G-0.x question cards answered 2026-11-09/11 — see `ultra-ai-v2/memory/decisions/ledger.md`.
+- All G-0.x question cards answered 2026-11-09/11 — see `brain-stack/memory/planning/decisions/ledger.md`.

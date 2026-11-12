@@ -202,7 +202,7 @@ Status:                  ✅ COMPLETE
   - Connection pooling (PgBouncer)
 
 - [ ] **Environment Configuration** (1 hour)
-  - .env.example with all variables
+  - environments/.env.example with all variables
   - Environment profiles (dev, staging, prod)
   - Secret management strategy
   - API keys and credentials handling

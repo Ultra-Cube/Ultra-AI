@@ -365,7 +365,7 @@ GET    /compliance/status                  - Compliance status
 **Deliverables**:
 - [`docs/PRODUCTION_DEPLOYMENT.md`](../../docs/PRODUCTION_DEPLOYMENT.md) - Comprehensive guide
 - [`docs/DEPLOYMENT_SCRIPTS.md`](../../docs/DEPLOYMENT_SCRIPTS.md) - 7 operational scripts
-- [`k8s/manifests.yaml`](../../k8s/manifests.yaml) - Production K8s manifests
+- [`control/templates/kubernetes/manifests.yaml`](../../k8s/manifests.yaml) - Production K8s manifests
 
 **Infrastructure**:
 - Kubernetes (AWS EKS / GCP GKE)

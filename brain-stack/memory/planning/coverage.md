@@ -22,16 +22,16 @@ Status: S2 not started. See `ULTRA_AI_TODO.md` P0-07.
 ## S2b ledger update (sources.jsonl)
 - 122 entries total: 46 done (deep-read + facts extracted), 72 partial (head-scanned + classified into batch3/batch4 facts), 4 mechanical (csv/sh/baselines).
 - Facts files: architecture-master.md, system-arch-and-zeroai-stack.md, wsl-stack-and-edge-arch.md, zeroai-architecture.md, root-docs-build-state.md, docs-classification-batch3.md, docs-classification-batch4.md.
-- Key verdicts: docs/planning/* + BUILD_PLAN = authoritative; most "100% complete" reports = stale/aspirational (doc-drift vs CRITICAL_ISSUES.md); monitoring/hermes = verified observability pattern; config/brain = scaffold only (no GPU); skills/devops/* = original agent-studio skills → deepening candidates.
+- Key verdicts: docs/planning/* + BUILD_PLAN = authoritative; most "100% complete" reports = stale/aspirational (doc-drift vs CRITICAL_ISSUES.md); infrastructure/monitoring/legacy-hermes = verified observability pattern; config/brain = scaffold only (no GPU); skills/devops/* = original agent-studio skills → deepening candidates.
 - Remaining S2b: diagrams/graphs/*.json registry build from 116 .mmd; skill deepening (33 stubs → content from extracted facts).
 
 ## S2b — diagrams registry DONE
 - `diagrams/graphs/registry.json` + `index.md`: 116/116 .mmd registered with sourceDoc, diagramType, approxEdges, subgraphs.
 - Type distribution: graph:TB 53, graph:LR 31, graph:TD 1, gantt 13, sequenceDiagram 6, journey 4, timeline 3, pie 5.
-- Remaining S2b: skill deepening — 33 stub SKILL.md in ultra-ai-v2/skills + plugin/ultra-ai-builder/skills need real content synthesized from facts/*.md.
+- Remaining S2b: skill deepening — 33 stub SKILL.md in brain-stack/skills + plugin/ultra-ai-builder/skills need real content synthesized from facts/*.md.
 
 ## S2b — skill deepening DONE (33/33)
-- All 33 skills in ultra-ai-v2/skills/<name>/SKILL.md gained an authored "## Ultra-AI context" section citing memory/facts sources (architecture-master, system-arch-and-zeroai-stack, zeroai-architecture, wsl-stack-and-edge-arch, root-docs-build-state, docs-classification-batch3/4).
+- All 33 skills in brain-stack/skills/ultra-ai-v2/<name>/SKILL.md gained an authored "## Ultra-AI context" section citing memory/facts sources (architecture-master, system-arch-and-zeroai-stack, zeroai-architecture, wsl-stack-and-edge-arch, root-docs-build-state, docs-classification-batch3/4).
 - Stubs upgraded from generic templates to project-specific knowledge pointers: adapters (ollama/9router/hermes/openclaw/openwebui/zeroai-ui/threejs-viz/mcp/tools), pipeline (memory/skills/agents/planner-orchestrator/task-card/contract/gate/verifier), infra (devops/gha/security/observability/sre/cross-platform-gateway/signed-events), process (adr/adr-verify/adr-review/document-ingest/consolidate-docs/contradiction-ledger/coverage-ledger/source-hash/mermaid-index/kanban-orchestration/uiux-design/skill-authoring).
-- Plugin mirror plugin/ultra-ai-builder/skills/<name>/SKILL.md received the same context section.
+- Plugin mirror brain-stack/skills/ultra-ai-v2/<name>/SKILL.md received the same context section.
 - Remaining caveat: context sections are pointers into facts files, not full rewrites — deepen further during S4 implementation as each component is built.

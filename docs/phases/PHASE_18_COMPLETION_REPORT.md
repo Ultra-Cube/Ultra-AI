@@ -154,9 +154,9 @@
 
 ### Configuration Files
 
-#### 4. **.env.example** (Environment Template)
+#### 4. **environments/.env.example** (Environment Template)
 ```
-✅ Created/Updated: /.env.example
+✅ Created/Updated: /environments/.env.example
 📏 Size: ~2 KB
 📋 Sections:
    • Database Configuration
@@ -425,7 +425,7 @@ HEALTHCHECK --interval=30s --timeout=10s \
 - ✅ Dockerfile.api syntax valid (Docker buildx lint)
 - ✅ Dockerfile.web syntax valid
 - ✅ docker-compose.yml YAML valid
-- ✅ .env.example has all required variables
+- ✅ environments/.env.example has all required variables
 - ✅ .dockerignore patterns correct
 - ✅ docker-manage.sh executable and functional
 
@@ -563,7 +563,7 @@ For Phase 19 (Kubernetes), we will:
 | Dockerfile.api | 20 KB | Backend container | ✅ |
 | Dockerfile.web | 18 KB | Frontend container | ✅ |
 | docker-compose.yml | 150 KB | Multi-service config | ✅ |
-| .env.example | 2 KB | Environment template | ✅ |
+| environments/.env.example | 2 KB | Environment template | ✅ |
 | .dockerignore | 1.5 KB | Build optimization | ✅ |
 | docker-entrypoint.sh | 800 B | Init script | ✅ |
 | docker-manage.sh | 3.5 KB | Management script | ✅ |
@@ -618,7 +618,7 @@ For Phase 19 (Kubernetes), we will:
 
 ```bash
 # 1. Copy environment template
-cp .env.example .env
+cp environments/.env.example .env
 
 # 2. Build images (first time)
 chmod +x docker-manage.sh

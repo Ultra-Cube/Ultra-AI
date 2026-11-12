@@ -19,7 +19,7 @@ Ultra-AI is a full-stack AI platform monorepo: `apps/` (web frontends), `package
 - `external-integrations/` — third-party integration configs
 - `tests/` — cross-cutting test suites
 - `docs/` — project documentation
-- `wsl-ai-stack/` — local AI runtime: Ollama + AirLLM (`runtime/airllm/.venv`), n8n, voice bridge (`scripts/`)
+- `wsl-ai-stack/` — local AI runtime: Ollama + AirLLM (`runtime/airllm/.venv`), n8n, voice bridge (`infrastructure/automation/`)
 - `.devin/` — Devin agent configuration (skills, agents, MCP)
 - `.cursor/rules/` — Cursor/agent rules (`.mdc`, glob-scoped)
 - `external/mdskills-catalog/` — mirrored catalog of ~1000 skills/rules/MCP/plugins imported from mdskills.ai (reference + security reports; not active code)
@@ -34,11 +34,11 @@ Ultra-AI is a full-stack AI platform monorepo: `apps/` (web frontends), `package
 - Type-check: `npm run type-check`
 - Format: `npm run format` / `npm run format:check`
 - Docker dev stack: `npm run docker:dev` (Postgres, Mongo, Redis via docker-compose)
-- Full local AI stack: `bash scripts/ultra-stack.sh up` (see `wsl-ai-stack/README.md`, `wsl-ai-stack/AIRLLM.md`)
+- Full local AI stack: `bash infrastructure/automation/ultra-stack.sh up` (see `wsl-ai-stack/README.md`, `wsl-ai-stack/AIRLLM.md`)
 
 ## Environment
 
-- `.env.example` — template; copy to `.env`. Key vars: `DATABASE_URL` (Postgres `ultra_ai_db`), plus Mongo/Redis connection strings.
+- `environments/.env.example` — template; copy to `.env`. Key vars: `DATABASE_URL` (Postgres `ultra_ai_db`), plus Mongo/Redis connection strings.
 - Dev Postgres credentials (local only): user `ultra_ai_user`, db `ultra_ai_db`, port `5432`.
 
 ## Agent capabilities (installed from mdskills.ai)

@@ -56,7 +56,7 @@ Turn the Ultra-AI repository — a large collection of ideas plus a partial impl
 ### 3.1 Reversibility classes
 | Class | Meaning | Behaviour |
 |---|---|---|
-| **R0** | Reversible, low risk (naming, folder layout inside new dirs, lint rules) | Decide using the recommended default, log it in `ultra-ai-v2/memory/decisions/ledger.md`, mention in the next report. |
+| **R0** | Reversible, low risk (naming, folder layout inside new dirs, lint rules) | Decide using the recommended default, log it in `brain-stack/memory/planning/decisions/ledger.md`, mention in the next report. |
 | **R1** | Reversible but consequential (library choice, API shape, UI direction) | Issue a card; **continue only on a feature branch** with the recommended default; do not merge until answered. |
 | **R2** | Irreversible, legal, financial, security or public (deleting/moving baseline files, publishing a release, licences, enabling OAuth pooling, sending data to third parties, blockchain/token work, public posts) | Issue a **blocking** card; do nothing irreversible until answered; continue only parallel-safe work. |
 
@@ -73,7 +73,7 @@ Turn the Ultra-AI repository — a large collection of ideas plus a partial impl
 **Meanwhile I will continue with:** <parallel-safe tasks>   |   **Reply:** a letter (A–D)
 **(AR)** سطر واحد يلخّص القرار المطلوب والخيار الموصى به.
 ```
-Rules: 2–4 options plus "Other"; exactly one ⭐ with a reason; each option states consequence, cost, risk; batch related questions (max 3 per message); never repeat an answered card; record every answer in `ultra-ai-v2/memory/decisions/ledger.md` (id, date, choice, rationale).
+Rules: 2–4 options plus "Other"; exactly one ⭐ with a reason; each option states consequence, cost, risk; batch related questions (max 3 per message); never repeat an answered card; record every answer in `brain-stack/memory/planning/decisions/ledger.md` (id, date, choice, rationale).
 
 ### 3.3 Stop-state machine
 ```mermaid
@@ -101,10 +101,10 @@ The Orchestrator may map these roles onto the existing 32-agent Studio personas 
 
 | ID | Role | Owns (write access) | Primary skills (section App. D) |
 |---|---|---|---|
-| **A00** | Lead Orchestrator | `ULTRA_AI_TODO.md`, `ultra-ai-v2/memory/decisions/`, release tags | `ask-with-options`, `kanban-orchestration`, `evidence-report` |
-| **A01** | Archivist | `ultra-ai-v2/memory/`, `ultra-ai-v2/diagrams/`, `docs/archive/`, `DOC_CONVERSION_MAP.csv` | `doc-ingestion`, `memory-bank`, `diagram-registry`, `preservation-guard` |
-| **A02** | Skill & Plugin Smith | `ultra-ai-v2/skills/`, `ultra-ai-v2/plugin/` | `skill-authoring`, `plugin-packaging` |
-| **A03** | Architect | `ultra-ai-v2/docs/adr/`, `contracts/` | `adr-writing`, `contract-first-api` |
+| **A00** | Lead Orchestrator | `ULTRA_AI_TODO.md`, `brain-stack/memory/planning/decisions/`, release tags | `ask-with-options`, `kanban-orchestration`, `evidence-report` |
+| **A01** | Archivist | `brain-stack/memory/planning/`, `brain-stack/memory/diagrams/`, `docs/archive/`, `DOC_CONVERSION_MAP.csv` | `doc-ingestion`, `memory-bank`, `diagram-registry`, `preservation-guard` |
+| **A02** | Skill & Plugin Smith | `brain-stack/skills/ultra-ai-v2/`, `brain-stack/plugin/` | `skill-authoring`, `plugin-packaging` |
+| **A03** | Architect | `brain-stack/docs/adr/`, `contracts/` | `adr-writing`, `contract-first-api` |
 | **A04** | Legal & License Auditor | `legal/`, `THIRD_PARTY.md`, SBOM | `license-audit`, `tos-review`, `sbom` |
 | **A05** | Runtime Engineer | `platform/packages/runtime-supervisor/` | `sidecar-lifecycle`, `reverse-proxy-sso` |
 | **A06** | Brain Engineer | `platform/packages/brain/` (Hermes integration, memory, skill registry, MCP) | `hermes-integration`, `agentskills-standard` |
@@ -127,9 +127,9 @@ The Orchestrator may map these roles onto the existing 32-agent Studio personas 
 ### STEP S1 — Build skills, plugin and memory (owner step 1)
 **Inputs:** this prompt, companion files, `skills/` (3 existing skills), agentskills.io format.
 **Do:**
-1. Create `ultra-ai-v2/skills/<name>/SKILL.md` for every skill in App. D (frontmatter: `name`, `description` with trigger phrases, `platforms`, `version`; body: when to use, inputs, steps, verification, failure modes, links). Keep each skill ≤ 500 lines; put long reference in `references/`.
-2. Create the plugin `ultra-ai-v2/plugin/ultra-ai-builder/` (layout in App. E): skills, agent definitions for A00–A15, slash commands (`/ultra-status`, `/ultra-gate`, `/ultra-verify`, `/ultra-release`), hooks (`preservation-guard` as a pre-commit/pre-push check), MCP config stub. **Verify the plugin manifest format against the current official docs of the chosen runtime before writing it** (record the URL + date).
-3. Create the **Memory Bank** (App. F): `ultra-ai-v2/memory/facts/*.yaml`, `ultra-ai-v2/memory/decisions/ADR-*.md` + `ledger.md`, `ultra-ai-v2/memory/glossary.md`, `ultra-ai-v2/memory/contradictions.md`, `ultra-ai-v2/memory/timeline.md`, `ultra-ai-v2/memory/sources.jsonl`. Keep Hermes' own compact memory files (`MEMORY.md`, `USER.md`; published hard caps ≈ 2,200 and 1,375 characters — `UNVERIFIED` for the installed version) as **pointers** into the bank, never as the store.
+1. Create `brain-stack/skills/ultra-ai-v2/<name>/SKILL.md` for every skill in App. D (frontmatter: `name`, `description` with trigger phrases, `platforms`, `version`; body: when to use, inputs, steps, verification, failure modes, links). Keep each skill ≤ 500 lines; put long reference in `references/`.
+2. Create the plugin `brain-stack/plugin/ultra-ai-builder/` (layout in App. E): skills, agent definitions for A00–A15, slash commands (`/ultra-status`, `/ultra-gate`, `/ultra-verify`, `/ultra-release`), hooks (`preservation-guard` as a pre-commit/pre-push check), MCP config stub. **Verify the plugin manifest format against the current official docs of the chosen runtime before writing it** (record the URL + date).
+3. Create the **Memory Bank** (App. F): `brain-stack/memory/planning/facts/*.yaml`, `brain-stack/memory/planning/decisions/ADR-*.md` + `ledger.md`, `brain-stack/memory/planning/glossary.md`, `brain-stack/memory/planning/contradictions.md`, `brain-stack/memory/planning/timeline.md`, `brain-stack/memory/planning/sources.jsonl`. Keep Hermes' own compact memory files (`MEMORY.md`, `USER.md`; published hard caps ≈ 2,200 and 1,375 characters — `UNVERIFIED` for the installed version) as **pointers** into the bank, never as the store.
 **DoD:** every skill passes a frontmatter lint; plugin installs in a clean sandbox of the chosen runtime (evidence); memory bank has ≥ 1 entry per required file; nothing outside new directories changed (`verify-additive` = OK).
 
 ### STEP S2 — Read every `.md` and diagram; convert to skills, memory, diagrams (owner step 2)
@@ -137,16 +137,16 @@ The Orchestrator may map these roles onto the existing 32-agent Studio personas 
 **Do:** for **each** row, read the whole file, then:
 1. **Facts → memory:** extract atomic facts (`id`, `statement`, `status` ∈ IDEAL/SPEC/STUB/WORKING/VERIFIED, `source` path#heading, `source_sha256`, `confidence`). Aspirational business content is stored with `status: IDEAL` and tag `non-engineering`.
 2. **Procedures → skills:** any repeatable procedure (runbook, checklist, protocol) becomes or extends a skill; cite the source doc in the skill's `references/`.
-3. **Diagrams → registry:** extract every Mermaid block to `ultra-ai-v2/diagrams/<doc>__<n>.mmd`, **validate syntax**, add a machine-readable graph (`ultra-ai-v2/diagrams/graphs/<id>.json`: `nodes`, `edges`, `labels`, `source`) so the AI can query "what connects to X". Redraw the *corrected* diagrams from the Technical Spec into `ultra-ai-v2/diagrams/v2/`.
-4. **Contradictions:** whenever two sources disagree (phases 3/12/17/30, ports 4000/5555 (still in `k8s-deploy.sh:199`), 20128/20129, 5678 (n8n vs JARVIS), 3000 (web vs AionUi/OpenHands), "100% complete" vs reality), add a row to `ultra-ai-v2/memory/contradictions.md` with both citations and the resolution (ADR id).
+3. **Diagrams → registry:** extract every Mermaid block to `brain-stack/memory/diagrams/<doc>__<n>.mmd`, **validate syntax**, add a machine-readable graph (`brain-stack/memory/diagrams/graphs/<id>.json`: `nodes`, `edges`, `labels`, `source`) so the AI can query "what connects to X". Redraw the *corrected* diagrams from the Technical Spec into `brain-stack/memory/diagrams/v2/`.
+4. **Contradictions:** whenever two sources disagree (phases 3/12/17/30, ports 4000/5555 (still in `k8s-deploy.sh:199`), 20128/20129, 5678 (n8n vs JARVIS), 3000 (web vs AionUi/OpenHands), "100% complete" vs reality), add a row to `brain-stack/memory/planning/contradictions.md` with both citations and the resolution (ADR id).
 5. **Never edit the source file.** Output only into new paths.
-**DoD (revised by ADR-0009):** 113/113 files appear in `sources.jsonl` with a stage (`done`/`partial`/`mechanical`; `pending` = 0; mechanical files are a tracked read backlog, P0-07b); 117/117 diagrams extracted (baseline: 116 valid, 1 invalid — keep the original untouched, re-express it in `ultra-ai-v2/diagrams/v2/`) and every extracted/redrawn diagram syntax-valid; every fact has a source; contradiction ledger ≥ the known list in F-table; coverage report (`ultra-ai-v2/memory/coverage.md`) generated by script, not by hand.
+**DoD (revised by ADR-0009):** 113/113 files appear in `sources.jsonl` with a stage (`done`/`partial`/`mechanical`; `pending` = 0; mechanical files are a tracked read backlog, P0-07b); 117/117 diagrams extracted (baseline: 116 valid, 1 invalid — keep the original untouched, re-express it in `brain-stack/memory/diagrams/v2/`) and every extracted/redrawn diagram syntax-valid; every fact has a source; contradiction ledger ≥ the known list in F-table; coverage report (`brain-stack/memory/planning/coverage.md`) generated by script, not by hand.
 
 ### STEP S3 — The Planning & Study Release (owner step 3)
 Goal: a release that **keeps every current file unchanged** and adds the planning/study artifacts.
 1. **Baseline:** record the exact live `HEAD`; run `infrastructure/automation/preservation.sh manifest HEAD baseline.sha256`; create annotated tag `baseline/pre-planning-YYYYMMDD` on it and push the tag (R2 card first).
 2. **Recover orphan content (F2):** for each of the 5 gitlinks, record its commit SHA in `external-integrations/_PINS.md` (new file) and ask the owner (R2 card) whether to **mirror** the upstream forks (`Fadhel-SH/*`) into `Ultra-Cube` and add a proper `.gitmodules` *after* the release.
-3. **Branch** `release/planning-study` from the baseline tag. Commit **only additions**: `ultra-ai-v2/**`, `ultra-ai-v2/memory/**` (or under `ultra-ai-v2/memory/` — decided by ADR), `ultra-ai-v2/diagrams/**`, `legal/**`, `infrastructure/automation/preservation.sh`, the baseline manifest, `PLANNING_RELEASE_NOTES.md`.
+3. **Branch** `release/planning-study` from the baseline tag. Commit **only additions**: `brain-stack/**`, `brain-stack/memory/planning/**` (or under `brain-stack/memory/planning/` — decided by ADR), `brain-stack/memory/diagrams/**`, `legal/**`, `infrastructure/automation/preservation.sh`, the baseline manifest, `PLANNING_RELEASE_NOTES.md`.
 4. **Gate:** `infrastructure/automation/preservation.sh verify-additive <baseline-tag> HEAD` must print `OK … 0 changed, 0 deleted`. Also `verify-tag` against the manifest. Do **not** edit `package.json` (version stays `0.1.0`), README, or any existing file in this release — fixes like the lockfile, LICENSE and README rewrite belong to Phase 0 *after* the tag.
 5. **Tag & release:** default tag name `v0.2.0-planning` (GitHub **pre-release**; Question Card G-0.2 for the name). Attach: baseline manifest, `git archive` tarball, a full `git bundle`, release notes (what is included, what is deliberately unchanged, known gaps F2/F3/F4/F9, how to verify).
 **DoD:** an independent run of `verify-tag` + `verify-additive` by A14 is green; the owner approved the publish card.
@@ -204,9 +204,9 @@ The script records **gitlinks** separately (content not in the repo) and exits n
 | Test or build fails | Fix within the task; if root cause is outside owned paths, hand off by contract; never disable the test. |
 | Tool/network/GPU missing | Mark `UNVERIFIED — needs <env>`, produce a runnable script for a capable host, continue with mocks behind an adapter. |
 | Licence unclear | Row stays `PENDING`; component not vendored; card to owner with options (replace / contact vendor / use as user-installed). |
-| Upstream changed | Re-pin by SHA, re-run license row, record in `ultra-ai-v2/memory/timeline.md`. |
+| Upstream changed | Re-pin by SHA, re-run license row, record in `brain-stack/memory/planning/timeline.md`. |
 | Two plans conflict | Architect writes ADR; Orchestrator issues R1 card if the owner's intent is unclear. |
-| Context lost | Reload from `ultra-ai-v2/memory/` (facts, ledger, timeline) and `ULTRA_AI_TODO.md`; never rely on chat history. |
+| Context lost | Reload from `brain-stack/memory/planning/` (facts, ledger, timeline) and `ULTRA_AI_TODO.md`; never rely on chat history. |
 
 ---
 
@@ -265,7 +265,7 @@ ID · Title · Owner · Depends on · Owned paths · Inputs (memory ids, skills)
 `ask-with-options` · `kanban-orchestration` · `evidence-report` · `preservation-guard` · `doc-ingestion` · `memory-bank` · `diagram-registry` · `skill-authoring` · `plugin-packaging` · `adr-writing` · `contract-first-api` · `license-audit` · `tos-review` · `sbom` · `sidecar-lifecycle` · `reverse-proxy-sso` · `hermes-integration` · `agentskills-standard` · `provider-adapters` · `model-policy` · `engine-adapter` · `adaptive-ui-spec` · `threejs-control-center` · `i18n-rtl` · `desktop-packaging` · `model-foundry` · `eval-harness` · `gate-os-contract` · `deb-packaging` · `signed-event-outbox` · `test-strategy` · `threat-model` · `docs-en-ar`
 *(Import the 3 existing repo skills unchanged and wrap them; the Gate-OS and Ultra-Zone skills in the owner's skill store are referenced, not copied.)*
 
-### App. E — Plugin layout (`ultra-ai-v2/plugin/ultra-ai-builder/`)
+### App. E — Plugin layout (`brain-stack/plugin/ultra-ai-builder/`)
 ```text
 .claude-plugin/plugin.json      # name, version, description, author  (verify format at build time)
 skills/<name>/SKILL.md          # the catalog above
@@ -278,7 +278,7 @@ AGENTS.md                       # runtime-neutral copy of sections 2–3 for Her
 
 ### App. F — Memory Bank layout
 ```text
-ultra-ai-v2/memory/
+brain-stack/memory/planning/
   facts/<domain>.yaml            # id, statement, status, source, source_sha256, confidence, tags
   decisions/ADR-0001-*.md        # context, decision, alternatives, consequences, status
   decisions/ledger.md            # every Question Card answer (id, date, choice, rationale)

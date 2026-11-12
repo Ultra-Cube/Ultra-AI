@@ -25,4 +25,4 @@ Adding any third-party code, weights, or dependency to repo/installer/image.
 - Decision ADR-0002: Apache-2.0 license, tag v0.2.0-planning — overrides stale README MIT/1.0.0 claims.
 - HARD BLOCKER F9: repo vendors Skales under BSL 1.1 (non-commercial until 2030-04-19) — must NEVER ship in a product build.
 - License gate (directive 4): no third-party code before license row APPROVED + THIRD_PARTY.md entry + SBOM record. ULTRA_AI_LEGAL_LICENSING.md holds the matrix.
-- ~124–125 Fadhel-SH upstream repos cataloged (external-integrations/) — each needs a license row before integration. Facts: ultra-ai-v2/memory/facts/planning.yaml (F9), ultra-ai-v2/memory/facts/docs-classification-batch4.md.
+- ~124–125 Fadhel-SH upstream repos cataloged (external-integrations/) — each needs a license row before integration. Facts: brain-stack/memory/planning/facts/planning.yaml (F9), brain-stack/memory/planning/facts/docs-classification-batch4.md.

@@ -45,7 +45,7 @@ D=$(curl -sL --max-time 10 -o /dev/null -w '%{http_code}' $B/api-docs)
 check "swagger 200" '200' "$D"
 
 # 7. gateway via web proxy
-G=$(curl -s --max-time 10 $W/api/gateway/health)
+G=$(curl -s --max-time 10 $W/platform/api/gateway/health)
 check "web->gateway proxy" '"status":"ok"' "$G"
 
 echo "----"

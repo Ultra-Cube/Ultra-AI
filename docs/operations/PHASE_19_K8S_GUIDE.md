@@ -230,34 +230,34 @@ MongoDB:           Per replica, scales to 2Gi RAM, 100Gi storage
 ### Deployment Steps
 ```bash
 # 1. Create namespace and base resources
-kubectl apply -f k8s/01-namespace.yaml
+kubectl apply -f control/templates/kubernetes/01-namespace.yaml
 
 # 2. Create ConfigMaps and Secrets
-kubectl apply -f k8s/02-configmap.yaml
-kubectl apply -f k8s/03-secrets.yaml
+kubectl apply -f control/templates/kubernetes/02-configmap.yaml
+kubectl apply -f control/templates/kubernetes/03-secrets.yaml
 
 # 3. Create storage
-kubectl apply -f k8s/04-storage.yaml
+kubectl apply -f control/templates/kubernetes/04-storage.yaml
 
 # 4. Deploy databases (wait for StatefulSets)
-kubectl apply -f k8s/05-postgres.yaml
-kubectl apply -f k8s/06-redis.yaml
-kubectl apply -f k8s/07-mongodb.yaml
+kubectl apply -f control/templates/kubernetes/05-postgres.yaml
+kubectl apply -f control/templates/kubernetes/06-redis.yaml
+kubectl apply -f control/templates/kubernetes/07-mongodb.yaml
 kubectl wait --for=condition=ready pod -l app=postgres -n ultra-ai --timeout=300s
 
 # 5. Deploy applications
-kubectl apply -f k8s/08-api-deployment.yaml
-kubectl apply -f k8s/09-web-deployment.yaml
+kubectl apply -f control/templates/kubernetes/08-api-deployment.yaml
+kubectl apply -f control/templates/kubernetes/09-web-deployment.yaml
 
 # 6. Create services and ingress
-kubectl apply -f k8s/10-services.yaml
-kubectl apply -f k8s/11-ingress.yaml
+kubectl apply -f control/templates/kubernetes/10-services.yaml
+kubectl apply -f control/templates/kubernetes/11-ingress.yaml
 
 # 7. Configure autoscaling & policies
-kubectl apply -f k8s/12-hpa-and-policies.yaml
+kubectl apply -f control/templates/kubernetes/12-hpa-and-policies.yaml
 
 # OR use Kustomize
-kubectl apply -k k8s/
+kubectl apply -k control/templates/kubernetes/
 ```
 
 ### Post-Deployment Verification
@@ -448,7 +448,7 @@ kubectl exec -it mongodb-0 -n ultra-ai -- mongorestore --uri="mongodb://..." /ba
 
 ### File Organization
 ```
-k8s/
+control/templates/kubernetes/
 ├── 01-namespace.yaml              # Namespace & isolation
 ├── 02-configmap.yaml              # Configuration
 ├── 03-secrets.yaml                # Sensitive data

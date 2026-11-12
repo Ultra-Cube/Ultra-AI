@@ -37,7 +37,7 @@ This guide explains how to build, run, and manage the Ultra AI Platform using Do
   - Adminer for database management
   - Redis Commander for cache management
 
-- **`.env.example`** - Environment variables template
+- **`environments/.env.example`** - Environment variables template
   - All configurable options with defaults
   - Copy to `.env` for local development
 
@@ -60,7 +60,7 @@ This guide explains how to build, run, and manage the Ultra AI Platform using Do
 
 ```bash
 # Copy environment template
-cp .env.example .env
+cp environments/.env.example .env
 
 # Edit .env with your configuration
 nano .env

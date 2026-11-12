@@ -18,7 +18,7 @@
 - Phase B2: api-gateway real HTTP server :20129 (/health, /api/providers CRUD), replaces TODO stub.
 - Phase B3 verified: embedded Postgres :5432 → prisma migrate → api :4000 → gateway :20129 → web :3000; E2E AI call + provider CRUD via web proxy OK.
 - Local infra: Docker daemon unavailable & no sudo → Postgres via embedded-postgres npm binaries (/opt/data/pgtool, db ultra_ai_dev); creds in packages/api/.env.local.
-- Smoke tests 8/8 PASS (scripts/smoke-test.sh): register, login→JWT, authed /ai/process, RBAC 401 on /admin/dashboard, /zeroai/message, /metrics, swagger, web→gateway proxy.
+- Smoke tests 8/8 PASS (infrastructure/automation/smoke-test.sh): register, login→JWT, authed /ai/process, RBAC 401 on /admin/dashboard, /zeroai/message, /metrics, swagger, web→gateway proxy.
 - Bug fix: DatabaseUserService.createUser now upserts default-tenant (FK failure fixed).
 - Docs consolidation: docs/CONSOLIDATED_ENGINEERING_SPEC.md mined 63 docs → topology, API surface, data models, feature matrix, 7 doc conflicts, MVP checklist.
 - Doc conflicts reconciled: API port standardized on 4000 (K8s manifests + Dockerfile.api updated from 5555); Postgres pinned to 15.

@@ -29,7 +29,7 @@ npm install
 
 ```bash
 # Copy environment template
-cp .env.example .env
+cp environments/.env.example .env
 
 # Edit .env with your API keys
 # At minimum, add one provider API key

@@ -65,7 +65,7 @@ git checkout -b bugfix/fix-something
 npm install
 
 # Setup environment variables
-cp .env.example .env
+cp environments/.env.example .env
 
 # Start databases
 docker-compose up -d

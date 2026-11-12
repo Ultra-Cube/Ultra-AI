@@ -12,4 +12,4 @@ platform/apps/console/ design (A09).
 - Target: ZeroAI adaptive interface — role-aware workspaces (video-designer, developer, researcher, marketer, custom) driven by `AdaptiveWorkspaceProfile` TS interface (docs/architecture/system-architecture.md).
 - Dual mode required: Simple (end users) + Professional/operator command center (routing, agent health, workflows, reasoning traces) — ai-os-blueprint.md.
 - Telemetry-driven adaptation with manual overrides and safe rollback; UI stays ZeroAI-controlled even when Open WebUI is the render surface.
-- Bilingual AR/EN from first screen (super-prompt directive 9). Facts: ultra-ai-v2/memory/facts/system-arch-and-zeroai-stack.md, ultra-ai-v2/memory/facts/wsl-stack-and-edge-arch.md.
+- Bilingual AR/EN from first screen (super-prompt directive 9). Facts: brain-stack/memory/planning/facts/system-arch-and-zeroai-stack.md, brain-stack/memory/planning/facts/wsl-stack-and-edge-arch.md.

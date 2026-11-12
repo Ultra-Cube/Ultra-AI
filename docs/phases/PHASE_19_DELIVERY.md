@@ -145,7 +145,7 @@ Maximum (HPA):     30 pods, ~35 CPU cores, ~50Gi RAM
 ./k8s-deploy.sh full
 
 # Or use Kustomize directly
-kubectl apply -k k8s/
+kubectl apply -k control/templates/kubernetes/
 ```
 
 ### Access Services
@@ -237,40 +237,40 @@ kubectl logs -n ultra-ai deployment/api -f
 
 ### Phase 1: Namespace & Config (1-2 min)
 ```bash
-kubectl apply -f k8s/01-namespace.yaml
-kubectl apply -f k8s/02-configmap.yaml
-kubectl apply -f k8s/03-secrets.yaml
+kubectl apply -f control/templates/kubernetes/01-namespace.yaml
+kubectl apply -f control/templates/kubernetes/02-configmap.yaml
+kubectl apply -f control/templates/kubernetes/03-secrets.yaml
 ```
 
 ### Phase 2: Storage (2-3 min)
 ```bash
-kubectl apply -f k8s/04-storage.yaml
+kubectl apply -f control/templates/kubernetes/04-storage.yaml
 ```
 
 ### Phase 3: Databases (5-10 min)
 ```bash
-kubectl apply -f k8s/05-postgres.yaml
-kubectl apply -f k8s/06-redis.yaml
-kubectl apply -f k8s/07-mongodb.yaml
+kubectl apply -f control/templates/kubernetes/05-postgres.yaml
+kubectl apply -f control/templates/kubernetes/06-redis.yaml
+kubectl apply -f control/templates/kubernetes/07-mongodb.yaml
 # Wait for all to be ready
 ```
 
 ### Phase 4: Applications (3-5 min)
 ```bash
-kubectl apply -f k8s/08-api-deployment.yaml
-kubectl apply -f k8s/09-web-deployment.yaml
+kubectl apply -f control/templates/kubernetes/08-api-deployment.yaml
+kubectl apply -f control/templates/kubernetes/09-web-deployment.yaml
 # Wait for readiness
 ```
 
 ### Phase 5: Networking (1-2 min)
 ```bash
-kubectl apply -f k8s/10-services.yaml
-kubectl apply -f k8s/11-ingress.yaml
+kubectl apply -f control/templates/kubernetes/10-services.yaml
+kubectl apply -f control/templates/kubernetes/11-ingress.yaml
 ```
 
 ### Phase 6: Autoscaling (Immediate)
 ```bash
-kubectl apply -f k8s/12-hpa-and-policies.yaml
+kubectl apply -f control/templates/kubernetes/12-hpa-and-policies.yaml
 ```
 
 **Total Deployment Time**: ~15-30 minutes
@@ -438,19 +438,19 @@ Phase 25-30: CI/CD, Optimization, Deployment (10+ hrs)
 ## 🔗 IMPORTANT FILES
 
 ### Kubernetes Manifests
-- [k8s/01-namespace.yaml](./k8s/01-namespace.yaml)
-- [k8s/02-configmap.yaml](./k8s/02-configmap.yaml)
-- [k8s/03-secrets.yaml](./k8s/03-secrets.yaml)
-- [k8s/04-storage.yaml](./k8s/04-storage.yaml)
-- [k8s/05-postgres.yaml](./k8s/05-postgres.yaml)
-- [k8s/06-redis.yaml](./k8s/06-redis.yaml)
-- [k8s/07-mongodb.yaml](./k8s/07-mongodb.yaml)
-- [k8s/08-api-deployment.yaml](./k8s/08-api-deployment.yaml)
-- [k8s/09-web-deployment.yaml](./k8s/09-web-deployment.yaml)
-- [k8s/10-services.yaml](./k8s/10-services.yaml)
-- [k8s/11-ingress.yaml](./k8s/11-ingress.yaml)
-- [k8s/12-hpa-and-policies.yaml](./k8s/12-hpa-and-policies.yaml)
-- [k8s/kustomization.yaml](./k8s/kustomization.yaml)
+- [control/templates/kubernetes/01-namespace.yaml](./k8s/01-namespace.yaml)
+- [control/templates/kubernetes/02-configmap.yaml](./k8s/02-configmap.yaml)
+- [control/templates/kubernetes/03-secrets.yaml](./k8s/03-secrets.yaml)
+- [control/templates/kubernetes/04-storage.yaml](./k8s/04-storage.yaml)
+- [control/templates/kubernetes/05-postgres.yaml](./k8s/05-postgres.yaml)
+- [control/templates/kubernetes/06-redis.yaml](./k8s/06-redis.yaml)
+- [control/templates/kubernetes/07-mongodb.yaml](./k8s/07-mongodb.yaml)
+- [control/templates/kubernetes/08-api-deployment.yaml](./k8s/08-api-deployment.yaml)
+- [control/templates/kubernetes/09-web-deployment.yaml](./k8s/09-web-deployment.yaml)
+- [control/templates/kubernetes/10-services.yaml](./k8s/10-services.yaml)
+- [control/templates/kubernetes/11-ingress.yaml](./k8s/11-ingress.yaml)
+- [control/templates/kubernetes/12-hpa-and-policies.yaml](./k8s/12-hpa-and-policies.yaml)
+- [control/templates/kubernetes/kustomization.yaml](./k8s/kustomization.yaml)
 
 ### Tools & Documentation
 - [k8s-deploy.sh](./k8s-deploy.sh) - Deployment script

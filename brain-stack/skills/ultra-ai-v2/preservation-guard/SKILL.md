@@ -9,7 +9,7 @@ version: 0.1.0
 Before every merge on release/planning-study; any time baseline integrity is questioned.
 
 ## Procedure
-1. Pre-tag: only add files under new directories (ultra-ai-v2/, ultra-ai-v2/memory/, ultra-ai-v2/diagrams/, legal/, scripts/).
+1. Pre-tag: only add files under new directories (brain-stack/, brain-stack/memory/planning/, brain-stack/memory/diagrams/, legal/, infrastructure/automation/).
 2. Baseline: bash infrastructure/automation/preservation.sh manifest HEAD baseline.sha256 (read-only).
 3. Gate: bash infrastructure/automation/preservation.sh verify-additive baseline/pre-planning-YYYYMMDD HEAD must print 'OK ... 0 changed, 0 deleted'.
 4. Prove tag intact: verify-tag baseline/pre-planning-YYYYMMDD baseline.sha256.
@@ -29,4 +29,4 @@ Before every merge on release/planning-study; any time baseline integrity is que
 - Enforcement tool: infrastructure/automation/preservation.sh (moves to ops location in post-S2c reorg) — manifest <git-ref> <out>, verify-tag, verify-additive; exit 0 OK / 1 violation / 2 usage.
 - Rule: additions-only until the planning tag — never rewrite history, never modify the 3,171 tracked baseline entries.
 - Baseline fingerprints: PLANNING_BASELINE_1aa16b6.sha256 (original) + PLANNING_BASELINE_c863ef8.sha256 (7,233 entries, current HEAD c863ef8 on main).
-- hooks/hooks.json in plugin registers preservation-guard on pre-commit/pre-push. Facts: ultra-ai-v2/memory/facts/docs-classification-batch4.md, ultra-ai-v2/memory/facts/planning.yaml (F2, F3).
+- hooks/hooks.json in plugin registers preservation-guard on pre-commit/pre-push. Facts: brain-stack/memory/planning/facts/docs-classification-batch4.md, brain-stack/memory/planning/facts/planning.yaml (F2, F3).

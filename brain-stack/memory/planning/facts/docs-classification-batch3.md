@@ -10,7 +10,7 @@
 - README-template.md: Enterprise Project Template v2.1.0 extracted from Ultra-Core — standalone template tool.
 - TASKS-CHECKLIST.md: completed phases 1–4 (imports: 9router, JARVIS, openclaw, WebUI-desktop; api-gateway; auth; provider UI); pending: OpenClaw/JARVIS integration, Electron, hardening. Matches FINAL-SUMMARY.
 - CODE_OF_CONDUCT.md, CONTRIBUTING.md: standard community docs.
-- ULTRA_AI_*.md (5) + DOC_CONVERSION_MAP.csv + scripts/preservation.sh: v2 planning artifacts (already known).
+- ULTRA_AI_*.md (5) + DOC_CONVERSION_MAP.csv + infrastructure/automation/preservation.sh: v2 planning artifacts (already known).
 
 ## docs/ top-level (status reports & guides)
 - AGENT_STUDIO_ARCHITECTURE.md (1125L, 2026-11-01, "Proposed"): 3-tier multi-agent studio adapted from Claude Code Game Studios — vertical delegation, ask-before-write, quality gates, horizontal consult, escalation. RELEVANT to A00–A15 crew design.

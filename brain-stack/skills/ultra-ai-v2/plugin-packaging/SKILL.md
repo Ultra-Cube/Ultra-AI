@@ -6,7 +6,7 @@ version: 0.1.0
 ---
 
 ## When to use
-Building or updating ultra-ai-v2/plugin/ultra-ai-builder/.
+Building or updating brain-stack/plugin/ultra-ai-builder/.
 
 ## Layout
 .claude-plugin/plugin.json (name, version, description, author - verify format vs official docs, record URL+date)
@@ -32,4 +32,4 @@ AGENTS.md (runtime-neutral copy of super prompt sections 2-3)
 - ultra-ai-builder plugin = 57 files: plugin.json, 33 skills, 16 agents (A00–A15), 4 commands (/ultra-status /ultra-gate /ultra-verify /ultra-release), hooks.json (preservation-guard on pre-commit/pre-push), .mcp.json, AGENTS.md.
 - Design: runtime-neutral — works with Hermes Agent, Claude Code, or any AGENTS.md-compatible runtime (plugin AGENTS.md).
 - Status: structure VERIFIED, skill bodies were stubs at S1 — deepened during S2b from memory/facts.
-- Mirror rule: skills/ and plugin/ultra-ai-builder/skills/ should stay in sync; pick one canonical source when they diverge (open question for S3). Facts: ultra-ai-v2/memory/facts/docs-classification-batch4.md.
+- Mirror rule: skills/ and brain-stack/skills/ultra-ai-v2/ should stay in sync; pick one canonical source when they diverge (open question for S3). Facts: brain-stack/memory/planning/facts/docs-classification-batch4.md.

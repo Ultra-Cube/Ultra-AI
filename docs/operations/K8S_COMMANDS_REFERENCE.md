@@ -46,33 +46,33 @@
 ### Manual Deployment
 ```bash
 # Deploy all using Kustomize
-kubectl apply -k k8s/
+kubectl apply -k control/templates/kubernetes/
 
 # Deploy namespace
-kubectl apply -f k8s/01-namespace.yaml
+kubectl apply -f control/templates/kubernetes/01-namespace.yaml
 
 # Deploy config and secrets
-kubectl apply -f k8s/02-configmap.yaml
-kubectl apply -f k8s/03-secrets.yaml
+kubectl apply -f control/templates/kubernetes/02-configmap.yaml
+kubectl apply -f control/templates/kubernetes/03-secrets.yaml
 
 # Deploy storage
-kubectl apply -f k8s/04-storage.yaml
+kubectl apply -f control/templates/kubernetes/04-storage.yaml
 
 # Deploy databases
-kubectl apply -f k8s/05-postgres.yaml
-kubectl apply -f k8s/06-redis.yaml
-kubectl apply -f k8s/07-mongodb.yaml
+kubectl apply -f control/templates/kubernetes/05-postgres.yaml
+kubectl apply -f control/templates/kubernetes/06-redis.yaml
+kubectl apply -f control/templates/kubernetes/07-mongodb.yaml
 
 # Deploy applications
-kubectl apply -f k8s/08-api-deployment.yaml
-kubectl apply -f k8s/09-web-deployment.yaml
+kubectl apply -f control/templates/kubernetes/08-api-deployment.yaml
+kubectl apply -f control/templates/kubernetes/09-web-deployment.yaml
 
 # Create services and routing
-kubectl apply -f k8s/10-services.yaml
-kubectl apply -f k8s/11-ingress.yaml
+kubectl apply -f control/templates/kubernetes/10-services.yaml
+kubectl apply -f control/templates/kubernetes/11-ingress.yaml
 
 # Configure autoscaling
-kubectl apply -f k8s/12-hpa-and-policies.yaml
+kubectl apply -f control/templates/kubernetes/12-hpa-and-policies.yaml
 ```
 
 ### Check Deployment Status
