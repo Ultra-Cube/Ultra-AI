@@ -42,6 +42,13 @@ export type {
 // Providers
 export { MockProvider, ProviderHttpError } from './adapters/mock-provider';
 export type { MockProviderOptions } from './adapters/mock-provider';
+export {
+  OpenAICompatibleProvider,
+  providers as openAICompatibleProviders,
+} from './adapters/openai-compatible';
+export type { OpenAICompatibleOptions } from './adapters/openai-compatible';
+export { AnthropicProvider } from './adapters/anthropic';
+export type { AnthropicOptions } from './adapters/anthropic';
 
 // Memory
 export { InMemoryMemoryStore } from './memory/memory';
