@@ -36,6 +36,13 @@ describe('canonicalJson', () => {
     expect(() => canonicalJson({ a: NaN })).toThrow(TypeError);
     expect(() => canonicalJson({ a: Infinity })).toThrow(TypeError);
   });
+
+  it('serialises numbers with JSON semantics', () => {
+    expect(canonicalJson({ a: 1.25, b: -3, c: 0 })).toBe(
+      '{"a":1.25,"b":-3,"c":0}'
+    );
+    expect(canonicalJson({ big: 1e21 })).toBe('{"big":1e+21}');
+  });
 });
 
 describe('UlidGenerator', () => {
@@ -104,6 +111,96 @@ describe('Outbox append + verify', () => {
       reason: 'bad-prev-hash',
     });
   });
+
+  it('verifies a chain of 100 events', async () => {
+    const { ring, outbox } = setup();
+    for (let i = 0; i < 100; i++) {
+      await outbox.append('usage.request', { instance: 'i' }, { i });
+    }
+    const events = await outbox.all();
+    expect(events).toHaveLength(100);
+    // First event links to genesis; each later event links to its predecessor.
+    expect(events[0].prev_hash).toBe(
+      'sha256:0000000000000000000000000000000000000000000000000000000000000000'
+    );
+    const result = verifyChain(events, ring);
+    expect(result).toEqual({ ok: true });
+  });
+
+  it('detects deletion of a middle event at the next index', async () => {
+    const { ring, outbox } = setup();
+    for (let i = 0; i < 4; i++) {
+      await outbox.append('usage.request', { instance: 'i' }, { i });
+    }
+    const events = await outbox.all();
+    const deleted = [events[0], events[1], events[3]];
+    const result = verifyChain(deleted, ring);
+    expect(result).toMatchObject({ ok: false, index: 2 });
+    expect(result.ok === false && result.reason).toBe('bad-prev-hash');
+  });
+
+  it('detects reordering of events', async () => {
+    const { ring, outbox } = setup();
+    for (let i = 0; i < 3; i++) {
+      await outbox.append('usage.request', { instance: 'i' }, { i });
+    }
+    const events = await outbox.all();
+    const reordered = [events[0], events[2], events[1]];
+    const result = verifyChain(reordered, ring);
+    expect(result.ok).toBe(false);
+  });
+
+  it('detects a forged signature', async () => {
+    const { ring, outbox } = setup();
+    await outbox.append('usage.request', { instance: 'i' }, { secret: 1 });
+    const events = await outbox.all();
+    const { sig: _sig, ...unsigned } = events[0];
+    const forger = Ed25519Signer.generate('inst-1'); // same key_id, wrong key
+    const forged: OutboxEvent = {
+      ...events[0],
+      sig: {
+        alg: 'Ed25519',
+        key_id: 'inst-1',
+        value: forger.sign(canonicalJson(unsigned)),
+      },
+    };
+    const result = verifyChain([forged], ring);
+    expect(result).toMatchObject({
+      ok: false,
+      index: 0,
+      reason: 'bad-signature',
+    });
+  });
+
+  it('never serialises secret key material into events', async () => {
+    const { outbox } = setup();
+    await outbox.append('usage.request', { instance: 'i' }, { k: 'v' });
+    const events = await outbox.all();
+    const serialised = JSON.stringify(events);
+    expect(serialised).not.toContain('PRIVATE KEY');
+    for (const e of events) {
+      expect(e.sig.value).toMatch(/^[A-Za-z0-9_-]+$/); // base64url only
+    }
+  });
+
+  it('verifies 10,000 events within a stated budget', async () => {
+    const { ring, outbox } = setup();
+    const N = 10_000;
+    const t0 = Date.now();
+    for (let i = 0; i < N; i++) {
+      await outbox.append('usage.request', { instance: 'i' }, { i });
+    }
+    const events = await outbox.all();
+    const t1 = Date.now();
+    const result = verifyChain(events, ring);
+    const t2 = Date.now();
+    // eslint-disable-next-line no-console
+    console.log(
+      `outbox perf: append ${N}=${t1 - t0}ms verify ${N}=${t2 - t1}ms`
+    );
+    expect(result).toEqual({ ok: true });
+    expect(t2 - t1).toBeLessThan(30_000);
+  }, 120_000);
 
   it('detects unknown signing key', async () => {
     const { outbox } = setup();
