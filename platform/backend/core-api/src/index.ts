@@ -51,6 +51,10 @@ import {
 } from './services/security/security-hardening';
 import { WebhookService } from './services/webhooks';
 import { WorkspaceRecommender } from './services/workspace-recommender';
+import {
+  EdgeBridgeClient,
+  EdgeBridgeOfflineError,
+} from './services/zeroai/edge-bridge-client';
 import { ZeroAIStore } from './services/zeroai/zeroai-store';
 import { AuthRequest, WorkspaceRecommendationRequest } from './types';
 
@@ -148,6 +152,7 @@ export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
   // Initialize webhook system
   const webhookService = new WebhookService(prisma);
   const zeroAIStore = new ZeroAIStore();
+  const edgeBridge = new EdgeBridgeClient();
   const agentStaffStore = new AgentStaffStore();
   const zeroAIBridgeScript = path.resolve(
     process.cwd(),
@@ -927,6 +932,127 @@ export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
         workflow: updated,
         output,
       };
+    }
+  });
+
+  // ---------------------------------------------------------------------------
+  // ZeroAI Edge — local-first execution surface bridged to the desktop bridge
+  // (zeroai.run / trail / routes over JSON-RPC). Falls back to an offline state
+  // payload when the bridge is not running.
+  // ---------------------------------------------------------------------------
+  const edgeUnavailable = {
+    connected: false,
+    bridge: 'offline',
+  };
+
+  app.get('/zeroai/edge/status', async () => {
+    try {
+      const routes = await edgeBridge.call<unknown[]>('zeroai.routes');
+      return { connected: true, bridge: 'online', routes };
+    } catch {
+      return edgeUnavailable;
+    }
+  });
+
+  app.get('/zeroai/edge/routes', async () => {
+    try {
+      const routes = await edgeBridge.call<unknown[]>('zeroai.routes');
+      return { routes };
+    } catch {
+      return { routes: [], connected: false };
+    }
+  });
+
+  app.post('/zeroai/edge/run', async (request, reply) => {
+    const body = request.body as {
+      text?: string;
+      sessionId?: string;
+      actorId?: string;
+      hint?: string;
+      confirmation?: { approved: boolean; scope?: string };
+    };
+
+    if (!body.text || typeof body.text !== 'string') {
+      reply.status(400);
+      return { error: 'text is required' };
+    }
+
+    const requestId = `edge-${Date.now()}-${Math.random()
+      .toString(36)
+      .slice(2, 8)}`;
+    const sessionId = body.sessionId ?? 'zeroai-edge';
+
+    zeroAIStore.appendTrace({
+      kind: 'interaction',
+      title: 'Edge request dispatched',
+      summary: body.text.slice(0, 120),
+      detail: `route via desktop bridge (${requestId})`,
+      route: 'edge',
+    });
+
+    try {
+      const result = await edgeBridge.call<Record<string, unknown>>(
+        'zeroai.run',
+        {
+          id: requestId,
+          sessionId,
+          text: body.text,
+          ...(body.actorId ? { actorId: body.actorId } : {}),
+          ...(body.hint ? { hint: body.hint } : {}),
+          ...(body.confirmation ? { confirmation: body.confirmation } : {}),
+        }
+      );
+
+      const response = (result.response ?? result) as Record<string, unknown>;
+      const locality = (response.locality as string) ?? 'local';
+      const route = (response.route as string) ?? 'local-model';
+      const status = (response.status as string) ?? 'completed';
+
+      zeroAIStore.appendTrace({
+        kind: 'interaction',
+        title: `Edge ${status}`,
+        summary: body.text.slice(0, 120),
+        detail: `${route} · ${locality} · ${requestId}`,
+        route,
+      });
+      zeroAIStore.appendMemory({
+        role: 'assistant',
+        channel: 'system',
+        content: String(response.answer ?? ''),
+      });
+
+      return { requestId, sessionId, response, locality, route, status };
+    } catch (error) {
+      const message =
+        error instanceof EdgeBridgeOfflineError
+          ? 'desktop bridge offline — start the Ultra desktop bridge to enable local-first edge execution'
+          : error instanceof Error
+            ? error.message
+            : 'edge execution failed';
+
+      zeroAIStore.appendTrace({
+        kind: 'system',
+        title: 'Edge request failed',
+        summary: body.text.slice(0, 120),
+        detail: message,
+        route: 'edge',
+      });
+      reply.status(error instanceof EdgeBridgeOfflineError ? 503 : 500);
+      return { error: message, requestId, sessionId };
+    }
+  });
+
+  app.get('/zeroai/edge/trails', async (request) => {
+    const { sessionId } = request.query as { sessionId?: string };
+    try {
+      const params = sessionId ? { sessionId } : {};
+      const trails = await edgeBridge.call<unknown[]>(
+        'zeroai.trail.list',
+        params
+      );
+      return { trails };
+    } catch {
+      return { trails: [], connected: false };
     }
   });
 
