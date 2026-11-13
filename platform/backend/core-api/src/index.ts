@@ -1118,6 +1118,38 @@ export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
     }
   });
 
+  // Lifecycle control — sensitive ops; callers must have explicit user
+  // confirmation before invoking these (see control-center confirm gate).
+  app.post('/engines/:id/start', async (request, reply) => {
+    try {
+      const status = await edgeBridge.call<unknown>('engines.start', {
+        id: engineId(request),
+      });
+      return { connected: true, id: engineId(request), status };
+    } catch (error) {
+      reply.status(error instanceof EdgeBridgeOfflineError ? 503 : 500);
+      return {
+        error: error instanceof Error ? error.message : 'start failed',
+        id: engineId(request),
+      };
+    }
+  });
+
+  app.post('/engines/:id/stop', async (request, reply) => {
+    try {
+      const status = await edgeBridge.call<unknown>('engines.stop', {
+        id: engineId(request),
+      });
+      return { connected: true, id: engineId(request), status };
+    } catch (error) {
+      reply.status(error instanceof EdgeBridgeOfflineError ? 503 : 500);
+      return {
+        error: error instanceof Error ? error.message : 'stop failed',
+        id: engineId(request),
+      };
+    }
+  });
+
   // ---------------------------------------------------------------------------
   // Agent Staff Console — manage AI agents like staff: positions, task dispatch,
   // reassignment, and a workload roster. Runs without a DB (JSON-backed store).

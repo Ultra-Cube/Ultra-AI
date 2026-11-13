@@ -48,6 +48,7 @@ export default function ControlCenterPage() {
   );
   const [selected, setSelected] = useState<SceneNode | null>(null);
   const [lastSync, setLastSync] = useState<Date | null>(null);
+  const [engineBusy, setEngineBusy] = useState<string | null>(null);
 
   const refresh = useCallback(async () => {
     try {
@@ -74,6 +75,31 @@ export default function ControlCenterPage() {
       // keep last known state on transient failures
     }
   }, []);
+
+  // Sensitive engine lifecycle ops require explicit user confirmation.
+  const runEngineAction = useCallback(
+    async (id: string, action: 'start' | 'stop' | 'probe') => {
+      const label = engines.find((e) => e.id === id)?.label ?? id;
+      const verb = action === 'probe' ? 're-probe' : action;
+      if (
+        action !== 'probe' &&
+        !window.confirm(`Confirm: ${verb} engine "${label}"?`)
+      ) {
+        return;
+      }
+      setEngineBusy(`${id}:${action}`);
+      try {
+        await fetch(
+          `/api/control-center/engines/${encodeURIComponent(id)}/${action}`,
+          { method: 'POST', cache: 'no-store' }
+        );
+      } finally {
+        setEngineBusy(null);
+        refresh();
+      }
+    },
+    [engines, refresh]
+  );
 
   useEffect(() => {
     refresh();
@@ -204,37 +230,64 @@ export default function ControlCenterPage() {
         {engines.map((e) => {
           const healthy = e.healthOk || e.state === 'running';
           return (
-            <button
+            <div
               key={e.id}
-              onClick={() => {
-                const node: SceneNode = {
-                  id: `engine-${e.id}`,
-                  kind: 'service',
-                  label: e.label,
-                  value: healthy ? 100 : 0,
-                  color: healthy ? '#34d399' : '#f87171',
-                  detail: `${e.label}: ${e.state.toUpperCase()}${e.port ? ` :${e.port}` : ''}${e.lastError ? ` — ${e.lastError}` : ''}`,
-                  position: [0, -0.4, -2.6],
-                };
-                setSelected(selected?.id === node.id ? null : node);
-              }}
-              className="pointer-events-auto flex items-center justify-between rounded-md border border-slate-700/60 bg-slate-900/80 px-3 py-1.5 text-xs backdrop-blur hover:border-slate-500"
+              className="pointer-events-auto flex items-center rounded-md border border-slate-700/60 bg-slate-900/80 text-xs backdrop-blur hover:border-slate-500"
             >
-              <span className="text-slate-300">{e.label}</span>
-              <span
-                className={
-                  healthy
-                    ? e.state === 'running'
-                      ? 'text-emerald-400'
-                      : 'text-amber-400'
-                    : e.state === 'degraded'
-                      ? 'text-amber-400'
-                      : 'text-red-400'
-                }
+              <button
+                onClick={() => {
+                  const node: SceneNode = {
+                    id: `engine-${e.id}`,
+                    kind: 'service',
+                    label: e.label,
+                    value: healthy ? 100 : 0,
+                    color: healthy ? '#34d399' : '#f87171',
+                    detail: `${e.label}: ${e.state.toUpperCase()}${e.port ? ` :${e.port}` : ''}${e.lastError ? ` — ${e.lastError}` : ''}`,
+                    position: [0, -0.4, -2.6],
+                  };
+                  setSelected(selected?.id === node.id ? null : node);
+                }}
+                className="flex flex-1 items-center justify-between px-3 py-1.5 text-left"
               >
-                {e.state}
-              </span>
-            </button>
+                <span className="text-slate-300">{e.label}</span>
+                <span
+                  className={
+                    healthy
+                      ? e.state === 'running'
+                        ? 'text-emerald-400'
+                        : 'text-amber-400'
+                      : e.state === 'degraded'
+                        ? 'text-amber-400'
+                        : 'text-red-400'
+                  }
+                >
+                  {e.state}
+                </span>
+              </button>
+              <div className="flex gap-1 pr-2">
+                <button
+                  disabled={engineBusy === `${e.id}:start`}
+                  onClick={() => runEngineAction(e.id, 'start')}
+                  className="rounded border border-emerald-700/50 px-1.5 py-0.5 text-[10px] text-emerald-300 hover:bg-emerald-900/30 disabled:opacity-40"
+                >
+                  ▶
+                </button>
+                <button
+                  disabled={engineBusy === `${e.id}:stop`}
+                  onClick={() => runEngineAction(e.id, 'stop')}
+                  className="rounded border border-red-700/50 px-1.5 py-0.5 text-[10px] text-red-300 hover:bg-red-900/30 disabled:opacity-40"
+                >
+                  ■
+                </button>
+                <button
+                  disabled={engineBusy === `${e.id}:probe`}
+                  onClick={() => runEngineAction(e.id, 'probe')}
+                  className="rounded border border-slate-600/60 px-1.5 py-0.5 text-[10px] text-slate-400 hover:bg-slate-700/40 disabled:opacity-40"
+                >
+                  ⟳
+                </button>
+              </div>
+            </div>
           );
         })}
       </aside>
