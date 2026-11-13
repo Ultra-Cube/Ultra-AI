@@ -1057,6 +1057,68 @@ export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
   });
 
   // ---------------------------------------------------------------------------
+  // Engines — live sidecar/engine state from EngineSupervisor, proxied through
+  // the desktop bridge (engines.* JSON-RPC). Falls back to offline payloads so
+  // the control-center can distinguish "bridge down" from "no engines".
+  // ---------------------------------------------------------------------------
+  const enginesUnavailable = {
+    connected: false,
+    bridge: 'offline',
+    engines: [] as unknown[],
+  };
+
+  const engineId = (request: { params: unknown }) =>
+    (request.params as { id: string }).id;
+
+  app.get('/engines', async () => {
+    try {
+      const engines = await edgeBridge.call<unknown[]>('engines.list');
+      return { connected: true, bridge: 'online', engines };
+    } catch {
+      return enginesUnavailable;
+    }
+  });
+
+  app.get('/engines/probe-all', async () => {
+    try {
+      const statuses = await edgeBridge.call<unknown[]>('engines.probeAll');
+      return { connected: true, bridge: 'online', statuses };
+    } catch {
+      return { connected: false, bridge: 'offline', statuses: [] as unknown[] };
+    }
+  });
+
+  app.get('/engines/:id/status', async (request, reply) => {
+    try {
+      const status = await edgeBridge.call<unknown>('engines.status', {
+        id: engineId(request),
+      });
+      return { connected: true, id: engineId(request), status };
+    } catch (error) {
+      reply.status(error instanceof EdgeBridgeOfflineError ? 503 : 500);
+      return {
+        error: error instanceof Error ? error.message : 'status lookup failed',
+        id: engineId(request),
+      };
+    }
+  });
+
+  app.post('/engines/:id/probe', async (request, reply) => {
+    try {
+      const status = await edgeBridge.call<unknown>('engines.probe', {
+        id: engineId(request),
+      });
+      return { connected: true, id: engineId(request), status };
+    } catch (error) {
+      reply.status(error instanceof EdgeBridgeOfflineError ? 503 : 500);
+      return {
+        error: error instanceof Error ? error.message : 'probe failed',
+        id: engineId(request),
+      };
+    }
+  });
+
+  // ---------------------------------------------------------------------------
   // Agent Staff Console — manage AI agents like staff: positions, task dispatch,
   // reassignment, and a workload roster. Runs without a DB (JSON-backed store).
   // ---------------------------------------------------------------------------

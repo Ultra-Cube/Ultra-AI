@@ -19,25 +19,55 @@ const ControlCenterScene = dynamic(
         Initializing 3D control center…
       </div>
     ),
-  },
+  }
 );
+
+type EngineStatus = {
+  id: string;
+  label: string;
+  state: string;
+  port: number;
+  healthOk: boolean;
+  latencyMs?: number;
+  lastError?: string;
+};
+
+type EnginesResponse = {
+  connected: boolean;
+  bridge: string;
+  engines?: EngineStatus[];
+  statuses?: EngineStatus[];
+};
 
 export default function ControlCenterPage() {
   const [stats, setStats] = useState<MetricStats | null>(null);
   const [services, setServices] = useState<ServiceNode[]>([]);
+  const [engines, setEngines] = useState<EngineStatus[]>([]);
+  const [enginesConnected, setEnginesConnected] = useState<boolean | null>(
+    null
+  );
   const [selected, setSelected] = useState<SceneNode | null>(null);
   const [lastSync, setLastSync] = useState<Date | null>(null);
 
   const refresh = useCallback(async () => {
     try {
-      const [sRes, nRes] = await Promise.all([
+      const [sRes, nRes, eRes] = await Promise.all([
         fetch('/api/control-center/system-stats', { cache: 'no-store' }),
         fetch('/api/control-center/nodes', { cache: 'no-store' }),
+        fetch('/api/control-center/engines?probe=1', { cache: 'no-store' }),
       ]);
       if (sRes.ok) setStats(await sRes.json());
       if (nRes.ok) {
         const data = await nRes.json();
         setServices(data.nodes ?? []);
+      }
+      if (eRes.ok) {
+        const data: EnginesResponse = await eRes.json();
+        setEnginesConnected(data.connected);
+        // probe-all returns `statuses`; plain list returns `engines`
+        setEngines(data.statuses ?? data.engines ?? []);
+      } else {
+        setEnginesConnected(false);
       }
       setLastSync(new Date());
     } catch {
@@ -96,8 +126,14 @@ export default function ControlCenterPage() {
       <aside className="pointer-events-none absolute bottom-5 left-5 flex flex-col gap-2">
         {(['cpu', 'memory', 'disk'] as const).map((k) => {
           const v = stats?.[k] ?? 0;
-          const color = v < 60 ? 'text-emerald-300' : v < 85 ? 'text-amber-300' : 'text-red-300';
-          const label = k === 'cpu' ? 'CPU' : k === 'memory' ? 'Memory' : 'Disk';
+          const color =
+            v < 60
+              ? 'text-emerald-300'
+              : v < 85
+                ? 'text-amber-300'
+                : 'text-red-300';
+          const label =
+            k === 'cpu' ? 'CPU' : k === 'memory' ? 'Memory' : 'Disk';
           return (
             <button
               key={k}
@@ -159,6 +195,48 @@ export default function ControlCenterPage() {
             </span>
           </button>
         ))}
+
+        {enginesConnected === false && (
+          <div className="mt-1 rounded-md border border-slate-700/40 bg-slate-900/50 px-3 py-1.5 text-[10px] text-slate-500">
+            engine supervisor offline
+          </div>
+        )}
+        {engines.map((e) => {
+          const healthy = e.healthOk || e.state === 'running';
+          return (
+            <button
+              key={e.id}
+              onClick={() => {
+                const node: SceneNode = {
+                  id: `engine-${e.id}`,
+                  kind: 'service',
+                  label: e.label,
+                  value: healthy ? 100 : 0,
+                  color: healthy ? '#34d399' : '#f87171',
+                  detail: `${e.label}: ${e.state.toUpperCase()}${e.port ? ` :${e.port}` : ''}${e.lastError ? ` — ${e.lastError}` : ''}`,
+                  position: [0, -0.4, -2.6],
+                };
+                setSelected(selected?.id === node.id ? null : node);
+              }}
+              className="pointer-events-auto flex items-center justify-between rounded-md border border-slate-700/60 bg-slate-900/80 px-3 py-1.5 text-xs backdrop-blur hover:border-slate-500"
+            >
+              <span className="text-slate-300">{e.label}</span>
+              <span
+                className={
+                  healthy
+                    ? e.state === 'running'
+                      ? 'text-emerald-400'
+                      : 'text-amber-400'
+                    : e.state === 'degraded'
+                      ? 'text-amber-400'
+                      : 'text-red-400'
+                }
+              >
+                {e.state}
+              </span>
+            </button>
+          );
+        })}
       </aside>
 
       {/* Selected node detail */}
