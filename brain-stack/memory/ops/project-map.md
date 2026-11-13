@@ -114,3 +114,8 @@ bash infrastructure/automation/preservation.sh verify-moves baseline/pre-plannin
 git log --oneline  # WP-0 steps cbcfc9c..96d0423 + WP-0b commit
 ```
 - platform/services/zeroai-edge — ZeroAI local-first execution contract (memory→policy→local model/tool/workflow→escalate; confirmation gate; locality visibility)
+- platform/devtools/desktop-bridge — exposes `zeroai.run`, `zeroai.trail.get`, `zeroai.trail.list`, `zeroai.routes` over JSON-RPC 2.0/WebSocket (:19477), adapting Hermes runtime memory/tools/providers into zeroai-edge ports
+- platform/backend/core-api — `src/services/zeroai/edge-bridge-client.ts` (JSON-RPC-over-WS client) + `/zeroai/edge/{status,routes,run,trails}` routes with offline-safe 503 semantics and interaction/memory traces
+- platform/frontend — `app/components/EdgePanel.tsx` on `/zeroai` page: bridge status, routes, trails, execution locality
+- distribution/scripts/package-desktop.mjs — Linux/Windows desktop tarballs (launchers, manifests, SHA256 sums); package-release.mjs — 14 package tarballs
+- platform/database/prisma — Prisma schema + migrations (relocated from core-api)

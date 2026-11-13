@@ -303,10 +303,13 @@ brain-stack/
 | **S4-P1 — platform core** | ✅ Done | `platform/backend/hermes-runtime` (`@ultra-ai/hermes-runtime`): HermesRuntime with sessions/tasks, adapter contracts (`EngineAdapter`, `ProviderAdapter`, `ToolAdapter`), `InMemoryMemoryStore`, `SkillRegistry`, `ReActReasoner` + `ReasonerEngineAdapter`, runtime events, mock provider; 4/4 tests, ESM+CJS build green |
 | **S4-P4 — Ultra Core bridge** | ✅ Done | `platform/services/ultra-core-bridge` (`@ultra-ai/ultra-core-bridge`): signed `ultra.event.v1` hash-chained outbox (Ed25519, ULID, JSONL persistence), `ExportTarget` idempotent port + `MockExportTarget`; 10/10 Jest tests; lint/type-check/build green; readiness-only — no chain features |
 | **S4 — Phased build** | ✅ P1–P4 Done | P1 platform core → P2 desktop bridge → P3 Gate-OS readiness → P4 Ultra Core bridge — all committed & verified |
+| **S4-P5 — Adapters & integrations** | ✅ Done | Real providers (`OpenAICompatibleProvider` for OpenAI/Ollama/9router, `AnthropicProvider`), `ToolRegistry` + builtin tools + `HttpMCPClient`, engine adapters (n8n/Langflow/Dify/OpenHands/Open WebUI), CLI agent tools (Claude Code/Hermes/OpenClaw) — all native fetch/spawn, zero deps |
+| **WP-1 — Durable outbox** | ✅ Done | `@ultra-ai/outbox`: signed `ultra.event.v1` hash-chained events, JSONL store, per-target cursors, partial acceptance; 20/20 tests incl. 10k-event verify (~0.65s) |
+| **Distribution** | ✅ Done | `package-release.mjs` (14 tarballs + SHA256SUMS) + `package-desktop.mjs` (Linux/Windows desktop bundles); Prisma relocated to `platform/database/prisma/` |
+| **ZeroAI edge chain** | ✅ Done | `@ultra-ai/zeroai-edge` local-first contract → desktop-bridge JSON-RPC (`zeroai.run/trail/routes`) → core-api `/zeroai/edge/*` (503 offline semantics) → `EdgePanel` on `/zeroai` — locality/route/trails visible end-to-end |
 
 **Upcoming / deferred (planned, not yet built):**
-- `platform/database` Prisma relocation — **DONE**: schema + migrations live in `platform/database/prisma/`; `core-api/package.json` prisma pointer and `Dockerfile.api` updated
-- Hermes runtime deep integration, provider/engine/tool adapters wiring, 3D control center, Linux/Windows packaging, real Ultra Core/Gate-OS endpoints (contracts ready)
+- Hermes runtime deep integration, 3D control center, real Ultra Core/Gate-OS endpoints (contracts ready)
 - Blockchain/crypto/token layers — intentionally deferred to later phases (interfaces preserved only)
 
 ## 🚀 Getting Started
