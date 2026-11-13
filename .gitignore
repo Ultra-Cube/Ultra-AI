@@ -169,3 +169,6 @@ release-assets/
 
 # sentinel runtime state
 infrastructure/monitoring/stack/sentinel/status.json
+
+# Generated release bundles
+distribution/assets/releases/
