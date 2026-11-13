@@ -62,6 +62,23 @@ export {
 export { HttpMCPClient } from './adapters/mcp-http';
 export type { HttpMCPClientOptions } from './adapters/mcp-http';
 
+// Engines (n8n, Langflow, Dify, OpenHands, Open WebUI)
+export {
+  N8nEngine,
+  LangflowEngine,
+  DifyEngine,
+  OpenHandsEngine,
+  EngineHttpError,
+  openWebUI,
+} from './adapters/engines';
+export type {
+  EngineHttpOptions,
+  N8nEngineOptions,
+  LangflowEngineOptions,
+  DifyEngineOptions,
+  OpenHandsEngineOptions,
+} from './adapters/engines';
+
 // Memory
 export { InMemoryMemoryStore } from './memory/memory';
 export type {
