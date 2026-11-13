@@ -2,6 +2,8 @@ import type { HermesRuntime } from '@ultra-ai/hermes-runtime';
 import {
   PolicyEngine,
   ZeroAIRouter,
+  localModelLaneFromEnv,
+  localModelPortFromLane,
   type GatewayPort,
   type LocalModelPort,
   type MemoryHit,
@@ -142,6 +144,12 @@ export interface ZeroAIBridgeOptions {
   toolNames?: string[];
   /** Optional Ultra gateway escalation port (e.g. ultra-core-bridge client). */
   gateway?: GatewayPort;
+  /**
+   * Override for the local model lane. When omitted, a lane configured via
+   * ZEROAI_LOCAL_MODEL env vars (ollama / openai-compatible → 9router etc.)
+   * is used; otherwise the HermesRuntime provider-backed lane is used.
+   */
+  localModel?: LocalModelPort;
   onEvent?: ZeroAIEventHandler;
   policy?: ConstructorParameters<typeof PolicyEngine>[0];
 }
@@ -151,7 +159,10 @@ export function createZeroAIBridge(
   opts: ZeroAIBridgeOptions = {}
 ): ZeroAIBridge {
   const memory = new RuntimeMemoryPort(rt);
-  const localModel = new RuntimeLocalModelPort(rt);
+  const envLane = localModelLaneFromEnv();
+  const localModel =
+    opts.localModel ??
+    (envLane ? localModelPortFromLane(envLane) : new RuntimeLocalModelPort(rt));
   const tools = (opts.toolNames ?? [])
     .map((n) => runtimeToolPort(rt, n))
     .filter((t): t is ToolPort => Boolean(t));
