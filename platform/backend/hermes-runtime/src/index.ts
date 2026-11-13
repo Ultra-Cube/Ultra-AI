@@ -62,6 +62,20 @@ export {
 export { HttpMCPClient } from './adapters/mcp-http';
 export type { HttpMCPClientOptions } from './adapters/mcp-http';
 
+// CLI agent tools (Claude Code, Hermes Agent, OpenClaw, generic CLI)
+export {
+  CliToolAdapter,
+  spawnRunner,
+  claudeCodeTool,
+  hermesAgentTool,
+  openClawTool,
+} from './adapters/cli-tools';
+export type {
+  CliToolOptions,
+  ProcessResult,
+  ProcessRunner,
+} from './adapters/cli-tools';
+
 // Engines (n8n, Langflow, Dify, OpenHands, Open WebUI)
 export {
   N8nEngine,
