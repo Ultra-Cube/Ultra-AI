@@ -184,7 +184,7 @@ PUT    /user/workspace-profile             - Update profile (protected)
 - Database migrations
 
 **Deliverables**:
-- [`platform/backend/core-api/prisma/schema.prisma`](../../platform/backend/core-api/prisma/schema.prisma) - Database schema
+- [`platform/database/prisma/schema.prisma`](../../platform/database/prisma/schema.prisma) - Database schema (relocated from `platform/backend/core-api/prisma`)
 - [`platform/backend/core-api/src/services/auth/db-user-service.ts`](../../platform/backend/core-api/src/services/auth/db-user-service.ts) - Database operations
 - [`platform/backend/core-api/.env.development`](../../platform/backend/core-api/.env.development) - Dev configuration
 - [`platform/backend/core-api/.env.test`](../../platform/backend/core-api/.env.test) - Test configuration

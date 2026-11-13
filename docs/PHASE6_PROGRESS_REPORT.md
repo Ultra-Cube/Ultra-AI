@@ -49,7 +49,7 @@ Continuing development of the Ultra AI Platform with enhancement phases focusing
 6. `platform/backend/core-api/src/rbac/README.md` (400+ lines)
 7. `platform/backend/core-api/src/routes/admin.routes.ts` (200+ lines)
 8. `platform/backend/core-api/src/routes/admin.routes.test.ts` (230+ lines)
-9. `platform/backend/core-api/prisma/schema.prisma` (modified)
+9. `platform/backend/core-api/prisma/schema.prisma` (modified; now canonical copy at `platform/database/prisma/schema.prisma` after relocation)
 
 #### Code Statistics:
 - **Lines Added**: 1,593

@@ -33,8 +33,8 @@ See README §"Repository Layout" and `brain-stack/memory/ops/project-map.md` for
 ## What is deliberately unchanged / deferred
 
 - No application behavior changed; all moves are path-level.
-- `platform/database` is a placeholder — `platform/backend/core-api/prisma` move deferred
-  (requires `package.json` Prisma path updates).
+- `platform/database` Prisma relocation — completed after this baseline:
+  schema + migrations now live in `platform/database/prisma/` (see project-map).
 - `external-integrations/` and `wsl-ai-stack/` remain outside the declared layout
   (reference / local-ignored areas).
 - `infrastructure/Test/` uses uppercase `T` per the owner-supplied path map.

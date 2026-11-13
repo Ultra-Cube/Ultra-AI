@@ -305,7 +305,7 @@ brain-stack/
 | **S4 — Phased build** | ✅ P1–P4 Done | P1 platform core → P2 desktop bridge → P3 Gate-OS readiness → P4 Ultra Core bridge — all committed & verified |
 
 **Upcoming / deferred (planned, not yet built):**
-- `platform/database` Prisma relocation (`platform/backend/core-api/prisma` → `platform/database`, pending package.json path updates)
+- `platform/database` Prisma relocation — **DONE**: schema + migrations live in `platform/database/prisma/`; `core-api/package.json` prisma pointer and `Dockerfile.api` updated
 - Hermes runtime deep integration, provider/engine/tool adapters wiring, 3D control center, Linux/Windows packaging, real Ultra Core/Gate-OS endpoints (contracts ready)
 - Blockchain/crypto/token layers — intentionally deferred to later phases (interfaces preserved only)
 

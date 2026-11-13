@@ -102,7 +102,7 @@ Ultra-AI/
 
 - blockchain/token/wallet/chain — PARKED (platform/backend/blockchain placeholder only)
 - `monitoring/sentinel` — DONE WP-2 (`infrastructure/monitoring/stack/sentinel/`); dashboards/metrics/health-checks/alerts/logs expansion still pending
-- prisma schema move → platform/database/prisma — later step (needs networked CI)
+- prisma schema → `platform/database/prisma/` — DONE (moved from `platform/backend/core-api/prisma`; core-api `package.json` has `prisma.schema` pointer; validate+generate+386 jest tests green)
 - external-integrations/, wsl-ai-stack/ — await owner-run manifest-local
 - Gate-OS /v1 contract — platform/api/contracts (WP-11)
 

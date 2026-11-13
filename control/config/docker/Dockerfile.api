@@ -15,7 +15,7 @@ RUN npm ci
 RUN npm run build --workspace=@ultra-ai/api
 
 # Generate Prisma Client
-RUN npx prisma generate --schema=platform/backend/core-api/prisma/schema.prisma
+RUN npx prisma generate --schema=platform/database/prisma/schema.prisma
 
 # Stage 2: Production
 FROM node:20-alpine
@@ -34,7 +34,7 @@ RUN npm ci --only=production && npm cache clean --force
 # Copy built application from builder
 COPY --from=builder /app/platform/backend/core-api/dist ./platform/backend/core-api/dist
 COPY --from=builder /app/platform/backend/core-api/node_modules ./platform/backend/core-api/node_modules
-COPY --from=builder /app/platform/backend/core-api/prisma ./platform/backend/core-api/prisma
+COPY --from=builder /app/platform/database/prisma ./platform/database/prisma
 
 # Copy shared packages if they exist
 COPY platform/shared platform/shared
