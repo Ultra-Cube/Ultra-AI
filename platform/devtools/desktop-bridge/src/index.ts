@@ -1,5 +1,11 @@
 export { DesktopBridgeServer, type BridgeOptions } from './server';
 export {
+  createZeroAIBridge,
+  type ZeroAIBridge,
+  type ZeroAIBridgeOptions,
+  type ZeroAIExecutionTrail,
+} from './zeroai';
+export {
   eventNotification,
   METHOD_NOT_FOUND,
   INVALID_PARAMS,
@@ -21,6 +27,7 @@ export async function startBridge(
     port: options.port ?? DEFAULT_PORT,
     host: options.host ?? DEFAULT_HOST,
     config: options.config,
+    zeroai: options.zeroai,
   });
   await server.start();
   return server;

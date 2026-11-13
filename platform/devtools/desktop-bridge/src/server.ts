@@ -3,6 +3,11 @@ import {
   MockProvider,
   type HermesConfig,
 } from '@ultra-ai/hermes-runtime';
+import type {
+  GatewayPort,
+  PolicyEngineOptions,
+  ZeroAIRequest,
+} from '@ultra-ai/zeroai-edge';
 import { WebSocketServer, WebSocket } from 'ws';
 
 import {
@@ -14,11 +19,22 @@ import {
   type JsonRpcRequest,
   type JsonRpcResponse,
 } from './protocol';
+import {
+  createZeroAIBridge,
+  type ZeroAIBridge,
+  type ZeroAIBridgeOptions,
+} from './zeroai';
 
 export interface BridgeOptions {
   port: number;
   host: string;
   config?: HermesConfig;
+  zeroai?: {
+    policy?: PolicyEngineOptions;
+    gateway?: GatewayPort;
+    toolNames?: string[];
+    onEvent?: ZeroAIBridgeOptions['onEvent'];
+  };
 }
 
 const PROVIDER_MODELS = new Set([
@@ -36,6 +52,7 @@ const PROVIDER_MODELS = new Set([
  */
 export class DesktopBridgeServer {
   readonly runtime: HermesRuntime;
+  readonly zeroai: ZeroAIBridge;
   private wss: WebSocketServer | null = null;
   private clients = new Set<WebSocket>();
 
@@ -45,6 +62,13 @@ export class DesktopBridgeServer {
     // works out of the box; external adapters can be swapped via set_provider.
     this.runtime.registerProvider(new MockProvider({ id: 'mock' }));
     this.runtime.onEvent((event) => this.broadcast(eventNotification(event)));
+    this.zeroai = createZeroAIBridge(this.runtime, {
+      ...options.zeroai,
+      onEvent: (event) => {
+        this.broadcast(eventNotification(event));
+        options.zeroai?.onEvent?.(event);
+      },
+    });
   }
 
   start(): Promise<void> {
@@ -206,6 +230,29 @@ export class DesktopBridgeServer {
           maxIterations: cfg.maxIterations ?? 8,
         };
       }
+      case 'zeroai.run': {
+        const req: ZeroAIRequest = {
+          id:
+            typeof params.id === 'string' && params.id
+              ? params.id
+              : crypto.randomUUID(),
+          sessionId: String(params.sessionId ?? 'default'),
+          text: String(params.text ?? ''),
+          actorId: params.actorId as string | undefined,
+          hint: params.hint as ZeroAIRequest['hint'],
+          confirmation: params.confirmation as ZeroAIRequest['confirmation'],
+          metadata: params.metadata as Record<string, unknown> | undefined,
+        };
+        return this.zeroai.handle(req);
+      }
+      case 'zeroai.trail.get':
+        return this.zeroai.trail(String(params.requestId)) ?? null;
+      case 'zeroai.trail.list': {
+        const sessionId = params.sessionId as string | undefined;
+        return sessionId ? this.zeroai.trails(sessionId) : [];
+      }
+      case 'zeroai.routes':
+        return this.zeroai.routes();
       case 'health':
         return {
           status: 'ok',

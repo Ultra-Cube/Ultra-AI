@@ -1,4 +1,4 @@
-import WebSocket from 'ws';
+import { WebSocket } from 'ws';
 
 import type { JsonRpcRequest, JsonRpcResponse } from './protocol';
 import { DesktopBridgeServer } from './server';
@@ -96,6 +96,42 @@ describe('DesktopBridgeServer', () => {
       })
     ).result as unknown[];
     expect(entries.length).toBeGreaterThan(0);
+  });
+
+  it('runs a zeroai request and exposes its trail', async () => {
+    const session = (await rpc(ws, 'sessions.create', { agentId: 'default' }))
+      .result as { id: string };
+
+    const res = (
+      await rpc(ws, 'zeroai.run', {
+        id: 'zai-test-1',
+        sessionId: session.id,
+        text: 'summarize this',
+      })
+    ).result as {
+      status: string;
+      locality?: string;
+      route?: string;
+    };
+    expect(['completed', 'awaiting-confirmation']).toContain(res.status);
+
+    const trail = (
+      await rpc(ws, 'zeroai.trail.get', { requestId: 'zai-test-1' })
+    ).result as {
+      requestId: string;
+      status: string;
+      events: unknown[];
+    };
+    expect(trail.requestId).toBe('zai-test-1');
+    expect(trail.events.length).toBeGreaterThan(0);
+
+    const trails = (
+      await rpc(ws, 'zeroai.trail.list', { sessionId: session.id })
+    ).result as unknown[];
+    expect(trails.length).toBeGreaterThan(0);
+
+    const routes = (await rpc(ws, 'zeroai.routes')).result as string[];
+    expect(routes).toContain('local-model');
   });
 
   it('returns METHOD_NOT_FOUND for unknown methods', async () => {

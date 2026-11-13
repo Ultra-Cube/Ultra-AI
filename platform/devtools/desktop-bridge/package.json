@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@ultra-ai/hermes-runtime": "*",
+    "@ultra-ai/zeroai-edge": "*",
     "ws": "^8.18.0"
   },
   "devDependencies": {
