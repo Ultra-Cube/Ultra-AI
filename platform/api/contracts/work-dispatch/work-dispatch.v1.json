@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ultra.ai/contracts/work-dispatch/v1",
+  "title": "ultra.work-dispatch.v1",
+  "description": "Contract for distributing work across customers and specialized agents inside the Ultra platform. Readiness contract — no chain/crypto features.",
+  "type": "object",
+  "required": ["dispatchId", "task", "route"],
+  "properties": {
+    "dispatchId": { "type": "string", "format": "ulid" },
+    "task": {
+      "type": "object",
+      "required": ["id", "kind", "payload"],
+      "properties": {
+        "id": { "type": "string" },
+        "kind": { "type": "string", "enum": ["code", "research", "ops", "media", "custom"] },
+        "payload": { "type": "object" },
+        "sensitivity": { "type": "string", "enum": ["public", "internal", "sensitive"] },
+        "requiresConfirmation": { "type": "boolean", "default": false }
+      }
+    },
+    "route": {
+      "type": "object",
+      "required": ["target"],
+      "properties": {
+        "target": {
+          "type": "string",
+          "enum": ["local", "hermes", "openhands", "ultra-studio", "customer", "specialist-agent"]
+        },
+        "agentId": { "type": "string" },
+        "customerId": { "type": "string" },
+        "priority": { "type": "integer", "minimum": 0, "maximum": 9 }
+      }
+    },
+    "execution": {
+      "type": "object",
+      "properties": {
+        "locality": { "type": "string", "enum": ["local", "escalated"] },
+        "trailRef": { "type": "string" },
+        "confirmedAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "signature": {
+      "type": "object",
+      "description": "Readiness for later signed records; Ed25519 signature over canonical payload. No blockchain.",
+      "properties": {
+        "alg": { "const": "Ed25519" },
+        "keyId": { "type": "string" },
+        "value": { "type": "string" }
+      }
+    }
+  }
+}
