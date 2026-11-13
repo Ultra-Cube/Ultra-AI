@@ -134,6 +134,23 @@ describe('DesktopBridgeServer', () => {
     expect(routes).toContain('local-model');
   });
 
+  it('exposes engine supervisor status over json-rpc', async () => {
+    const list = (await rpc(ws, 'engines.list')).result as Array<{
+      id: string;
+      state: string;
+    }>;
+    expect(Array.isArray(list)).toBe(true);
+    expect(list.length).toBeGreaterThan(0);
+    expect(list.every((e) => typeof e.id === 'string')).toBe(true);
+
+    const one = (await rpc(ws, 'engines.status', { id: list[0].id }))
+      .result as { id: string };
+    expect(one.id).toBe(list[0].id);
+
+    const bad = await rpc(ws, 'engines.status', { id: 'nope' });
+    expect(bad.error?.code).toBe(-32601);
+  });
+
   it('returns METHOD_NOT_FOUND for unknown methods', async () => {
     const res = await rpc(ws, 'bogus.method');
     expect(res.error?.code).toBe(-32601);

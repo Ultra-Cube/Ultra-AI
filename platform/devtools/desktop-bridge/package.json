@@ -16,6 +16,7 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
+    "@ultra-ai/engine-supervisor": "*",
     "@ultra-ai/hermes-runtime": "*",
     "@ultra-ai/zeroai-edge": "*",
     "ws": "^8.18.0"

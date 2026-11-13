@@ -1,4 +1,9 @@
 import {
+  EngineSupervisor,
+  ENGINE_PRESETS,
+  type SupervisorOptions,
+} from '@ultra-ai/engine-supervisor';
+import {
   HermesRuntime,
   MockProvider,
   type HermesConfig,
@@ -35,6 +40,7 @@ export interface BridgeOptions {
     toolNames?: string[];
     onEvent?: ZeroAIBridgeOptions['onEvent'];
   };
+  engines?: SupervisorOptions & { enabled?: boolean };
 }
 
 const PROVIDER_MODELS = new Set([
@@ -53,6 +59,7 @@ const PROVIDER_MODELS = new Set([
 export class DesktopBridgeServer {
   readonly runtime: HermesRuntime;
   readonly zeroai: ZeroAIBridge;
+  readonly engines: EngineSupervisor | null;
   private wss: WebSocketServer | null = null;
   private clients = new Set<WebSocket>();
 
@@ -69,6 +76,19 @@ export class DesktopBridgeServer {
         options.zeroai?.onEvent?.(event);
       },
     });
+    this.engines =
+      options.engines?.enabled === false
+        ? null
+        : new EngineSupervisor(ENGINE_PRESETS, {
+            ...options.engines,
+            onStatus: (status) =>
+              this.broadcast(
+                eventNotification({
+                  type: 'engine.status',
+                  payload: status,
+                } as never)
+              ),
+          });
   }
 
   start(): Promise<void> {
@@ -253,6 +273,47 @@ export class DesktopBridgeServer {
       }
       case 'zeroai.routes':
         return this.zeroai.routes();
+      case 'engines.list': {
+        if (!this.engines)
+          throw new BridgeError(INVALID_PARAMS, 'engine supervisor disabled');
+        return this.engines.listStatus();
+      }
+      case 'engines.status': {
+        if (!this.engines)
+          throw new BridgeError(INVALID_PARAMS, 'engine supervisor disabled');
+        const st = this.engines.status(String(params.id));
+        if (!st)
+          throw new BridgeError(
+            METHOD_NOT_FOUND,
+            'Unknown engine: ' + String(params.id)
+          );
+        return st;
+      }
+      case 'engines.probe': {
+        if (!this.engines)
+          throw new BridgeError(INVALID_PARAMS, 'engine supervisor disabled');
+        return this.engines.probe(String(params.id));
+      }
+      case 'engines.probeAll': {
+        if (!this.engines)
+          throw new BridgeError(INVALID_PARAMS, 'engine supervisor disabled');
+        const results = await Promise.all(
+          this.engines
+            .listManifests()
+            .map((m) => this.engines!.probe(m.id).catch(() => null))
+        );
+        return results.filter((r) => r !== null);
+      }
+      case 'engines.start': {
+        if (!this.engines)
+          throw new BridgeError(INVALID_PARAMS, 'engine supervisor disabled');
+        return this.engines.start(String(params.id));
+      }
+      case 'engines.stop': {
+        if (!this.engines)
+          throw new BridgeError(INVALID_PARAMS, 'engine supervisor disabled');
+        return this.engines.stop(String(params.id));
+      }
       case 'health':
         return {
           status: 'ok',
