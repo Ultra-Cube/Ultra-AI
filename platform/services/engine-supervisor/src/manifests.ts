@@ -65,6 +65,19 @@ export const ENGINE_PRESETS: EngineManifest[] = [
     startupTimeoutMs: 45000,
   },
   {
+    id: 'openvscode-server',
+    label: 'Ultra Studio (Code-OSS web IDE, Open VSX)',
+    command: 'openvscode-server',
+    args: ['--host', '127.0.0.1', '--port', '8443'],
+    port: 8443,
+    portEnvVar: 'ULTRA_STUDIO_PORT',
+    healthPath: '/',
+    probe: 'http',
+    startupTimeoutMs: 60000,
+    licenseNote:
+      'MIT (Code-OSS); clean product.json, extensions via Open VSX only',
+  },
+  {
     id: 'dify',
     label: 'Dify',
     command: 'docker',

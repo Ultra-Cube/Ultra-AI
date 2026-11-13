@@ -1,7 +1,8 @@
 # @ultra-ai/engine-supervisor
 
 Runtime supervisor for embedded engine sidecars (Ollama, 9router/OmniRoute,
-OpenClaw, OpenHands, Langflow, n8n, Dify). Exposes lifecycle management
+OpenClaw, OpenHands, Langflow, n8n, Dify, Ultra Studio/openvscode-server).
+Exposes lifecycle management
 (`start`/`stop`/`restart`), health probing (HTTP + TCP), and a read-only
 status surface consumed by `desktop-bridge` and the control center.
 
