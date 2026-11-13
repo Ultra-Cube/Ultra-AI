@@ -113,3 +113,4 @@ npm run lint && npm run type-check && npm test   # all green post-WP-0b
 bash infrastructure/automation/preservation.sh verify-moves baseline/pre-planning-20261111 <moves.tsv>
 git log --oneline  # WP-0 steps cbcfc9c..96d0423 + WP-0b commit
 ```
+- platform/services/zeroai-edge — ZeroAI local-first execution contract (memory→policy→local model/tool/workflow→escalate; confirmation gate; locality visibility)
