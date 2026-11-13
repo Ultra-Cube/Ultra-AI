@@ -50,6 +50,18 @@ export type { OpenAICompatibleOptions } from './adapters/openai-compatible';
 export { AnthropicProvider } from './adapters/anthropic';
 export type { AnthropicOptions } from './adapters/anthropic';
 
+// Tools & MCP
+export {
+  ToolRegistry,
+  functionTool,
+  builtinTools,
+  echoTool,
+  datetimeTool,
+  calculatorTool,
+} from './adapters/tools';
+export { HttpMCPClient } from './adapters/mcp-http';
+export type { HttpMCPClientOptions } from './adapters/mcp-http';
+
 // Memory
 export { InMemoryMemoryStore } from './memory/memory';
 export type {
