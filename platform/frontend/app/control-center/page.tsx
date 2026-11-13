@@ -1,81 +1,204 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import dynamic from 'next/dynamic';
+import { useCallback, useEffect, useState } from 'react';
+
+import type {
+  MetricStats,
+  NodeKind,
+  SceneNode,
+  ServiceNode,
+} from '../../components/control-center/ControlCenterScene';
+
+const ControlCenterScene = dynamic(
+  () => import('../../components/control-center/ControlCenterScene'),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="flex h-full items-center justify-center text-slate-400">
+        Initializing 3D control center…
+      </div>
+    ),
+  },
+);
 
 export default function ControlCenterPage() {
-  const [systemStats, setSystemStats] = useState({
-    cpu: 0,
-    memory: 0,
-    disk: 0,
-    uptime: 0,
-  });
-  const [loading, setLoading] = useState(true);
+  const [stats, setStats] = useState<MetricStats | null>(null);
+  const [services, setServices] = useState<ServiceNode[]>([]);
+  const [selected, setSelected] = useState<SceneNode | null>(null);
+  const [lastSync, setLastSync] = useState<Date | null>(null);
 
-  useEffect(() => {
-    fetchStats();
-    const interval = setInterval(fetchStats, 5000);
-    return () => clearInterval(interval);
+  const refresh = useCallback(async () => {
+    try {
+      const [sRes, nRes] = await Promise.all([
+        fetch('/api/control-center/system-stats', { cache: 'no-store' }),
+        fetch('/api/control-center/nodes', { cache: 'no-store' }),
+      ]);
+      if (sRes.ok) setStats(await sRes.json());
+      if (nRes.ok) {
+        const data = await nRes.json();
+        setServices(data.nodes ?? []);
+      }
+      setLastSync(new Date());
+    } catch {
+      // keep last known state on transient failures
+    }
   }, []);
 
-  const fetchStats = async () => {
-    try {
-      const response = await fetch('/api/control-center/system-stats');
-      const data = await response.json();
-      setSystemStats(data);
-      setLoading(false);
-    } catch (error) {
-      console.error('Failed to fetch system stats:', error);
-      setLoading(false);
-    }
+  useEffect(() => {
+    refresh();
+    const t = setInterval(refresh, 3000);
+    return () => clearInterval(t);
+  }, [refresh]);
+
+  const upCount = services.filter((s) => s.status === 'up').length;
+  const fmtUptime = (s: number) => {
+    const h = Math.floor(s / 3600);
+    const m = Math.floor((s % 3600) / 60);
+    return `${h}h ${m}m`;
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
-      <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold text-gray-900 mb-6">
-          Control Center
-        </h1>
+    <div className="relative h-screen w-screen overflow-hidden bg-slate-950 text-slate-200">
+      <div className="absolute inset-0">
+        <ControlCenterScene
+          stats={stats}
+          services={services}
+          selectedId={selected?.id ?? null}
+          onSelect={setSelected}
+        />
+      </div>
 
-        <div className="bg-white rounded-lg shadow p-6 mb-6">
-          <h2 className="text-xl font-semibold text-gray-800 mb-4">
-            System Status
-          </h2>
-          {loading ? (
-            <div className="text-center py-8 text-gray-500">Loading system stats...</div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="bg-blue-50 rounded-lg p-4">
-                <h3 className="text-sm font-medium text-blue-600 mb-2">CPU Usage</h3>
-                <p className="text-2xl font-bold text-blue-900">{systemStats.cpu.toFixed(1)}%</p>
+      {/* Header */}
+      <header className="pointer-events-none absolute left-0 right-0 top-0 flex items-start justify-between p-5">
+        <div>
+          <h1 className="text-xl font-semibold tracking-wide text-slate-100">
+            Ultra-AI Control Center
+          </h1>
+          <p className="mt-1 text-xs text-slate-400">
+            {stats?.platform ?? '…'} · {stats?.cores ?? '–'} cores · uptime{' '}
+            {stats ? fmtUptime(stats.uptime) : '–'}
+            {lastSync && (
+              <span className="ml-2 text-slate-500">
+                synced {lastSync.toLocaleTimeString()}
+              </span>
+            )}
+          </p>
+        </div>
+        <div className="flex gap-2 text-xs">
+          <span className="rounded bg-emerald-500/15 px-2 py-1 text-emerald-300">
+            {upCount}/{services.length || '–'} services up
+          </span>
+        </div>
+      </header>
+
+      {/* Metric cards */}
+      <aside className="pointer-events-none absolute bottom-5 left-5 flex flex-col gap-2">
+        {(['cpu', 'memory', 'disk'] as const).map((k) => {
+          const v = stats?.[k] ?? 0;
+          const color = v < 60 ? 'text-emerald-300' : v < 85 ? 'text-amber-300' : 'text-red-300';
+          const label = k === 'cpu' ? 'CPU' : k === 'memory' ? 'Memory' : 'Disk';
+          return (
+            <button
+              key={k}
+              onClick={() => {
+                const node: SceneNode = {
+                  id: `metric-${k}`,
+                  kind: k as NodeKind,
+                  label,
+                  value: v,
+                  color: '#38bdf8',
+                  detail: `${label} usage: ${v.toFixed(1)}%`,
+                  position: [0, 1.6, -4.5],
+                };
+                setSelected(selected?.id === node.id ? null : node);
+              }}
+              className="pointer-events-auto w-44 rounded-lg border border-slate-700/60 bg-slate-900/80 px-3 py-2 text-left backdrop-blur transition hover:border-slate-500"
+            >
+              <div className="flex justify-between text-[11px] uppercase tracking-wider text-slate-400">
+                <span>{label}</span>
+                <span className={color}>{v.toFixed(0)}%</span>
               </div>
-              <div className="bg-green-50 rounded-lg p-4">
-                <h3 className="text-sm font-medium text-green-600 mb-2">Memory Usage</h3>
-                <p className="text-2xl font-bold text-green-900">{systemStats.memory.toFixed(1)}%</p>
+              <div className="mt-1 h-1.5 overflow-hidden rounded bg-slate-700">
+                <div
+                  className={`h-full ${v < 60 ? 'bg-emerald-400' : v < 85 ? 'bg-amber-400' : 'bg-red-400'}`}
+                  style={{ width: `${Math.min(100, v)}%` }}
+                />
               </div>
-              <div className="bg-purple-50 rounded-lg p-4">
-                <h3 className="text-sm font-medium text-purple-600 mb-2">Disk Usage</h3>
-                <p className="text-2xl font-bold text-purple-900">{systemStats.disk.toFixed(1)}%</p>
+            </button>
+          );
+        })}
+      </aside>
+
+      {/* Service list */}
+      <aside className="pointer-events-none absolute right-5 top-20 flex w-56 flex-col gap-1.5">
+        {services.map((s) => (
+          <button
+            key={s.id}
+            onClick={() => {
+              const node: SceneNode = {
+                id: `service-${s.id}`,
+                kind: 'service',
+                label: s.label,
+                value: s.status === 'up' ? 100 : 0,
+                color: s.status === 'up' ? '#60a5fa' : '#f87171',
+                detail: `${s.label}: ${s.status.toUpperCase()} (${s.latencyMs}ms) — ${s.url}`,
+                position: [0, -0.4, -2.6],
+              };
+              setSelected(selected?.id === node.id ? null : node);
+            }}
+            className="pointer-events-auto flex items-center justify-between rounded-md border border-slate-700/60 bg-slate-900/80 px-3 py-1.5 text-xs backdrop-blur hover:border-slate-500"
+          >
+            <span className="text-slate-300">{s.label}</span>
+            <span
+              className={
+                s.status === 'up' ? 'text-emerald-400' : 'text-red-400'
+              }
+            >
+              {s.status === 'up' ? `${s.latencyMs}ms` : 'DOWN'}
+            </span>
+          </button>
+        ))}
+      </aside>
+
+      {/* Selected node detail */}
+      {selected && (
+        <div className="absolute bottom-5 right-5 w-80 rounded-lg border border-slate-600 bg-slate-900/90 p-4 backdrop-blur">
+          <div className="flex items-center justify-between">
+            <h2 className="text-sm font-semibold text-slate-100">
+              {selected.label}
+            </h2>
+            <button
+              onClick={() => setSelected(null)}
+              className="text-slate-500 hover:text-slate-200"
+              aria-label="Close details"
+            >
+              ✕
+            </button>
+          </div>
+          <p className="mt-2 text-xs leading-relaxed text-slate-400">
+            {selected.detail}
+          </p>
+          {selected.kind !== 'service' && (
+            <div className="mt-3">
+              <div className="flex justify-between text-[11px] text-slate-500">
+                <span>Load</span>
+                <span>{selected.value.toFixed(1)}%</span>
+              </div>
+              <div className="mt-1 h-2 overflow-hidden rounded bg-slate-700">
+                <div
+                  className="h-full bg-sky-400"
+                  style={{ width: `${Math.min(100, selected.value)}%` }}
+                />
               </div>
             </div>
           )}
         </div>
+      )}
 
-        <div className="bg-white rounded-lg shadow p-6">
-          <h2 className="text-xl font-semibold text-gray-800 mb-4">
-            Quick Actions
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <button className="px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-              Start Services
-            </button>
-            <button className="px-4 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
-              View Logs
-            </button>
-            <button className="px-4 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors">
-              System Settings
-            </button>
-          </div>
-        </div>
+      {/* Hint */}
+      <div className="pointer-events-none absolute bottom-5 left-1/2 -translate-x-1/2 text-[11px] text-slate-500">
+        Drag to orbit · scroll to zoom · click a node for details
       </div>
     </div>
   );
