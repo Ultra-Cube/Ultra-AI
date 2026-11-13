@@ -1,0 +1,27 @@
+{
+  "name": "@ultra-ai/outbox",
+  "version": "0.1.0",
+  "description": "Signed, hash-chained ultra.event.v1 outbox (WP-1): canonical JSON, ULID, Ed25519, JSONL store with fsync+lockfile, cursor-based export. No chain features.",
+  "main": "dist/index.js",
+  "types": "src/index.ts",
+  "scripts": {
+    "dev": "tsup src/index.ts --format esm,cjs --watch",
+    "build": "tsup src/index.ts --format esm,cjs",
+    "test": "jest --config jest.config.cjs",
+    "test:watch": "jest --config jest.config.cjs --watch",
+    "test:coverage": "jest --config jest.config.cjs --coverage",
+    "lint": "eslint src --ext .ts",
+    "lint:fix": "eslint src --ext .ts --fix",
+    "type-check": "tsc --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/jest": "^29.5.0",
+    "@types/node": "^20.0.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.3.3"
+  }
+}
