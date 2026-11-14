@@ -19,6 +19,7 @@
     "@ultra-ai/engine-supervisor": "*",
     "@ultra-ai/hermes-runtime": "*",
     "@ultra-ai/zeroai-edge": "*",
+    "@ultra-ai/work-dispatch": "*",
     "ws": "^8.18.0"
   },
   "devDependencies": {

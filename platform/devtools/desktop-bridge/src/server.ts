@@ -8,6 +8,12 @@ import {
   MockProvider,
   type HermesConfig,
 } from '@ultra-ai/hermes-runtime';
+import {
+  WorkDispatcher,
+  type Confirmation,
+  type DispatchRequest,
+  type WorkDispatchOptions,
+} from '@ultra-ai/work-dispatch';
 import type {
   GatewayPort,
   PolicyEngineOptions,
@@ -41,6 +47,7 @@ export interface BridgeOptions {
     onEvent?: ZeroAIBridgeOptions['onEvent'];
   };
   engines?: SupervisorOptions & { enabled?: boolean };
+  dispatch?: WorkDispatchOptions & { enabled?: boolean };
 }
 
 const PROVIDER_MODELS = new Set([
@@ -60,6 +67,7 @@ export class DesktopBridgeServer {
   readonly runtime: HermesRuntime;
   readonly zeroai: ZeroAIBridge;
   readonly engines: EngineSupervisor | null;
+  readonly dispatcher: WorkDispatcher | null;
   private wss: WebSocketServer | null = null;
   private clients = new Set<WebSocket>();
 
@@ -88,6 +96,21 @@ export class DesktopBridgeServer {
                   payload: status,
                 } as never)
               ),
+          });
+    this.dispatcher =
+      options.dispatch?.enabled === false
+        ? null
+        : new WorkDispatcher({
+            ...options.dispatch,
+            executors: {
+              local: {
+                execute: async (d) => ({
+                  output: { echo: d.task.payload },
+                  trailRef: `local://${d.dispatchId}`,
+                }),
+              },
+              ...(options.dispatch?.executors ?? {}),
+            },
           });
   }
 
@@ -314,6 +337,33 @@ export class DesktopBridgeServer {
           throw new BridgeError(INVALID_PARAMS, 'engine supervisor disabled');
         return this.engines.stop(String(params.id));
       }
+      case 'dispatch.run': {
+        if (!this.dispatcher)
+          throw new BridgeError(INVALID_PARAMS, 'work dispatcher disabled');
+        return this.dispatcher.dispatch(params.request as DispatchRequest);
+      }
+      case 'dispatch.confirm': {
+        if (!this.dispatcher)
+          throw new BridgeError(INVALID_PARAMS, 'work dispatcher disabled');
+        const res = await this.dispatcher.confirm(
+          String(params.dispatchId),
+          params.confirmation as Confirmation
+        );
+        if (!res)
+          throw new BridgeError(
+            METHOD_NOT_FOUND,
+            `Unknown dispatch: ${params.dispatchId}`
+          );
+        return res;
+      }
+      case 'dispatch.pending':
+        return this.dispatcher ? this.dispatcher.pendingIds() : [];
+      case 'dispatch.trail.get':
+        return this.dispatcher
+          ? this.dispatcher.trailFor(String(params.dispatchId))
+          : [];
+      case 'dispatch.trail.list':
+        return this.dispatcher ? this.dispatcher.trailAll() : [];
       case 'health':
         return {
           status: 'ok',

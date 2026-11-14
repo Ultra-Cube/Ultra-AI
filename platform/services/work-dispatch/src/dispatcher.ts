@@ -155,6 +155,11 @@ export class WorkDispatcher {
     return [...this.pending.keys()];
   }
 
+  /** Full trail across all dispatches (newest last). Read-only. */
+  trailAll(): TrailEntry[] {
+    return [...this.trail];
+  }
+
   private needsConfirmation(d: WorkDispatch): boolean {
     return (
       d.task.sensitivity === 'sensitive' || d.task.requiresConfirmation === true

@@ -160,4 +160,71 @@ describe('DesktopBridgeServer', () => {
     const res = await rpc(ws, 'sessions.get', { id: 'sess-nope' });
     expect(res.error?.code).toBe(-32601);
   });
+  it('dispatches work, gates sensitive tasks, and exposes trails', async () => {
+    const pub = await rpc(
+      ws,
+      'dispatch.run',
+      {
+        request: {
+          task: { kind: 'ops', payload: { note: 'hi' } },
+          route: { target: 'local' },
+        },
+      },
+      20
+    );
+    expect(pub.error).toBeUndefined();
+    expect((pub.result as { status: string }).status).toBe('completed');
+
+    const sens = await rpc(
+      ws,
+      'dispatch.run',
+      {
+        request: {
+          task: {
+            kind: 'ops',
+            payload: { note: 'secret' },
+            sensitivity: 'sensitive',
+          },
+          route: { target: 'local' },
+        },
+      },
+      21
+    );
+    const sres = sens.result as {
+      status: string;
+      dispatch: { dispatchId: string };
+    };
+    expect(sres.status).toBe('awaiting-confirmation');
+
+    const pending = await rpc(ws, 'dispatch.pending', {}, 24);
+    expect(pending.result as string[]).toContain(sres.dispatch.dispatchId);
+
+    const conf = await rpc(
+      ws,
+      'dispatch.confirm',
+      {
+        dispatchId: sres.dispatch.dispatchId,
+        confirmation: { approved: true, confirmedBy: 'tester' },
+      },
+      22
+    );
+    expect((conf.result as { status: string }).status).toBe('completed');
+
+    const trail = await rpc(
+      ws,
+      'dispatch.trail.get',
+      { dispatchId: sres.dispatch.dispatchId },
+      23
+    );
+    expect(
+      (trail.result as Array<{ event: string }>).map((t) => t.event)
+    ).toEqual(
+      expect.arrayContaining([
+        'received',
+        'confirmation-required',
+        'confirmed',
+        'completed',
+      ])
+    );
+  });
 });
