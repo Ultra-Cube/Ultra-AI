@@ -14,3 +14,4 @@ export {
   type OllamaLocalModelOptions,
   type OpenAICompatibleLocalModelOptions,
 } from './local-model';
+export * from './ui';

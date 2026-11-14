@@ -27,10 +27,12 @@ import {
   RegisteredAgent,
   WorkDispatch,
 } from '@ultra-ai/work-dispatch';
-import type {
-  GatewayPort,
-  PolicyEngineOptions,
-  ZeroAIRequest,
+import {
+  uiCatalog,
+  uiSchemaFor,
+  type GatewayPort,
+  type PolicyEngineOptions,
+  type ZeroAIRequest,
 } from '@ultra-ai/zeroai-edge';
 import { WebSocketServer, WebSocket } from 'ws';
 
@@ -336,6 +338,14 @@ export class DesktopBridgeServer {
       }
       case 'zeroai.routes':
         return this.zeroai.routes();
+      case 'zeroai.ui.catalog':
+        return uiCatalog();
+      case 'zeroai.ui.schema': {
+        const schema = uiSchemaFor(String(params.kind ?? ''));
+        if (!schema)
+          throw new BridgeError(METHOD_NOT_FOUND, 'Unknown UI schema');
+        return schema;
+      }
       case 'engines.list': {
         if (!this.engines)
           throw new BridgeError(INVALID_PARAMS, 'engine supervisor disabled');
