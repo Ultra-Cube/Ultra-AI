@@ -104,7 +104,7 @@ flowchart LR
 - [ ] **P1A-01** Spike: Hermes Agent embed modes (CLI, gateway, any HTTP/OpenAI-compatible API) on Linux, WSL2 and native Windows (experimental) · `IDEA`
 - [ ] **P1A-02** `brain` package: process manager, health, config merge (`~/.hermes/config.yaml` custom provider → platform gateway) · `IDEA`
 - [ ] **P1A-03** Memory service: Memory Bank ↔ Hermes memory bridge (pointers), FTS5 index, optional pgvector · `IDEA`
-- [ ] **P1A-04** Skill registry: import/export agentskills.io format, versioning, signing, scopes · `IDEA`
+- [x] **P1A-04** Skill registry: import/export agentskills.io format, versioning, signing, scopes · `DONE — @ultra-ai/skill-registry (platform/services/skill-registry), SKILL.md scan + scopes/platforms/query + pluggable signing + pack manifests, 9 tests`
 - [ ] **P1A-05** MCP hub exposing platform tools to Hermes/OpenClaw · `IDEA`
 - [ ] **P1A-06** Engine manifest schema (id, pinned version, checksum, licence row, ports, health, data dirs) · `IDEA`
 - [ ] **P1A-07** Supervisor: install/start/stop/update, non-root, loopback-only by default · `IDEA`
