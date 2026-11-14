@@ -103,7 +103,7 @@ flowchart LR
 ### P1A — Brain (Hermes Agent) and runtime supervisor · A05, A06
 - [ ] **P1A-01** Spike: Hermes Agent embed modes (CLI, gateway, any HTTP/OpenAI-compatible API) on Linux, WSL2 and native Windows (experimental) · `IDEA`
 - [x] **P1A-02** `brain` package: process manager, health, config merge (`~/.hermes/config.yaml` custom provider → platform gateway) · DONE — @ultra-ai/brain (platform/services/brain), YAML/JSON layer merge + child-process lifecycle + readiness, 9 tests
-- [ ] **P1A-03** Memory service: Memory Bank ↔ Hermes memory bridge (pointers), FTS5 index, optional pgvector · `IDEA`
+- [x] **P1A-03** Memory service: Memory Bank ↔ Hermes memory bridge (pointers), FTS5 index, optional pgvector · DONE — @ultra-ai/memory-bridge (platform/services/memory-bridge), pointer records + FTS index + sha256 payload hashes + BankAdapter, 7 tests
 - [x] **P1A-04** Skill registry: import/export agentskills.io format, versioning, signing, scopes · DONE — @ultra-ai/skill-registry (platform/services/skill-registry), SKILL.md scan + scopes/platforms/query + pluggable signing + pack manifests, 9 tests 
 - [x] **P1A-05** MCP hub exposing platform tools to Hermes/OpenClaw · DONE — @ultra-ai/mcp-hub (platform/services/mcp-hub), pluggable transports + policies + mcp.json loader, 6 tests 
 - [ ] **P1A-06** Engine manifest schema (id, pinned version, checksum, licence row, ports, health, data dirs) · `IDEA`
