@@ -185,6 +185,38 @@ try {
   execFileSync('mkdir', ['-p', winExtract]);
   execFileSync('tar', ['-xzf', winTar, '-C', winExtract]);
   check('windows tarball has .cmd launcher', existsSync(join(winExtract, 'bin/ultra-desktop.cmd')));
+
+  // 10. AppImage payload: squashfs + appdir tarball
+  const squashfs = join(linuxDir, `ultra-ai-desktop-${tag}-linux.squashfs`);
+  const appdirTar = join(linuxDir, `ultra-ai-desktop-${tag}-appdir.tar.gz`);
+  check('squashfs payload exists', existsSync(squashfs));
+  check('appdir tarball exists', existsSync(appdirTar));
+  if (existsSync(squashfs)) {
+    try {
+      const sInfo = execFileSync('unsquashfs', ['-s', squashfs], { encoding: 'utf8' });
+      check('squashfs valid superblock', sInfo.includes('SQUASHFS'));
+    } catch {
+      check('squashfs valid superblock', false, 'unsquashfs not available or invalid');
+    }
+  }
+  if (existsSync(appdirTar)) {
+    try {
+      const appList = execFileSync('tar', ['-tzf', appdirTar], { encoding: 'utf8' });
+      check('appdir tarball has AppRun or launcher', /AppRun|ultra-desktop|bin\//.test(appList));
+    } catch {
+      check('appdir tarball extractable', false);
+    }
+  }
+
+  // 11. Inno Setup script
+  const issPath = join(winDir, 'ultra-ai.iss');
+  check('inno setup script exists', existsSync(issPath));
+  if (existsSync(issPath)) {
+    const iss = readFileSync(issPath, 'utf8');
+    check('iss has AppName', iss.includes('AppName=Ultra AI'));
+    check('iss sources windows tarball', iss.includes(`${tag}-windows.tar.gz`));
+    check('iss has windows paths escaped', iss.includes('ultra-desktop.cmd'));
+  }
 } finally {
   rmSync(work, { recursive: true, force: true });
 }

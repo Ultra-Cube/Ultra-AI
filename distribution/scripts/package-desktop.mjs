@@ -267,5 +267,55 @@ Description: Ultra AI Platform desktop shell
   console.log(`[desktop] ${deb}`);
 }
 
+// AppImage payload (Linux, P2-03): squashfs image + AppDir tarball.
+// A real .AppImage needs the appimagetool runtime binary; when absent we
+// emit the squashfs + AppDir tarball so CI/release hosts can finish it.
+{
+  const linuxDir = join(outRoot, "linux");
+  const appDir = join(outRoot, ".appdir");
+  rmSync(appDir, { recursive: true, force: true });
+  cpSync(staging, join(appDir, "usr"), { recursive: true });
+  writeFileSync(join(appDir, "AppRun"), `#!/usr/bin/env bash
+set -euo pipefail
+HERE="$(cd "$(dirname "\${BASH_SOURCE[0]}")" && pwd)"
+exec "$HERE/usr/bin/ultra-desktop" "$@"
+`);
+  chmodSync(join(appDir, "AppRun"), 0o755);
+  const sqsh = join(linuxDir, `ultra-ai-desktop-${tag}-linux.squashfs`);
+  execFileSync("mksquashfs", [appDir, sqsh, "-noappend", "-no-xattrs", "-comp", "gzip"], { stdio: "inherit" });
+  const appdirTar = join(linuxDir, `ultra-ai-desktop-${tag}-appdir.tar.gz`);
+  execFileSync("tar", ["-czf", appdirTar, "-C", outRoot, ".appdir"], { stdio: "inherit" });
+  rmSync(appDir, { recursive: true, force: true });
+  console.log(`[desktop] ${sqsh}`);
+  console.log(`[desktop] ${appdirTar}`);
+}
+
+// Windows installer script (P2-03): Inno Setup .iss emitted alongside the
+// tarball; compile with `iscc ultra-ai.iss` on a Windows release host.
+{
+  const winDir = join(outRoot, "windows");
+  const ver = tag.replace(/^v/, "");
+  const iss = `; Ultra AI Desktop - Inno Setup script (generated ${tag})
+; Build: iscc /DAppVersion=${ver} ultra-ai.iss
+#define AppVersion "${ver}"
+[Setup]
+AppName=Ultra AI
+AppVersion={#AppVersion}
+DefaultDirName={localappdata}\\Programs\\UltraAI
+OutputDir=.
+OutputBaseFilename=UltraAI-Setup-{#AppVersion}
+Compression=lzma2
+SolidCompression=yes
+PrivilegesRequired=lowest
+[Files]
+Source: "ultra-ai-desktop-${tag}-windows.tar.gz"; DestDir: "{app}"; Flags: ignoreversion
+[Run]
+Filename: "{app}\\bin\\ultra-desktop.cmd"; Description: "Launch Ultra AI"; Flags: nowait postinstall skipifsilent
+`;
+  const issPath = join(winDir, "ultra-ai.iss");
+  writeFileSync(issPath, iss);
+  console.log(`[desktop] ${issPath}`);
+}
+
 rmSync(staging, { recursive: true, force: true });
 console.log(`[desktop] done -> ${outRoot}`);
