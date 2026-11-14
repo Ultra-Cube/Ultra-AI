@@ -105,7 +105,7 @@ flowchart LR
 - [ ] **P1A-02** `brain` package: process manager, health, config merge (`~/.hermes/config.yaml` custom provider → platform gateway) · `IDEA`
 - [ ] **P1A-03** Memory service: Memory Bank ↔ Hermes memory bridge (pointers), FTS5 index, optional pgvector · `IDEA`
 - [x] **P1A-04** Skill registry: import/export agentskills.io format, versioning, signing, scopes · DONE — @ultra-ai/skill-registry (platform/services/skill-registry), SKILL.md scan + scopes/platforms/query + pluggable signing + pack manifests, 9 tests 
-- [ ] **P1A-05** MCP hub exposing platform tools to Hermes/OpenClaw · `IDEA`
+- [x] **P1A-05** MCP hub exposing platform tools to Hermes/OpenClaw · `DONE — @ultra-ai/mcp-hub (platform/services/mcp-hub), pluggable transports + policies + mcp.json loader, 6 tests`
 - [ ] **P1A-06** Engine manifest schema (id, pinned version, checksum, licence row, ports, health, data dirs) · `IDEA`
 - [ ] **P1A-07** Supervisor: install/start/stop/update, non-root, loopback-only by default · `IDEA`
 - [ ] **P1A-08** Single-origin reverse proxy + SSO (JWT) + CSP so engines are used *inside* the platform · `IDEA`
