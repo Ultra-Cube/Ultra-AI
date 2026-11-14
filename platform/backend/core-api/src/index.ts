@@ -963,6 +963,19 @@ export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
     }
   });
 
+  app.get('/zeroai/edge/ui-schema', async (request) => {
+    const { kind } = request.query as { kind?: string };
+    try {
+      const schema = await edgeBridge.call<Record<string, unknown>>(
+        'zeroai.ui.schema',
+        kind ? { kind } : {}
+      );
+      return { schema };
+    } catch {
+      return { schema: null, connected: false };
+    }
+  });
+
   app.post('/zeroai/edge/run', async (request, reply) => {
     const body = request.body as {
       text?: string;
@@ -1053,6 +1066,34 @@ export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
       return { trails };
     } catch {
       return { trails: [], connected: false };
+    }
+  });
+
+  app.get('/zeroai/ui/catalog', async () => {
+    try {
+      const catalog = await edgeBridge.call<unknown[]>('zeroai.ui.catalog');
+      return { connected: true, catalog };
+    } catch {
+      return { connected: false, catalog: [] as unknown[] };
+    }
+  });
+
+  app.get('/zeroai/ui/schema', async (request, reply) => {
+    const { kind } = request.query as { kind?: string };
+    if (!kind) {
+      reply.status(400);
+      return { error: 'kind is required' };
+    }
+    try {
+      const schema = await edgeBridge.call<unknown>('zeroai.ui.schema', {
+        kind,
+      });
+      return { connected: true, schema };
+    } catch (error) {
+      reply.status(error instanceof EdgeBridgeOfflineError ? 503 : 404);
+      return {
+        error: error instanceof Error ? error.message : 'schema not found',
+      };
     }
   });
 
