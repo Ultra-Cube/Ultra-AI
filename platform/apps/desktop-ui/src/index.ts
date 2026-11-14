@@ -14,3 +14,11 @@ export {
 } from './web-surfaces';
 
 export type { DesktopUIConfig, ControlPanelConfig, WebSurface } from './types';
+export { FirstRunWizard, defaultStatePath } from './first-run';
+export type {
+  WizardStepId,
+  HardwareProbe,
+  ModelSuggestion,
+  EngineOptIn,
+  FirstRunState,
+} from './first-run';

@@ -7,7 +7,7 @@
   "scripts": {
     "build": "tsup src/index.ts --format esm,cjs --dts",
     "dev": "tsup src/index.ts --format esm,cjs --dts --watch",
-    "test": "echo \"no tests yet\"",
+    "test": "jest --config jest.config.cjs",
     "lint": "eslint src --ext .ts",
     "typecheck": "tsc --noEmit"
   },

@@ -6,6 +6,7 @@
 import { EventEmitter } from 'events';
 
 import { ControlPanel } from './control-panel';
+import { FirstRunWizard } from './first-run';
 import { SystemTray } from './system-tray';
 import { DesktopUIConfig, WebSurface } from './types';
 import { WEB_SURFACES, surfaceUrl, getSurface } from './web-surfaces';
@@ -14,6 +15,7 @@ export class DesktopUI extends EventEmitter {
   private config: DesktopUIConfig;
   private controlPanel: ControlPanel;
   private systemTray: SystemTray;
+  private firstRun: FirstRunWizard;
   private running: boolean = false;
   private webBaseUrl: string;
   private activeSurfaceId: string;
@@ -37,6 +39,7 @@ export class DesktopUI extends EventEmitter {
 
     this.controlPanel = new ControlPanel(this.config);
     this.systemTray = new SystemTray(this.config);
+    this.firstRun = new FirstRunWizard();
   }
 
   /** All web surfaces the desktop app can open. */
@@ -83,6 +86,10 @@ export class DesktopUI extends EventEmitter {
       });
     }
 
+    if (this.firstRun.needsFirstRun()) {
+      this.emit('first-run', this.firstRun.getState());
+    }
+
     this.emit('initialized');
     console.log('Desktop UI initialized successfully');
   }
@@ -117,6 +124,10 @@ export class DesktopUI extends EventEmitter {
 
   getSystemTray(): SystemTray {
     return this.systemTray;
+  }
+
+  getFirstRunWizard(): FirstRunWizard {
+    return this.firstRun;
   }
 
   getConfig(): DesktopUIConfig {
