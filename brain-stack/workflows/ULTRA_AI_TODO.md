@@ -109,8 +109,8 @@ flowchart LR
 - [ ] **P1A-06** Engine manifest schema (id, pinned version, checksum, licence row, ports, health, data dirs) · `IDEA`
 - [ ] **P1A-07** Supervisor: install/start/stop/update, non-root, loopback-only by default · `IDEA`
 - [ ] **P1A-08** Single-origin reverse proxy + SSO (JWT) + CSP so engines are used *inside* the platform · `IDEA`
-- [ ] **P1A-09** Port registry and conflict resolver (4000, 20128, 20129, 18789, 11434, 5678, 7860, 8080, 3000 …) ·  — @ultra-ai/port-registry (platform/services/port-registry), claims/offset/skip strategies, 11 tests`IDEA`
-- [ ] **P1A-10** Secrets vault abstraction (OS keychain / env), no secrets in git ·  — @ultra-ai/secrets-vault (platform/services/secrets-vault), EnvProvider/FileProvider + pluggable SecretProvider, 9 tests`IDEA`
+- [x] **P1A-09** Port registry and conflict resolver (4000, 20128, 20129, 18789, 11434, 5678, 7860, 8080, 3000 …) · DONE — @ultra-ai/port-registry (platform/services/port-registry), claims/offset/skip strategies, 11 tests
+- [x] **P1A-10** Secrets vault abstraction (OS keychain / env), no secrets in git · DONE — @ultra-ai/secrets-vault (platform/services/secrets-vault), EnvProvider/FileProvider + pluggable SecretProvider, 9 tests
 - [ ] **P1A-11** Health and metrics to Sentinel (Prometheus/Grafana) · `IDEA`
 - [ ] **P1A-12** Signed, hash-chained event outbox (hooks for Ultra Core; no keys held by platform) · A13 · `IDEA`
 
