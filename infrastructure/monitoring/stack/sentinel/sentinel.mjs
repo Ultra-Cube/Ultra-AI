@@ -119,9 +119,25 @@ async function emitAlert(name, status, detail) {
   }
 }
 
+function loadTargetFiles() {
+  // P1A-11: components (engine-supervisor, work-dispatch, ...) may drop JSON
+  // target files next to the config; each file holds { targets: [...] } or a
+  // bare array. They are re-read every poll so writers can update live.
+  const extra = [];
+  for (const rel of config.targetFiles ?? []) {
+    try {
+      const parsed = JSON.parse(readFileSync(resolve(HERE, rel), "utf8"));
+      const list = Array.isArray(parsed) ? parsed : parsed.targets;
+      if (Array.isArray(list)) extra.push(...list);
+    } catch { /* missing/malformed file -> skip */ }
+  }
+  return extra;
+}
+
 async function pollOnce() {
   const checks = [];
-  for (const target of config.targets ?? []) {
+  const targets = [...(config.targets ?? []), ...loadTargetFiles()];
+  for (const target of targets) {
     checks.push((async () => {
       const result = target.type === 'tcp'
         ? await checkTcp(target)
