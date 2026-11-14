@@ -80,9 +80,22 @@ export class DesktopUI extends EventEmitter {
     await this.controlPanel.initialize();
 
     if (this.config.enableTray) {
+      this.systemTray.setSurfaces(this.getSurfaces());
       await this.systemTray.initialize();
       this.systemTray.on('quit', () => {
         this.emit('quit-requested');
+      });
+      this.systemTray.on('action', ({ action, payload }) => {
+        switch (action) {
+          case 'open-surface':
+            if (payload) this.openSurface(payload);
+            break;
+          case 'show-window':
+          case 'hide-window':
+            this.systemTray.setWindowVisible(action === 'show-window');
+            this.emit('window-visibility', action === 'show-window');
+            break;
+        }
       });
     }
 
@@ -99,6 +112,7 @@ export class DesktopUI extends EventEmitter {
       await this.initialize();
     }
 
+    this.systemTray.setStatus('running');
     this.running = true;
     console.log(`Desktop UI started: ${this.config.title}`);
     this.emit('started');
@@ -110,6 +124,7 @@ export class DesktopUI extends EventEmitter {
     await this.controlPanel.cleanup();
 
     if (this.config.enableTray) {
+      this.systemTray.setStatus('stopped');
       await this.systemTray.cleanup();
     }
 

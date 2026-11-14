@@ -5,7 +5,13 @@
 
 export { DesktopUI } from './desktop-ui';
 export { ControlPanel } from './control-panel';
-export { SystemTray } from './system-tray';
+export { SystemTray, NullTrayAdapter } from './system-tray';
+export type {
+  TrayAdapter,
+  TrayMenuItem,
+  TrayStatus,
+  TrayAction,
+} from './system-tray';
 export {
   WEB_SURFACES,
   DEFAULT_WEB_BASE_URL,
