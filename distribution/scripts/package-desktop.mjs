@@ -5,7 +5,7 @@
 // Zero-dependency: npm workspaces + tar + zip-free bundling (tar.gz on both OSes,
 // installers remain a later step). No chain features.
 import { execFileSync } from "node:child_process";
-import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync, cpSync } from "node:fs";
+import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync, cpSync, chmodSync } from "node:fs";
 import { join } from "node:path";
 import { createHash } from "node:crypto";
 
@@ -85,6 +85,81 @@ writeFileSync(join(staging, "desktop.windows.json"), JSON.stringify({
   exe: "UltraAI.exe",
   installer: "nsis",
   portable: true,
+}, null, 2));
+
+// Linux desktop entry + install script (P2-03 first stage; .deb/AppImage later)
+writeFileSync(join(staging, "ultra-ai.desktop"), `[Desktop Entry]
+Type=Application
+Name=Ultra AI
+Comment=Ultra AI Platform desktop shell
+Exec=${join(staging, "bin", "ultra-desktop")}
+Icon=ultra-ai
+Terminal=false
+Categories=Utility;Development;
+StartupNotify=true
+`);
+writeFileSync(join(staging, "install.sh"), `#!/usr/bin/env bash
+# Ultra AI Desktop installer (Linux) — installs to /opt/ultra-ai
+set -euo pipefail
+SRC="$(cd "$(dirname "\${BASH_SOURCE[0]}")" && pwd)"
+DEST=/opt/ultra-ai
+mkdir -p "$DEST"
+cp -a "$SRC"/. "$DEST"/
+ln -sf "$DEST/bin/ultra-desktop" /usr/local/bin/ultra-ai
+mkdir -p ~/.local/share/applications
+cp "$DEST/ultra-ai.desktop" ~/.local/share/applications/
+echo "Installed. Run: ultra-ai"
+`);
+chmodSync(join(staging, "install.sh"), 0o755);
+writeFileSync(join(staging, "install.ps1"), `# Ultra AI Desktop installer (Windows)
+$ErrorActionPreference = 'Stop'
+$Src = Split-Path -Parent $MyInvocation.MyCommand.Path
+$Dest = Join-Path $env:LOCALAPPDATA 'Programs\\UltraAI'
+New-Item -ItemType Directory -Force -Path $Dest | Out-Null
+Copy-Item -Path "$Src\\*" -Destination $Dest -Recurse -Force
+$cmd = Join-Path $Dest 'bin\\ultra-desktop.cmd'
+Write-Output "Installed. Run: $cmd"
+`);
+writeFileSync(join(staging, "README-INSTALL.txt"), `Ultra AI Desktop
+==================
+Linux:   bash install.sh   (or extract and run bin/ultra-desktop)
+Windows: powershell -ExecutionPolicy Bypass -File install.ps1
+Updates are handled by the in-app auto-updater (enableAutoUpdate).
+`);
+
+// CycloneDX-lite SBOM: all npm workspace packages in the repo (P2-10)
+const components = [];
+function scanPkgs(dir) {
+  let entries;
+  try { entries = readdirSync(dir, { withFileTypes: true }); } catch { return; }
+  for (const e of entries) {
+    if (!e.isDirectory() || e.name === "node_modules" || e.name.startsWith(".")) continue;
+    const p = join(dir, e.name);
+    const pj = join(p, "package.json");
+    if (existsSync(pj)) {
+      try {
+        const pkg = JSON.parse(readFileSync(pj, "utf8"));
+        if (pkg.name) {
+          components.push({
+            type: "library",
+            name: pkg.name,
+            version: pkg.version ?? "0.0.0",
+            purl: `pkg:npm/${pkg.name.replace("@", "").replace("/", "%2F")}@${pkg.version ?? "0.0.0"}`,
+            ...(pkg.license ? { licenses: [{ license: { id: typeof pkg.license === "string" ? pkg.license : pkg.license.type } }] } : {}),
+          });
+        }
+      } catch { /* skip malformed package.json */ }
+    }
+    scanPkgs(p);
+  }
+}
+scanPkgs(join(ROOT, "platform"));
+writeFileSync(join(staging, "sbom.cdx.json"), JSON.stringify({
+  bomFormat: "CycloneDX",
+  specVersion: "1.5",
+  version: 1,
+  metadata: { component: { type: "application", name: "ultra-ai", version: tag } },
+  components,
 }, null, 2));
 
 // SHA256 manifest
