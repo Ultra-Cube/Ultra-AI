@@ -1155,32 +1155,32 @@ export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
   // agent-network methods (agents.*, bus.*, delegate.check) over the desktop
   // bridge JSON-RPC. Falls back to 503 when the bridge is offline.
   // ---------------------------------------------------------------------------
-  app.post("/work/dispatch", async (request, reply) => {
+  app.post('/work/dispatch', async (request, reply) => {
     try {
-      const result = await edgeBridge.call<unknown>("dispatch.run", {
+      const result = await edgeBridge.call<unknown>('dispatch.run', {
         request: request.body,
       });
       return { connected: true, result };
     } catch (error) {
       reply.status(error instanceof EdgeBridgeOfflineError ? 503 : 500);
       return {
-        error: error instanceof Error ? error.message : "dispatch failed",
+        error: error instanceof Error ? error.message : 'dispatch failed',
       };
     }
   });
 
-  app.get("/work/pending", async () => {
+  app.get('/work/pending', async () => {
     try {
-      const ids = await edgeBridge.call<unknown[]>("dispatch.pending");
+      const ids = await edgeBridge.call<unknown[]>('dispatch.pending');
       return { connected: true, pending: ids };
     } catch {
       return { connected: false, pending: [] as unknown[] };
     }
   });
 
-  app.post("/work/confirm", async (request, reply) => {
+  app.post('/work/confirm', async (request, reply) => {
     try {
-      const result = await edgeBridge.call<unknown>("dispatch.confirm", {
+      const result = await edgeBridge.call<unknown>('dispatch.confirm', {
         dispatchId: (request.body as { dispatchId?: string })?.dispatchId,
         confirmation: (request.body as { confirmation?: unknown })
           ?.confirmation,
@@ -1189,60 +1189,60 @@ export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
     } catch (error) {
       reply.status(error instanceof EdgeBridgeOfflineError ? 503 : 500);
       return {
-        error: error instanceof Error ? error.message : "confirm failed",
+        error: error instanceof Error ? error.message : 'confirm failed',
       };
     }
   });
 
-  app.get("/work/trails", async () => {
+  app.get('/work/trails', async () => {
     try {
-      const trails = await edgeBridge.call<unknown[]>("dispatch.trail.list");
+      const trails = await edgeBridge.call<unknown[]>('dispatch.trail.list');
       return { connected: true, trails };
     } catch {
       return { connected: false, trails: [] as unknown[] };
     }
   });
 
-  app.get("/work/trails/:id", async (request, reply) => {
+  app.get('/work/trails/:id', async (request, reply) => {
     try {
-      const trail = await edgeBridge.call<unknown>("dispatch.trail.get", {
+      const trail = await edgeBridge.call<unknown>('dispatch.trail.get', {
         dispatchId: (request.params as { id: string }).id,
       });
       return { connected: true, trail };
     } catch (error) {
       reply.status(error instanceof EdgeBridgeOfflineError ? 503 : 500);
       return {
-        error: error instanceof Error ? error.message : "trail lookup failed",
+        error: error instanceof Error ? error.message : 'trail lookup failed',
       };
     }
   });
 
-  app.get("/work/agents", async () => {
+  app.get('/work/agents', async () => {
     try {
-      const agents = await edgeBridge.call<unknown[]>("agents.list", {});
+      const agents = await edgeBridge.call<unknown[]>('agents.list', {});
       return { connected: true, agents };
     } catch {
       return { connected: false, agents: [] as unknown[] };
     }
   });
 
-  app.post("/work/agents", async (request, reply) => {
+  app.post('/work/agents', async (request, reply) => {
     try {
-      const agent = await edgeBridge.call<unknown>("agents.register", {
+      const agent = await edgeBridge.call<unknown>('agents.register', {
         agent: request.body,
       });
       return { connected: true, agent };
     } catch (error) {
       reply.status(error instanceof EdgeBridgeOfflineError ? 503 : 500);
       return {
-        error: error instanceof Error ? error.message : "register failed",
+        error: error instanceof Error ? error.message : 'register failed',
       };
     }
   });
 
-  app.post("/work/agents/:id/status", async (request, reply) => {
+  app.post('/work/agents/:id/status', async (request, reply) => {
     try {
-      const agent = await edgeBridge.call<unknown>("agents.status", {
+      const agent = await edgeBridge.call<unknown>('agents.status', {
         agentId: (request.params as { id: string }).id,
         status: (request.body as { status?: string })?.status,
       });
@@ -1250,15 +1250,15 @@ export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
     } catch (error) {
       reply.status(error instanceof EdgeBridgeOfflineError ? 503 : 500);
       return {
-        error: error instanceof Error ? error.message : "status update failed",
+        error: error instanceof Error ? error.message : 'status update failed',
       };
     }
   });
 
-  app.get("/work/bus/pending", async (request) => {
+  app.get('/work/bus/pending', async (request) => {
     try {
       const query = request.query as { capability?: string };
-      const pending = await edgeBridge.call<unknown[]>("bus.pending", {
+      const pending = await edgeBridge.call<unknown[]>('bus.pending', {
         capability: query.capability,
       });
       return { connected: true, pending };
@@ -1267,9 +1267,9 @@ export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
     }
   });
 
-  app.post("/work/bus/publish", async (request, reply) => {
+  app.post('/work/bus/publish', async (request, reply) => {
     try {
-      const envelope = await edgeBridge.call<unknown>("bus.publish", {
+      const envelope = await edgeBridge.call<unknown>('bus.publish', {
         dispatch: (request.body as { dispatch?: unknown })?.dispatch,
         capability: (request.body as { capability?: string })?.capability,
       });
@@ -1277,7 +1277,7 @@ export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
     } catch (error) {
       reply.status(error instanceof EdgeBridgeOfflineError ? 503 : 500);
       return {
-        error: error instanceof Error ? error.message : "publish failed",
+        error: error instanceof Error ? error.message : 'publish failed',
       };
     }
   });
