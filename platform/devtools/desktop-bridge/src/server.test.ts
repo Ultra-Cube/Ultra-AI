@@ -1,7 +1,50 @@
+import type { WorkspacePort, WorkspaceSession } from '@ultra-ai/workspace';
 import { WebSocket } from 'ws';
 
 import type { JsonRpcRequest, JsonRpcResponse } from './protocol';
 import { DesktopBridgeServer } from './server';
+
+const fakeWorkspace: WorkspacePort = {
+  sessions: [
+    {
+      id: 'ws-1',
+      workspacePath: '/tmp/proj',
+      title: 'proj',
+      status: 'idle',
+      agent: 'openhands',
+      createdAt: '2026-01-01T00:00:00Z',
+      updatedAt: '2026-01-01T00:00:00Z',
+    } satisfies WorkspaceSession,
+  ],
+  async health() {
+    return { reachable: true, baseUrl: 'fake://ws', sessionCount: 1 };
+  },
+  async listSessions() {
+    return this.sessions;
+  },
+  async openSession(req) {
+    const s: WorkspaceSession = {
+      id: 'ws-2',
+      workspacePath: req.workspacePath,
+      title: req.title,
+      status: 'idle',
+      agent: req.agent ?? 'openhands',
+      createdAt: '2026-01-01T00:00:00Z',
+      updatedAt: '2026-01-01T00:00:00Z',
+    };
+    this.sessions.push(s);
+    return { ok: true, session: s };
+  },
+  async getSession(id) {
+    return this.sessions.find((s) => s.id === id) ?? null;
+  },
+  async closeSession(id) {
+    const i = this.sessions.findIndex((s) => s.id === id);
+    if (i < 0) return { ok: false, error: 'not_found' };
+    this.sessions.splice(i, 1);
+    return { ok: true };
+  },
+};
 
 const PORT = 19477;
 const URL = `ws://127.0.0.1:${PORT}`;
@@ -41,7 +84,11 @@ describe('DesktopBridgeServer', () => {
   let ws: WebSocket;
 
   beforeAll(async () => {
-    server = new DesktopBridgeServer({ port: PORT, host: '127.0.0.1' });
+    server = new DesktopBridgeServer({
+      port: PORT,
+      host: '127.0.0.1',
+      workspace: { port: fakeWorkspace },
+    });
     await server.start();
     ws = new WebSocket(URL);
     await new Promise((r) => ws.once('open', r));
@@ -149,6 +196,31 @@ describe('DesktopBridgeServer', () => {
 
     const bad = await rpc(ws, 'engines.status', { id: 'nope' });
     expect(bad.error?.code).toBe(-32601);
+  });
+
+  it('exposes embedded workspace sessions over json-rpc', async () => {
+    const health = (await rpc(ws, 'workspace.health')).result as {
+      reachable: boolean;
+    };
+    expect(health.reachable).toBe(true);
+
+    const list = (await rpc(ws, 'workspace.list')).result as WorkspaceSession[];
+    expect(list.map((s) => s.id)).toContain('ws-1');
+
+    const opened = (
+      await rpc(ws, 'workspace.open', {
+        request: { workspacePath: '/tmp/new-proj', title: 'new' },
+      })
+    ).result as { ok: boolean; session?: WorkspaceSession };
+    expect(opened.ok).toBe(true);
+    expect(opened.session?.workspacePath).toBe('/tmp/new-proj');
+
+    const closed = (await rpc(ws, 'workspace.close', { id: 'ws-2' }))
+      .result as { ok: boolean };
+    expect(closed.ok).toBe(true);
+    const after = (await rpc(ws, 'workspace.list'))
+      .result as WorkspaceSession[];
+    expect(after.map((s) => s.id)).not.toContain('ws-2');
   });
 
   it('returns METHOD_NOT_FOUND for unknown methods', async () => {

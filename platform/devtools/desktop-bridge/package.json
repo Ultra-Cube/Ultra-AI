@@ -21,6 +21,7 @@
     "@ultra-ai/model-gateway": "*",
     "@ultra-ai/zeroai-edge": "*",
     "@ultra-ai/work-dispatch": "*",
+    "@ultra-ai/workspace": "*",
     "ws": "^8.18.0"
   },
   "devDependencies": {

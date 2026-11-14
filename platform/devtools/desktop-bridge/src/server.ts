@@ -28,6 +28,10 @@ import {
   WorkDispatch,
 } from '@ultra-ai/work-dispatch';
 import {
+  OpenHandsWorkspaceClient,
+  type WorkspacePort,
+} from '@ultra-ai/workspace';
+import {
   uiCatalog,
   uiSchemaFor,
   type GatewayPort,
@@ -64,6 +68,11 @@ export interface BridgeOptions {
   engines?: SupervisorOptions & { enabled?: boolean };
   dispatch?: WorkDispatchOptions & { enabled?: boolean };
   gateway?: Partial<GatewayOptions> & { enabled?: boolean };
+  workspace?: {
+    enabled?: boolean;
+    baseUrl?: string;
+    port?: WorkspacePort;
+  };
 }
 
 const PROVIDER_MODELS = new Set([
@@ -88,6 +97,7 @@ export class DesktopBridgeServer {
   readonly agents: AgentRegistry;
   readonly bus: TaskBus;
   readonly delegation: DelegationPolicy;
+  readonly workspace: WorkspacePort | null;
   private wss: WebSocketServer | null = null;
   private clients = new Set<WebSocket>();
 
@@ -154,6 +164,13 @@ export class DesktopBridgeServer {
               ...(options.gateway?.adapters ?? {}),
             },
           });
+    this.workspace =
+      options.workspace?.enabled === false
+        ? null
+        : (options.workspace?.port ??
+          new OpenHandsWorkspaceClient({
+            baseUrl: options.workspace?.baseUrl ?? 'http://127.0.0.1:3300',
+          }));
   }
 
   start(): Promise<void> {
@@ -490,6 +507,33 @@ export class DesktopBridgeServer {
         return this.gateway ? this.gateway.breakerStates() : {};
       case 'gateway.usage':
         return this.gateway ? this.gateway.meterSummary() : null;
+      case 'workspace.health': {
+        if (!this.workspace)
+          throw new BridgeError(INVALID_PARAMS, 'workspace disabled');
+        return this.workspace.health();
+      }
+      case 'workspace.list': {
+        if (!this.workspace)
+          throw new BridgeError(INVALID_PARAMS, 'workspace disabled');
+        return this.workspace.listSessions();
+      }
+      case 'workspace.get': {
+        if (!this.workspace)
+          throw new BridgeError(INVALID_PARAMS, 'workspace disabled');
+        return this.workspace.getSession(String(params.id));
+      }
+      case 'workspace.open': {
+        if (!this.workspace)
+          throw new BridgeError(INVALID_PARAMS, 'workspace disabled');
+        return this.workspace.openSession(
+          params.request as Parameters<WorkspacePort['openSession']>[0]
+        );
+      }
+      case 'workspace.close': {
+        if (!this.workspace)
+          throw new BridgeError(INVALID_PARAMS, 'workspace disabled');
+        return this.workspace.closeSession(String(params.id));
+      }
       case 'health':
         return {
           status: 'ok',

@@ -1192,6 +1192,76 @@ export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
   });
 
   // ---------------------------------------------------------------------------
+  // Embedded workspace — proxies workspace.* (OpenHands sidecar sessions)
+  // through the desktop bridge JSON-RPC. 503 when the bridge is offline.
+  // ---------------------------------------------------------------------------
+  app.get('/workspace/health', async () => {
+    try {
+      const health = await edgeBridge.call<unknown>('workspace.health');
+      return { connected: true, bridge: 'online', health };
+    } catch {
+      return {
+        connected: false,
+        bridge: 'offline',
+        health: { reachable: false },
+      };
+    }
+  });
+
+  app.get('/workspace/sessions', async () => {
+    try {
+      const sessions = await edgeBridge.call<unknown[]>('workspace.list');
+      return { connected: true, bridge: 'online', sessions };
+    } catch {
+      return { connected: false, bridge: 'offline', sessions: [] as unknown[] };
+    }
+  });
+
+  app.get('/workspace/sessions/:id', async (request, reply) => {
+    try {
+      const session = await edgeBridge.call<unknown>('workspace.get', {
+        id: (request.params as { id: string }).id,
+      });
+      return { connected: true, bridge: 'online', session };
+    } catch (error) {
+      reply.status(error instanceof EdgeBridgeOfflineError ? 503 : 500);
+      return {
+        error: error instanceof Error ? error.message : 'lookup failed',
+        id: (request.params as { id: string }).id,
+      };
+    }
+  });
+
+  app.post('/workspace/sessions', async (request, reply) => {
+    try {
+      const result = await edgeBridge.call<unknown>('workspace.open', {
+        request: request.body,
+      });
+      return { connected: true, bridge: 'online', result };
+    } catch (error) {
+      reply.status(error instanceof EdgeBridgeOfflineError ? 503 : 500);
+      return {
+        error: error instanceof Error ? error.message : 'open failed',
+      };
+    }
+  });
+
+  app.delete('/workspace/sessions/:id', async (request, reply) => {
+    try {
+      const result = await edgeBridge.call<unknown>('workspace.close', {
+        id: (request.params as { id: string }).id,
+      });
+      return { connected: true, bridge: 'online', result };
+    } catch (error) {
+      reply.status(error instanceof EdgeBridgeOfflineError ? 503 : 500);
+      return {
+        error: error instanceof Error ? error.message : 'close failed',
+        id: (request.params as { id: string }).id,
+      };
+    }
+  });
+
+  // ---------------------------------------------------------------------------
   // Work-dispatch surface — proxies dispatch.*, confirm.*, trail.* and the
   // agent-network methods (agents.*, bus.*, delegate.check) over the desktop
   // bridge JSON-RPC. Falls back to 503 when the bridge is offline.
