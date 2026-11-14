@@ -227,4 +227,74 @@ describe('DesktopBridgeServer', () => {
       ])
     );
   });
+
+  it('agent registry, task bus, and delegation surface', async () => {
+    const reg = await rpc(
+      ws,
+      'agents.register',
+      {
+        agent: {
+          agentId: 'spec-1',
+          target: 'specialist-agent',
+          capabilities: ['code'],
+          status: 'online',
+        },
+      },
+      30
+    );
+    expect(reg.error).toBeUndefined();
+    expect((reg.result as { agentId: string }).agentId).toBe('spec-1');
+
+    const list = await rpc(ws, 'agents.list', {}, 31);
+    expect(
+      (list.result as Array<{ agentId: string }>).map((a) => a.agentId)
+    ).toContain('spec-1');
+
+    const off = await rpc(
+      ws,
+      'agents.status',
+      { agentId: 'spec-1', status: 'offline' },
+      32
+    );
+    expect((off.result as { status: string }).status).toBe('offline');
+    await rpc(ws, 'agents.unregister', { agentId: 'spec-1' }, 33);
+
+    const bus = await rpc(
+      ws,
+      'bus.publish',
+      {
+        dispatch: {
+          task: { id: 't-bus', kind: 'ops', payload: {} },
+          route: { target: 'local' },
+        },
+        capability: 'ops',
+      },
+      34
+    );
+    const busId = (bus.result as { busId: string }).busId;
+    const pending = await rpc(ws, 'bus.pending', { capability: 'ops' }, 35);
+    expect(pending.result as unknown[]).toHaveLength(1);
+    const ack = await rpc(ws, 'bus.ack', { busId }, 36);
+    expect(ack.result).toBe(true);
+
+    const dec = await rpc(
+      ws,
+      'delegate.check',
+      {
+        dispatch: {
+          task: {
+            id: 't-dec',
+            kind: 'ops',
+            payload: {},
+            sensitivity: 'sensitive',
+          },
+          route: { target: 'hermes' },
+        },
+      },
+      37
+    );
+    const d = dec.result as { allowed: boolean; requiresConfirmation: boolean };
+    expect(d.allowed).toBe(true);
+    expect(d.requiresConfirmation).toBe(true);
+  });
 });

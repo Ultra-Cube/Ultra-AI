@@ -10,9 +10,15 @@ import {
 } from '@ultra-ai/hermes-runtime';
 import {
   WorkDispatcher,
+  AgentRegistry,
+  TaskBus,
+  DelegationPolicy,
   type Confirmation,
   type DispatchRequest,
   type WorkDispatchOptions,
+  type DispatchTarget,
+  RegisteredAgent,
+  WorkDispatch,
 } from '@ultra-ai/work-dispatch';
 import type {
   GatewayPort,
@@ -68,6 +74,9 @@ export class DesktopBridgeServer {
   readonly zeroai: ZeroAIBridge;
   readonly engines: EngineSupervisor | null;
   readonly dispatcher: WorkDispatcher | null;
+  readonly agents: AgentRegistry;
+  readonly bus: TaskBus;
+  readonly delegation: DelegationPolicy;
   private wss: WebSocketServer | null = null;
   private clients = new Set<WebSocket>();
 
@@ -84,6 +93,10 @@ export class DesktopBridgeServer {
         options.zeroai?.onEvent?.(event);
       },
     });
+    this.agents = new AgentRegistry();
+    this.bus = new TaskBus();
+    this.delegation = new DelegationPolicy({ maxDepth: 3 });
+
     this.engines =
       options.engines?.enabled === false
         ? null
@@ -336,6 +349,61 @@ export class DesktopBridgeServer {
         if (!this.engines)
           throw new BridgeError(INVALID_PARAMS, 'engine supervisor disabled');
         return this.engines.stop(String(params.id));
+      }
+      case 'agents.register': {
+        return this.agents.register(params.agent as RegisteredAgent);
+      }
+      case 'agents.unregister': {
+        return this.agents.unregister(String(params.agentId));
+      }
+      case 'agents.list': {
+        return this.agents.list(
+          params.filter as
+            | { target?: DispatchTarget; capability?: string }
+            | undefined
+        );
+      }
+      case 'agents.get': {
+        const a = this.agents.get(String(params.agentId));
+        if (!a) throw new BridgeError(INVALID_PARAMS, 'unknown agent');
+        return a;
+      }
+      case 'agents.status': {
+        this.agents.setStatus(
+          String(params.agentId),
+          params.status as 'online' | 'offline' | 'busy' | 'unknown'
+        );
+        return this.agents.get(String(params.agentId));
+      }
+      case 'bus.publish': {
+        if (!this.dispatcher)
+          throw new BridgeError(INVALID_PARAMS, 'work dispatcher disabled');
+        return this.bus.publish(
+          (params.dispatch ?? params) as unknown as WorkDispatch,
+          String(params.capability ?? 'custom')
+        );
+      }
+      case 'bus.pending': {
+        return this.bus.pending(
+          params.capability ? String(params.capability) : undefined
+        );
+      }
+      case 'bus.ack': {
+        return this.bus.ack(String(params.busId));
+      }
+      case 'delegate.check': {
+        const d = (params.dispatch ?? params) as unknown as WorkDispatch;
+        return this.delegation.decide({
+          dispatch: d,
+          fromAgentId: params.fromAgentId
+            ? String(params.fromAgentId)
+            : undefined,
+          sensitivity: params.sensitivity as
+            | 'public'
+            | 'internal'
+            | 'sensitive'
+            | undefined,
+        });
       }
       case 'dispatch.run': {
         if (!this.dispatcher)
