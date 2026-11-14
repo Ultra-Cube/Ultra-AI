@@ -5,7 +5,7 @@
 // Zero-dependency: npm workspaces + tar + zip-free bundling (tar.gz on both OSes,
 // installers remain a later step). No chain features.
 import { execFileSync } from "node:child_process";
-import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync, cpSync, chmodSync } from "node:fs";
+import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync, cpSync, chmodSync, symlinkSync } from "node:fs";
 import { join } from "node:path";
 import { createHash } from "node:crypto";
 
@@ -87,17 +87,20 @@ writeFileSync(join(staging, "desktop.windows.json"), JSON.stringify({
   portable: true,
 }, null, 2));
 
-// Linux desktop entry + install script (P2-03 first stage; .deb/AppImage later)
-writeFileSync(join(staging, "ultra-ai.desktop"), `[Desktop Entry]
+// Linux desktop entry + install script.
+// Exec=ultra-ai resolves via /usr/local/bin (install.sh) or /usr/local/bin
+// (dpkg .deb below); the raw tarball documents bin/ultra-desktop directly.
+const DESKTOP_ENTRY = `[Desktop Entry]
 Type=Application
 Name=Ultra AI
 Comment=Ultra AI Platform desktop shell
-Exec=${join(staging, "bin", "ultra-desktop")}
+Exec=ultra-ai
 Icon=ultra-ai
 Terminal=false
 Categories=Utility;Development;
 StartupNotify=true
-`);
+`;
+writeFileSync(join(staging, "ultra-ai.desktop"), DESKTOP_ENTRY);
 writeFileSync(join(staging, "install.sh"), `#!/usr/bin/env bash
 # Ultra AI Desktop installer (Linux) — installs to /opt/ultra-ai
 set -euo pipefail
@@ -162,6 +165,23 @@ writeFileSync(join(staging, "sbom.cdx.json"), JSON.stringify({
   components,
 }, null, 2));
 
+// Third-party notices (P2-10): license rollup from the same scan.
+const notices = [
+  "Ultra AI Desktop — Third-Party Notices",
+  "========================================",
+  "",
+  `Release: ${tag}`,
+  "",
+  "This product bundles the following workspace components.",
+  "See sbom.cdx.json for the machine-readable bill of materials.",
+  "",
+];
+for (const c of components.sort((a, b) => a.name.localeCompare(b.name))) {
+  const lic = c.licenses?.[0]?.license?.id ?? "UNKNOWN";
+  notices.push(`- ${c.name}@${c.version} — ${lic}`);
+}
+writeFileSync(join(staging, "THIRD-PARTY-NOTICES.txt"), notices.join("\n") + "\n");
+
 // SHA256 manifest
 const sums = [];
 for (const [rel, short] of REQUIRED) {
@@ -178,6 +198,73 @@ for (const os of ["linux", "windows"]) {
   const archive = join(osDir, `ultra-ai-desktop-${tag}-${os}.tar.gz`);
   execFileSync("tar", ["-czf", archive, "-C", staging, "."], { stdio: "inherit" });
   console.log(`[desktop] ${archive}`);
+}
+
+// .deb package (Linux, P2-03): ar archive of debian-binary + control.tar.gz
+// + data.tar.gz. Built in-process (no dpkg-deb dependency).
+function arHeader(name, size) {
+  const fields = [
+    name.length > 15 ? name.slice(0, 15) : name.padEnd(16),
+    "0".repeat(12), // mtime
+    "0".repeat(6),  // uid
+    "0".repeat(6),  // gid
+    "100644".padEnd(8), // mode
+    String(size).padStart(10, "0"),
+    "`\n",
+  ];
+  return Buffer.from(fields.join(""), "ascii");
+}
+function writeAr(path, entries) {
+  const parts = [Buffer.from("!<arch>\n", "ascii")];
+  for (const { name, data } of entries) {
+    parts.push(arHeader(name, data.length), data);
+    if (data.length % 2) parts.push(Buffer.from("\n"));
+  }
+  writeFileSync(path, Buffer.concat(parts));
+}
+
+{
+  const linuxDir = join(outRoot, "linux");
+  const debRoot = join(outRoot, ".deb-root");
+  const ctrlDir = join(outRoot, ".deb-control");
+  rmSync(debRoot, { recursive: true, force: true });
+  rmSync(ctrlDir, { recursive: true, force: true });
+  mkdirSync(ctrlDir, { recursive: true });
+
+  // data payload -> /opt/ultra-ai + launcher symlink + desktop entry
+  cpSync(staging, join(debRoot, "opt", "ultra-ai"), { recursive: true });
+  mkdirSync(join(debRoot, "usr", "local", "bin"), { recursive: true });
+  mkdirSync(join(debRoot, "usr", "share", "applications"), { recursive: true });
+  symlinkSync("/opt/ultra-ai/bin/ultra-desktop", join(debRoot, "usr", "local", "bin", "ultra-ai"));
+  writeFileSync(join(debRoot, "usr", "share", "applications", "ultra-ai.desktop"), DESKTOP_ENTRY);
+
+  const debVersion = tag.replace(/^v/, "");
+  writeFileSync(join(ctrlDir, "control"), `Package: ultra-ai
+Version: ${debVersion}
+Section: utils
+Priority: optional
+Architecture: all
+Maintainer: Ultra AI
+Description: Ultra AI Platform desktop shell
+ Local-first AI platform runtime: Hermes cognitive core, ZeroAI
+ edge execution, embedded OpenHands workspace, engine supervision,
+ and system tray. Bundles Node.js workspace services.
+`);
+  const dataTar = join(outRoot, ".deb-data.tar.gz");
+  const ctrlTar = join(outRoot, ".deb-control.tar.gz");
+  execFileSync("tar", ["-czf", dataTar, "-C", debRoot, "."], { stdio: "inherit" });
+  execFileSync("tar", ["-czf", ctrlTar, "-C", ctrlDir, "control"], { stdio: "inherit" });
+  const deb = join(linuxDir, `ultra-ai-desktop_${debVersion}_all.deb`);
+  writeAr(deb, [
+    { name: "debian-binary", data: Buffer.from("2.0\n", "ascii") },
+    { name: "control.tar.gz", data: readFileSync(ctrlTar) },
+    { name: "data.tar.gz", data: readFileSync(dataTar) },
+  ]);
+  rmSync(debRoot, { recursive: true, force: true });
+  rmSync(ctrlDir, { recursive: true, force: true });
+  rmSync(dataTar, { force: true });
+  rmSync(ctrlTar, { force: true });
+  console.log(`[desktop] ${deb}`);
 }
 
 rmSync(staging, { recursive: true, force: true });
