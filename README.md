@@ -289,7 +289,7 @@ brain-stack/
 
 > **Note:** `.devin/skills/` (~2,269 imported skill packs) and `.devin/agents/` are the *tooling* skill library used by the Devin/Cursor harness; `brain-stack/skills/` holds the *project-domain* skills authored for Ultra-AI itself. Both coexist by design.
 
-## 🧭 Development & Release Status (as of 2026-11-12)
+## 🧭 Development & Release Status (as of 2026-11-14)
 
 | Stage | State | Details |
 |-------|-------|---------|
@@ -307,6 +307,11 @@ brain-stack/
 | **WP-1 — Durable outbox** | ✅ Done | `@ultra-ai/outbox`: signed `ultra.event.v1` hash-chained events, JSONL store, per-target cursors, partial acceptance; 20/20 tests incl. 10k-event verify (~0.65s) |
 | **Distribution** | ✅ Done | `package-release.mjs` (14 tarballs + SHA256SUMS) + `package-desktop.mjs` (Linux/Windows desktop bundles); Prisma relocated to `platform/database/prisma/` |
 | **ZeroAI edge chain** | ✅ Done | `@ultra-ai/zeroai-edge` local-first contract → desktop-bridge JSON-RPC (`zeroai.run/trail/routes`) → core-api `/zeroai/edge/*` (503 offline semantics) → `EdgePanel` on `/zeroai` — locality/route/trails visible end-to-end |
+
+| **P1A — Platform Core services** | ✅ Done (11/12) | `platform/services/`: `@ultra-ai/brain` (process mgmt, config merge, readiness; 9 tests), `@ultra-ai/memory-bridge` (Memory Bank↔Hermes pointers, FTS5; 7 tests), `@ultra-ai/skill-registry` (SKILL.md scan, scopes, signing; 9 tests), `@ultra-ai/mcp-hub` (transports, policies, mcp.json; 6 tests), `@ultra-ai/edge-proxy` (single-origin proxy, JWT SSO, CSP; 18 tests), `@ultra-ai/port-registry` (claims, conflict resolution; 11 tests), `@ultra-ai/secrets-vault` (pluggable providers; 9 tests), `@ultra-ai/work-dispatch` (ultra.work-dispatch.v1 contract, agent registry, task bus, delegation policies; wired through desktop-bridge/core-api/UI; 15+ tests), `@ultra-ai/model-gateway` (DeepSeek/GLM/Kimi/Manus adapters, routing, circuit breaker, metering), `@ultra-ai/workflow-engine` (unified engine + probes + conformance; 15 tests), `@ultra-ai/model-foundry` (dataset/recipe registries, model cards, licensing gates; distillation blocked on ToS sign-off; 14 tests) |
+| **P2 — Desktop runtime** | ✅ Done (build+verify) | FirstRunWizard, SystemTray, AutoUpdater, embedded OpenHands workspace (`@ultra-ai/workspace`), WSL2 runtime for Python sidecars, `.deb`/AppImage/Inno Setup artifacts + CycloneDX SBOM; `smoke-desktop.mjs` 47/47 checks on v0.9.0-p2. Residuals need target hosts (physical .deb install, live VS Code server launch, real appimagetool/makensis) |
+| **P1A-01 — Hermes embed spike** | 🔄 Open | Needs real-environment runs (Linux/WSL2/native Windows × CLI/gateway/HTTP modes); contracts + providers already in `@ultra-ai/hermes-runtime` |
+| **P3/P4 — Gate-OS & Ultra Core** | 🔒 Owner-gated | Readiness contracts + bridges shipped (gate-os-bridge, ultra-core-bridge signed hash-chained outbox); actual integration requires owner decision; any crypto stays behind legal gate |
 
 **Upcoming / deferred (planned, not yet built):**
 - Hermes runtime deep integration, 3D control center, real Ultra Core/Gate-OS endpoints (contracts ready)
