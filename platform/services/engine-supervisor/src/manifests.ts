@@ -50,6 +50,7 @@ export const ENGINE_PRESETS: EngineManifest[] = [
     portEnvVar: 'OPENHANDS_PORT',
     healthPath: '/health',
     probe: 'http',
+    runtime: 'wsl2',
     startupTimeoutMs: 60000,
     licenseNote: 'MIT core; exclude enterprise/ directory',
   },
@@ -62,6 +63,7 @@ export const ENGINE_PRESETS: EngineManifest[] = [
     portEnvVar: 'LANGFLOW_PORT',
     healthPath: '/health',
     probe: 'http',
+    runtime: 'wsl2',
     startupTimeoutMs: 45000,
   },
   {
@@ -73,6 +75,7 @@ export const ENGINE_PRESETS: EngineManifest[] = [
     portEnvVar: 'ULTRA_STUDIO_PORT',
     healthPath: '/',
     probe: 'http',
+    runtime: 'wsl2',
     startupTimeoutMs: 60000,
     licenseNote:
       'MIT (Code-OSS); clean product.json, extensions via Open VSX only',

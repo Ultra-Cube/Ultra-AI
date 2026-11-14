@@ -8,6 +8,7 @@ import type {
   ProcessRunner,
   SpawnedProcess,
 } from './types';
+import { wslRunner, type WslRunnerOptions } from './wsl';
 
 const defaultRunner: ProcessRunner = (command, args, options) =>
   spawn(command, args, {
@@ -43,6 +44,8 @@ export interface SupervisorOptions {
   healthTimeoutMs?: number;
   /** Called on every status change (for bridge/UI fan-out). */
   onStatus?: (status: EngineStatus) => void;
+  /** WSL2 options (distro name) for manifests with runtime 'wsl2'. */
+  wsl?: WslRunnerOptions;
 }
 
 /**
@@ -56,6 +59,7 @@ export class EngineSupervisor {
   private statuses = new Map<string, EngineStatus>();
   private timers = new Map<string, NodeJS.Timeout>();
   private readonly runner: ProcessRunner;
+  private readonly wsl: ProcessRunner;
   private readonly fetchImpl: FetchLike;
   private readonly healthIntervalMs: number;
   private readonly healthTimeoutMs: number;
@@ -74,6 +78,7 @@ export class EngineSupervisor {
       });
     }
     this.runner = opts.runner ?? defaultRunner;
+    this.wsl = wslRunner(this.runner, opts.wsl);
     this.fetchImpl = opts.fetchImpl ?? defaultFetch;
     this.healthIntervalMs = opts.healthIntervalMs ?? 5000;
     this.healthTimeoutMs = opts.healthTimeoutMs ?? 3000;
@@ -164,8 +169,10 @@ export class EngineSupervisor {
     }
     this.setStatus(id, { state: 'starting', lastError: undefined });
     try {
-      const proc = this.runner(m.command, m.args ?? [], {
-        cwd: m.cwd,
+      const useWsl = m.runtime === 'wsl2' && process.platform === 'win32';
+      const runner = useWsl ? this.wsl : this.runner;
+      const proc = runner(m.command, m.args ?? [], {
+        cwd: useWsl ? (m.wslCwd ?? m.cwd) : m.cwd,
         env: m.env,
       });
       this.procs.set(id, proc);

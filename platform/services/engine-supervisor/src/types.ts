@@ -19,6 +19,14 @@ export interface EngineManifest {
   args?: string[];
   /** Working directory for the child process. */
   cwd?: string;
+  /**
+   * Execution runtime. 'native' (default) spawns `command` directly;
+   * 'wsl2' spawns it inside WSL2 via wsl.exe — used on Windows for
+   * Python/Unix-native sidecars. Ignored on non-Windows hosts.
+   */
+  runtime?: 'native' | 'wsl2';
+  /** WSL-side working directory used when runtime is 'wsl2' on Windows. */
+  wslCwd?: string;
   /** Extra environment merged over process.env. */
   env?: Record<string, string>;
   /** TCP port the engine listens on (after any override). */
