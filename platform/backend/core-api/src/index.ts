@@ -1283,6 +1283,54 @@ export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
   });
 
   // ---------------------------------------------------------------------------
+  // Model gateway surface — proxies models.list, gateway.chat, gateway.breakers
+  // and gateway.usage over the desktop bridge JSON-RPC (P1B).
+  // ---------------------------------------------------------------------------
+  app.get('/models', async (request) => {
+    const query = request.query as { dataClass?: string };
+    try {
+      const models = await edgeBridge.call<unknown[]>('models.list', {
+        dataClass: query.dataClass,
+      });
+      return { connected: true, models };
+    } catch {
+      return { connected: false, models: [] as unknown[] };
+    }
+  });
+
+  app.post('/models/chat', async (request, reply) => {
+    try {
+      const result = await edgeBridge.call<unknown>('gateway.chat', {
+        request: request.body,
+      });
+      return { connected: true, result };
+    } catch (error) {
+      reply.status(error instanceof EdgeBridgeOfflineError ? 503 : 500);
+      return {
+        error: error instanceof Error ? error.message : 'chat failed',
+      };
+    }
+  });
+
+  app.get('/models/breakers', async () => {
+    try {
+      const breakers = await edgeBridge.call<unknown>('gateway.breakers');
+      return { connected: true, breakers };
+    } catch {
+      return { connected: false, breakers: {} };
+    }
+  });
+
+  app.get('/models/usage', async () => {
+    try {
+      const usage = await edgeBridge.call<unknown>('gateway.usage');
+      return { connected: true, usage };
+    } catch {
+      return { connected: false, usage: null };
+    }
+  });
+
+  // ---------------------------------------------------------------------------
   // Agent Staff Console — manage AI agents like staff: positions, task dispatch,
   // reassignment, and a workload roster. Runs without a DB (JSON-backed store).
   // ---------------------------------------------------------------------------
