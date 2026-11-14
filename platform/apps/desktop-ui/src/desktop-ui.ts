@@ -5,6 +5,7 @@
 
 import { EventEmitter } from 'events';
 
+import { AutoUpdater } from './auto-updater';
 import { ControlPanel } from './control-panel';
 import { FirstRunWizard } from './first-run';
 import { SystemTray } from './system-tray';
@@ -16,6 +17,7 @@ export class DesktopUI extends EventEmitter {
   private controlPanel: ControlPanel;
   private systemTray: SystemTray;
   private firstRun: FirstRunWizard;
+  private autoUpdater: AutoUpdater;
   private running: boolean = false;
   private webBaseUrl: string;
   private activeSurfaceId: string;
@@ -40,6 +42,7 @@ export class DesktopUI extends EventEmitter {
     this.controlPanel = new ControlPanel(this.config);
     this.systemTray = new SystemTray(this.config);
     this.firstRun = new FirstRunWizard();
+    this.autoUpdater = new AutoUpdater();
   }
 
   /** All web surfaces the desktop app can open. */
@@ -114,6 +117,12 @@ export class DesktopUI extends EventEmitter {
 
     this.systemTray.setStatus('running');
     this.running = true;
+
+    if (this.config.enableAutoUpdate) {
+      // Background update check; failures surface via updater events, not start().
+      void this.autoUpdater.check();
+    }
+
     console.log(`Desktop UI started: ${this.config.title}`);
     this.emit('started');
   }
@@ -143,6 +152,10 @@ export class DesktopUI extends EventEmitter {
 
   getFirstRunWizard(): FirstRunWizard {
     return this.firstRun;
+  }
+
+  getAutoUpdater(): AutoUpdater {
+    return this.autoUpdater;
   }
 
   getConfig(): DesktopUIConfig {

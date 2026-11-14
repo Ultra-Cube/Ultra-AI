@@ -4,6 +4,13 @@
  */
 
 export { DesktopUI } from './desktop-ui';
+export { AutoUpdater, NullUpdateAdapter } from './auto-updater';
+export type {
+  UpdateAdapter,
+  UpdateInfo,
+  UpdateProgress,
+  UpdateStatus,
+} from './auto-updater';
 export { ControlPanel } from './control-panel';
 export { SystemTray, NullTrayAdapter } from './system-tray';
 export type {
