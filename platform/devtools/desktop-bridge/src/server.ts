@@ -9,6 +9,13 @@ import {
   type HermesConfig,
 } from '@ultra-ai/hermes-runtime';
 import {
+  ModelGateway,
+  OpenAICompatibleProvider,
+  ManusProvider,
+  type GatewayOptions,
+  type ChatRequest as GatewayChatRequest,
+} from '@ultra-ai/model-gateway';
+import {
   WorkDispatcher,
   AgentRegistry,
   TaskBus,
@@ -54,6 +61,7 @@ export interface BridgeOptions {
   };
   engines?: SupervisorOptions & { enabled?: boolean };
   dispatch?: WorkDispatchOptions & { enabled?: boolean };
+  gateway?: Partial<GatewayOptions> & { enabled?: boolean };
 }
 
 const PROVIDER_MODELS = new Set([
@@ -74,6 +82,7 @@ export class DesktopBridgeServer {
   readonly zeroai: ZeroAIBridge;
   readonly engines: EngineSupervisor | null;
   readonly dispatcher: WorkDispatcher | null;
+  readonly gateway: ModelGateway | null;
   readonly agents: AgentRegistry;
   readonly bus: TaskBus;
   readonly delegation: DelegationPolicy;
@@ -123,6 +132,24 @@ export class DesktopBridgeServer {
                 }),
               },
               ...(options.dispatch?.executors ?? {}),
+            },
+          });
+    this.gateway =
+      options.gateway?.enabled === false
+        ? null
+        : new ModelGateway({
+            maxFallbacks: 2,
+            ...options.gateway,
+            adapters: {
+              deepseek: new OpenAICompatibleProvider('deepseek'),
+              glm: new OpenAICompatibleProvider('glm'),
+              kimi: new OpenAICompatibleProvider('kimi'),
+              manus: new ManusProvider(),
+              'openai-compatible': new OpenAICompatibleProvider(
+                'openai-compatible'
+              ),
+              ollama: new OpenAICompatibleProvider('ollama'),
+              ...(options.gateway?.adapters ?? {}),
             },
           });
   }
@@ -432,6 +459,27 @@ export class DesktopBridgeServer {
           : [];
       case 'dispatch.trail.list':
         return this.dispatcher ? this.dispatcher.trailAll() : [];
+      case 'models.list': {
+        return this.gateway
+          ? this.gateway.availableModels(
+              params.dataClass as
+                | 'public'
+                | 'internal'
+                | 'sensitive'
+                | 'regulated'
+                | undefined
+            )
+          : [];
+      }
+      case 'gateway.chat': {
+        if (!this.gateway)
+          throw new BridgeError(INVALID_PARAMS, 'model gateway disabled');
+        return this.gateway.chat(params.request as GatewayChatRequest);
+      }
+      case 'gateway.breakers':
+        return this.gateway ? this.gateway.breakerStates() : {};
+      case 'gateway.usage':
+        return this.gateway ? this.gateway.meterSummary() : null;
       case 'health':
         return {
           status: 'ok',

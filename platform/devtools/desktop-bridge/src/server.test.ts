@@ -160,6 +160,25 @@ describe('DesktopBridgeServer', () => {
     const res = await rpc(ws, 'sessions.get', { id: 'sess-nope' });
     expect(res.error?.code).toBe(-32601);
   });
+
+  it('exposes model catalog, breakers, and usage meter', async () => {
+    const models = await rpc(ws, 'models.list', { dataClass: 'public' }, 30);
+    expect(models.error).toBeUndefined();
+    const list = models.result as Array<{ provider: string; model: string }>;
+    expect(list.length).toBeGreaterThan(0);
+    expect(list.every((m) => typeof m.provider === 'string')).toBe(true);
+
+    const sens = await rpc(ws, 'models.list', { dataClass: 'regulated' }, 31);
+    const sensList = sens.result as Array<{ provider: string }>;
+    expect(sensList.every((m) => m.provider !== 'manus')).toBe(true);
+
+    const breakers = await rpc(ws, 'gateway.breakers', {}, 32);
+    expect(breakers.error).toBeUndefined();
+    expect(typeof breakers.result).toBe('object');
+
+    const usage = await rpc(ws, 'gateway.usage', {}, 33);
+    expect(usage.error).toBeUndefined();
+  });
   it('dispatches work, gates sensitive tasks, and exposes trails', async () => {
     const pub = await rpc(
       ws,
