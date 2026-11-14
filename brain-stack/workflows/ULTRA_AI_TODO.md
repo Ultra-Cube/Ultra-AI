@@ -106,13 +106,13 @@ flowchart LR
 - [x] **P1A-03** Memory service: Memory Bank ↔ Hermes memory bridge (pointers), FTS5 index, optional pgvector · DONE — @ultra-ai/memory-bridge (platform/services/memory-bridge), pointer records + FTS index + sha256 payload hashes + BankAdapter, 7 tests
 - [x] **P1A-04** Skill registry: import/export agentskills.io format, versioning, signing, scopes · DONE — @ultra-ai/skill-registry (platform/services/skill-registry), SKILL.md scan + scopes/platforms/query + pluggable signing + pack manifests, 9 tests 
 - [x] **P1A-05** MCP hub exposing platform tools to Hermes/OpenClaw · DONE — @ultra-ai/mcp-hub (platform/services/mcp-hub), pluggable transports + policies + mcp.json loader, 6 tests 
-- [ ] **P1A-06** Engine manifest schema (id, pinned version, checksum, licence row, ports, health, data dirs) · `IDEA`
-- [ ] **P1A-07** Supervisor: install/start/stop/update, non-root, loopback-only by default · `IDEA`
+- [x] **P1A-06** Engine manifest schema (id, pinned version, checksum, licence row, ports, health, data dirs) · DONE — engine-supervisor manifests.ts + manifests for all engines
+- [x] **P1A-07** Supervisor: install/start/stop/update, non-root, loopback-only by default · DONE — engine-supervisor lifecycle wired bridge/core-api/UI, wsl runtime support
 - [x] **P1A-08** Single-origin reverse proxy + SSO (JWT) + CSP so engines are used inside the platform · DONE — @ultra-ai/edge-proxy (platform/services/edge-proxy): longest-prefix routes, per-route JWT auth, identity header injection, CSP+security headers, 18 tests
 - [x] **P1A-09** Port registry and conflict resolver (4000, 20128, 20129, 18789, 11434, 5678, 7860, 8080, 3000 …) · DONE — @ultra-ai/port-registry (platform/services/port-registry), claims/offset/skip strategies, 11 tests
 - [x] **P1A-10** Secrets vault abstraction (OS keychain / env), no secrets in git · DONE — @ultra-ai/secrets-vault (platform/services/secrets-vault), EnvProvider/FileProvider + pluggable SecretProvider, 9 tests
 - [x] **P1A-11** Health and metrics to Sentinel (Prometheus/Grafana) · DONE — sentinel targetFiles + engine-supervisor toSentinelTargets exporter, prometheus scrape already wired 
-- [ ] **P1A-12** Signed, hash-chained event outbox (hooks for Ultra Core; no keys held by platform) · A13 · `IDEA`
+- [x] **P1A-12** Signed, hash-chained event outbox (hooks for Ultra Core; no keys held by platform) · A13 · DONE — ultra-core-bridge outbox + Ed25519 signer + mock target
 
 ### P1B — Model gateway and models · A07
 - [ ] **P1B-01** Adapter port (`generate`, `stream`, `embed`, `toolCall`) + conformance tests · `IDEA`
