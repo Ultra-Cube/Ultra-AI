@@ -1,6 +1,17 @@
 'use client';
 
+import Link from 'next/link';
 import { useCallback, useEffect, useState } from 'react';
+
+interface EngineInfo {
+  id: string;
+  label: string;
+  category: string;
+  url?: string;
+  port?: number;
+  up: boolean;
+  latencyMs?: number;
+}
 
 interface WorkspaceSession {
   id: string;
@@ -35,6 +46,14 @@ export default function WorkspacePage() {
   const [title, setTitle] = useState('');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [engines, setEngines] = useState<EngineInfo[]>([]);
+
+  useEffect(() => {
+    fetch('/api/engines', { cache: 'no-store' })
+      .then((r) => r.json())
+      .then((d) => setEngines(Array.isArray(d?.engines) ? d.engines : []))
+      .catch(() => setEngines([]));
+  }, []);
 
   const refresh = useCallback(async () => {
     try {
@@ -163,6 +182,50 @@ export default function WorkspacePage() {
               </button>
             </div>
             {error && <p className="mt-2 text-sm text-red-400">{error}</p>}
+          </section>
+
+          <section className="mb-8 rounded-lg border border-zinc-800 bg-zinc-900/50 p-4">
+            <div className="mb-3 flex items-center justify-between">
+              <h2 className="text-sm font-semibold text-zinc-200">Engines</h2>
+              <Link
+                href="/services"
+                className="text-xs text-sky-400 hover:underline"
+              >
+                Services &amp; Engines →
+              </Link>
+            </div>
+            {engines.length === 0 ? (
+              <p className="text-xs text-zinc-500">No engines registered.</p>
+            ) : (
+              <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
+                {engines.map((e) => (
+                  <div
+                    key={e.id}
+                    className="flex items-center justify-between rounded-md border border-zinc-800 bg-zinc-950/60 px-3 py-2"
+                  >
+                    <div className="min-w-0">
+                      <div className="truncate text-xs font-medium text-zinc-200">
+                        {e.label}
+                      </div>
+                      <div className="text-[10px] text-zinc-500">
+                        {e.category}
+                        {e.port ? ` · :${e.port}` : ''}
+                      </div>
+                    </div>
+                    <span
+                      className={
+                        e.up
+                          ? 'ml-2 shrink-0 rounded-full bg-emerald-500/15 px-2 py-0.5 text-[10px] text-emerald-400'
+                          : 'ml-2 shrink-0 rounded-full bg-zinc-700/40 px-2 py-0.5 text-[10px] text-zinc-400'
+                      }
+                      title={e.up ? 'up' : 'down'}
+                    >
+                      {e.up ? 'up' : 'down'}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            )}
           </section>
 
           <section>

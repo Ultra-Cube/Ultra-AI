@@ -1,5 +1,6 @@
-import { NextResponse } from 'next/server';
 import os from 'os';
+
+import { NextResponse } from 'next/server';
 
 export const dynamic = 'force-dynamic';
 
@@ -16,6 +17,11 @@ const API_URL = process.env.API_URL || 'http://127.0.0.1:4000';
 const GATEWAY_URL = process.env.GATEWAY_URL || 'http://127.0.0.1:20129';
 const WEB_URL = process.env.WEB_URL || 'http://127.0.0.1:3000';
 const GRAFANA_URL = process.env.GRAFANA_URL || 'http://127.0.0.1:3001';
+const N8N_URL = process.env.N8N_URL || 'http://127.0.0.1:5678';
+const OMNIROUTE_URL = process.env.OMNIROUTE_URL || 'http://127.0.0.1:20128';
+const PROMETHEUS_URL = process.env.PROMETHEUS_URL || 'http://127.0.0.1:9090';
+const HERMES_DASH_URL = process.env.HERMES_DASH_URL || 'http://127.0.0.1:9119';
+const HERMES_API_URL = process.env.HERMES_API_URL || 'http://127.0.0.1:8642';
 
 type ServiceStatus = {
   id: string;
@@ -55,7 +61,15 @@ async function probe(
       latencyMs: Date.now() - started,
     };
   } catch {
-    return { id, name, url, port, up: false, httpStatus: null, latencyMs: null };
+    return {
+      id,
+      name,
+      url,
+      port,
+      up: false,
+      httpStatus: null,
+      latencyMs: null,
+    };
   }
 }
 
@@ -85,6 +99,11 @@ export async function GET() {
     probe('gateway', 'Gateway', GATEWAY_URL, 20129, '/health'),
     probe('web', 'Web', WEB_URL, 3000, '/'),
     probe('grafana', 'Grafana (Hermes)', GRAFANA_URL, 3001, '/api/health'),
+    probe('prometheus', 'Prometheus', PROMETHEUS_URL, 9090, '/-/healthy'),
+    probe('n8n', 'n8n Automation', N8N_URL, 5678, '/healthz'),
+    probe('omniroute', 'OmniRoute', OMNIROUTE_URL, 20128, '/health'),
+    probe('hermes-dash', 'Hermes Dashboard', HERMES_DASH_URL, 9119, '/'),
+    probe('hermes-api', 'Hermes API', HERMES_API_URL, 8642, '/health'),
   ]);
 
   const upCount = services.filter((s) => s.up).length;

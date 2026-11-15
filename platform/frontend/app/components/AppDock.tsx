@@ -3,6 +3,8 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
+import { Icon } from './Sidebar';
+
 /**
  * AppDock — an OS-style launcher pinned to the bottom of every page, turning
  * the separate pages into one cohesive "operating system" environment. Hover
@@ -10,13 +12,13 @@ import { usePathname } from 'next/navigation';
  */
 
 const APPS = [
-  { href: '/', icon: '🏠', label: 'Home' },
-  { href: '/dashboard', icon: '📊', label: 'Dashboard' },
-  { href: '/agents', icon: '👥', label: 'Agents' },
-  { href: '/gateway', icon: '🌐', label: 'Gateway' },
-  { href: '/control-center', icon: '🎛️', label: 'Control Center' },
-  { href: '/zeroai', icon: '🧠', label: 'ZeroAI' },
-  { href: '/hermes', icon: '📡', label: 'Hermes' },
+  { href: '/', icon: 'cube', label: 'Home' },
+  { href: '/dashboard', icon: 'chart', label: 'Dashboard' },
+  { href: '/agents', icon: 'agents', label: 'Agents' },
+  { href: '/gateway', icon: 'route', label: 'Gateway' },
+  { href: '/control-center', icon: 'grid', label: 'Control Center' },
+  { href: '/zeroai', icon: 'brain', label: 'ZeroAI' },
+  { href: '/hermes', icon: 'agents', label: 'Hermes' },
 ];
 
 export default function AppDock() {
@@ -33,7 +35,9 @@ export default function AppDock() {
           className={`dock-item${isActive(a.href) ? ' active' : ''}`}
           aria-label={a.label}
         >
-          <span aria-hidden>{a.icon}</span>
+          <span aria-hidden>
+            <Icon name={a.icon} size={15} />
+          </span>
           <span className="dock-tip">{a.label}</span>
         </Link>
       ))}
