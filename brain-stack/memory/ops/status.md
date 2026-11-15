@@ -48,3 +48,15 @@
 - P1A-01 stays open (`WORKING`); requires Hermes Agent installed on Linux/WSL2/Windows target hosts. No modes verified.
 - README + brain-stack ops updated for P1A/P2 completion (commit `1cebff8`).
 - Remaining: P0 admin gates (backup tag 🔒 R2, clean-sandbox verify, verify-tag, pre-release, docs archive, network API tests) + P3 Gate-OS real adapter + P4 real Ultra Core — all owner-decision/environment gated.
+
+## 2026-11-15 — P1A-01 Hermes embed spike: POSITIVE (WSL2)
+
+- Hermes Agent v0.23.1 installed in WSL2 at `/home/pc/.local/bin/hermes` (git install under `~/.hermes/hermes-agent`).
+- Key discovery: the OpenAI-compatible API is served by the gateway `platforms.api_server` platform (port 8642), NOT by `hermes serve` (dashboard backend, port 9119).
+- Enabled via `platforms.api_server.enabled=true` + `platforms.api_server.extra.key`; `hermes gateway run` binds `127.0.0.1:8642`.
+- Verified live: `/health`, `/v1/models` (model `hermes-agent`), `/v1/capabilities`, `/api/sessions`, `POST /v1/chat/completions` (OpenAI envelope; agent-level error — no provider credentials configured); unauthenticated requests → 401.
+- `/v1/capabilities` also exposes `/v1/responses`, `/v1/runs` (+events/approval/steer/stop, 24h idempotency), `X-Hermes-Session-*` headers, skills/toolsets endpoints.
+- Conclusion: NO hermes-bridge needed — the model-gateway / Open WebUI can target `http://127.0.0.1:8642/v1` with Bearer key; agentic work maps onto work-dispatch via `/v1/runs`.
+- Reports: `docs/spikes/hermes-embed-results-wsl2-2026-11-15.md` (results) + `docs/spikes/hermes-embed-wsl2-rerun-2026-11-15.md` (raw probe log). TODO P1A-01 → DONE (WSL2).
+- Remaining: provider credentials (`hermes auth add <provider>` — owner credential gate) for real inference; bare-Linux + Windows-native reruns.
+- P3/P4 unchanged: owner-decision gated (Gate-OS adapter, Ultra Core real + legal gate before crypto).
