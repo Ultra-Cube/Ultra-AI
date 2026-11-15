@@ -2,7 +2,7 @@
 
 ![Ultra Cube Tech Logo](https://www.ucubetech.com/logo.svg)
 
-**Version**: 1.0.0 | **Status**: Under Development 🔧 | **Architecture**: Distributed AI Platform | **Quality Score**: 10/10
+**Version**: `0.1.0` (workspace) · `v0.3.0-planning` (planning tag) · `v0.9.0-p2` (desktop artifacts) | **Status**: Under Development 🔧 | **Architecture**: Distributed AI Platform | **Branch**: `release/planning-study`
 
 [![Ultra Cube Tech](https://img.shields.io/badge/by-Ultra%20Cube%20Tech-blue.svg)](https://www.ucubetech.com)
 [![Documentation](https://img.shields.io/badge/Docs-Comprehensive-blue)](docs/README.md)
@@ -310,8 +310,65 @@ brain-stack/
 
 | **P1A — Platform Core services** | ✅ Done (11/12) | `platform/services/`: `@ultra-ai/brain` (process mgmt, config merge, readiness; 9 tests), `@ultra-ai/memory-bridge` (Memory Bank↔Hermes pointers, FTS5; 7 tests), `@ultra-ai/skill-registry` (SKILL.md scan, scopes, signing; 9 tests), `@ultra-ai/mcp-hub` (transports, policies, mcp.json; 6 tests), `@ultra-ai/edge-proxy` (single-origin proxy, JWT SSO, CSP; 18 tests), `@ultra-ai/port-registry` (claims, conflict resolution; 11 tests), `@ultra-ai/secrets-vault` (pluggable providers; 9 tests), `@ultra-ai/work-dispatch` (ultra.work-dispatch.v1 contract, agent registry, task bus, delegation policies; wired through desktop-bridge/core-api/UI; 15+ tests), `@ultra-ai/model-gateway` (DeepSeek/GLM/Kimi/Manus adapters, routing, circuit breaker, metering), `@ultra-ai/workflow-engine` (unified engine + probes + conformance; 15 tests), `@ultra-ai/model-foundry` (dataset/recipe registries, model cards, licensing gates; distillation blocked on ToS sign-off; 14 tests) |
 | **P2 — Desktop runtime** | ✅ Done (build+verify) | FirstRunWizard, SystemTray, AutoUpdater, embedded OpenHands workspace (`@ultra-ai/workspace`), WSL2 runtime for Python sidecars, `.deb`/AppImage/Inno Setup artifacts + CycloneDX SBOM; `smoke-desktop.mjs` 47/47 checks on v0.9.0-p2. Residuals need target hosts (physical .deb install, live VS Code server launch, real appimagetool/makensis) |
-| **P1A-01 — Hermes embed spike** | 🔄 Open | Needs real-environment runs (Linux/WSL2/native Windows × CLI/gateway/HTTP modes); contracts + providers already in `@ultra-ai/hermes-runtime` |
+| **P1A-01 — Hermes embed spike** | ✅ Done (WSL2) | Hermes Agent v0.23.1 installed in WSL2; `/v1/*` OpenAI-compatible API verified live on `127.0.0.1:8642` via `platforms.api_server` (`hermes gateway run`); `hermes serve` dashboard backend on `:9119` is separate. Reports: `docs/spikes/hermes-embed-wsl2-rerun-2026-11-15.md`. Bare-Linux + Windows-native runs still open |
 | **P3/P4 — Gate-OS & Ultra Core** | 🔒 Owner-gated | Readiness contracts + bridges shipped (gate-os-bridge, ultra-core-bridge signed hash-chained outbox); actual integration requires owner decision; any crypto stays behind legal gate |
+
+### Implemented system — current state
+
+```mermaid
+flowchart TB
+    subgraph Host["Ultra-AI host (WSL2 / desktop runtime)"]
+        UI["Smart UI<br/>(platform/frontend · /zeroai · /chat · /automation · /workspace · /studio · /agents)"]
+        BRIDGE["desktop-bridge<br/>JSON-RPC · edge/dispatch/agents/bus/workspace"]
+        EDGE["@ultra-ai/zeroai-edge<br/>local-first routing"]
+        CORE["core-api · edge-proxy<br/>JWT SSO · CSP · /zeroai/* proxy"]
+    end
+
+    subgraph Platform["platform/services"]
+        BRAIN["@ultra-ai/brain<br/>process mgmt · config merge"]
+        MEMP["@ultra-ai/memory-bridge<br/>Memory Bank ↔ Hermes · FTS5"]
+        SKILL["@ultra-ai/skill-registry<br/>scopes · signing · packs"]
+        MCP["@ultra-ai/mcp-hub<br/>transports · policies"]
+        GW["@ultra-ai/model-gateway<br/>DeepSeek/GLM/Kimi/Manus · circuit breaker · metering"]
+        WFE["@ultra-ai/workflow-engine<br/>probes · conformance suite"]
+        FOUND["@ultra-ai/model-foundry<br/>datasets · recipes · cards · license gates"]
+        DISP["@ultra-ai/work-dispatch<br/>agent registry · task bus · delegation"]
+        HR["@ultra-ai/hermes-runtime<br/>sessions · adapters · reasoner"]
+        OUT["@ultra-ai/outbox<br/>signed hash-chained events"]
+        PORTS["@ultra-ai/port-registry"]
+        VAULT["@ultra-ai/secrets-vault"]
+        WS["@ultra-ai/workspace<br/>OpenHands client"]
+        UCB["ultra-core-bridge<br/>ExportTarget port"]
+    end
+
+    subgraph External["Sidecars & external engines"]
+        HERMES["Hermes Agent v0.23.1<br/>gateway API :8642 · dashboard :9119"]
+        OLLAMA["Ollama / 9router OmniRoute"]
+        ENGINES["n8n · Langflow · Dify · OpenHands :3300 · Open WebUI"]
+        CONTROL["control/ Directory-Control-Systems<br/>4 controllers · health · multi-env"]
+        MON["infrastructure/monitoring<br/>sentinel :9200 · Prometheus/Grafana"]
+    end
+
+    subgraph Contract["Readiness contracts (GATED)"]
+        GO["ultra.gateos-readiness.v1<br/>gate-os-bridge"]
+        COREU["ultra.event.v1 signed outbox<br/>(no chain — deferred)"]
+    end
+
+    UI --> BRIDGE --> EDGE --> CORE
+    CORE --> BRAIN & MEMP & SKILL & MCP & GW & WFE & FOUND & DISP & HR & OUT & PORTS & VAULT & WS
+    DISP --> HERMES
+    HR --> HERMES
+    GW --> OLLAMA
+    WFE --> ENGINES
+    WS --> ENGINES
+    UCB --> COREU
+    CONTROL -. monitors .-> Platform
+    MON -. scrapes .-> Platform
+    GO -.-> Contract
+    COREU -.-> Contract
+```
+
+**Data flow:** user input → Smart UI → desktop-bridge → `@ultra-ai/zeroai-edge` (local-first decision) → either local services (`@ultra-ai/*`) or escalation to Hermes gateway (`:8642`) / model-gateway providers. Every run emits `ultra.event.v1` signed events into the outbox and a visible execution trail (`zeroai.run/trail/routes`).
 
 **Upcoming / deferred (planned, not yet built):**
 - Hermes runtime deep integration, 3D control center, real Ultra Core/Gate-OS endpoints (contracts ready)

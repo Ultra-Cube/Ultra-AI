@@ -1,0 +1,54 @@
+{
+  "name": "directory-control-systems",
+  "version": "2.1.0",
+  "description": "Comprehensive directory-level orchestration system with 4 specialized controllers for enterprise project management",
+  "main": "main.js",
+  "type": "module",
+  "scripts": {
+    "start": "node main.js",
+    "distribution": "node main.js distribution status",
+    "distribution:build": "node main.js distribution build",
+    "distribution:package": "node main.js distribution package",
+    "env:switch": "node main.js environment switch",
+    "env:validate": "node main.js environment validate",
+    "env:sync": "node main.js environment sync",
+    "env:backup": "node main.js environment backup",
+    "infra:automation": "node main.js infrastructure automation",
+    "infra:k8s": "node main.js infrastructure kubernetes",
+    "infra:terraform": "node main.js infrastructure terraform",
+    "infra:testing": "node main.js infrastructure testing",
+    "platform:start": "node main.js platform start",
+    "platform:stop": "node main.js platform stop",
+    "platform:build": "node main.js platform build",
+    "directoryStatus": "node main.js directory status",
+    "fullSystemCheck": "node main.js system check"
+  },
+  "keywords": [
+    "directory-control",
+    "orchestration",
+    "enterprise",
+    "infrastructure",
+    "automation",
+    "platform-management",
+    "environment-control",
+    "distribution"
+  ],
+  "author": "Ultra Cube Tech",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "commander": "^11.0.0",
+    "inquirer": "^9.2.12"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Ultra-Cube/Ultra-Core.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Ultra-Cube/Ultra-Core/issues"
+  },
+  "homepage": "https://github.com/Ultra-Cube/Ultra-Core#readme"
+}
