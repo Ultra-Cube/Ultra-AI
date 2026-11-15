@@ -19,7 +19,7 @@
 #               [-> Hermes monitoring: Grafana :3001 / Prometheus :9090]
 set -uo pipefail
 
-ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 RUNTIME_DIR="$ROOT_DIR/runtime"
 LOG_DIR="$RUNTIME_DIR/logs"
 PID_DIR="$RUNTIME_DIR/pids"
@@ -112,8 +112,10 @@ start_postgres() {
 start_api() {
   log "Layer 2/4: API (:$API_PORT)"
   local envf="$ROOT_DIR/platform/backend/core-api/.env.local"
-  if pgrep -f 'tsx src/server.ts' >/dev/null 2>&1; then
-    ok "API already running"
+  if [ -f "$PID_DIR/api.pid" ] && kill -0 "$(cat "$PID_DIR/api.pid")" 2>/dev/null; then
+    ok "API already running (pid $(cat "$PID_DIR/api.pid"))"
+  elif http_ok "http://localhost:$API_PORT/health" | grep -qE '^(200|302|401)$'; then
+    warn "port $API_PORT already serves something — not touching it"
   else
     if [ -f "$envf" ]; then
       ( cd "$ROOT_DIR/platform/backend/core-api" && set -a && . ./.env.local && set +a \

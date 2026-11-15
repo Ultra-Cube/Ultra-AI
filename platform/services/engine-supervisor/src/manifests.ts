@@ -118,6 +118,20 @@ export const ENGINE_PRESETS: EngineManifest[] = [
     startupTimeoutMs: 90000,
     managed: false,
   },
+  {
+    id: 'airllm',
+    label: 'airllm (low-VRAM LLM inference)',
+    command: 'python3',
+    args: ['-m', 'airllm'],
+    port: 8080,
+    portEnvVar: 'AIRLLM_PORT',
+    healthPath: '/health',
+    probe: 'http',
+    runtime: 'wsl2',
+    startupTimeoutMs: 60000,
+    managed: false,
+    licenseNote: 'Apache-2.0; requires airllm installed in a venv',
+  },
 ];
 
 export function presetById(id: string): EngineManifest | undefined {

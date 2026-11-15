@@ -3,6 +3,7 @@ export type ProviderId =
   | 'glm'
   | 'kimi'
   | 'manus'
+  | 'openrouter'
   | 'openai-compatible'
   | 'ollama';
 

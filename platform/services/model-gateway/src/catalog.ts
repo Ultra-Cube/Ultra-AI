@@ -83,6 +83,29 @@ export const MODEL_CATALOG: ModelEntry[] = [
     capabilities: ['agent', 'reasoning'],
     enabled: true,
   },
+  // OpenRouter — aggregated providers via OpenAI-compatible API
+  {
+    provider: 'openrouter',
+    model: 'deepseek/deepseek-chat-v3-0324',
+    quality: 0.85,
+    costPer1k: 0.00027,
+    latencyClass: 1,
+    contextWindow: 128000,
+    allowedDataClasses: ['public', 'internal'],
+    capabilities: ['chat', 'reasoning', 'code'],
+    enabled: true,
+  },
+  {
+    provider: 'openrouter',
+    model: 'meta-llama/llama-3.3-70b-instruct',
+    quality: 0.8,
+    costPer1k: 0.00013,
+    latencyClass: 1,
+    contextWindow: 128000,
+    allowedDataClasses: ['public', 'internal'],
+    capabilities: ['chat', 'agent'],
+    enabled: true,
+  },
   // Local Ollama — private by definition
   {
     provider: 'ollama',
@@ -102,6 +125,7 @@ export const PROVIDER_BASE_URLS: Record<ProviderId, string> = {
   glm: 'https://open.bigmodel.cn/api/paas/v4',
   kimi: 'https://api.moonshot.cn/v1',
   manus: 'https://api.manus.ai',
+  openrouter: 'https://openrouter.ai/api/v1',
   'openai-compatible': 'https://api.openai.com/v1',
   ollama: 'http://localhost:11434/v1',
 };

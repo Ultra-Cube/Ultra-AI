@@ -3,7 +3,7 @@
   "version": "2.1.0",
   "description": "Comprehensive directory-level orchestration system with 4 specialized controllers for enterprise project management",
   "main": "main.js",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
     "start": "node main.js",
     "distribution": "node main.js distribution status",

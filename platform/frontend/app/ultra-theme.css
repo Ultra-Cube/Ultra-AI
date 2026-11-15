@@ -1,0 +1,223 @@
+/* Ultra AI — ChatGPT / Copilot / AI Studio inspired theme (loaded last, overrides globals) */
+:root {
+  --bg: #0d0f14;
+  --ink: #e8eaf0;
+  --muted: #9aa3b2;
+  --card: #161a22;
+  --card-2: #1c212b;
+  --accent: #7c6cff;
+  --accent-2: #4dd0e1;
+  --ring: rgba(124, 108, 255, 0.45);
+  --border: rgba(255, 255, 255, 0.08);
+}
+
+body {
+  color: var(--ink);
+  background:
+    radial-gradient(1200px 600px at 80% -10%, rgba(124, 108, 255, 0.14), transparent 60%),
+    radial-gradient(900px 500px at -10% 110%, rgba(77, 208, 225, 0.08), transparent 55%),
+    #0d0f14;
+}
+
+/* Sidebar shell */
+.ultra-shell {
+  display: flex;
+  min-height: 100vh;
+}
+.ultra-sidebar {
+  width: 248px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 18px 12px;
+  background: #10131a;
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+}
+.ultra-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 10px 16px;
+  font-weight: 700;
+  font-size: 17px;
+  letter-spacing: 0.2px;
+}
+.ultra-brand svg { display: block; }
+.ultra-nav-section {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  padding: 14px 10px 6px;
+}
+.ultra-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 10px;
+  border-radius: 10px;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 14px;
+  transition: background 0.15s, color 0.15s;
+}
+.ultra-nav-link:hover { background: var(--card-2); color: var(--ink); }
+.ultra-nav-link.active {
+  background: linear-gradient(90deg, rgba(124,108,255,0.18), rgba(77,208,225,0.08));
+  color: var(--ink);
+  box-shadow: inset 2px 0 0 var(--accent);
+}
+.ultra-nav-link .dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--border); margin-left: auto;
+}
+.ultra-nav-link .dot.on { background: #34d399; box-shadow: 0 0 8px #34d39988; }
+.ultra-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.ultra-topbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 20px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(13,15,20,0.8);
+  backdrop-filter: blur(10px);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+.ultra-topbar .spacer { flex: 1; }
+
+/* Cards & surfaces */
+.card, .design-card, section.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.35);
+  color: var(--ink);
+}
+.card:hover { border-color: rgba(124,108,255,0.35); }
+
+/* Buttons */
+button, .btn, a.btn {
+  background: linear-gradient(135deg, var(--accent), #5a8bff);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 9px 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: filter 0.15s, transform 0.05s;
+}
+button:hover, .btn:hover { filter: brightness(1.12); }
+button:active { transform: translateY(1px); }
+button.secondary, .btn.secondary {
+  background: var(--card-2);
+  border: 1px solid var(--border);
+  color: var(--ink);
+}
+button.ghost, .btn.ghost {
+  background: transparent;
+  color: var(--muted);
+}
+
+/* Inputs — AI Studio style */
+input, textarea, select {
+  background: var(--card-2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--ink);
+  padding: 10px 14px;
+  font-family: inherit;
+}
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--ring);
+}
+
+/* Tables */
+table { border-collapse: collapse; width: 100%; }
+th, td { padding: 8px 12px; border-bottom: 1px solid var(--border); text-align: left; }
+th { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+
+/* Chat composer (ChatGPT style) */
+.chat-composer {
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 12px 14px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+}
+.chat-composer textarea {
+  flex: 1;
+  background: transparent;
+  border: none;
+  resize: none;
+  max-height: 200px;
+  font-size: 15px;
+  padding: 6px;
+}
+.chat-composer textarea:focus { box-shadow: none; }
+.chat-bubble-user {
+  background: linear-gradient(135deg, var(--accent), #5a8bff);
+  color: #fff;
+  border-radius: 16px 16px 4px 16px;
+  padding: 10px 14px;
+  max-width: 75%;
+  margin-left: auto;
+}
+.chat-bubble-ai {
+  background: var(--card-2);
+  border: 1px solid var(--border);
+  border-radius: 16px 16px 16px 4px;
+  padding: 10px 14px;
+  max-width: 85%;
+}
+
+/* Badges / status */
+.badge, .status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  background: var(--card-2);
+  border: 1px solid var(--border);
+}
+.badge.ok, .status-pill.ok { color: #34d399; border-color: rgba(52,211,153,0.4); }
+.badge.warn { color: #fbbf24; border-color: rgba(251,191,36,0.4); }
+.badge.err { color: #f87171; border-color: rgba(248,113,113,0.4); }
+
+/* Legacy hero cleanup */
+.hero { text-align: center; padding: 3rem 1rem 1.5rem; }
+.hero h1 {
+  font-size: 2.6rem;
+  background: linear-gradient(90deg, #fff, #9db4ff 55%, #4dd0e1);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin: 0.4rem 0;
+}
+.hero p { color: var(--muted); max-width: 640px; margin: 0 auto; }
+.grid { display: grid; gap: 1rem; }
+.grid.cols-3 { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.grid.cols-2 { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+
+@media (max-width: 860px) {
+  .ultra-sidebar { display: none; }
+}
