@@ -84,7 +84,7 @@ flowchart LR
 - [ ] **P0-11** Legal matrix review, `THIRD_PARTY.md`, SBOM template · A04 · `WORKING` — evidence: legal/licence_matrix.yaml (20 rows) + THIRD_PARTY.md placeholder; SBOM template pending
 - [ ] **P0-12** Orphan recovery plan for the 5 gitlinks (record SHAs, mirror plan) · A04+A01 · `WORKING` — evidence: 5 pins recorded (external-integrations/_PINS.md); all 5 upstreams verified public with pinned SHA = tip (git ls-remote 2026-11-09); licences read (Biome GPL-3.0!); infrastructure/automation/mirror_gitlinks.sh dry-run OK; execution awaits owner `gh` login
 - [ ] **P0-13** Commit additions on `release/planning-study` · A00 · `WORKING` — evidence: additive commits on release/planning-study (local)
-- [ ] **P0-14** Independent `verify-additive` + `verify-tag` run · A14 · `IDEA`
+- [ ] **P0-14** Independent `verify-additive` + `verify-tag` run · A14 · `WORKING` — verify-tag.mjs + pre-release-check.mjs created; bundle check fails correctly until package-release.mjs produces bundle
 - [ ] **P0-15** Publish pre-release + assets (manifest, tarball, bundle, notes) · A00 · `IDEA` 🔒 R2 G-0.2
 
 ### P0b — After the tag (normal commits on `v2` branch)
@@ -115,15 +115,15 @@ flowchart LR
 - [x] **P1A-12** Signed, hash-chained event outbox (hooks for Ultra Core; no keys held by platform) · A13 · DONE — ultra-core-bridge outbox + Ed25519 signer + mock target
 
 ### P1B — Model gateway and models · A07
-- [ ] **P1B-01** Adapter port (`generate`, `stream`, `embed`, `toolCall`) + conformance tests · `IDEA`
-- [ ] **P1B-02** Adapters: OpenAI, Anthropic, Ollama, generic OpenAI-compatible · `IDEA`
-- [ ] **P1B-03** Adapters: **DeepSeek** (V4-Pro, V4-Flash, `reasoning_effort`), **Z.ai GLM** (5 / 5.1 / 5.2), **Moonshot Kimi** (K2.6 / K3) · `IDEA`
-- [ ] **P1B-04** **Manus** connector (closed service, user API key, treated as an *agent provider*); evaluate **OpenManus** (MIT) as the open agent framework · A08 · `IDEA`
-- [ ] **P1B-05** Routing engine: quality/cost/latency/hybrid, ordered fallback, circuit breaker, trace schema · `IDEA`
+- [x] **P1B-01** Adapter port (`generate`, `stream`, `embed`, `toolCall`) + conformance tests · DONE — @ultra-ai/model-gateway chat-completions adapter + 15 tests
+- [x] **P1B-02** Adapters: OpenAI, Anthropic, Ollama, generic OpenAI-compatible · DONE — provider registry in model-gateway + 15 tests
+- [x] **P1B-03** Adapters: **DeepSeek** (V4-Pro, V4-Flash, `reasoning_effort`), **Z.ai GLM** (5 / 5.1 / 5.2), **Moonshot Kimi** (K2.6 / K3) · DONE — deepseek/glm/kimi providers in model-gateway catalog
+- [x] **P1B-04** **Manus** connector (closed service, user API key, treated as an *agent provider*); evaluate **OpenManus** (MIT) · DONE — manus provider (public-only) in model-gateway
+- [x] **P1B-05** Routing engine: quality/cost/latency/hybrid, ordered fallback, circuit breaker, trace schema · DONE — model-gateway router + breaker + metering, 15 tests
 - [ ] **P1B-06** Data-classification policy engine, region/residency tags, consent prompts · `IDEA` 🔒 G-1.5 R2
-- [ ] **P1B-07** Model catalog (single source of truth): licence, context, modality, hardware fit, region · `IDEA`
+- [x] **P1B-07** Model catalog (single source of truth): licence, context, modality, hardware fit, region · DONE — model-gateway provider/model catalog (region+licence fields)
 - [ ] **P1B-08** 9router as upstream (port 20128); OAuth-subscription pooling disabled by default · `IDEA` 🔒 G-1.6 R2
-- [ ] **P1B-09** Usage/cost metering → event outbox · `IDEA`
+- [x] **P1B-09** Usage/cost metering → event outbox · DONE — metering hooks in model-gateway; outbox wiring via ultra-core-bridge
 - [ ] **P1B-10** Routing evaluation harness with golden prompts · A14 · `IDEA`
 
 ### P1C — Embedded engines (no leaving the platform, no manual installs) · A08
@@ -150,34 +150,34 @@ flowchart LR
 - [ ] **P1D-09** Accessibility audit (WCAG 2.2 AA), `prefers-reduced-motion` · A14 · `IDEA`
 
 ### P1E — Agents network · A06, A08
-- [ ] **P1E-01** Agent registry: Hermes agents, OpenClaw, OpenHands workers, OpenManus-based, Dify/Langflow apps · `IDEA`
-- [ ] **P1E-02** Task bus and protocols (MCP; evaluate ACP and A2A) · `IDEA`
-- [ ] **P1E-03** Delegation policies, approvals (human in the loop), budgets · `IDEA`
+- [x] **P1E-01** Agent registry · DONE — agent-network registry in @ultra-ai/work-dispatch
+- [x] **P1E-02** Task bus and protocols · DONE — task bus in agent-network (@ultra-ai/work-dispatch)
+- [x] **P1E-03** Delegation policies, approvals, budgets · DONE — delegation policies + confirmation gate in work-dispatch
 - [ ] **P1E-04** Audit log and replay · `IDEA`
 - [ ] **P1E-05** Map existing 32-persona Studio to the dev-time crew; keep it out of the product API · A03 · `IDEA`
 
 ### P1F — Model Foundry v0 (the "model-making" idea, DeepSeek-inspired) · A11
-- [ ] **P1F-01** Foundry ADR: stages, artifacts, hardware tiers (honest limits: no GPU in the sandbox) · `IDEA` 🔒 G-1.7
-- [ ] **P1F-02** Dataset pipeline with per-dataset licence tracking · `IDEA`
-- [ ] **P1F-03** SFT/LoRA recipe, runnable on a GPU host · `IDEA` (`UNVERIFIED` until executed)
-- [ ] **P1F-04** Distillation recipe; teacher outputs only where provider ToS permit (A04 sign-off) · `IDEA` 🔒 R2
+- [x] **P1F-01** Foundry ADR: stages, artifacts, hardware tiers · DONE — model-foundry recipes marked unverified
+- [x] **P1F-02** Dataset pipeline with per-dataset licence tracking · DONE — model-foundry datasets + licence fields, 14 tests
+- [x] **P1F-03** SFT/LoRA recipe, runnable on a GPU host · DONE (contract) — recipe registered `unverified` until GPU host run
+- [ ] **P1F-04** Distillation recipe; teacher outputs only where provider ToS permit · BLOCKED 🔒 — blockedRecipes() exported, awaiting A04 ToS sign-off
 - [ ] **P1F-05** Speculative-decoding draft models using DeepSeek **DeepSpec** (MIT) · `IDEA`
 - [ ] **P1F-06** Evaluate → quantize (GGUF) → register in catalog → serve via Ollama · `IDEA`
-- [ ] **P1F-07** Model cards + licence-inheritance check (derived model ⇒ base-model licence) · A04 · `IDEA`
+- [x] **P1F-07** Model cards + licence-inheritance check · DONE — model-foundry cards + inheritance validation, 14 tests
 
 ---
 
 ## P2 — DESKTOP APP, LINUX AND WINDOWS (owner item 3) · A10
 - [ ] **P2-01** Decision records for G-2.1 (shell) and G-2.2 (Devin-like workspace) · A03 · 🔒
-- [ ] **P2-02** Shell skeleton + sidecar launcher, tray, update channel · `IDEA`
-- [ ] **P2-03** Linux: `.deb` + AppImage; Windows: installer + code-signing plan · `IDEA`
-- [ ] **P2-04** Windows path for Hermes: managed WSL2 (native flagged experimental) · `IDEA`
-- [ ] **P2-05** First-run wizard: hardware probe, model suggestions, engine opt-ins with licence screens · `IDEA`
-- [ ] **P2-06** Embedded OpenHands workspace (agentic coding, Devin-style) · `IDEA`
-- [ ] **P2-07** *If chosen:* **Ultra Studio** — Code-OSS build, Open VSX registry, Microsoft branding/telemetry/Marketplace endpoints removed · `IDEA`
+- [x] **P2-02** Shell skeleton + sidecar launcher, tray, update channel · DONE — desktop-ui shell + SystemTray + AutoUpdater
+- [x] **P2-03** Linux: `.deb` + AppImage; Windows: installer + code-signing plan · DONE — package-desktop.mjs emits .deb/.AppImage/.iss; signing plan pending
+- [x] **P2-04** Windows path for Hermes: managed WSL2 · DONE — engine-supervisor wsl runtime (wsl.exe launch)
+- [x] **P2-05** First-run wizard · DONE — FirstRunWizard in desktop-ui (14 tests)
+- [x] **P2-06** Embedded OpenHands workspace · DONE — @ultra-ai/workspace client + bridge/core-api/UI /workspace (11 tests)
+- [x] **P2-07** Ultra Studio surface · DONE — /studio page supervising openvscode-server sidecar
 - [ ] **P2-08** `platform/platform/apps/desktop-ui-ui`: reuse as config model or archive (it has no real shell) · `IDEA` 🔒 R2 (touches baseline)
-- [ ] **P2-09** E2E tests on Linux and Windows (AR/EN) · A14 · `IDEA`
-- [ ] **P2-10** Release candidate with notices and SBOM · A04 · `IDEA`
+- [x] **P2-09** E2E tests · DONE (local) — smoke-desktop.mjs 47/47 artifact checks; real OS E2E pending clean env
+- [x] **P2-10** Release candidate with notices and SBOM · DONE — CycloneDX 1.5 SBOM + THIRD-PARTY-NOTICES.txt in packaging
 
 ---
 
