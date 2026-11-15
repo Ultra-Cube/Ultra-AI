@@ -76,10 +76,20 @@ const SECTIONS: NavSection[] = [
   {
     title: 'Platform',
     items: [
+      { href: '/dashboard', label: 'Dashboard', icon: 'gauge' },
+      { href: '/brain-stack', label: 'Brain Stack', icon: 'brain' },
+      { href: '/models', label: 'Models', icon: 'route' },
+      { href: '/customers', label: 'Customers & Teams', icon: 'agents' },
       { href: '/services', label: 'Services & Engines', icon: 'grid' },
       { href: '/gateway', label: 'Model Gateway', icon: 'route' },
-      { href: '/dashboard', label: 'Dashboard', icon: 'gauge' },
       { href: '/control-center', label: 'Control Center', icon: 'cube' },
+    ],
+  },
+  {
+    title: 'System',
+    items: [
+      { href: '/settings', label: 'Settings', icon: 'wrench' },
+      { href: '/about', label: 'About & Credits', icon: 'chart' },
     ],
   },
 ];
@@ -114,29 +124,33 @@ const EXTERNAL: NavItem[] = [
 function Logo() {
   return (
     <svg width="26" height="26" viewBox="0 0 32 32" aria-hidden>
-      <defs>
-        <linearGradient id="ultra-g" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="#6ea8fe" />
-          <stop offset="1" stopColor="#a78bfa" />
-        </linearGradient>
-      </defs>
-      <rect
-        x="2"
-        y="2"
-        width="28"
-        height="28"
-        rx="8"
-        fill="url(#ultra-g)"
-        opacity="0.9"
-      />
-      <path
-        d="M10 22V10l12 12V10"
-        stroke="#0b1020"
-        strokeWidth="2.6"
+      <rect width="32" height="32" rx="7" fill="#14161c" />
+      <g
         fill="none"
+        stroke="#f97316"
+        strokeWidth="1.4"
         strokeLinecap="round"
         strokeLinejoin="round"
-      />
+      >
+        <path d="M16 3.5 L26.5 8.75 L16 14 L5.5 8.75 Z" fill="#23262f" />
+        <path d="M5.5 8.75 L16 14 L16 26.5 L5.5 21.25 Z" fill="#1b1e26" />
+        <path d="M26.5 8.75 L16 14 L16 26.5 L26.5 21.25 Z" fill="#20242e" />
+        <path d="M16 3.5 L26.5 8.75 L16 14 L5.5 8.75 Z" />
+        <path d="M5.5 8.75 L16 14 L16 26.5 L5.5 21.25 Z" />
+        <path d="M26.5 8.75 L16 14 L16 26.5 L26.5 21.25 Z" />
+        <path d="M16 8.5 L20.5 6.4 L23.5 8.2" strokeWidth="1" />
+        <circle cx="23.5" cy="8.2" r="0.9" fill="#f97316" stroke="none" />
+        <path d="M11.5 10.8 L14 8.9" strokeWidth="1" />
+        <circle cx="11.5" cy="10.8" r="0.9" fill="#f97316" stroke="none" />
+        <path d="M8.5 15.5 L12 15.5 L12 18.5" strokeWidth="1" />
+        <circle cx="8.5" cy="15.5" r="0.9" fill="#f97316" stroke="none" />
+        <circle cx="12" cy="18.5" r="0.9" fill="#f97316" stroke="none" />
+        <path d="M23.5 15.5 L20 15.5 L20 18.5" strokeWidth="1" />
+        <circle cx="23.5" cy="15.5" r="0.9" fill="#f97316" stroke="none" />
+        <circle cx="20" cy="18.5" r="0.9" fill="#f97316" stroke="none" />
+        <path d="M16 19 L16 23.5 L13.5 25.5" strokeWidth="1" />
+        <circle cx="13.5" cy="25.5" r="0.9" fill="#f97316" stroke="none" />
+      </g>
     </svg>
   );
 }
