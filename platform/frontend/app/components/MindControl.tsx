@@ -75,7 +75,9 @@ export default function MindControl() {
     <div className="mind-control card">
       <div className="mind-head">
         <h3>🧠 Mind Control</h3>
-        <span className={`mind-state ${control.routingPaused ? 'paused' : 'live'}`}>
+        <span
+          className={`mind-state ${control.routingPaused ? 'paused' : 'live'}`}
+        >
           {control.routingPaused ? 'PAUSED' : 'LIVE'}
         </span>
       </div>
@@ -97,7 +99,9 @@ export default function MindControl() {
           value={control.modelOverride ?? 'auto'}
           disabled={saving}
           onChange={(e) =>
-            patch({ modelOverride: e.target.value === 'auto' ? null : e.target.value })
+            patch({
+              modelOverride: e.target.value === 'auto' ? null : e.target.value,
+            })
           }
         >
           {MODELS.map((m) => (
@@ -114,7 +118,9 @@ export default function MindControl() {
           value={control.forcedRoute ?? 'auto'}
           disabled={saving}
           onChange={(e) =>
-            patch({ forcedRoute: e.target.value === 'auto' ? null : e.target.value })
+            patch({
+              forcedRoute: e.target.value === 'auto' ? null : e.target.value,
+            })
           }
         >
           {ROUTES.map((r) => (

@@ -19,9 +19,9 @@
   --ds-muted: #94a3c4;
   --ds-faint: #5b6684;
 
-  --ds-accent: #6d8bff;      /* electric indigo */
-  --ds-accent-2: #38e0c8;    /* teal */
-  --ds-accent-3: #c678ff;    /* violet */
+  --ds-accent: #6d8bff; /* electric indigo */
+  --ds-accent-2: #38e0c8; /* teal */
+  --ds-accent-3: #c678ff; /* violet */
   --ds-warn: #fbbf24;
   --ds-bad: #fb6a6a;
   --ds-ok: #35d98a;
@@ -35,9 +35,21 @@
 body {
   color: var(--ds-ink) !important;
   background:
-    radial-gradient(1200px 600px at 12% -5%, rgba(109, 139, 255, 0.16), transparent 55%),
-    radial-gradient(1000px 500px at 95% 0%, rgba(56, 224, 200, 0.12), transparent 50%),
-    radial-gradient(900px 700px at 50% 120%, rgba(198, 120, 255, 0.1), transparent 55%),
+    radial-gradient(
+      1200px 600px at 12% -5%,
+      rgba(109, 139, 255, 0.16),
+      transparent 55%
+    ),
+    radial-gradient(
+      1000px 500px at 95% 0%,
+      rgba(56, 224, 200, 0.12),
+      transparent 50%
+    ),
+    radial-gradient(
+      900px 700px at 50% 120%,
+      rgba(198, 120, 255, 0.1),
+      transparent 55%
+    ),
     linear-gradient(180deg, var(--ds-bg-0), var(--ds-bg-1) 60%, var(--ds-bg-0)) !important;
   background-attachment: fixed !important;
 }
@@ -45,7 +57,11 @@ body {
 /* ---- Premium glass card (overrides the pale .card) ---- */
 .card,
 .ds-card {
-  background: linear-gradient(180deg, var(--ds-surface-2), var(--ds-surface)) !important;
+  background: linear-gradient(
+    180deg,
+    var(--ds-surface-2),
+    var(--ds-surface)
+  ) !important;
   border: 1px solid var(--ds-border) !important;
   border-radius: var(--ds-radius) !important;
   backdrop-filter: blur(14px) saturate(140%) !important;
@@ -56,31 +72,55 @@ body {
 }
 
 /* Headings & text inside the dark theme */
-h1, h2, h3, h4 { color: var(--ds-ink); }
-.muted, .ds-muted { color: var(--ds-muted) !important; }
-.kicker { color: var(--ds-accent-2) !important; }
+h1,
+h2,
+h3,
+h4 {
+  color: var(--ds-ink);
+}
+.muted,
+.ds-muted {
+  color: var(--ds-muted) !important;
+}
+.kicker {
+  color: var(--ds-accent-2) !important;
+}
 
 /* ---- Buttons ---- */
 button,
 .ds-btn {
-  background: linear-gradient(135deg, var(--ds-accent), var(--ds-accent-3)) !important;
+  background: linear-gradient(
+    135deg,
+    var(--ds-accent),
+    var(--ds-accent-3)
+  ) !important;
   color: #fff !important;
   border: 0;
   border-radius: 999px;
   box-shadow: 0 8px 24px -8px rgba(109, 139, 255, 0.7);
 }
-button:hover { filter: brightness(1.08); }
-button:disabled { opacity: 0.5; }
+button:hover {
+  filter: brightness(1.08);
+}
+button:disabled {
+  opacity: 0.5;
+}
 
 /* Inputs / selects */
-input, select, textarea {
+input,
+select,
+textarea {
   background: rgba(10, 14, 24, 0.7) !important;
   border: 1px solid var(--ds-border) !important;
   color: var(--ds-ink) !important;
   border-radius: var(--ds-radius-sm) !important;
 }
-input::placeholder { color: var(--ds-faint); }
-input:focus, select:focus, textarea:focus {
+input::placeholder {
+  color: var(--ds-faint);
+}
+input:focus,
+select:focus,
+textarea:focus {
   outline: 2px solid rgba(109, 139, 255, 0.5) !important;
   border-color: var(--ds-accent) !important;
 }
@@ -90,11 +130,22 @@ input:focus, select:focus, textarea:focus {
   background: rgba(7, 10, 18, 0.72) !important;
   border-bottom: 1px solid var(--ds-border) !important;
 }
-.topnav-brand { color: var(--ds-ink) !important; }
-.topnav-link { color: var(--ds-muted) !important; }
-.topnav-link:hover { background: var(--ds-surface-2) !important; color: var(--ds-ink) !important; }
+.topnav-brand {
+  color: var(--ds-ink) !important;
+}
+.topnav-link {
+  color: var(--ds-muted) !important;
+}
+.topnav-link:hover {
+  background: var(--ds-surface-2) !important;
+  color: var(--ds-ink) !important;
+}
 .topnav-link.active {
-  background: linear-gradient(135deg, rgba(109, 139, 255, 0.28), rgba(198, 120, 255, 0.22)) !important;
+  background: linear-gradient(
+    135deg,
+    rgba(109, 139, 255, 0.28),
+    rgba(198, 120, 255, 0.22)
+  ) !important;
   color: #fff !important;
   box-shadow: inset 0 0 0 1px var(--ds-border-strong);
 }
@@ -104,7 +155,10 @@ input:focus, select:focus, textarea:focus {
 }
 
 /* Health strip already dark — tighten to palette */
-.health-strip { background: rgba(7, 10, 18, 0.9) !important; color: var(--ds-ink); }
+.health-strip {
+  background: rgba(7, 10, 18, 0.9) !important;
+  color: var(--ds-ink);
+}
 
 /* ---- App dock (OS launcher) ---- */
 .app-dock {
@@ -133,9 +187,14 @@ input:focus, select:focus, textarea:focus {
   font-size: 1.3rem;
   text-decoration: none;
   box-shadow: none !important;
-  transition: transform 0.14s ease, background 0.14s ease;
+  transition:
+    transform 0.14s ease,
+    background 0.14s ease;
 }
-.dock-item:hover { transform: translateY(-8px) scale(1.12); background: var(--ds-surface) !important; }
+.dock-item:hover {
+  transform: translateY(-8px) scale(1.12);
+  background: var(--ds-surface) !important;
+}
 .dock-item.active::after {
   content: '';
   position: absolute;
@@ -163,26 +222,47 @@ input:focus, select:focus, textarea:focus {
   pointer-events: none;
   transition: opacity 0.14s ease;
 }
-.dock-item:hover .dock-tip { opacity: 1; }
+.dock-item:hover .dock-tip {
+  opacity: 1;
+}
 
 /* Give pages breathing room above the dock */
-.app-main { padding-bottom: 92px; }
+.app-main {
+  padding-bottom: 92px;
+}
 
 /* ---- Utility chips / badges tuned for dark ---- */
-.tag, .cap-chip { background: var(--ds-surface-2) !important; color: var(--ds-ink); }
-.ag-muted { background: var(--ds-surface-2) !important; color: var(--ds-muted) !important; }
+.tag,
+.cap-chip {
+  background: var(--ds-surface-2) !important;
+  color: var(--ds-ink);
+}
+.ag-muted {
+  background: var(--ds-surface-2) !important;
+  color: var(--ds-muted) !important;
+}
 
 /* Tables / rows on dark */
-.roster-row, .task-row, .metric-card, .hermes-stack-card,
-.mini-card, .stat-card, .kpi {
+.roster-row,
+.task-row,
+.metric-card,
+.hermes-stack-card,
+.mini-card,
+.stat-card,
+.kpi {
   background: var(--ds-surface) !important;
   border-color: var(--ds-border) !important;
   color: var(--ds-ink);
 }
-.roster-row.active { border-color: var(--ds-accent) !important; background: rgba(109,139,255,0.14) !important; }
+.roster-row.active {
+  border-color: var(--ds-accent) !important;
+  background: rgba(109, 139, 255, 0.14) !important;
+}
 
 /* Links */
-a { color: var(--ds-accent); }
+a {
+  color: var(--ds-accent);
+}
 
 /* =============================================================================
    Legacy Tailwind-class bridge
@@ -193,61 +273,132 @@ a { color: var(--ds-accent); }
    ============================================================================= */
 
 /* Page backgrounds */
-.min-h-screen { background: transparent !important; }
-.bg-gradient-to-br { background: transparent !important; }
-.bg-gray-50, .bg-gray-100 { background: transparent !important; }
+.min-h-screen {
+  background: transparent !important;
+}
+.bg-gradient-to-br {
+  background: transparent !important;
+}
+.bg-gray-50,
+.bg-gray-100 {
+  background: transparent !important;
+}
 
 /* Surfaces → glass */
 .bg-white,
 .bg-white\/5,
-[class*="bg-white"] {
-  background: linear-gradient(180deg, var(--ds-surface-2), var(--ds-surface)) !important;
+[class*='bg-white'] {
+  background: linear-gradient(
+    180deg,
+    var(--ds-surface-2),
+    var(--ds-surface)
+  ) !important;
   border: 1px solid var(--ds-border) !important;
   backdrop-filter: blur(14px) saturate(140%);
 }
-.shadow, .shadow-lg, .shadow-xl {
+.shadow,
+.shadow-lg,
+.shadow-xl {
   box-shadow: 0 20px 50px -20px rgba(0, 0, 0, 0.7) !important;
 }
 
 /* Text colors */
-.text-gray-900, .text-gray-800, .text-black { color: var(--ds-ink) !important; }
-.text-gray-700, .text-gray-600, .text-gray-500 { color: var(--ds-muted) !important; }
-.text-gray-400 { color: var(--ds-faint) !important; }
+.text-gray-900,
+.text-gray-800,
+.text-black {
+  color: var(--ds-ink) !important;
+}
+.text-gray-700,
+.text-gray-600,
+.text-gray-500 {
+  color: var(--ds-muted) !important;
+}
+.text-gray-400 {
+  color: var(--ds-faint) !important;
+}
 
 /* Accent text classes keep their hue but brighten for contrast on dark */
-.text-blue-600, .text-blue-700 { color: var(--ds-accent) !important; }
-.text-green-600 { color: var(--ds-ok) !important; }
-.text-purple-600 { color: var(--ds-accent-3) !important; }
-.text-red-600 { color: var(--ds-bad) !important; }
-.text-pink-600 { color: #ff85c0 !important; }
-.text-orange-600 { color: var(--ds-warn) !important; }
-.text-indigo-600 { color: var(--ds-accent) !important; }
+.text-blue-600,
+.text-blue-700 {
+  color: var(--ds-accent) !important;
+}
+.text-green-600 {
+  color: var(--ds-ok) !important;
+}
+.text-purple-600 {
+  color: var(--ds-accent-3) !important;
+}
+.text-red-600 {
+  color: var(--ds-bad) !important;
+}
+.text-pink-600 {
+  color: #ff85c0 !important;
+}
+.text-orange-600 {
+  color: var(--ds-warn) !important;
+}
+.text-indigo-600 {
+  color: var(--ds-accent) !important;
+}
 
 /* Borders & dividers */
-.border, .border-b, .border-t, .border-gray-200, .border-gray-300 {
+.border,
+.border-b,
+.border-t,
+.border-gray-200,
+.border-gray-300 {
   border-color: var(--ds-border) !important;
 }
-.divide-y > * + * { border-color: var(--ds-border) !important; }
+.divide-y > * + * {
+  border-color: var(--ds-border) !important;
+}
 
 /* Soft tinted action buttons on legacy pages (bg-blue-50 etc.) */
-.bg-blue-50, .bg-green-50, .bg-purple-50, .bg-orange-50, .bg-indigo-50, .bg-gray-200 {
+.bg-blue-50,
+.bg-green-50,
+.bg-purple-50,
+.bg-orange-50,
+.bg-indigo-50,
+.bg-gray-200 {
   background: var(--ds-surface-2) !important;
   color: var(--ds-ink) !important;
 }
 
 /* Table headers */
-.bg-gray-50 th, thead.bg-gray-50 { background: rgba(255,255,255,0.03) !important; }
-tr:hover.hover\:bg-gray-50, .hover\:bg-gray-50:hover { background: var(--ds-surface-2) !important; }
+.bg-gray-50 th,
+thead.bg-gray-50 {
+  background: rgba(255, 255, 255, 0.03) !important;
+}
+tr:hover.hover\:bg-gray-50,
+.hover\:bg-gray-50:hover {
+  background: var(--ds-surface-2) !important;
+}
 
 /* Code block on landing stays dark but on-theme */
-.bg-gray-900 { background: #05070d !important; border: 1px solid var(--ds-border) !important; }
-.text-green-400 { color: var(--ds-accent-2) !important; }
+.bg-gray-900 {
+  background: #05070d !important;
+  border: 1px solid var(--ds-border) !important;
+}
+.text-green-400 {
+  color: var(--ds-accent-2) !important;
+}
 
 /* Status pill backgrounds (dashboard tables) */
-.bg-green-100 { background: rgba(53, 217, 138, 0.16) !important; }
-.bg-green-100.text-green-800, .text-green-800 { color: var(--ds-ok) !important; }
-.bg-red-100 { background: rgba(251, 106, 106, 0.16) !important; }
-.text-red-800 { color: var(--ds-bad) !important; }
+.bg-green-100 {
+  background: rgba(53, 217, 138, 0.16) !important;
+}
+.bg-green-100.text-green-800,
+.text-green-800 {
+  color: var(--ds-ok) !important;
+}
+.bg-red-100 {
+  background: rgba(251, 106, 106, 0.16) !important;
+}
+.text-red-800 {
+  color: var(--ds-bad) !important;
+}
 
 /* Progress bar tracks */
-.bg-gray-200.rounded-full { background: rgba(255,255,255,0.08) !important; }
+.bg-gray-200.rounded-full {
+  background: rgba(255, 255, 255, 0.08) !important;
+}

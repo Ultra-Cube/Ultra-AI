@@ -86,10 +86,7 @@ export default function AdaptiveRenderer({
         );
       case 'text':
         return (
-          <p
-            key={c.id}
-            className="text-sm text-slate-300 whitespace-pre-wrap"
-          >
+          <p key={c.id} className="text-sm text-slate-300 whitespace-pre-wrap">
             {bound !== undefined ? text(bound) : text(p.text)}
           </p>
         );

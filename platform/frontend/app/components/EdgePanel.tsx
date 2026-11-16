@@ -34,7 +34,10 @@ const localityBadge = (locality?: string) => {
 };
 
 export default function EdgePanel() {
-  const [status, setStatus] = useState<{ connected: boolean; routes?: EdgeRoute[] }>({
+  const [status, setStatus] = useState<{
+    connected: boolean;
+    routes?: EdgeRoute[];
+  }>({
     connected: false,
   });
   const [prompt, setPrompt] = useState('');
@@ -170,24 +173,29 @@ export default function EdgePanel() {
             Execution trail
           </p>
           <ul className="max-h-40 space-y-1 overflow-y-auto">
-            {[...trail].reverse().slice(0, 20).map((ev, i) => (
-              <li
-                key={i}
-                className="flex items-center gap-2 rounded-md bg-white/[0.03] px-2 py-1 text-[11px] text-slate-400"
-              >
-                <span className="shrink-0 font-mono text-slate-500">
-                  {ev.type ?? 'event'}
-                </span>
-                {ev.route && <span className="text-slate-500">→ {ev.route}</span>}
-                {ev.locality && (
-                  <span
-                    className={`rounded border px-1 text-[9px] uppercase ${localityBadge(ev.locality)}`}
-                  >
-                    {ev.locality}
+            {[...trail]
+              .reverse()
+              .slice(0, 20)
+              .map((ev, i) => (
+                <li
+                  key={i}
+                  className="flex items-center gap-2 rounded-md bg-white/[0.03] px-2 py-1 text-[11px] text-slate-400"
+                >
+                  <span className="shrink-0 font-mono text-slate-500">
+                    {ev.type ?? 'event'}
                   </span>
-                )}
-              </li>
-            ))}
+                  {ev.route && (
+                    <span className="text-slate-500">→ {ev.route}</span>
+                  )}
+                  {ev.locality && (
+                    <span
+                      className={`rounded border px-1 text-[9px] uppercase ${localityBadge(ev.locality)}`}
+                    >
+                      {ev.locality}
+                    </span>
+                  )}
+                </li>
+              ))}
           </ul>
         </div>
       )}

@@ -2,8 +2,9 @@
 
 import Link from 'next/link';
 import { FormEvent, useEffect, useMemo, useState } from 'react';
-import MindControl from '../components/MindControl';
+
 import EdgePanel from '../components/EdgePanel';
+import MindControl from '../components/MindControl';
 
 type MemoryEntry = {
   id: string;
@@ -82,11 +83,17 @@ const healthLabels: Record<keyof ZeroAIHealth, string> = {
 export default function ZeroAIPage() {
   const [state, setState] = useState<ZeroAIState | null>(null);
   const [workflows, setWorkflows] = useState<WorkflowRecord[]>([]);
-  const [prompt, setPrompt] = useState('ZeroAI, check the local stack and tell me what is ready.');
+  const [prompt, setPrompt] = useState(
+    'ZeroAI, check the local stack and tell me what is ready.'
+  );
   const [source, setSource] = useState<'text' | 'voice'>('text');
   const [workflowName, setWorkflowName] = useState('OpenClaw status review');
-  const [workflowDescription, setWorkflowDescription] = useState('Run the local assistant routing check and report the current posture.');
-  const [workflowCommand, setWorkflowCommand] = useState('bash /home/pc/ucube/project/Ultra-AI/wsl-ai-stack/scripts/openclaw-bridge.sh "Summarize the current assistant routing and next actions."');
+  const [workflowDescription, setWorkflowDescription] = useState(
+    'Run the local assistant routing check and report the current posture.'
+  );
+  const [workflowCommand, setWorkflowCommand] = useState(
+    'bash /home/pc/ucube/project/Ultra-AI/wsl-ai-stack/scripts/openclaw-bridge.sh "Summarize the current assistant routing and next actions."'
+  );
   const [result, setResult] = useState<MessageResponse | null>(null);
   const [view, setView] = useState<'simple' | 'professional'>('simple');
   const [busy, setBusy] = useState(false);
@@ -95,18 +102,40 @@ export default function ZeroAIPage() {
   const memoryCount = state?.memory.length ?? 0;
   const workflowCount = workflows.length;
   const lastRoute = state?.lastRoute ?? 'n/a';
-  const recentMemory = useMemo(() => state?.memory.slice().reverse().slice(0, 6) ?? [], [state]);
-  const recentTrace = useMemo(() => state?.trace.slice().reverse().slice(0, 6) ?? [], [state]);
+  const recentMemory = useMemo(
+    () => state?.memory.slice().reverse().slice(0, 6) ?? [],
+    [state]
+  );
+  const recentTrace = useMemo(
+    () => state?.trace.slice().reverse().slice(0, 6) ?? [],
+    [state]
+  );
   const healthCards = useMemo(() => {
     if (!state) {
-      return [] as Array<{ key: keyof ZeroAIHealth; label: string; value: string; summary: string }>;
+      return [] as Array<{
+        key: keyof ZeroAIHealth;
+        label: string;
+        value: string;
+        summary: string;
+      }>;
     }
 
-    return (Object.entries(state.health) as Array<[keyof ZeroAIHealth, ZeroAIHealth[keyof ZeroAIHealth]]>).map(([key, value]) => ({
+    return (
+      Object.entries(state.health) as Array<
+        [keyof ZeroAIHealth, ZeroAIHealth[keyof ZeroAIHealth]]
+      >
+    ).map(([key, value]) => ({
       key,
       label: healthLabels[key],
       value,
-      summary: value === 'ready' ? 'Healthy' : value === 'degraded' ? 'Needs attention' : value === 'offline' ? 'Offline' : 'Standby',
+      summary:
+        value === 'ready'
+          ? 'Healthy'
+          : value === 'degraded'
+            ? 'Needs attention'
+            : value === 'offline'
+              ? 'Offline'
+              : 'Standby',
     }));
   }, [state]);
 
@@ -125,14 +154,18 @@ export default function ZeroAIPage() {
     }
 
     const stateData = (await stateResponse.json()) as ZeroAIState;
-    const workflowData = (await workflowResponse.json()) as { workflows: WorkflowRecord[] };
+    const workflowData = (await workflowResponse.json()) as {
+      workflows: WorkflowRecord[];
+    };
     setState(stateData);
     setWorkflows(workflowData.workflows);
   }
 
   useEffect(() => {
     void loadState().catch((err) => {
-      setError(err instanceof Error ? err.message : 'Unable to load ZeroAI state');
+      setError(
+        err instanceof Error ? err.message : 'Unable to load ZeroAI state'
+      );
     });
   }, []);
 
@@ -148,7 +181,9 @@ export default function ZeroAIPage() {
         body: JSON.stringify({ prompt, source }),
       });
 
-      const data = (await response.json()) as MessageResponse & { error?: string };
+      const data = (await response.json()) as MessageResponse & {
+        error?: string;
+      };
       if (!response.ok) {
         throw new Error(data.error ?? 'ZeroAI request failed');
       }
@@ -196,7 +231,9 @@ export default function ZeroAIPage() {
     setError(null);
 
     try {
-      const response = await fetch(`${API_BASE}/zeroai/workflows/${id}/run`, { method: 'POST' });
+      const response = await fetch(`${API_BASE}/zeroai/workflows/${id}/run`, {
+        method: 'POST',
+      });
       const data = await response.json();
       if (!response.ok) {
         throw new Error(data.error ?? 'Workflow execution failed');
@@ -204,7 +241,9 @@ export default function ZeroAIPage() {
 
       await loadState();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Workflow execution failed');
+      setError(
+        err instanceof Error ? err.message : 'Workflow execution failed'
+      );
     } finally {
       setBusy(false);
     }
@@ -218,11 +257,16 @@ export default function ZeroAIPage() {
             <p className="kicker">AI OS control surface</p>
             <h1>ZeroAI as the single operator experience</h1>
             <p className="muted">
-              Switch between a simple user view and a professional control panel that surfaces routing,
-              workflows, agent health, and the latest reasoning trace.
+              Switch between a simple user view and a professional control panel
+              that surfaces routing, workflows, agent health, and the latest
+              reasoning trace.
             </p>
           </div>
-          <div className="view-toggle" role="tablist" aria-label="ZeroAI view switcher">
+          <div
+            className="view-toggle"
+            role="tablist"
+            aria-label="ZeroAI view switcher"
+          >
             <button
               type="button"
               className={`view-pill ${view === 'simple' ? 'active' : ''}`}
@@ -270,7 +314,12 @@ export default function ZeroAIPage() {
               <h2>Ask ZeroAI</h2>
               <label className="field">
                 Entry mode
-                <select value={source} onChange={(event) => setSource(event.target.value as 'text' | 'voice')}>
+                <select
+                  value={source}
+                  onChange={(event) =>
+                    setSource(event.target.value as 'text' | 'voice')
+                  }
+                >
                   <option value="text">Text</option>
                   <option value="voice">Local voice transcript</option>
                 </select>
@@ -278,7 +327,11 @@ export default function ZeroAIPage() {
 
               <label className="field">
                 Prompt
-                <textarea value={prompt} onChange={(event) => setPrompt(event.target.value)} rows={6} />
+                <textarea
+                  value={prompt}
+                  onChange={(event) => setPrompt(event.target.value)}
+                  rows={6}
+                />
               </label>
 
               <button type="submit" disabled={busy}>
@@ -306,7 +359,8 @@ export default function ZeroAIPage() {
                 ))}
               </div>
               <p className="muted">
-                Use professional mode to inspect the live reasoning trace and the agent network health.
+                Use professional mode to inspect the live reasoning trace and
+                the agent network health.
               </p>
             </div>
           </section>
@@ -317,15 +371,27 @@ export default function ZeroAIPage() {
               <form className="workflow-form" onSubmit={createWorkflow}>
                 <label className="field">
                   Name
-                  <input value={workflowName} onChange={(event) => setWorkflowName(event.target.value)} />
+                  <input
+                    value={workflowName}
+                    onChange={(event) => setWorkflowName(event.target.value)}
+                  />
                 </label>
                 <label className="field">
                   Description
-                  <input value={workflowDescription} onChange={(event) => setWorkflowDescription(event.target.value)} />
+                  <input
+                    value={workflowDescription}
+                    onChange={(event) =>
+                      setWorkflowDescription(event.target.value)
+                    }
+                  />
                 </label>
                 <label className="field">
                   Command
-                  <textarea value={workflowCommand} onChange={(event) => setWorkflowCommand(event.target.value)} rows={5} />
+                  <textarea
+                    value={workflowCommand}
+                    onChange={(event) => setWorkflowCommand(event.target.value)}
+                    rows={5}
+                  />
                 </label>
                 <button type="submit" disabled={busy}>
                   Save workflow
@@ -340,11 +406,17 @@ export default function ZeroAIPage() {
                         <h3>{workflow.name}</h3>
                         <p>{workflow.description}</p>
                       </div>
-                      <span className={`tag status-${workflow.status}`}>{workflow.status}</span>
+                      <span className={`tag status-${workflow.status}`}>
+                        {workflow.status}
+                      </span>
                     </div>
                     <code>{workflow.command}</code>
                     <div className="workflow-actions">
-                      <button type="button" onClick={() => void runWorkflow(workflow.id)} disabled={busy}>
+                      <button
+                        type="button"
+                        onClick={() => void runWorkflow(workflow.id)}
+                        disabled={busy}
+                      >
                         Run
                       </button>
                     </div>
@@ -359,8 +431,12 @@ export default function ZeroAIPage() {
                 {recentMemory.map((entry) => (
                   <article key={entry.id} className="memory-item">
                     <div className="memory-meta">
-                      <span className={`tag role-${entry.role}`}>{entry.role}</span>
-                      <span className={`tag channel-${entry.channel}`}>{entry.channel}</span>
+                      <span className={`tag role-${entry.role}`}>
+                        {entry.role}
+                      </span>
+                      <span className={`tag channel-${entry.channel}`}>
+                        {entry.channel}
+                      </span>
                       <time>{new Date(entry.createdAt).toLocaleString()}</time>
                     </div>
                     <p>{entry.content}</p>
@@ -411,15 +487,27 @@ export default function ZeroAIPage() {
               <form className="workflow-form" onSubmit={createWorkflow}>
                 <label className="field">
                   Name
-                  <input value={workflowName} onChange={(event) => setWorkflowName(event.target.value)} />
+                  <input
+                    value={workflowName}
+                    onChange={(event) => setWorkflowName(event.target.value)}
+                  />
                 </label>
                 <label className="field">
                   Description
-                  <input value={workflowDescription} onChange={(event) => setWorkflowDescription(event.target.value)} />
+                  <input
+                    value={workflowDescription}
+                    onChange={(event) =>
+                      setWorkflowDescription(event.target.value)
+                    }
+                  />
                 </label>
                 <label className="field">
                   Command
-                  <textarea value={workflowCommand} onChange={(event) => setWorkflowCommand(event.target.value)} rows={5} />
+                  <textarea
+                    value={workflowCommand}
+                    onChange={(event) => setWorkflowCommand(event.target.value)}
+                    rows={5}
+                  />
                 </label>
                 <button type="submit" disabled={busy}>
                   Save workflow
@@ -433,11 +521,17 @@ export default function ZeroAIPage() {
                         <h3>{workflow.name}</h3>
                         <p>{workflow.description}</p>
                       </div>
-                      <span className={`tag status-${workflow.status}`}>{workflow.status}</span>
+                      <span className={`tag status-${workflow.status}`}>
+                        {workflow.status}
+                      </span>
                     </div>
                     <code>{workflow.command}</code>
                     <div className="workflow-actions">
-                      <button type="button" onClick={() => void runWorkflow(workflow.id)} disabled={busy}>
+                      <button
+                        type="button"
+                        onClick={() => void runWorkflow(workflow.id)}
+                        disabled={busy}
+                      >
                         Run
                       </button>
                     </div>
@@ -450,18 +544,30 @@ export default function ZeroAIPage() {
               <h2>Runtime summary</h2>
               <ul className="summary-list">
                 <li>Last prompt: {state?.lastPrompt ?? 'No prompt yet'}</li>
-                <li>Last response: {state?.lastResponse ?? 'No response yet'}</li>
-                <li>Updated: {state ? new Date(state.updatedAt).toLocaleString() : 'Loading...'}</li>
+                <li>
+                  Last response: {state?.lastResponse ?? 'No response yet'}
+                </li>
+                <li>
+                  Updated:{' '}
+                  {state
+                    ? new Date(state.updatedAt).toLocaleString()
+                    : 'Loading...'}
+                </li>
               </ul>
               <p className="muted">
-                ZeroAI remains the local operator. OpenClaw handles routing policy, n8n manages workflows,
-                and the distributed network remains available for escalation.
+                ZeroAI remains the local operator. OpenClaw handles routing
+                policy, n8n manages workflows, and the distributed network
+                remains available for escalation.
               </p>
               <button
                 type="button"
                 onClick={() => {
                   void loadState().catch((err) => {
-                    setError(err instanceof Error ? err.message : 'Unable to reload ZeroAI state');
+                    setError(
+                      err instanceof Error
+                        ? err.message
+                        : 'Unable to reload ZeroAI state'
+                    );
                   });
                 }}
               >

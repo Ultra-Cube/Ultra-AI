@@ -18,7 +18,8 @@ export const dynamic = 'force-dynamic';
 
 const PROMETHEUS_URL = process.env.PROMETHEUS_URL || 'http://127.0.0.1:9090';
 const GRAFANA_URL = process.env.GRAFANA_URL || 'http://127.0.0.1:3001';
-const ALERTMANAGER_URL = process.env.ALERTMANAGER_URL || 'http://127.0.0.1:9093';
+const ALERTMANAGER_URL =
+  process.env.ALERTMANAGER_URL || 'http://127.0.0.1:9093';
 
 async function reachable(url: string, path: string): Promise<boolean> {
   try {
@@ -66,16 +67,18 @@ async function activeAlerts(up: boolean) {
     clearTimeout(t);
     if (!res.ok) return [];
     const alerts = await res.json();
-    return (Array.isArray(alerts) ? alerts : []).map((a: Record<string, unknown>) => {
-      const labels = (a.labels ?? {}) as Record<string, string>;
-      const annotations = (a.annotations ?? {}) as Record<string, string>;
-      return {
-        name: labels.alertname ?? 'unknown',
-        severity: labels.severity ?? 'none',
-        summary: annotations.summary ?? annotations.description ?? '',
-        startsAt: (a.startsAt as string) ?? null,
-      };
-    });
+    return (Array.isArray(alerts) ? alerts : []).map(
+      (a: Record<string, unknown>) => {
+        const labels = (a.labels ?? {}) as Record<string, string>;
+        const annotations = (a.annotations ?? {}) as Record<string, string>;
+        return {
+          name: labels.alertname ?? 'unknown',
+          severity: labels.severity ?? 'none',
+          summary: annotations.summary ?? annotations.description ?? '',
+          startsAt: (a.startsAt as string) ?? null,
+        };
+      }
+    );
   } catch {
     return [];
   }
@@ -101,12 +104,18 @@ async function metricsFromApi(): Promise<{
   try {
     const controller = new AbortController();
     const t = setTimeout(() => controller.abort(), 2500);
-    const res = await fetch(`${API_URL}/metrics`, { signal: controller.signal, cache: 'no-store' });
+    const res = await fetch(`${API_URL}/metrics`, {
+      signal: controller.signal,
+      cache: 'no-store',
+    });
     clearTimeout(t);
     if (!res.ok) return null;
     const text = await res.text();
 
-    const sumMatching = (metric: string, filter?: (line: string) => boolean): number => {
+    const sumMatching = (
+      metric: string,
+      filter?: (line: string) => boolean
+    ): number => {
       let total = 0;
       for (const line of text.split('\n')) {
         if (line.startsWith('#') || !line.startsWith(metric)) continue;
@@ -127,10 +136,15 @@ async function metricsFromApi(): Promise<{
 
     // Prefer the dedicated counter; fall back to histogram counts.
     let totalRequests = sumMatching('http_requests_total');
-    if (totalRequests === 0) totalRequests = sumMatching('http_request_duration_seconds_count');
+    if (totalRequests === 0)
+      totalRequests = sumMatching('http_request_duration_seconds_count');
     const errorRequests =
-      sumMatching('http_requests_total', (l) => /status(_code)?="5\d\d"/.test(l)) ||
-      sumMatching('http_request_duration_seconds_count', (l) => /status(_code)?="5\d\d"/.test(l));
+      sumMatching('http_requests_total', (l) =>
+        /status(_code)?="5\d\d"/.test(l)
+      ) ||
+      sumMatching('http_request_duration_seconds_count', (l) =>
+        /status(_code)?="5\d\d"/.test(l)
+      );
 
     // Mean latency from histogram sum/count — a solid headline without
     // Prometheus' rate() windows. True p95 appears once Prometheus runs.
@@ -146,7 +160,10 @@ async function metricsFromApi(): Promise<{
       errorRate: totalRequests > 0 ? errorRequests / totalRequests : 0,
       p95LatencySeconds: meanLatency,
       totalRequests,
-      memoryMB: memBytes != null && memBytes > 0 ? Math.round(memBytes / 1048576) : null,
+      memoryMB:
+        memBytes != null && memBytes > 0
+          ? Math.round(memBytes / 1048576)
+          : null,
       uptimeSeconds: uptime != null && uptime > 0 ? Math.floor(uptime) : null,
     };
   } catch {
@@ -181,7 +198,9 @@ export async function GET() {
     const [reqRate, errRate, p95, targetsUp] = await Promise.all([
       promQuery('sum(rate(http_requests_total[5m]))'),
       promQuery('sum(rate(http_requests_total{status=~"5.."}[5m]))'),
-      promQuery('histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket[5m])) by (le))'),
+      promQuery(
+        'histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket[5m])) by (le))'
+      ),
       promQuery('sum(up)'),
     ]);
     source = 'prometheus';

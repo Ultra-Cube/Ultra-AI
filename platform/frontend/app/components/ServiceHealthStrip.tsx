@@ -91,9 +91,7 @@ export default function ServiceHealthStrip() {
           >
             <span className="dot" />
             {s.name}
-            {s.up && s.latencyMs !== null ? (
-              <em>{s.latencyMs}ms</em>
-            ) : null}
+            {s.up && s.latencyMs !== null ? <em>{s.latencyMs}ms</em> : null}
           </span>
         ))}
       </div>

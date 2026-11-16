@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
+
 import AgentOrbScene, { SceneAgent } from '../components/AgentOrbScene';
 
 /**
@@ -90,7 +91,10 @@ export default function AgentsPage() {
       await fetch(`/api/agents/${selected.id}/tasks`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title: taskTitle.trim(), priority: taskPriority }),
+        body: JSON.stringify({
+          title: taskTitle.trim(),
+          priority: taskPriority,
+        }),
       });
       setTaskTitle('');
       await load();
@@ -126,8 +130,8 @@ export default function AgentsPage() {
           <p className="kicker">👥 Staff</p>
           <h1>Agent Staff Console</h1>
           <p className="muted">
-            Manage your AI agents like a team — assign positions, dispatch tasks,
-            and track workload in 3D.
+            Manage your AI agents like a team — assign positions, dispatch
+            tasks, and track workload in 3D.
           </p>
         </div>
         <div className="agents-kpis">
@@ -142,7 +146,11 @@ export default function AgentsPage() {
 
       {/* 3D org scene */}
       <section className="card agents-scene-card">
-        <AgentOrbScene agents={sceneAgents} selectedId={selectedId} onSelect={setSelectedId} />
+        <AgentOrbScene
+          agents={sceneAgents}
+          selectedId={selectedId}
+          onSelect={setSelectedId}
+        />
       </section>
 
       <div className="agents-grid">
@@ -163,10 +171,14 @@ export default function AgentsPage() {
                     {a.position.title} · {a.position.department}
                   </span>
                 </span>
-                <span className={`ag-badge ${STATUS_BADGE[a.status] ?? 'ag-muted'}`}>
+                <span
+                  className={`ag-badge ${STATUS_BADGE[a.status] ?? 'ag-muted'}`}
+                >
                   {a.status}
                 </span>
-                {a.openTasks > 0 && <span className="roster-open">{a.openTasks}</span>}
+                {a.openTasks > 0 && (
+                  <span className="roster-open">{a.openTasks}</span>
+                )}
               </button>
             ))}
           </div>
@@ -193,7 +205,9 @@ export default function AgentsPage() {
                     {c}
                   </span>
                 ))}
-                {selected.model && <span className="cap-chip model">{selected.model}</span>}
+                {selected.model && (
+                  <span className="cap-chip model">{selected.model}</span>
+                )}
               </div>
 
               {/* Dispatch a task */}
@@ -204,13 +218,19 @@ export default function AgentsPage() {
                   placeholder={`Give ${selected.name} a task…`}
                   onKeyDown={(e) => e.key === 'Enter' && assignTask()}
                 />
-                <select value={taskPriority} onChange={(e) => setTaskPriority(e.target.value)}>
+                <select
+                  value={taskPriority}
+                  onChange={(e) => setTaskPriority(e.target.value)}
+                >
                   <option value="low">low</option>
                   <option value="normal">normal</option>
                   <option value="high">high</option>
                   <option value="urgent">urgent</option>
                 </select>
-                <button onClick={assignTask} disabled={busy || !taskTitle.trim()}>
+                <button
+                  onClick={assignTask}
+                  disabled={busy || !taskTitle.trim()}
+                >
                   Assign
                 </button>
               </div>
@@ -223,22 +243,34 @@ export default function AgentsPage() {
                   selected.tasks.map((t) => (
                     <div key={t.id} className="task-row">
                       <div className="task-main">
-                        <span className={`ag-badge ${TASK_BADGE[t.status] ?? 'ag-muted'}`}>
+                        <span
+                          className={`ag-badge ${TASK_BADGE[t.status] ?? 'ag-muted'}`}
+                        >
                           {t.status.replace('_', ' ')}
                         </span>
                         <strong>{t.title}</strong>
-                        <span className={`prio prio-${t.priority}`}>{t.priority}</span>
+                        <span className={`prio prio-${t.priority}`}>
+                          {t.priority}
+                        </span>
                       </div>
                       <div className="task-actions">
                         {t.status !== 'in_progress' && (
-                          <button onClick={() => setTaskStatus(t.id, 'in_progress')}>Start</button>
+                          <button
+                            onClick={() => setTaskStatus(t.id, 'in_progress')}
+                          >
+                            Start
+                          </button>
                         )}
                         {t.status !== 'done' && (
-                          <button onClick={() => setTaskStatus(t.id, 'done')}>Done</button>
+                          <button onClick={() => setTaskStatus(t.id, 'done')}>
+                            Done
+                          </button>
                         )}
                         <select
                           value=""
-                          onChange={(e) => e.target.value && reassign(t.id, e.target.value)}
+                          onChange={(e) =>
+                            e.target.value && reassign(t.id, e.target.value)
+                          }
                           title="Reassign to…"
                         >
                           <option value="">Reassign…</option>

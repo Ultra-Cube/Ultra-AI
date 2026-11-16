@@ -1,8 +1,8 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, Html } from '@react-three/drei';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { useMemo, useRef } from 'react';
 import * as THREE from 'three';
 
 export type MetricStats = {
@@ -44,10 +44,18 @@ function usageColor(v: number): string {
   return '#f87171';
 }
 
-function buildNodes(stats: MetricStats | null, services: ServiceNode[]): SceneNode[] {
+function buildNodes(
+  stats: MetricStats | null,
+  services: ServiceNode[]
+): SceneNode[] {
   const nodes: SceneNode[] = [];
   if (stats) {
-    const metrics: { id: string; label: string; key: 'cpu' | 'memory' | 'disk'; unit: string }[] = [
+    const metrics: {
+      id: string;
+      label: string;
+      key: 'cpu' | 'memory' | 'disk';
+      unit: string;
+    }[] = [
       { id: 'cpu', label: 'CPU', key: 'cpu', unit: '%' },
       { id: 'memory', label: 'Memory', key: 'memory', unit: '%' },
       { id: 'disk', label: 'Disk', key: 'disk', unit: '%' },
@@ -67,7 +75,8 @@ function buildNodes(stats: MetricStats | null, services: ServiceNode[]): SceneNo
     });
   }
   services.forEach((s, i) => {
-    const angle = (i / Math.max(services.length, 1)) * Math.PI * 2 + Math.PI / 4;
+    const angle =
+      (i / Math.max(services.length, 1)) * Math.PI * 2 + Math.PI / 4;
     const up = s.status === 'up';
     nodes.push({
       id: `service-${s.id}`,
@@ -166,7 +175,10 @@ export default function ControlCenterScene({
     <Canvas
       camera={{ position: [0, 6.5, 11], fov: 55 }}
       onPointerMissed={() => onSelect(null)}
-      style={{ background: 'radial-gradient(circle at 50% 35%, #0f172a 0%, #020617 75%)' }}
+      style={{
+        background:
+          'radial-gradient(circle at 50% 35%, #0f172a 0%, #020617 75%)',
+      }}
     >
       <ambientLight intensity={0.5} />
       <pointLight position={[6, 8, 6]} intensity={60} color="#93c5fd" />

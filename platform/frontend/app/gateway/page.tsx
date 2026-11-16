@@ -13,7 +13,9 @@ interface Provider {
 
 export default function GatewayProvidersPage() {
   const [providers, setProviders] = useState<Provider[]>([]);
-  const [nineRouterStatus, setNineRouterStatus] = useState<'online' | 'offline' | 'loading'>('loading');
+  const [nineRouterStatus, setNineRouterStatus] = useState<
+    'online' | 'offline' | 'loading'
+  >('loading');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -73,8 +75,8 @@ export default function GatewayProvidersPage() {
                   nineRouterStatus === 'online'
                     ? 'bg-green-100 text-green-800'
                     : nineRouterStatus === 'loading'
-                    ? 'bg-yellow-100 text-yellow-800'
-                    : 'bg-red-100 text-red-800'
+                      ? 'bg-yellow-100 text-yellow-800'
+                      : 'bg-red-100 text-red-800'
                 }`}
               >
                 {nineRouterStatus === 'online' && '● Online'}
@@ -87,8 +89,8 @@ export default function GatewayProvidersPage() {
             {nineRouterStatus === 'online'
               ? '9Router service is available and handling requests'
               : nineRouterStatus === 'loading'
-              ? 'Checking 9Router service status...'
-              : '9Router service is not available. Gateway will use internal routing.'}
+                ? 'Checking 9Router service status...'
+                : '9Router service is not available. Gateway will use internal routing.'}
           </p>
         </div>
 
@@ -107,10 +109,13 @@ export default function GatewayProvidersPage() {
           </div>
 
           {loading ? (
-            <div className="text-center py-8 text-gray-500">Loading providers...</div>
+            <div className="text-center py-8 text-gray-500">
+              Loading providers...
+            </div>
           ) : providers.length === 0 ? (
             <div className="text-center py-8 text-gray-500">
-              No providers configured. Add providers through the API Gateway service.
+              No providers configured. Add providers through the API Gateway
+              service.
             </div>
           ) : (
             <div className="space-y-4">
@@ -121,15 +126,23 @@ export default function GatewayProvidersPage() {
                 >
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
-                      <h3 className="font-semibold text-gray-900">{provider.name}</h3>
+                      <h3 className="font-semibold text-gray-900">
+                        {provider.name}
+                      </h3>
                       <p className="text-sm text-gray-600 mt-1">
-                        Type: <span className="font-medium">{provider.type}</span>
+                        Type:{' '}
+                        <span className="font-medium">{provider.type}</span>
                       </p>
                       <p className="text-sm text-gray-600">
-                        Endpoint: <code className="bg-gray-100 px-2 py-1 rounded">{provider.endpoint}</code>
+                        Endpoint:{' '}
+                        <code className="bg-gray-100 px-2 py-1 rounded">
+                          {provider.endpoint}
+                        </code>
                       </p>
                       <div className="mt-2">
-                        <p className="text-sm font-medium text-gray-700 mb-1">Models:</p>
+                        <p className="text-sm font-medium text-gray-700 mb-1">
+                          Models:
+                        </p>
                         <div className="flex flex-wrap gap-2">
                           {provider.models.map((model) => (
                             <span
@@ -148,8 +161,8 @@ export default function GatewayProvidersPage() {
                           provider.status === 'active'
                             ? 'bg-green-100 text-green-800'
                             : provider.status === 'inactive'
-                            ? 'bg-gray-100 text-gray-800'
-                            : 'bg-red-100 text-red-800'
+                              ? 'bg-gray-100 text-gray-800'
+                              : 'bg-red-100 text-red-800'
                         }`}
                       >
                         {provider.status}

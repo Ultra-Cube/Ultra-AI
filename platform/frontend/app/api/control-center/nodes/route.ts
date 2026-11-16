@@ -13,8 +13,7 @@ const SERVICES: ServiceDef[] = [
   {
     id: 'desktop-bridge',
     label: 'Desktop Bridge',
-    url:
-      process.env.DESKTOP_BRIDGE_URL ?? 'http://127.0.0.1:9477/health',
+    url: process.env.DESKTOP_BRIDGE_URL ?? 'http://127.0.0.1:9477/health',
   },
   {
     id: 'zeroai-edge',
@@ -24,11 +23,15 @@ const SERVICES: ServiceDef[] = [
   {
     id: 'web',
     label: 'Web UI',
-    url: process.env.WEB_SELF_URL ?? 'http://127.0.0.1:3000/api/control-center/health',
+    url:
+      process.env.WEB_SELF_URL ??
+      'http://127.0.0.1:3000/api/control-center/health',
   },
 ];
 
-async function probe(url: string): Promise<{ status: 'up' | 'down'; latencyMs: number }> {
+async function probe(
+  url: string
+): Promise<{ status: 'up' | 'down'; latencyMs: number }> {
   const start = Date.now();
   try {
     const res = await fetch(url, {
@@ -43,7 +46,7 @@ async function probe(url: string): Promise<{ status: 'up' | 'down'; latencyMs: n
 
 export async function GET() {
   const nodes = await Promise.all(
-    SERVICES.map(async (s) => ({ ...s, ...(await probe(s.url)) })),
+    SERVICES.map(async (s) => ({ ...s, ...(await probe(s.url)) }))
   );
   return NextResponse.json({ nodes });
 }

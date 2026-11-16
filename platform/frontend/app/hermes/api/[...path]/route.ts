@@ -9,21 +9,47 @@ async function proxy(req: NextRequest, path: string[]) {
     'content-type': req.headers.get('content-type') || 'application/json',
     authorization: `Bearer ${HERMES_KEY}`,
   };
-  const upstream = req.method === 'GET' || req.method === 'HEAD'
-    ? await fetch(target, { headers, cache: 'no-store' })
-    : await fetch(target, { method: req.method, headers, body: await req.text() });
+  const upstream =
+    req.method === 'GET' || req.method === 'HEAD'
+      ? await fetch(target, { headers, cache: 'no-store' })
+      : await fetch(target, {
+          method: req.method,
+          headers,
+          body: await req.text(),
+        });
   const body = await upstream.text();
   return new NextResponse(body, {
     status: upstream.status,
-    headers: { 'content-type': upstream.headers.get('content-type') || 'application/json' },
+    headers: {
+      'content-type':
+        upstream.headers.get('content-type') || 'application/json',
+    },
   });
 }
 
-export async function GET(req: NextRequest, { params }: { params: { path: string[] } }) {
-  try { return await proxy(req, params.path); }
-  catch { return NextResponse.json({ error: 'hermes-api unreachable' }, { status: 502 }); }
+export async function GET(
+  req: NextRequest,
+  { params }: { params: { path: string[] } }
+) {
+  try {
+    return await proxy(req, params.path);
+  } catch {
+    return NextResponse.json(
+      { error: 'hermes-api unreachable' },
+      { status: 502 }
+    );
+  }
 }
-export async function POST(req: NextRequest, { params }: { params: { path: string[] } }) {
-  try { return await proxy(req, params.path); }
-  catch { return NextResponse.json({ error: 'hermes-api unreachable' }, { status: 502 }); }
+export async function POST(
+  req: NextRequest,
+  { params }: { params: { path: string[] } }
+) {
+  try {
+    return await proxy(req, params.path);
+  } catch {
+    return NextResponse.json(
+      { error: 'hermes-api unreachable' },
+      { status: 502 }
+    );
+  }
 }

@@ -81,7 +81,11 @@ export default function HermesPage() {
     ? [
         { key: 'prometheus', label: 'Prometheus', ...data.stack.prometheus },
         { key: 'grafana', label: 'Grafana', ...data.stack.grafana },
-        { key: 'alertmanager', label: 'Alertmanager', ...data.stack.alertmanager },
+        {
+          key: 'alertmanager',
+          label: 'Alertmanager',
+          ...data.stack.alertmanager,
+        },
       ]
     : [];
 
@@ -111,9 +115,16 @@ export default function HermesPage() {
           <strong>Monitoring stack is offline.</strong>
           <p className="muted">
             Hermes is an optional layer. Start it with{' '}
-            <code>./infrastructure/automation/ultra-stack.sh up --with-hermes</code> (or{' '}
-            <code>cd infrastructure/monitoring/stack/hermes &amp;&amp; ./start-hermes.sh up</code>).
-            This page will populate automatically once Prometheus is reachable.
+            <code>
+              ./infrastructure/automation/ultra-stack.sh up --with-hermes
+            </code>{' '}
+            (or{' '}
+            <code>
+              cd infrastructure/monitoring/stack/hermes &amp;&amp;
+              ./start-hermes.sh up
+            </code>
+            ). This page will populate automatically once Prometheus is
+            reachable.
           </p>
         </div>
       )}
@@ -121,7 +132,10 @@ export default function HermesPage() {
       {/* Stack reachability */}
       <section className="hermes-stack">
         {stackEntries.map((s) => (
-          <div key={s.key} className={`hermes-stack-card ${s.up ? 'up' : 'down'}`}>
+          <div
+            key={s.key}
+            className={`hermes-stack-card ${s.up ? 'up' : 'down'}`}
+          >
             <span className="dot" />
             <div>
               <strong>{s.label}</strong>
@@ -154,7 +168,11 @@ export default function HermesPage() {
         </div>
         <div className="metric-card">
           <span className="metric-label">Error Rate</span>
-          <strong className={(data?.metrics.errorRate ?? 0) > 0 ? 'metric-warn' : undefined}>
+          <strong
+            className={
+              (data?.metrics.errorRate ?? 0) > 0 ? 'metric-warn' : undefined
+            }
+          >
             {data?.metrics.errorRate != null
               ? fmt(data.metrics.errorRate * 100, 2, '%')
               : '—'}
@@ -170,7 +188,9 @@ export default function HermesPage() {
         </div>
         <div className="metric-card">
           <span className="metric-label">
-            {data?.metrics.uptimeSeconds != null ? 'API Uptime' : 'Scrape Targets'}
+            {data?.metrics.uptimeSeconds != null
+              ? 'API Uptime'
+              : 'Scrape Targets'}
           </span>
           <strong>
             {data?.metrics.uptimeSeconds != null
@@ -192,7 +212,10 @@ export default function HermesPage() {
         ) : (
           <ul className="alert-list">
             {data.alerts.map((a, i) => (
-              <li key={`${a.name}-${i}`} className={`alert-row sev-${a.severity}`}>
+              <li
+                key={`${a.name}-${i}`}
+                className={`alert-row sev-${a.severity}`}
+              >
                 <span className="alert-sev">{a.severity}</span>
                 <div>
                   <strong>{a.name}</strong>
@@ -206,7 +229,8 @@ export default function HermesPage() {
 
       {data && (
         <p className="muted hermes-ts">
-          Updated {new Date(data.generatedAt).toLocaleTimeString()} · auto-refresh 10s
+          Updated {new Date(data.generatedAt).toLocaleTimeString()} ·
+          auto-refresh 10s
         </p>
       )}
     </div>

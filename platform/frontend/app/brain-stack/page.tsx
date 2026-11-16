@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 interface Section {
   id: string;
@@ -14,18 +14,104 @@ interface Section {
 }
 
 const SECTIONS: Section[] = [
-  { id: 'core', name: 'Core Engine', desc: 'Cognitive runtime — process manager, config merge, readiness', icon: '⚙️', status: 'unknown', detail: '@ultra-ai/brain' },
-  { id: 'memory', name: 'Memory Bank', desc: 'Long-term memory, pointers, FTS5 search, hash-chained records', icon: '🧠', status: 'unknown', detail: '@ultra-ai/memory-bridge' },
-  { id: 'skills', name: 'Skill Registry', desc: 'SKILL.md packs, scopes, signing, distribution', icon: '🧩', status: 'unknown', detail: '@ultra-ai/skill-registry' },
-  { id: 'mcp', name: 'MCP Hub', desc: 'Tool transports, policies, mcp.json management', icon: '🔌', status: 'unknown', detail: '@ultra-ai/mcp-hub' },
-  { id: 'gateway', name: 'Model Gateway', desc: 'Provider routing, fallbacks, OpenAI-compatible API', icon: '🌐', port: 20129, status: 'unknown', detail: 'platform gateway' },
-  { id: 'hermes', name: 'Hermes Agent', desc: 'Cognitive core runtime + api_server (:8642)', icon: '🤖', port: 8642, status: 'unknown', detail: 'hermes agent' },
-  { id: 'zeroai', name: 'ZeroAI', desc: 'Local-first execution, local memory & policies', icon: '🛡️', status: 'unknown', detail: 'local engine' },
-  { id: 'supervisor', name: 'Engine Supervisor', desc: 'Lifecycle management via manifests', icon: '📡', status: 'unknown', detail: 'engine-supervisor' },
-  { id: 'bridge', name: 'Core Bridge', desc: 'Signed outbox, hash-chain, Ed25519 events', icon: '🔗', status: 'unknown', detail: 'ultra-core-bridge' },
-  { id: 'edge', name: 'Edge Proxy', desc: 'Longest-prefix routing, JWT, CSP', icon: '⚡', status: 'unknown', detail: '@ultra-ai/edge-proxy' },
-  { id: 'ports', name: 'Port Registry', desc: 'Port claims & conflict resolution', icon: '🔢', status: 'unknown', detail: '@ultra-ai/port-registry' },
-  { id: 'secrets', name: 'Secrets Vault', desc: 'Pluggable providers, envFor injection', icon: '🔐', status: 'unknown', detail: '@ultra-ai/secrets-vault' },
+  {
+    id: 'core',
+    name: 'Core Engine',
+    desc: 'Cognitive runtime — process manager, config merge, readiness',
+    icon: '⚙️',
+    status: 'unknown',
+    detail: '@ultra-ai/brain',
+  },
+  {
+    id: 'memory',
+    name: 'Memory Bank',
+    desc: 'Long-term memory, pointers, FTS5 search, hash-chained records',
+    icon: '🧠',
+    status: 'unknown',
+    detail: '@ultra-ai/memory-bridge',
+  },
+  {
+    id: 'skills',
+    name: 'Skill Registry',
+    desc: 'SKILL.md packs, scopes, signing, distribution',
+    icon: '🧩',
+    status: 'unknown',
+    detail: '@ultra-ai/skill-registry',
+  },
+  {
+    id: 'mcp',
+    name: 'MCP Hub',
+    desc: 'Tool transports, policies, mcp.json management',
+    icon: '🔌',
+    status: 'unknown',
+    detail: '@ultra-ai/mcp-hub',
+  },
+  {
+    id: 'gateway',
+    name: 'Model Gateway',
+    desc: 'Provider routing, fallbacks, OpenAI-compatible API',
+    icon: '🌐',
+    port: 20129,
+    status: 'unknown',
+    detail: 'platform gateway',
+  },
+  {
+    id: 'hermes',
+    name: 'Hermes Agent',
+    desc: 'Cognitive core runtime + api_server (:8642)',
+    icon: '🤖',
+    port: 8642,
+    status: 'unknown',
+    detail: 'hermes agent',
+  },
+  {
+    id: 'zeroai',
+    name: 'ZeroAI',
+    desc: 'Local-first execution, local memory & policies',
+    icon: '🛡️',
+    status: 'unknown',
+    detail: 'local engine',
+  },
+  {
+    id: 'supervisor',
+    name: 'Engine Supervisor',
+    desc: 'Lifecycle management via manifests',
+    icon: '📡',
+    status: 'unknown',
+    detail: 'engine-supervisor',
+  },
+  {
+    id: 'bridge',
+    name: 'Core Bridge',
+    desc: 'Signed outbox, hash-chain, Ed25519 events',
+    icon: '🔗',
+    status: 'unknown',
+    detail: 'ultra-core-bridge',
+  },
+  {
+    id: 'edge',
+    name: 'Edge Proxy',
+    desc: 'Longest-prefix routing, JWT, CSP',
+    icon: '⚡',
+    status: 'unknown',
+    detail: '@ultra-ai/edge-proxy',
+  },
+  {
+    id: 'ports',
+    name: 'Port Registry',
+    desc: 'Port claims & conflict resolution',
+    icon: '🔢',
+    status: 'unknown',
+    detail: '@ultra-ai/port-registry',
+  },
+  {
+    id: 'secrets',
+    name: 'Secrets Vault',
+    desc: 'Pluggable providers, envFor injection',
+    icon: '🔐',
+    status: 'unknown',
+    detail: '@ultra-ai/secrets-vault',
+  },
 ];
 
 export default function BrainStackPage() {
@@ -45,11 +131,15 @@ export default function BrainStackPage() {
       fetch(url, { signal: AbortSignal.timeout(2500) })
         .then((r) => {
           setSections((prev) =>
-            prev.map((x) => (x.id === s.id ? { ...x, status: r.ok ? 'up' : 'down' } : x)),
+            prev.map((x) =>
+              x.id === s.id ? { ...x, status: r.ok ? 'up' : 'down' } : x
+            )
           );
         })
         .catch(() =>
-          setSections((prev) => prev.map((x) => (x.id === s.id ? { ...x, status: 'down' } : x))),
+          setSections((prev) =>
+            prev.map((x) => (x.id === s.id ? { ...x, status: 'down' } : x))
+          )
         );
     });
   }, []);
@@ -61,9 +151,13 @@ export default function BrainStackPage() {
       <header className="page-head">
         <div>
           <h1>Brain Stack</h1>
-          <p className="muted">Cognitive architecture — {up}/{sections.length} core services live</p>
+          <p className="muted">
+            Cognitive architecture — {up}/{sections.length} core services live
+          </p>
         </div>
-        <button className="btn primary" onClick={() => setAdding(true)}>+ Add Component</button>
+        <button className="btn primary" onClick={() => setAdding(true)}>
+          + Add Component
+        </button>
       </header>
 
       <div className="brain-map">
@@ -97,9 +191,21 @@ export default function BrainStackPage() {
                 </div>
                 <p>{s.desc}</p>
                 <div className="detail-actions">
-                  {s.port && <Link className="btn" href={`http://localhost:${s.port}`} target="_blank">Open :{s.port}</Link>}
-                  <Link className="btn" href="/services">Manage in Services →</Link>
-                  <Link className="btn" href="/gateway">Model Gateway →</Link>
+                  {s.port && (
+                    <Link
+                      className="btn"
+                      href={`http://localhost:${s.port}`}
+                      target="_blank"
+                    >
+                      Open :{s.port}
+                    </Link>
+                  )}
+                  <Link className="btn" href="/services">
+                    Manage in Services →
+                  </Link>
+                  <Link className="btn" href="/gateway">
+                    Model Gateway →
+                  </Link>
                 </div>
               </>
             );
@@ -111,12 +217,43 @@ export default function BrainStackPage() {
         <div className="modal-back" onClick={() => setAdding(false)}>
           <div className="modal" onClick={(e) => e.stopPropagation()}>
             <h2>Add Brain Component</h2>
-            <label>Name<input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="e.g. Vector Index" /></label>
-            <label>Description<textarea value={form.desc} onChange={(e) => setForm({ ...form, desc: e.target.value })} rows={3} /></label>
-            <label>Port (optional)<input value={form.port} onChange={(e) => setForm({ ...form, port: e.target.value })} placeholder="20130" /></label>
+            <label>
+              Name
+              <input
+                value={form.name}
+                onChange={(e) => setForm({ ...form, name: e.target.value })}
+                placeholder="e.g. Vector Index"
+              />
+            </label>
+            <label>
+              Description
+              <textarea
+                value={form.desc}
+                onChange={(e) => setForm({ ...form, desc: e.target.value })}
+                rows={3}
+              />
+            </label>
+            <label>
+              Port (optional)
+              <input
+                value={form.port}
+                onChange={(e) => setForm({ ...form, port: e.target.value })}
+                placeholder="20130"
+              />
+            </label>
             <div className="modal-actions">
-              <button className="btn" onClick={() => setAdding(false)}>Cancel</button>
-              <button className="btn primary" onClick={() => { setAdding(false); setForm({ name: '', desc: '', port: '' }); }}>Register</button>
+              <button className="btn" onClick={() => setAdding(false)}>
+                Cancel
+              </button>
+              <button
+                className="btn primary"
+                onClick={() => {
+                  setAdding(false);
+                  setForm({ name: '', desc: '', port: '' });
+                }}
+              >
+                Register
+              </button>
             </div>
           </div>
         </div>

@@ -12,8 +12,9 @@ export default function LandingPage() {
             The Ultimate AI Platform
           </h1>
           <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-            Integrate 12 powerful AI systems, 40+ providers, and enterprise-grade tools
-            into one unified platform. Built for developers, by developers.
+            Integrate 12 powerful AI systems, 40+ providers, and
+            enterprise-grade tools into one unified platform. Built for
+            developers, by developers.
           </p>
           <div className="flex gap-4 justify-center">
             <Link
@@ -63,8 +64,8 @@ export default function LandingPage() {
                 AI Gateway
               </h3>
               <p className="text-gray-600">
-                Route requests across 40+ providers with auto-fallback, 40% token reduction,
-                and enterprise-grade load balancing.
+                Route requests across 40+ providers with auto-fallback, 40%
+                token reduction, and enterprise-grade load balancing.
               </p>
             </div>
             <div className="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow">
@@ -73,8 +74,8 @@ export default function LandingPage() {
                 Personal Assistant
               </h3>
               <p className="text-gray-600">
-                Multi-channel AI assistant with skill system, local execution, and
-                agent-to-agent communication.
+                Multi-channel AI assistant with skill system, local execution,
+                and agent-to-agent communication.
               </p>
             </div>
             <div className="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow">
@@ -83,8 +84,8 @@ export default function LandingPage() {
                 Intelligence Platform
               </h3>
               <p className="text-gray-600">
-                Real-time OSINT, autonomous web scraping, and knowledge graph construction
-                for threat detection and analysis.
+                Real-time OSINT, autonomous web scraping, and knowledge graph
+                construction for threat detection and analysis.
               </p>
             </div>
             <div className="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow">
@@ -93,8 +94,8 @@ export default function LandingPage() {
                 Multimodal AI
               </h3>
               <p className="text-gray-600">
-                1T parameter model with native multimodal support for text, image, and video
-                understanding.
+                1T parameter model with native multimodal support for text,
+                image, and video understanding.
               </p>
             </div>
             <div className="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow">
@@ -103,8 +104,8 @@ export default function LandingPage() {
                 Financial AI
               </h3>
               <p className="text-gray-600">
-                Intelligent knowledge extraction for quantitative finance, market analysis,
-                and risk assessment.
+                Intelligent knowledge extraction for quantitative finance,
+                market analysis, and risk assessment.
               </p>
             </div>
             <div className="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow">
@@ -113,8 +114,8 @@ export default function LandingPage() {
                 Animation Generation
               </h3>
               <p className="text-gray-600">
-                Text-to-video and image-to-video generation with frame-by-frame control
-                and style transfer.
+                Text-to-video and image-to-video generation with frame-by-frame
+                control and style transfer.
               </p>
             </div>
           </div>
@@ -122,9 +123,7 @@ export default function LandingPage() {
 
         {/* Quick Start */}
         <div className="bg-white rounded-lg shadow-lg p-8 mb-16">
-          <h2 className="text-3xl font-bold text-gray-900 mb-6">
-            Quick Start
-          </h2>
+          <h2 className="text-3xl font-bold text-gray-900 mb-6">Quick Start</h2>
           <div className="bg-gray-900 rounded-lg p-6 text-green-400 font-mono text-sm overflow-x-auto">
             <pre>{`# Clone the repository
 git clone https://github.com/Ultra-Cube/Ultra-AI.git
@@ -171,7 +170,9 @@ npm run monitor:up
                 className="bg-white rounded-lg shadow p-4 hover:shadow-lg transition-shadow"
               >
                 <div className="text-3xl mb-2">{system.icon}</div>
-                <h3 className="font-semibold text-gray-900 mb-1">{system.name}</h3>
+                <h3 className="font-semibold text-gray-900 mb-1">
+                  {system.name}
+                </h3>
                 <p className="text-sm text-gray-600">{system.desc}</p>
               </div>
             ))}
@@ -181,7 +182,8 @@ npm run monitor:up
         {/* Footer */}
         <div className="text-center text-gray-600">
           <p className="mb-4">
-            Built with ❤️ using Next.js, TypeScript, and the best open-source AI tools
+            Built with ❤️ using Next.js, TypeScript, and the best open-source AI
+            tools
           </p>
           <div className="flex gap-4 justify-center">
             <Link href="/PROJECT-CATALOG.md" className="hover:text-blue-600">

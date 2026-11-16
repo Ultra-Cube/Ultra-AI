@@ -1,9 +1,10 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import AppDock from '../components/AppDock';
+
 import AdaptiveRenderer from '../components/AdaptiveRenderer';
 import type { UiSchema } from '../components/AdaptiveRenderer';
+import AppDock from '../components/AppDock';
 
 interface ChatMessage {
   role: 'user' | 'assistant';

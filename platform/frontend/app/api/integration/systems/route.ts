@@ -30,14 +30,55 @@ interface SystemDefinition {
 
 // Catalog of sub-projects. Status is resolved dynamically at request time.
 const systemCatalog: SystemDefinition[] = [
-  { id: '9router', name: '9router', type: 'gateway', port: 20128, dependencies: [] },
-  { id: 'openclaw', name: 'OpenClaw', type: 'assistant', dependencies: ['9router'] },
-  { id: 'jarvis', name: 'JARVIS', type: 'intelligence', dependencies: ['9router'] },
-  { id: 'webui', name: 'WebUI Desktop', type: 'desktop', dependencies: ['9router'] },
-  { id: 'quant-mind', name: 'QuantMind', type: 'financial', dependencies: ['9router'] },
-  { id: 'kimi-k2.5', name: 'Kimi K2.5', type: 'multimodal', dependencies: ['9router'] },
-  { id: 'biome', name: 'Biome', type: 'world-model', dependencies: ['9router'] },
-  { id: 'godmode', name: 'GodMode Animation', type: 'animation', dependencies: ['9router'] },
+  {
+    id: '9router',
+    name: '9router',
+    type: 'gateway',
+    port: 20128,
+    dependencies: [],
+  },
+  {
+    id: 'openclaw',
+    name: 'OpenClaw',
+    type: 'assistant',
+    dependencies: ['9router'],
+  },
+  {
+    id: 'jarvis',
+    name: 'JARVIS',
+    type: 'intelligence',
+    dependencies: ['9router'],
+  },
+  {
+    id: 'webui',
+    name: 'WebUI Desktop',
+    type: 'desktop',
+    dependencies: ['9router'],
+  },
+  {
+    id: 'quant-mind',
+    name: 'QuantMind',
+    type: 'financial',
+    dependencies: ['9router'],
+  },
+  {
+    id: 'kimi-k2.5',
+    name: 'Kimi K2.5',
+    type: 'multimodal',
+    dependencies: ['9router'],
+  },
+  {
+    id: 'biome',
+    name: 'Biome',
+    type: 'world-model',
+    dependencies: ['9router'],
+  },
+  {
+    id: 'godmode',
+    name: 'GodMode Animation',
+    type: 'animation',
+    dependencies: ['9router'],
+  },
 ];
 
 async function probeStatus(systemId: string): Promise<SystemStatus> {

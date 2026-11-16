@@ -1,8 +1,8 @@
 'use client';
 
-import { useMemo, useRef, useState } from 'react';
-import { Canvas, useFrame, type ThreeEvent } from '@react-three/fiber';
 import { OrbitControls, Html, Billboard, Text, Line } from '@react-three/drei';
+import { Canvas, useFrame, type ThreeEvent } from '@react-three/fiber';
+import { useMemo, useRef, useState } from 'react';
 import * as THREE from 'three';
 
 /**
@@ -170,7 +170,13 @@ function AgentNode({ agent, position, selected, onSelect }: NodeProps) {
               <circleGeometry args={[0.16, 24]} />
               <meshBasicMaterial color="#6d8bff" />
             </mesh>
-            <Text position={[0, 0, 0.01]} fontSize={0.17} color="#fff" anchorX="center" anchorY="middle">
+            <Text
+              position={[0, 0, 0.01]}
+              fontSize={0.17}
+              color="#fff"
+              anchorX="center"
+              anchorY="middle"
+            >
               {String(agent.openTasks)}
             </Text>
           </Billboard>
@@ -193,7 +199,12 @@ function AgentNode({ agent, position, selected, onSelect }: NodeProps) {
 
         {/* Rich hover card */}
         {hovered && (
-          <Html position={[0, radius + 0.45, 0]} center distanceFactor={8} zIndexRange={[20, 0]}>
+          <Html
+            position={[0, radius + 0.45, 0]}
+            center
+            distanceFactor={8}
+            zIndexRange={[20, 0]}
+          >
             <div className="orb3d-tip">
               <strong>{agent.name}</strong>
               <span>{agent.department}</span>
@@ -273,8 +284,16 @@ export default function AgentOrbScene3D({
       >
         {/* Lighting rig */}
         <ambientLight intensity={0.35} />
-        <directionalLight position={[5, 8, 5]} intensity={1.1} color="#aab8ff" />
-        <directionalLight position={[-6, -3, -4]} intensity={0.5} color="#38e0c8" />
+        <directionalLight
+          position={[5, 8, 5]}
+          intensity={1.1}
+          color="#aab8ff"
+        />
+        <directionalLight
+          position={[-6, -3, -4]}
+          intensity={0.5}
+          color="#38e0c8"
+        />
 
         <Cluster agents={agents} selectedId={selectedId} onSelect={onSelect} />
 
@@ -288,7 +307,9 @@ export default function AgentOrbScene3D({
           zoomSpeed={0.7}
         />
       </Canvas>
-      <p className="muted orb3d-hint">Drag to orbit · scroll to zoom · click an agent to focus</p>
+      <p className="muted orb3d-hint">
+        Drag to orbit · scroll to zoom · click an agent to focus
+      </p>
     </div>
   );
 }

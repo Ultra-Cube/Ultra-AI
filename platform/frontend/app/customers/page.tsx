@@ -58,7 +58,9 @@ export default function CustomersPage() {
         if (d.clients) setClients(d.clients);
         if (d.teams) setTeams(d.teams);
       }
-    } catch {}
+    } catch {
+      // ignore
+    }
   }, []);
 
   useEffect(() => {
@@ -78,7 +80,9 @@ export default function CustomersPage() {
     if (!draft) return;
     setDraft({
       ...draft,
-      tasks: draft.tasks.includes(task) ? draft.tasks.filter((t) => t !== task) : [...draft.tasks, task],
+      tasks: draft.tasks.includes(task)
+        ? draft.tasks.filter((t) => t !== task)
+        : [...draft.tasks, task],
     });
   };
 
@@ -87,7 +91,10 @@ export default function CustomersPage() {
       <header className="page-head">
         <div>
           <h1>Customers & Teams</h1>
-          <p className="muted">{clients.length} clients · {teams.length} teams — per-team model, tasks & schedules</p>
+          <p className="muted">
+            {clients.length} clients · {teams.length} teams — per-team model,
+            tasks & schedules
+          </p>
         </div>
         <button
           className="btn primary"
@@ -117,14 +124,26 @@ export default function CustomersPage() {
           {clients.map((c) => (
             <div key={c.id} className="list-item">
               <strong>{c.name}</strong>
-              <span className="muted small">{c.plan} · {c.teams} teams</span>
+              <span className="muted small">
+                {c.plan} · {c.teams} teams
+              </span>
             </div>
           ))}
           <h3>Teams</h3>
           {teams.map((t) => (
-            <button key={t.id} className={`list-item btn-link ${sel === t.id ? 'on' : ''}`} onClick={() => { setSel(t.id); setEditing(false); setDraft(null); }}>
+            <button
+              key={t.id}
+              className={`list-item btn-link ${sel === t.id ? 'on' : ''}`}
+              onClick={() => {
+                setSel(t.id);
+                setEditing(false);
+                setDraft(null);
+              }}
+            >
               <strong>{t.name}</strong>
-              <span className="muted small">{t.model} · {t.tasks.length} tasks</span>
+              <span className="muted small">
+                {t.model} · {t.tasks.length} tasks
+              </span>
             </button>
           ))}
         </aside>
@@ -135,42 +154,121 @@ export default function CustomersPage() {
             <>
               <div className="detail-head">
                 <h2>{current.name}</h2>
-                <button className="btn" onClick={() => { setDraft({ ...current }); setEditing(true); }}>Edit</button>
+                <button
+                  className="btn"
+                  onClick={() => {
+                    setDraft({ ...current });
+                    setEditing(true);
+                  }}
+                >
+                  Edit
+                </button>
               </div>
               <dl className="kv">
-                <dt>Client</dt><dd>{clients.find((c) => c.id === current.client)?.name || current.client}</dd>
-                <dt>Model</dt><dd><code>{current.model}</code></dd>
-                <dt>Tasks</dt><dd>{current.tasks.join(', ') || '—'}</dd>
-                <dt>Schedule</dt><dd><code>{current.schedule}</code></dd>
-                <dt>Notes</dt><dd>{current.notes || '—'}</dd>
+                <dt>Client</dt>
+                <dd>
+                  {clients.find((c) => c.id === current.client)?.name ||
+                    current.client}
+                </dd>
+                <dt>Model</dt>
+                <dd>
+                  <code>{current.model}</code>
+                </dd>
+                <dt>Tasks</dt>
+                <dd>{current.tasks.join(', ') || '—'}</dd>
+                <dt>Schedule</dt>
+                <dd>
+                  <code>{current.schedule}</code>
+                </dd>
+                <dt>Notes</dt>
+                <dd>{current.notes || '—'}</dd>
               </dl>
             </>
           )}
           {current && editing && draft && (
             <>
               <h2>Edit Team</h2>
-              <label>Name<input value={draft.name} onChange={(e) => setDraft({ ...draft, name: e.target.value })} /></label>
-              <label>Client
-                <select value={draft.client} onChange={(e) => setDraft({ ...draft, client: e.target.value })}>
-                  {clients.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
+              <label>
+                Name
+                <input
+                  value={draft.name}
+                  onChange={(e) => setDraft({ ...draft, name: e.target.value })}
+                />
+              </label>
+              <label>
+                Client
+                <select
+                  value={draft.client}
+                  onChange={(e) =>
+                    setDraft({ ...draft, client: e.target.value })
+                  }
+                >
+                  {clients.map((c) => (
+                    <option key={c.id} value={c.id}>
+                      {c.name}
+                    </option>
+                  ))}
                 </select>
               </label>
-              <label>Model
-                <select value={draft.model} onChange={(e) => setDraft({ ...draft, model: e.target.value })}>
-                  {MODELS.map((m) => <option key={m} value={m}>{m}</option>)}
+              <label>
+                Model
+                <select
+                  value={draft.model}
+                  onChange={(e) =>
+                    setDraft({ ...draft, model: e.target.value })
+                  }
+                >
+                  {MODELS.map((m) => (
+                    <option key={m} value={m}>
+                      {m}
+                    </option>
+                  ))}
                 </select>
               </label>
               <label>Tasks</label>
               <div className="chips">
                 {TASKS.map((t) => (
-                  <button key={t} className={`chip ${draft.tasks.includes(t) ? 'on' : ''}`} onClick={() => toggleTask(t)}>{t}</button>
+                  <button
+                    key={t}
+                    className={`chip ${draft.tasks.includes(t) ? 'on' : ''}`}
+                    onClick={() => toggleTask(t)}
+                  >
+                    {t}
+                  </button>
                 ))}
               </div>
-              <label>Schedule (cron or "manual")<input value={draft.schedule} onChange={(e) => setDraft({ ...draft, schedule: e.target.value })} /></label>
-              <label>Notes<textarea value={draft.notes} onChange={(e) => setDraft({ ...draft, notes: e.target.value })} rows={4} /></label>
+              <label>
+                Schedule (cron or "manual")
+                <input
+                  value={draft.schedule}
+                  onChange={(e) =>
+                    setDraft({ ...draft, schedule: e.target.value })
+                  }
+                />
+              </label>
+              <label>
+                Notes
+                <textarea
+                  value={draft.notes}
+                  onChange={(e) =>
+                    setDraft({ ...draft, notes: e.target.value })
+                  }
+                  rows={4}
+                />
+              </label>
               <div className="modal-actions">
-                <button className="btn" onClick={() => { setEditing(false); setDraft(null); }}>Cancel</button>
-                <button className="btn primary" onClick={save}>Save</button>
+                <button
+                  className="btn"
+                  onClick={() => {
+                    setEditing(false);
+                    setDraft(null);
+                  }}
+                >
+                  Cancel
+                </button>
+                <button className="btn primary" onClick={save}>
+                  Save
+                </button>
               </div>
             </>
           )}

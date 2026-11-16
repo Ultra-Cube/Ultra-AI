@@ -12,11 +12,41 @@ interface Model {
 }
 
 const FALLBACK: Model[] = [
-  { id: 'hermes-agent', name: 'Hermes Agent', provider: 'local', type: 'agent', status: 'unknown' },
-  { id: 'omniroute', name: 'OmniRoute Router', provider: 'local', type: 'router', status: 'unknown' },
-  { id: 'ollama', name: 'Ollama Local', provider: 'local', type: 'llm', status: 'unknown' },
-  { id: 'openrouter', name: 'OpenRouter', provider: 'cloud', type: 'router', status: 'unknown' },
-  { id: 'airllm', name: 'airLLM', provider: 'local', type: 'llm', status: 'unknown' },
+  {
+    id: 'hermes-agent',
+    name: 'Hermes Agent',
+    provider: 'local',
+    type: 'agent',
+    status: 'unknown',
+  },
+  {
+    id: 'omniroute',
+    name: 'OmniRoute Router',
+    provider: 'local',
+    type: 'router',
+    status: 'unknown',
+  },
+  {
+    id: 'ollama',
+    name: 'Ollama Local',
+    provider: 'local',
+    type: 'llm',
+    status: 'unknown',
+  },
+  {
+    id: 'openrouter',
+    name: 'OpenRouter',
+    provider: 'cloud',
+    type: 'router',
+    status: 'unknown',
+  },
+  {
+    id: 'airllm',
+    name: 'airLLM',
+    provider: 'local',
+    type: 'llm',
+    status: 'unknown',
+  },
 ];
 
 export default function ModelsPage() {
@@ -38,7 +68,7 @@ export default function ModelsPage() {
               type: e.type || 'engine',
               status: e.up ? 'up' : 'down',
               latency: e.latency,
-            })),
+            }))
           );
         }
       })
@@ -48,7 +78,7 @@ export default function ModelsPage() {
   const filtered = models.filter(
     (m) =>
       (provider === 'all' || m.provider === provider) &&
-      m.name.toLowerCase().includes(q.toLowerCase()),
+      m.name.toLowerCase().includes(q.toLowerCase())
   );
   const providers = ['all', ...new Set(models.map((m) => m.provider))];
 
@@ -57,15 +87,27 @@ export default function ModelsPage() {
       <header className="page-head">
         <div>
           <h1>Model Management</h1>
-          <p className="muted">{models.length} engines · {models.filter((m) => m.status === 'up').length} live</p>
+          <p className="muted">
+            {models.length} engines ·{' '}
+            {models.filter((m) => m.status === 'up').length} live
+          </p>
         </div>
       </header>
 
       <div className="toolbar">
-        <input className="search" placeholder="Search models…" value={q} onChange={(e) => setQ(e.target.value)} />
+        <input
+          className="search"
+          placeholder="Search models…"
+          value={q}
+          onChange={(e) => setQ(e.target.value)}
+        />
         <div className="chips">
           {providers.map((p) => (
-            <button key={p} className={`chip ${provider === p ? 'on' : ''}`} onClick={() => setProvider(p)}>
+            <button
+              key={p}
+              className={`chip ${provider === p ? 'on' : ''}`}
+              onClick={() => setProvider(p)}
+            >
               {p}
             </button>
           ))}
@@ -79,10 +121,14 @@ export default function ModelsPage() {
               <strong>{m.name}</strong>
               <span className={`dot ${m.status}`} />
             </div>
-            <div className="muted small">{m.provider} · {m.type}</div>
+            <div className="muted small">
+              {m.provider} · {m.type}
+            </div>
             <div className="model-meta">
               <code>{m.id}</code>
-              {m.latency != null && <span className="muted small">{m.latency}ms</span>}
+              {m.latency != null && (
+                <span className="muted small">{m.latency}ms</span>
+              )}
             </div>
           </div>
         ))}
