@@ -1,648 +1,225 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import Link from 'next/link';
+
+interface Service {
+  id: string;
+  name: string;
+  url?: string;
+  port: number;
+  up: boolean;
+  httpStatus: number | null;
+  latencyMs: number | null;
+}
+
+interface Engine {
+  id: string;
+  label: string;
+  category: string;
+  url: string;
+  port: number;
+  up: boolean;
+  latencyMs: number | null;
+}
+
+interface HostStats {
+  cpu: number;
+  memory: number;
+  disk: number;
+  uptime: number;
+}
+
+function Icon({ d, size = 16 }: { d: string; size?: number }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+    >
+      <path d={d} />
+    </svg>
+  );
+}
+
+const ICONS = {
+  cpu: 'M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9z',
+  mem: 'M5 7h14a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2V9a2 2 0 012-2zM9 3v4m6-4v4',
+  svc: 'M4 6h16M4 12h16M4 18h10',
+  clock: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z',
+  chat: 'M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z',
+  brain: 'M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z',
+  bolt: 'M13 10V3L4 14h7v7l9-11h-7z',
+  chart: 'M3 3v18h18M7 14l4-4 3 3 5-6',
+};
+
+function formatUptime(seconds: number): string {
+  const d = Math.floor(seconds / 86400);
+  const h = Math.floor((seconds % 86400) / 3600);
+  const m = Math.floor((seconds % 3600) / 60);
+  if (d > 0) return `${d}d ${h}h`;
+  if (h > 0) return `${h}h ${m}m`;
+  return `${m}m`;
+}
 
 export default function DashboardPage() {
-  const [systemStats, setSystemStats] = useState({
-    cpu: 0,
-    memory: 0,
-    disk: 0,
-    uptime: 0,
-  });
+  const [services, setServices] = useState<Service[]>([]);
+  const [engines, setEngines] = useState<Engine[]>([]);
+  const [host, setHost] = useState<HostStats>({ cpu: 0, memory: 0, disk: 0, uptime: 0 });
+  const [loading, setLoading] = useState(true);
+  const [lastCheck, setLastCheck] = useState<Date | null>(null);
 
-  // Live service health from the unified /api/system/status probe endpoint.
-  const [serviceHealth, setServiceHealth] = useState<{
-    up: number;
-    total: number;
-  }>({ up: 0, total: 4 });
-
-  const [selectedTab, setSelectedTab] = useState('overview');
-
-  const [aiSystems, setAiSystems] = useState([
-    {
-      id: '9router',
-      name: '9router',
-      description: 'AI Gateway with 40+ providers',
-      status: 'running',
-      port: 20128,
-      uptime: '5h 23m',
-      icon: '🌐',
-      type: 'gateway',
-    },
-    {
-      id: 'openclaw',
-      name: 'OpenClaw',
-      description: 'Multi-channel personal assistant',
-      status: 'configured',
-      port: null,
-      uptime: null,
-      icon: '🦞',
-      type: 'assistant',
-    },
-    {
-      id: 'jarvis',
-      name: 'JARVIS',
-      description: 'Agentic intelligence platform',
-      status: 'configured',
-      port: null,
-      uptime: null,
-      icon: '🔍',
-      type: 'intelligence',
-    },
-    {
-      id: 'webui',
-      name: 'WebUI Desktop',
-      description: 'Desktop AI interface',
-      status: 'configured',
-      port: null,
-      uptime: null,
-      icon: '🖥️',
-      type: 'desktop',
-    },
-    {
-      id: 'quant-mind',
-      name: 'QuantMind',
-      description: 'Financial AI knowledge extraction',
-      status: 'imported',
-      port: null,
-      uptime: null,
-      icon: '💰',
-      type: 'financial',
-    },
-    {
-      id: 'kimi-k2.5',
-      name: 'Kimi K2.5',
-      description: 'Multimodal agentic model (1T params)',
-      status: 'imported',
-      port: null,
-      uptime: null,
-      icon: '🧠',
-      type: 'multimodal',
-    },
-    {
-      id: 'biome',
-      name: 'Biome',
-      description: 'World model interface',
-      status: 'imported',
-      port: null,
-      uptime: null,
-      icon: '🌍',
-      type: 'world-model',
-    },
-    {
-      id: 'godmode',
-      name: 'GodMode Animation',
-      description: 'Animation generation model',
-      status: 'imported',
-      port: null,
-      uptime: null,
-      icon: '🎬',
-      type: 'animation',
-    },
-    {
-      id: 'openwa',
-      name: 'OpenWA',
-      description: 'WhatsApp API Gateway',
-      status: 'imported',
-      port: null,
-      uptime: null,
-      icon: '📱',
-      type: 'communication',
-    },
-    {
-      id: 'skales',
-      name: 'Skales',
-      description: 'Personal AI desktop agent',
-      status: 'imported',
-      port: null,
-      uptime: null,
-      icon: '🤖',
-      type: 'agent',
-    },
-    {
-      id: 'colibri',
-      name: 'Colibri',
-      description: 'GLM-5.2 runtime (744B MoE)',
-      status: 'imported',
-      port: null,
-      uptime: null,
-      icon: '⚡',
-      type: 'runtime',
-    },
-    {
-      id: 'aionui',
-      name: 'AionUi',
-      description: 'Cowork app for 20+ CLI tools',
-      status: 'imported',
-      port: null,
-      uptime: null,
-      icon: '👥',
-      type: 'collaboration',
-    },
-    {
-      id: 'hermes',
-      name: 'Hermes Monitoring',
-      description: 'Prometheus + Grafana observability stack',
-      status: 'configured',
-      port: 3001,
-      uptime: null,
-      icon: '📡',
-      type: 'monitoring',
-    },
-  ]);
-
-  // Provider/model data reflects the canonical catalog in
-  // platform/backend/ai-core/src/models.ts (upgraded model families).
-  const [providers, setProviders] = useState([
-    { id: 'openai', name: 'OpenAI', status: 'active', models: ['gpt-5', 'gpt-4.1'], requests: 1250, errors: 0, latency: 250 },
-    { id: 'anthropic', name: 'Anthropic', status: 'active', models: ['claude-opus-4.1', 'claude-sonnet-4.5'], requests: 890, errors: 2, latency: 320 },
-    { id: 'ollama', name: 'Ollama (local)', status: 'active', models: ['llama3.1', 'mistral'], requests: 560, errors: 0, latency: 180 },
-    { id: 'cohere', name: 'Cohere', status: 'inactive', models: ['command-r'], requests: 0, errors: 0, latency: 0 },
-    { id: 'mistral', name: 'Mistral AI', status: 'active', models: ['mistral-large', 'mixtral'], requests: 420, errors: 1, latency: 290 },
-  ]);
-
-  const [models, setModels] = useState([
-    { id: 'gpt-5', name: 'GPT-5', provider: 'OpenAI', status: 'active', usage: 450 },
-    { id: 'claude-opus-4.1', name: 'Claude Opus 4.1', provider: 'Anthropic', status: 'active', usage: 320 },
-    { id: 'gpt-4.1', name: 'GPT-4.1', provider: 'OpenAI', status: 'active', usage: 280 },
-    { id: 'gpt-5-mini', name: 'GPT-5 Mini', provider: 'OpenAI', status: 'active', usage: 800 },
-    { id: 'claude-sonnet-4.5', name: 'Claude Sonnet 4.5', provider: 'Anthropic', status: 'active', usage: 570 },
-    { id: 'claude-haiku-4.5', name: 'Claude Haiku 4.5', provider: 'Anthropic', status: 'active', usage: 420 },
-  ]);
-
-  useEffect(() => {
-    const fetchStats = async () => {
-      try {
-        // Real host metrics + service probes from the unified status endpoint.
-        const response = await fetch('/api/system/status', { cache: 'no-store' });
-        const data = await response.json();
-        setSystemStats({
-          cpu: data.host?.cpu ?? 0,
-          memory: data.host?.memory ?? 0,
-          disk: 0,
-          uptime: data.host?.uptime ?? 0,
-        });
-        if (data.summary) {
-          setServiceHealth({
-            up: data.summary.up,
-            total: data.summary.total,
-          });
-        }
-      } catch (error) {
-        console.error('Failed to fetch system status:', error);
-      }
-    };
-
-    fetchStats();
-    const interval = setInterval(fetchStats, 5000);
-    return () => clearInterval(interval);
+  const refresh = useCallback(async () => {
+    try {
+      const [sysRes, engRes] = await Promise.all([
+        fetch('/api/system/status', { cache: 'no-store' }),
+        fetch('/api/engines', { cache: 'no-store' }),
+      ]);
+      const sys = await sysRes.json();
+      const eng = await engRes.json();
+      setServices(sys.services ?? []);
+      setEngines(eng.engines ?? []);
+      if (sys.host) setHost(sys.host);
+      setLastCheck(new Date());
+    } catch {
+      // keep last known state
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'running':
-      case 'active':
-        return 'bg-green-500';
-      case 'configured':
-      case 'imported':
-        return 'bg-blue-500';
-      case 'stopped':
-      case 'inactive':
-        return 'bg-red-500';
-      default:
-        return 'bg-gray-500';
-    }
-  };
+  useEffect(() => {
+    void refresh();
+    const t = setInterval(() => void refresh(), 10000);
+    return () => clearInterval(t);
+  }, [refresh]);
 
-  const getLatencyColor = (latency: number) => {
-    if (latency < 200) return 'text-green-600';
-    if (latency < 400) return 'text-yellow-600';
-    return 'text-red-600';
-  };
+  const upCount = services.filter((s) => s.up).length;
+  const engineUp = engines.filter((e) => e.up).length;
+  const offline = services.filter((s) => !s.up);
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white border-b border-gray-200 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900">
-                🚀 Ultra AI Platform
-              </h1>
-              <p className="text-sm text-gray-600">
-                Comprehensive AI Systems Dashboard
-              </p>
+    <div className="page">
+      <header className="page-head">
+        <div>
+          <h1>Dashboard</h1>
+          <p className="muted">
+            Live view of the Ultra AI platform — services, engines, host health.
+            {lastCheck && (
+              <>
+                {' '}
+                Last check: {lastCheck.toLocaleTimeString()}
+              </>
+            )}
+          </p>
+        </div>
+        <div className="detail-actions">
+          <Link className="btn-link" href="/services">
+            All services
+          </Link>
+          <Link className="btn-link" href="/chat">
+            Open chat
+          </Link>
+          <button className="secondary" onClick={() => void refresh()} disabled={loading}>
+            {loading ? 'Refreshing…' : 'Refresh'}
+          </button>
+        </div>
+      </header>
+
+      {/* Host metrics strip */}
+      <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', marginBottom: 20 }}>
+        {[
+          { label: 'CPU', value: `${host.cpu.toFixed(1)}%`, icon: ICONS.cpu, warn: host.cpu > 80 },
+          { label: 'Memory', value: `${host.memory.toFixed(1)}%`, icon: ICONS.mem, warn: host.memory > 85 },
+          { label: 'Disk', value: `${host.disk.toFixed(1)}%`, icon: ICONS.svc, warn: host.disk > 90 },
+          { label: 'Uptime', value: formatUptime(host.uptime), icon: ICONS.clock, warn: false },
+          { label: 'Core services', value: `${upCount}/${services.length}`, icon: ICONS.svc, warn: upCount < services.length },
+          { label: 'Engines online', value: `${engineUp}/${engines.length}`, icon: ICONS.bolt, warn: engineUp < engines.length },
+        ].map((m) => (
+          <div key={m.label} className="card" style={{ padding: 16 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: 'var(--muted, #8a8a8a)' }}>
+              <Icon d={m.icon} size={15} />
+              <span className="small">{m.label}</span>
             </div>
-            <div className="flex gap-3">
-              <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-                Start All Services
-              </button>
-              <button className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
-                View Logs
-              </button>
-              <button className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors">
-                Settings
-              </button>
+            <div style={{ fontSize: 22, fontWeight: 700, marginTop: 6, color: m.warn ? '#e5534b' : 'inherit' }}>
+              {m.value}
             </div>
           </div>
-        </div>
+        ))}
       </div>
 
-      {/* Tabs */}
-      <div className="bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex gap-1">
-            {['overview', 'systems', 'providers', 'models', 'analytics'].map((tab) => (
-              <button
-                key={tab}
-                onClick={() => setSelectedTab(tab)}
-                className={`px-4 py-3 text-sm font-medium border-b-2 transition-colors ${
-                  selectedTab === tab
-                    ? 'border-blue-600 text-blue-600'
-                    : 'border-transparent text-gray-600 hover:text-gray-900'
-                }`}
-              >
-                {tab.charAt(0).toUpperCase() + tab.slice(1)}
-              </button>
+      {/* Attention strip */}
+      {offline.length > 0 && (
+        <div className="card" style={{ borderLeft: '3px solid #e5534b', marginBottom: 20 }}>
+          <strong>Attention — {offline.length} service{offline.length > 1 ? 's' : ''} offline:</strong>{' '}
+          <span className="muted">
+            {offline.map((s) => s.name).join(', ')}. See{' '}
+            <Link href="/services">Services</Link> for details.
+          </span>
+        </div>
+      )}
+
+      <div className="split" style={{ alignItems: 'flex-start' }}>
+        {/* Core services */}
+        <section style={{ flex: 1, minWidth: 0 }}>
+          <h2 className="svc-group-title" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <Icon d={ICONS.svc} size={16} /> Core Services
+            <span className="svc-count">{upCount}/{services.length} up</span>
+          </h2>
+          <div className="stack-list">
+            {services.map((s) => (
+              <div key={s.id} className="list-item" style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                <span className={`svc-dot${s.up ? ' on' : ''}`} />
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontWeight: 600 }}>{s.name}</div>
+                  <div className="small muted mono">:{s.port}{s.latencyMs != null ? ` · ${s.latencyMs}ms` : ''}</div>
+                </div>
+                {s.up && s.url && (
+                  <a className="ghost-link" href={s.url} target="_blank" rel="noreferrer">Open ↗</a>
+                )}
+              </div>
             ))}
           </div>
-        </div>
-      </div>
+        </section>
 
-      <div className="max-w-7xl mx-auto px-4 py-8">
-        {/* Overview Tab */}
-        {selectedTab === 'overview' && (
-          <>
-            {/* System Stats */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-              <div className="bg-white rounded-lg shadow p-6">
-                <h3 className="text-sm font-medium text-gray-600 mb-2">CPU Usage</h3>
-                <p className="text-3xl font-bold text-gray-900">{systemStats.cpu.toFixed(1)}%</p>
-                <div className="mt-2 h-2 bg-gray-200 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-blue-500 transition-all"
-                    style={{ width: `${systemStats.cpu}%` }}
-                  />
-                </div>
-              </div>
-              <div className="bg-white rounded-lg shadow p-6">
-                <h3 className="text-sm font-medium text-gray-600 mb-2">Memory Usage</h3>
-                <p className="text-3xl font-bold text-gray-900">{systemStats.memory.toFixed(1)}%</p>
-                <div className="mt-2 h-2 bg-gray-200 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-green-500 transition-all"
-                    style={{ width: `${systemStats.memory}%` }}
-                  />
-                </div>
-              </div>
-              <div className="bg-white rounded-lg shadow p-6">
-                <h3 className="text-sm font-medium text-gray-600 mb-2">Services Online</h3>
-                <p className="text-3xl font-bold text-gray-900">
-                  {serviceHealth.up}
-                  <span className="text-lg text-gray-400">/{serviceHealth.total}</span>
-                </p>
-                <div className="mt-2 h-2 bg-gray-200 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-purple-500 transition-all"
-                    style={{
-                      width: `${serviceHealth.total ? (serviceHealth.up / serviceHealth.total) * 100 : 0}%`,
-                    }}
-                  />
-                </div>
-              </div>
-              <div className="bg-white rounded-lg shadow p-6">
-                <h3 className="text-sm font-medium text-gray-600 mb-2">Uptime</h3>
-                <p className="text-3xl font-bold text-gray-900">
-                  {Math.floor(systemStats.uptime / 3600)}h
-                </p>
-                <p className="text-sm text-gray-500 mt-1">
-                  {Math.floor((systemStats.uptime % 3600) / 60)}m
-                </p>
-              </div>
-            </div>
-
-            {/* AI Systems Grid */}
-            <div className="mb-8">
-              <h2 className="text-xl font-semibold text-gray-900 mb-4">
-                AI Systems & Services
-              </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                {aiSystems.map((system) => (
-                  <div
-                    key={system.id}
-                    className="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-all cursor-pointer border-2 border-transparent hover:border-blue-200"
-                  >
-                    <div className="flex items-center justify-between mb-3">
-                      <div className="flex items-center gap-2">
-                        <span className="text-2xl">{system.icon}</span>
-                        <h3 className="font-semibold text-gray-900">{system.name}</h3>
-                      </div>
-                      <div
-                        className={`w-3 h-3 rounded-full ${getStatusColor(system.status)}`}
-                      />
-                    </div>
-                    <p className="text-sm text-gray-600 mb-3">{system.description}</p>
-                    <div className="flex items-center justify-between text-xs text-gray-500 mb-3">
-                      <span className="capitalize">{system.status}</span>
-                      {system.port && <span>Port: {system.port}</span>}
-                      {system.uptime && <span>{system.uptime}</span>}
-                    </div>
-                    <div className="flex gap-2">
-                      <button className="flex-1 px-3 py-1.5 bg-blue-50 text-blue-600 rounded text-sm hover:bg-blue-100 transition-colors">
-                        Configure
-                      </button>
-                      <button className="flex-1 px-3 py-1.5 bg-green-50 text-green-600 rounded text-sm hover:bg-green-100 transition-colors">
-                        Start
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Quick Stats */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="bg-white rounded-lg shadow p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                  📊 System Health
-                </h3>
-                <div className="space-y-3">
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Core Services Up</span>
-                    <span className={`font-medium ${serviceHealth.up === serviceHealth.total ? 'text-green-600' : 'text-yellow-600'}`}>
-                      {serviceHealth.up}/{serviceHealth.total}
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Active Providers</span>
-                    <span className="font-medium">4/5</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Available Models</span>
-                    <span className="font-medium">6</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Alerts</span>
-                    <span className="font-medium text-red-600">0</span>
-                  </div>
-                </div>
-                <a
-                  href="http://localhost:3001"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="mt-4 block w-full text-center px-4 py-2 bg-indigo-50 text-indigo-600 rounded-lg hover:bg-indigo-100 transition-colors text-sm font-medium"
-                >
-                  📡 Open Grafana (Hermes)
-                </a>
-              </div>
-
-              <div className="bg-white rounded-lg shadow p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                  ⚡ Quick Actions
-                </h3>
-                <div className="space-y-2">
-                  <button className="w-full px-4 py-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors text-left">
-                    🚀 Start AI Gateway
-                  </button>
-                  <button className="w-full px-4 py-2 bg-green-50 text-green-600 rounded-lg hover:bg-green-100 transition-colors text-left">
-                    🤖 Configure OpenClaw
-                  </button>
-                  <button className="w-full px-4 py-2 bg-purple-50 text-purple-600 rounded-lg hover:bg-purple-100 transition-colors text-left">
-                    🎯 Setup JARVIS
-                  </button>
-                  <button className="w-full px-4 py-2 bg-orange-50 text-orange-600 rounded-lg hover:bg-orange-100 transition-colors text-left">
-                    📊 View Analytics
-                  </button>
-                </div>
-              </div>
-
-              <div className="bg-white rounded-lg shadow p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                  📈 Recent Activity
-                </h3>
-                <div className="space-y-3">
-                  <div className="text-sm">
-                    <span className="text-gray-500">2m ago</span>
-                    <p className="text-gray-900">System health check passed</p>
-                  </div>
-                  <div className="text-sm">
-                    <span className="text-gray-500">5m ago</span>
-                    <p className="text-gray-900">9router request processed</p>
-                  </div>
-                  <div className="text-sm">
-                    <span className="text-gray-500">10m ago</span>
-                    <p className="text-gray-900">Memory optimization triggered</p>
-                  </div>
-                  <div className="text-sm">
-                    <span className="text-gray-500">15m ago</span>
-                    <p className="text-gray-900">Control center updated</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </>
-        )}
-
-        {/* Systems Tab */}
-        {selectedTab === 'systems' && (
-          <div className="bg-white rounded-lg shadow overflow-hidden">
-            <table className="min-w-full">
-              <thead className="bg-gray-50">
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                    System
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                    Type
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                    Status
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                    Port
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                    Uptime
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                    Actions
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-200">
-                {aiSystems.map((system) => (
-                  <tr key={system.id} className="hover:bg-gray-50">
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-2">
-                        <span className="text-xl">{system.icon}</span>
-                        <span className="font-medium text-gray-900">{system.name}</span>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 text-gray-500 capitalize">{system.type}</td>
-                    <td className="px-6 py-4">
-                      <span className="px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800">
-                        {system.status}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 text-gray-500">{system.port || 'N/A'}</td>
-                    <td className="px-6 py-4 text-gray-500">{system.uptime || 'N/A'}</td>
-                    <td className="px-6 py-4">
-                      <button className="text-blue-600 hover:text-blue-900 text-sm mr-3">
-                        Configure
-                      </button>
-                      <button className="text-green-600 hover:text-green-900 text-sm">
-                        Start
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-
-        {/* Providers Tab */}
-        {selectedTab === 'providers' && (
-          <div className="space-y-6">
-            <div className="bg-white rounded-lg shadow overflow-hidden">
-              <table className="min-w-full">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                      Provider
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                      Status
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                      Models
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                      Requests
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                      Errors
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                      Latency
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                      Actions
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-200">
-                  {providers.map((provider) => (
-                    <tr key={provider.id} className="hover:bg-gray-50">
-                      <td className="px-6 py-4 font-medium text-gray-900">{provider.name}</td>
-                      <td className="px-6 py-4">
-                        <span className={`px-2 py-1 text-xs font-medium rounded-full ${
-                          provider.status === 'active'
-                            ? 'bg-green-100 text-green-800'
-                            : 'bg-red-100 text-red-800'
-                        }`}>
-                          {provider.status}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4 text-gray-500">{provider.models.join(', ')}</td>
-                      <td className="px-6 py-4 text-gray-500">{provider.requests}</td>
-                      <td className="px-6 py-4 text-gray-500">{provider.errors}</td>
-                      <td className="px-6 py-4 text-gray-500">
-                        <span className={getLatencyColor(provider.latency)}>
-                          {provider.latency}ms
-                        </span>
-                      </td>
-                      <td className="px-6 py-4">
-                        <button className="text-blue-600 hover:text-blue-900 text-sm">
-                          Manage
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+        {/* Quick actions + Hermes */}
+        <aside style={{ width: 300, flexShrink: 0 }}>
+          <div className="card">
+            <h3 style={{ marginTop: 0, display: 'flex', alignItems: 'center', gap: 8 }}>
+              <Icon d={ICONS.bolt} size={16} /> Quick actions
+            </h3>
+            <div className="stack-list">
+              <Link className="list-item" href="/chat"><Icon d={ICONS.chat} size={15} /> Chat with Ultra AI</Link>
+              <Link className="list-item" href="/brain-stack"><Icon d={ICONS.brain} size={15} /> Brain Stack</Link>
+              <Link className="list-item" href="/models"><Icon d={ICONS.cpu} size={15} /> Model gateway</Link>
+              <Link className="list-item" href="/hermes/agent"><Icon d={ICONS.chart} size={15} /> Hermes agent</Link>
+              <Link className="list-item" href="/services"><Icon d={ICONS.svc} size={15} /> Services & engines</Link>
+              <Link className="list-item" href="/customers"><Icon d={ICONS.mem} size={15} /> Customers & teams</Link>
             </div>
           </div>
-        )}
 
-        {/* Models Tab */}
-        {selectedTab === 'models' && (
-          <div className="space-y-6">
-            <div className="bg-white rounded-lg shadow overflow-hidden">
-              <table className="min-w-full">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                      Model
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                      Provider
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                      Status
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                      Usage
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                      Actions
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-200">
-                  {models.map((model) => (
-                    <tr key={model.id} className="hover:bg-gray-50">
-                      <td className="px-6 py-4 font-medium text-gray-900">{model.name}</td>
-                      <td className="px-6 py-4 text-gray-500">{model.provider}</td>
-                      <td className="px-6 py-4">
-                        <span className="px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800">
-                          {model.status}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4 text-gray-500">{model.usage} requests</td>
-                      <td className="px-6 py-4">
-                        <button className="text-blue-600 hover:text-blue-900 text-sm">
-                          Configure
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+          <div className="card" style={{ marginTop: 16 }}>
+            <h3 style={{ marginTop: 0, display: 'flex', alignItems: 'center', gap: 8 }}>
+              <Icon d={ICONS.chart} size={16} /> Observability
+            </h3>
+            <div className="kv">
+              <span>Prometheus</span><span className="mono">:9090</span>
+              <span>Grafana</span><span className="mono">:3001</span>
+              <span>n8n</span><span className="mono">:5678</span>
+              <span>OmniRoute</span><span className="mono">:20128</span>
+            </div>
+            <div className="detail-actions" style={{ marginTop: 12 }}>
+              <a className="btn-link" href="http://localhost:3001" target="_blank" rel="noreferrer">Grafana ↗</a>
+              <a className="btn-link" href="http://localhost:5678" target="_blank" rel="noreferrer">n8n ↗</a>
             </div>
           </div>
-        )}
-
-        {/* Analytics Tab */}
-        {selectedTab === 'analytics' && (
-          <div className="bg-white rounded-lg shadow p-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">
-              📊 Analytics Dashboard
-            </h2>
-            <p className="text-gray-600 mb-4">
-              Real-time analytics and performance metrics
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="bg-gray-50 rounded-lg p-4">
-                <h3 className="font-medium text-gray-900 mb-2">Total Requests (24h)</h3>
-                <p className="text-3xl font-bold text-blue-600">3,420</p>
-              </div>
-              <div className="bg-gray-50 rounded-lg p-4">
-                <h3 className="font-medium text-gray-900 mb-2">Success Rate</h3>
-                <p className="text-3xl font-bold text-green-600">99.1%</p>
-              </div>
-              <div className="bg-gray-50 rounded-lg p-4">
-                <h3 className="font-medium text-gray-900 mb-2">Avg Response Time</h3>
-                <p className="text-3xl font-bold text-purple-600">258ms</p>
-              </div>
-              <div className="bg-gray-50 rounded-lg p-4">
-                <h3 className="font-medium text-gray-900 mb-2">Tokens Used</h3>
-                <p className="text-3xl font-bold text-orange-600">1.2M</p>
-              </div>
-            </div>
-          </div>
-        )}
+        </aside>
       </div>
     </div>
   );
