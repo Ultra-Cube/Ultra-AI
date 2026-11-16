@@ -44,6 +44,7 @@ htmlcov/
 
 # Local runtime state (logs, pids, service data from the orchestrator)
 /runtime/
+infrastructure/runtime/
 
 # Environment variables
 .env

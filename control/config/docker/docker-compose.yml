@@ -70,11 +70,29 @@ services:
     ports:
       - "4001:4001"     # P2P TCP
       - "5001:5001"     # API
-      - "8080:8080"     # Gateway
+      - "8083:8080"     # Gateway (8080 reserved for Open WebUI)
     volumes:
       - ipfs-data:/data/ipfs
     networks:
       - ultra-ai-network
+
+  # Open WebUI — primary chat surface (BSD-3)
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:latest
+    container_name: ultra-ai-open-webui
+    environment:
+      - OLLAMA_BASE_URL=http://host.docker.internal:11434
+      - OPENAI_API_BASE_URL=http://host.docker.internal:20128/v1
+      - WEBUI_AUTH=false
+      - ENABLE_OLLAMA_API=true
+    ports:
+      - "8080:8080"
+    volumes:
+      - open-webui-data:/app/backend/data
+    networks:
+      - ultra-ai-network
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   # Adminer (Database Management)
   adminer:
@@ -113,3 +131,4 @@ volumes:
   mongo-data:
   redis-data:
   ipfs-data:
+  open-webui-data:

@@ -123,7 +123,7 @@ export const ENGINE_PRESETS: EngineManifest[] = [
     label: 'airllm (low-VRAM LLM inference)',
     command: 'python3',
     args: ['-m', 'airllm'],
-    port: 8080,
+    port: 8090,
     portEnvVar: 'AIRLLM_PORT',
     healthPath: '/health',
     probe: 'http',
@@ -131,6 +131,27 @@ export const ENGINE_PRESETS: EngineManifest[] = [
     startupTimeoutMs: 60000,
     managed: false,
     licenseNote: 'Apache-2.0; requires airllm installed in a venv',
+  },
+  {
+    id: 'open-webui',
+    label: 'Open WebUI (chat surface)',
+    command: 'docker',
+    args: [
+      'compose',
+      '-f',
+      'control/config/docker/docker-compose.yml',
+      'up',
+      '-d',
+      'open-webui',
+    ],
+    port: 8080,
+    portEnvVar: 'OPEN_WEBUI_PORT',
+    healthPath: '/',
+    probe: 'http',
+    startupTimeoutMs: 120000,
+    managed: false,
+    licenseNote:
+      'BSD-3-Clause with branding clause; keep Ultra AI attribution',
   },
 ];
 

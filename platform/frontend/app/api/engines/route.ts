@@ -18,6 +18,7 @@ type EngineProbe = {
     | 'llm'
     | 'agent'
     | 'automation'
+    | 'chat'
     | 'ide'
     | 'data'
     | 'observability'
@@ -164,11 +165,21 @@ const ENGINES: EngineProbe[] = [
     id: 'airllm',
     label: 'airllm',
     category: 'llm',
-    url: 'http://127.0.0.1:8080',
-    port: 8080,
+    url: 'http://127.0.0.1:8090',
+    port: 8090,
     healthPath: '/health',
     embed: false,
     description: 'Low-VRAM LLM inference (Python)',
+  },
+  {
+    id: 'open-webui',
+    label: 'Open WebUI',
+    category: 'chat',
+    url: 'http://127.0.0.1:8080',
+    port: 8080,
+    healthPath: '/',
+    embed: true,
+    description: 'Primary chat surface (open-source UI, BSD-3)',
   },
   {
     id: 'obsidian',

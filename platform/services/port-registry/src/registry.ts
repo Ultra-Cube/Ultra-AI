@@ -19,6 +19,8 @@ export const PLATFORM_PORTS: PortClaim[] = [
   { id: 'openhands', port: 3300, label: 'OpenHands workspace', kind: 'engine' },
   { id: 'ollama', port: 11434, label: 'Ollama local models', kind: 'engine' },
   { id: 'n8n', port: 5678, label: 'n8n automation', kind: 'engine' },
+  { id: 'open-webui', port: 8080, label: 'Open WebUI chat surface', kind: 'engine' },
+  { id: 'airllm', port: 8090, label: 'airllm low-VRAM inference', kind: 'engine' },
   { id: 'langflow', port: 7860, label: 'Langflow flows', kind: 'engine' },
   {
     id: 'ultra-studio',
