@@ -24,10 +24,16 @@ interface Engine {
 }
 
 interface HostStats {
-  cpu: number;
-  memory: number;
-  disk: number;
-  uptime: number;
+  cpu?: number;
+  memory?: number;
+  disk?: number;
+  uptime?: number;
+}
+
+function pct(v: number | undefined): string {
+  return typeof v === 'number' && Number.isFinite(v)
+    ? `${v.toFixed(1)}%`
+    : '—';
 }
 
 function Icon({ d, size = 16 }: { d: string; size?: number }) {
@@ -148,25 +154,28 @@ export default function DashboardPage() {
         {[
           {
             label: 'CPU',
-            value: `${host.cpu.toFixed(1)}%`,
+            value: pct(host.cpu),
             icon: ICONS.cpu,
-            warn: host.cpu > 80,
+            warn: (host.cpu ?? 0) > 80,
           },
           {
             label: 'Memory',
-            value: `${host.memory.toFixed(1)}%`,
+            value: pct(host.memory),
             icon: ICONS.mem,
-            warn: host.memory > 85,
+            warn: (host.memory ?? 0) > 85,
           },
           {
             label: 'Disk',
-            value: `${host.disk.toFixed(1)}%`,
+            value: pct(host.disk),
             icon: ICONS.svc,
-            warn: host.disk > 90,
+            warn: (host.disk ?? 0) > 90,
           },
           {
             label: 'Uptime',
-            value: formatUptime(host.uptime),
+            value:
+              typeof host.uptime === 'number' && Number.isFinite(host.uptime)
+                ? formatUptime(host.uptime)
+                : '—',
             icon: ICONS.clock,
             warn: false,
           },
