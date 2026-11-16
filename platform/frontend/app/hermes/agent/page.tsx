@@ -15,7 +15,7 @@ export default function HermesAgentPage() {
   const endRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    fetch('/api/hermes-agent/v1/models')
+    fetch('/hermes/api/v1/models')
       .then(r => r.json())
       .then(d => {
         const ids = (d?.data || []).map((m: { id: string }) => m.id);
@@ -35,7 +35,7 @@ export default function HermesAgentPage() {
     setMessages(next);
     setBusy(true);
     try {
-      const res = await fetch('/api/hermes-agent/v1/chat/completions', {
+      const res = await fetch('/hermes/api/v1/chat/completions', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({

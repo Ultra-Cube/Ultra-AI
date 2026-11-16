@@ -1,12 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 const HERMES_API = process.env.HERMES_API_URL || 'http://127.0.0.1:8642';
-const HERMES_KEY = process.env.HERMES_API_KEY || '';
+const HERMES_KEY = process.env.HERMES_API_KEY || 'ultra-spike-local-key';
 
 async function proxy(req: NextRequest, path: string[]) {
   const target = `${HERMES_API}/${path.join('/')}${req.nextUrl.search}`;
-  const headers: Record<string, string> = { 'content-type': 'application/json' };
-  if (HERMES_KEY) headers['authorization'] = `Bearer ${HERMES_KEY}`;
+  const headers: Record<string, string> = {
+    'content-type': req.headers.get('content-type') || 'application/json',
+    authorization: `Bearer ${HERMES_KEY}`,
+  };
   const upstream = req.method === 'GET' || req.method === 'HEAD'
     ? await fetch(target, { headers, cache: 'no-store' })
     : await fetch(target, { method: req.method, headers, body: await req.text() });
