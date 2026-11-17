@@ -173,3 +173,4 @@ infrastructure/monitoring/stack/sentinel/status.json
 
 # Generated release bundles
 distribution/assets/releases/
+.cortex/
