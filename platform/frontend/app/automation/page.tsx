@@ -2,8 +2,6 @@
 
 import { useEffect, useState } from 'react';
 
-import AppDock from '../components/AppDock';
-
 interface Workflow {
   id: string;
   name?: string;
@@ -75,7 +73,6 @@ export default function AutomationHubPage() {
               Trigger and inspect ZeroAI workflows
             </p>
           </div>
-          <AppDock />
         </header>
 
         <div className="rounded-lg border border-slate-800 bg-slate-900/50 p-4 space-y-3">

@@ -12,7 +12,7 @@ import { Icon } from './Sidebar';
  */
 
 const APPS = [
-  { href: '/', icon: 'cube', label: 'Home' },
+  { href: '/chat', icon: 'chat', label: 'Home' },
   { href: '/dashboard', icon: 'chart', label: 'Dashboard' },
   { href: '/agents', icon: 'agents', label: 'Agents' },
   { href: '/gateway', icon: 'route', label: 'Gateway' },

@@ -1,0 +1,126 @@
+html:root {
+  --ultra-bg-0: #070a12;
+  --ultra-bg-1: #0d1220;
+  --ultra-bg-2: #141b2e;
+  --ultra-accent: #6d8bff;
+  --ultra-accent-2: #38e0c8;
+  --ultra-accent-3: #c678ff;
+}
+
+html.dark {
+  --color-gray-50: #eef2ff;
+  --color-gray-100: #dfe5f5;
+  --color-gray-200: #c9d2ea;
+  --color-gray-300: #aab4d0;
+  --color-gray-400: #8f9bb8;
+  --color-gray-500: #7d89a8;
+  --color-gray-600: #5d6a8f;
+  --color-gray-700: #42507a;
+  --color-gray-800: #1c2742;
+  --color-gray-850: #141b2e;
+  --color-gray-900: #0d1220;
+  --color-gray-950: #070a12;
+
+  --color-indigo-300: #a9b8ff;
+  --color-indigo-400: #8ba3ff;
+  --color-indigo-500: #6d8bff;
+  --color-indigo-600: #5575f0;
+  --color-violet-300: #d7b8ff;
+  --color-violet-400: #c678ff;
+  --color-violet-500: #b45cff;
+  --color-violet-600: #9d45e8;
+  --color-teal-400: #38e0c8;
+  --color-teal-700: #159f8d;
+  --color-cyan-500: #38e0c8;
+  --color-cyan-600: #25b8a8;
+  --color-cyan-700: #159f8d;
+
+  --border-radius: 0.75rem;
+  --radius-lg: 0.875rem;
+  --radius-md: 0.75rem;
+  --radius-sm: 0.5rem;
+}
+
+html.light {
+  --color-gray-50: #f7f8fc;
+  --color-gray-100: #eef1f8;
+  --color-gray-200: #dfe5f2;
+  --color-gray-300: #c4cde3;
+  --color-gray-400: #96a1bf;
+  --color-gray-500: #6f7b9b;
+  --color-gray-600: #59657f;
+  --color-gray-700: #44506a;
+  --color-gray-800: #2c3851;
+  --color-gray-850: #24304a;
+  --color-gray-900: #1a2340;
+  --color-gray-950: #141a30;
+
+  --color-indigo-300: #7f95ff;
+  --color-indigo-400: #6d8bff;
+  --color-indigo-500: #5575f0;
+  --color-indigo-600: #4264d8;
+  --color-violet-300: #a66ef0;
+  --color-violet-400: #c678ff;
+  --color-violet-500: #9d45e8;
+  --color-violet-600: #7f32c7;
+  --color-teal-400: #1f9d8c;
+  --color-teal-700: #137f70;
+  --color-cyan-500: #1f9d8c;
+  --color-cyan-600: #188574;
+  --color-cyan-700: #137f70;
+}
+
+html.dark body {
+  background-color: var(--ultra-bg-0);
+  color: var(--color-gray-100);
+}
+
+html.dark ::selection {
+  background: color-mix(in srgb, var(--ultra-accent) 35%, transparent);
+  color: #fff;
+}
+
+html.dark * {
+  scrollbar-color: var(--color-gray-700) var(--ultra-bg-0);
+  scrollbar-width: thin;
+}
+
+html.dark *::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+html.dark *::-webkit-scrollbar-thumb {
+  border: 2px solid var(--ultra-bg-0);
+  border-radius: 999px;
+  background: var(--color-gray-700);
+}
+
+html.dark *::-webkit-scrollbar-thumb:hover {
+  background: var(--color-gray-600);
+}
+
+html.dark *::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+html.dark button,
+html.dark [role='button'],
+html.dark a {
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+html.dark button:focus-visible,
+html.dark [role='button']:focus-visible,
+html.dark a:focus-visible,
+html.dark input:focus-visible,
+html.dark textarea:focus-visible,
+html.dark select:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--ultra-accent) 70%, transparent);
+  outline-offset: 2px;
+}

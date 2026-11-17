@@ -85,10 +85,12 @@ services:
       - OPENAI_API_BASE_URL=http://host.docker.internal:20128/v1
       - WEBUI_AUTH=false
       - ENABLE_OLLAMA_API=true
+      - WEBUI_NAME=Ultra AI
     ports:
       - "8080:8080"
     volumes:
       - open-webui-data:/app/backend/data
+      - ./open-webui/custom.css:/app/backend/open_webui/static/custom.css:ro
     networks:
       - ultra-ai-network
     extra_hosts:

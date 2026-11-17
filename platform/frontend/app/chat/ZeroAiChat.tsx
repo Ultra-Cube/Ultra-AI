@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 
 import AdaptiveRenderer from '../components/AdaptiveRenderer';
 import type { UiSchema } from '../components/AdaptiveRenderer';
-import AppDock from '../components/AppDock';
 
 interface ChatMessage {
   role: 'user' | 'assistant';
@@ -90,7 +89,6 @@ export default function ZeroAiChat() {
                 : 'offline'}
           </p>
         </div>
-        <AppDock />
       </header>
 
       <div className="rounded-lg border border-slate-800 bg-slate-900/50 p-4 space-y-3 min-h-[280px] max-h-[55vh] overflow-y-auto">
