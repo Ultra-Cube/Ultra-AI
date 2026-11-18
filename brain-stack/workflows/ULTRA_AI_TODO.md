@@ -28,6 +28,7 @@ gantt
     P3 Contract, packaging, contract tests         :p3, after p2, 21d
     section Ultra Core bridge (owner item 1, deferred)
     P4 Signed outbox and connector contract        :p4, after p3, 21d
+    P4B Ultra Core integration environment         :p4b, after p4, 35d
 ```
 
 ## 1. Task distribution by phase
@@ -45,6 +46,7 @@ pie showData
     "P2 Desktop" : 10
     "P3 Gate-OS readiness" : 7
     "P4 Ultra Core bridge" : 6
+    "P4B Ultra Core integration env" : 15
 ```
 
 ## 2. Dependency map
@@ -62,6 +64,7 @@ flowchart LR
     P1E --> P2
     P2 --> P3["P3 Gate-OS readiness"]
     P3 --> P4["P4 Ultra Core bridge"]
+    P4 --> P4B["P4B Ultra Core integration env"]
     P1A -. "outbox hooks" .-> P4
 ```
 
@@ -199,6 +202,27 @@ flowchart LR
 - [ ] **P4-04** Ultra Core connector (mock) + contract tests · `IDEA`
 - [ ] **P4-05** Legal gate: written opinion before any token/crypto feature · A04 · 🔒 G-4.2 R2
 - [ ] **P4-06** Re-scope legacy `platform/backend/distributed` (device mesh first; no privacy-by-chunking claim) · A03 · `IDEA`
+
+---
+
+## P4B — ULTRA CORE INTEGRATION ENVIRONMENT (contract-first; blockchain deferred) · A13 (+A01/A03/A14/A15 where noted)
+> Owner direction 2026-11-17: Ultra-Core is the **receiver** of signed `ultra.event.v1` batches and the **publisher** of signed `ultra-core.callback.v1` callbacks. Ultra AI remains the producer/readiness side and holds **no chain keys, wallets, tokens, mining, rewards, or transferable-value features**. Rollout tiers: **T0** evidence/provenance, **T1** off-chain credits behind approvals, **T2** value/token layer **BLOCKED** by G-4.2 pending written legal opinion. Contract-first: OpenAPI/JSON Schema before code; real Ultra-Core calls stay mock-validated until the owner supplies the live contract.
+
+- [ ] **P4B-01** Verify current state: run `platform/services/ultra-core-bridge` tests; reconcile P4-02/03/04 vs README/status; check A13 owned path (`platform/packages/...` vs actual `platform/services/...`); diagram count 116 vs 117; port 4000 vs 5555 env policy Question Card; check `platform/backend/outbox` duplication; write `brain-stack/memory/ops/ultra-core-integration-status.md` · A01+A03 · `IDEA`
+- [ ] **P4B-02** Record owner decision in `brain-stack/memory/planning/decisions/ledger.md` + ADR `ADR-00xx-ultra-core-as-receiver-and-tiers.md`: Ultra-Core receiver + signed callbacks; tiers T0/T1/T2; G-4.2 stays closed · A03+A00 · 🔒 R2
+- [ ] **P4B-03** Add Appendix A diagrams A1–A9 as new `brain-stack/memory/diagrams/blockchain_ultra-core-integration__*.mmd` files + `docs/v2/ultra-core-integration.md`; validate Mermaid; write `docs/v2/technical-spec-s14.patch.md` proposal (do not edit `technical-spec.md`) · A03+A01 · `IDEA`
+- [ ] **P4B-04** Add facts/glossary/coverage/sources rows for Ultra Core integration; mark legacy Blockchain Layer diagrams in `system-architecture.md` as SUPERSEDED in `contradictions.md` without editing baseline docs · A01+A03 · `IDEA`
+- [ ] **P4B-05** Contracts: `contracts/ultra-core/openapi.yaml` OpenAPI 3.1 for outbound ingest/proofs/credits/registry/health + inbound `ultra-core.callback.v1` + SSE; JSON Schemas for `ultra.event.v1` (exact copy from bridge `types.ts`) and `ultra-core.callback.v1`; error model, idempotency, ordering, clock skew, tier marks, T2 BLOCKED · A13+A03 · `IDEA` 🔒 R2 (interface contract)
+- [ ] **P4B-06** `HttpExportTarget implements ExportTarget`: batching, `Idempotency-Key`, contiguous-prefix cursor, backoff, offline queue, TLS/mTLS options; env `ULTRA_CORE_BASE_URL`/`ULTRA_CORE_AUTH_*`/`ULTRA_CORE_ENABLED=false`; no hard-coded URL · A13 · `IDEA` 🔒 R2 (real network when enabled)
+- [ ] **P4B-07** `InboundReceiver`: Ed25519 signature verify, timestamp window, nonce/callback-id dedupe, JSON Schema validation, internal event bus, dead-letter store; never executes instructions contained in payloads · A13 · `IDEA` 🔒 R2
+- [ ] **P4B-08** Handlers as STUB + tests: `anchor.confirmed`→trace proof; `credits.balance_changed`→budgets/console; `governance.policy_changed`→gateway policy after timelock+approval; `registry.item_revoked`→disable skill/key; `approval.decided`→resume/cancel task · A13 · `IDEA`
+- [ ] **P4B-09** `CoreClient` typed from OpenAPI: caps, reservations, registry, proofs; read-only default; value-moving calls require approvals flow in agents network · A13 · `IDEA` 🔒 R2
+- [ ] **P4B-10** Mock Ultra-Core server implementing the contract (ingest verify, idempotency, 207 partials, failure injection, signed callbacks, Merkle proofs) + `docker-compose` service `ultra-core-mock` + `npm run core:mock` · A13 · `IDEA`
+- [ ] **P4B-11** Contract tests `npm run test:core-contract` vs mock: duplicate delivery, tampered event, broken `prev_hash`, partial acceptance, retry after 503, replayed callback, bad signature, clock skew, large batch, offline reconnect; later vs real via env only · A13+A14 · `IDEA`
+- [ ] **P4B-12** Env/docs/observability: `.env.example`, health/metrics Prometheus, structured logs without payload secrets, kill switch `ULTRA_CORE_ENABLED`, per-agent spending-cap hook, Gate-OS local reachability doc · A13 · `IDEA`
+- [ ] **P4B-13** E2E demo vs mock: `usage.model_call` → ingest → anchor → `anchor.confirmed` → proof verify → T1 cap/reservation/settlement · A13 · `IDEA` 🔒 R2
+- [ ] **P4B-14** Evidence report `brain-stack/memory/ops/ultra-core-integration-status.md` + publish `contracts/ultra-core/` package + README for Ultra-Core team stating exactly what Ultra-Core must implement · A13+A15 · `IDEA`
+- [ ] **P4B-15** Owner Question Card R2 before first real Ultra-Core call and before T1 enable; T2 remains BLOCKED by G-4.2 written legal opinion · A00 · 🔒 R2
 
 ---
 
