@@ -105,7 +105,10 @@ export function createEventSigner(options: SignerOptions = {}): EventSigner {
         if (sig.alg !== 'Ed25519' || sig.key_id !== keyId) return false;
         // base64url is canonical (ADR-0001); '+'/'/'/'=' indicate legacy base64.
         const isLegacyBase64 = /[+/=]/.test(sig.value);
-        const bytes = Buffer.from(sig.value, isLegacyBase64 ? 'base64' : 'base64url');
+        const bytes = Buffer.from(
+          sig.value,
+          isLegacyBase64 ? 'base64' : 'base64url'
+        );
         return verify(
           null,
           Buffer.from(signingPayload(rest as Omit<UltraEvent, 'sig'>), 'utf8'),

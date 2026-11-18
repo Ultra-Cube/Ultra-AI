@@ -1,14 +1,18 @@
 import { createServer, Server } from 'node:http';
 import type { AddressInfo } from 'node:net';
 
-import { HttpExportTarget } from './http-target';
 import { UltraCoreApiError, UltraCoreClient } from './core-client';
+import { HttpExportTarget } from './http-target';
 import { ExportBatch } from './types';
 
 describe('HttpExportTarget / UltraCoreClient (WS-C, ADR-0001)', () => {
   let server: Server;
   let baseUrl: string;
-  let lastRequest: { path?: string; headers: Record<string, unknown>; body: string } | null;
+  let lastRequest: {
+    path?: string;
+    headers: Record<string, unknown>;
+    body: string;
+  } | null;
   let responder: (body: string) => { status: number; json: unknown };
 
   const batch: ExportBatch = {
@@ -49,7 +53,9 @@ describe('HttpExportTarget / UltraCoreClient (WS-C, ADR-0001)', () => {
     await target.send(batch);
     expect(lastRequest?.path).toBe('/v1/ingest/batches');
     expect(lastRequest?.headers['idempotency-key']).toBe('batch_abc123');
-    expect(JSON.parse(lastRequest!.body)).toMatchObject({ batch_id: 'batch_abc123' });
+    expect(JSON.parse(lastRequest!.body)).toMatchObject({
+      batch_id: 'batch_abc123',
+    });
   });
 
   it('returns accepted/rejected on 200', async () => {
@@ -66,7 +72,11 @@ describe('HttpExportTarget / UltraCoreClient (WS-C, ADR-0001)', () => {
   it('treats 207 partial acceptance as a result, not an error', async () => {
     responder = () => ({
       status: 207,
-      json: { batch_id: 'b', accepted: ['e1'], rejected: [{ id: 'e2', reason: 'bad sig' }] },
+      json: {
+        batch_id: 'b',
+        accepted: ['e1'],
+        rejected: [{ id: 'e2', reason: 'bad sig' }],
+      },
     });
     const target = new HttpExportTarget({ baseUrl });
     const result = await target.send(batch);
@@ -82,7 +92,8 @@ describe('HttpExportTarget / UltraCoreClient (WS-C, ADR-0001)', () => {
 
   it('client exposes health/listKeys/registerKey/instanceHead', async () => {
     responder = (body) => {
-      if (body === '') return { status: 200, json: { keys: [{ key_id: 'k1' }] } };
+      if (body === '')
+        return { status: 200, json: { keys: [{ key_id: 'k1' }] } };
       return { status: 200, json: { ok: true } };
     };
     const client = new UltraCoreClient({ baseUrl });
@@ -91,9 +102,17 @@ describe('HttpExportTarget / UltraCoreClient (WS-C, ADR-0001)', () => {
 
   it('sends ingest token on producer routes and admin token on reads (WS-F)', async () => {
     responder = () => ({ status: 200, json: { ok: true, keys: [] } });
-    const client = new UltraCoreClient({ baseUrl, token: 'ing-tok', adminToken: 'adm-tok' });
+    const client = new UltraCoreClient({
+      baseUrl,
+      token: 'ing-tok',
+      adminToken: 'adm-tok',
+    });
 
-    await client.ingestBatch({ batch_id: 'b1', target: 't', events: [] } as never);
+    await client.ingestBatch({
+      batch_id: 'b1',
+      target: 't',
+      events: [],
+    } as never);
     expect(lastRequest?.headers['authorization']).toBe('Bearer ing-tok');
 
     await client.listKeys();

@@ -67,7 +67,9 @@ export class EventExporter {
       const events: UltraEvent[] = slice.map((r) => r.event);
       const batch: ExportBatch = {
         batch_id: `batch_${createHash('sha256')
-          .update(`${target.id}:${slice[0].event.id}:${slice[slice.length - 1].event.id}`)
+          .update(
+            `${target.id}:${slice[0].event.id}:${slice[slice.length - 1].event.id}`
+          )
           .digest('hex')
           .slice(0, 24)}`,
         target: target.id,

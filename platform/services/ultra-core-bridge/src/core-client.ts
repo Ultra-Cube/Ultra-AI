@@ -64,7 +64,8 @@ export class UltraCoreClient {
     this.timeoutMs = options.timeoutMs ?? 10_000;
     this.fetchImpl = options.fetchImpl ?? fetch;
     this.token = options.token ?? process.env.UCI_INGEST_TOKEN;
-    this.adminToken = options.adminToken ?? process.env.UCI_ADMIN_TOKEN ?? this.token;
+    this.adminToken =
+      options.adminToken ?? process.env.UCI_ADMIN_TOKEN ?? this.token;
   }
 
   private authFor(path: string, method: string): Record<string, string> {
@@ -131,7 +132,9 @@ export class UltraCoreClient {
     };
   }
 
-  async instanceHead(instance: string): Promise<{ instance: string; head: string }> {
+  async instanceHead(
+    instance: string
+  ): Promise<{ instance: string; head: string }> {
     return (await this.request(
       `/v1/instances/${encodeURIComponent(instance)}/head`
     )) as { instance: string; head: string };

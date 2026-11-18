@@ -1,5 +1,5 @@
-import { ExportBatch, ExportResult, ExportTarget } from './types';
 import { createCoreClient, UltraCoreClient } from './core-client';
+import { ExportBatch, ExportResult, ExportTarget } from './types';
 
 export interface HttpExportTargetOptions {
   /** ultra-core-ingest base URL, e.g. http://127.0.0.1:4400 */
