@@ -1,0 +1,18 @@
+#!/usr/bin/env sh
+# Append permanent Ultra Cube co-author trailers to every commit message.
+msg_file="$1"
+[ -f "$msg_file" ] || exit 0
+
+if grep -qiE '^co-authored-by:.*Ultra Cube Team' "$msg_file"; then
+  exit 0
+fi
+
+if [ -n "$(tail -c 1 "$msg_file")" ]; then
+  printf '\n' >> "$msg_file"
+fi
+
+cat >> "$msg_file" <<'EOF'
+
+Co-authored-by: Ultra Cube Team <https://github.com/Ultra-Cube>
+Co-authored-by: Ultra Zone Team <https://github.com/Ultra-Cube/Ultra-Zone>
+EOF
