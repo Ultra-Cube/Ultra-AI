@@ -1,0 +1,25 @@
+sequenceDiagram
+  autonumber
+  actor U as User
+  participant C as Console
+  participant AG as Agent
+  participant GW as Model gateway
+  participant OB as Outbox
+  participant CR as Ultra-Core credits ledger
+  U->>C: set spending cap for agent
+  C->>CR: PUT /v1/credits/caps (signed by user session)
+  AG->>CR: POST /v1/credits/reservations (estimate, task id)
+  alt within cap
+    CR-->>AG: reservation granted
+  else over cap
+    CR-->>C: approval required
+    C->>U: approval request
+    U-->>C: approve or deny
+    C->>CR: decision recorded
+  end
+  AG->>GW: run model call
+  GW->>OB: usage.model_call event (signed)
+  OB->>CR: delivered through ingest
+  CR->>CR: settle reservation against actual usage
+  CR-->>C: callback credits.balance_changed
+  C-->>U: updated balance and trace link

@@ -1,0 +1,54 @@
+erDiagram
+  INSTANCE ||--o{ EVENT_LOG : emits
+  INSTANCE ||--o{ AGENT_IDENTITY : hosts
+  AGENT_IDENTITY ||--o{ CREDIT_ACCOUNT : owns
+  CREDIT_ACCOUNT ||--o{ CREDIT_ENTRY : records
+  ANCHOR_BATCH ||--o{ EVENT_LOG : includes
+  REGISTRY_ITEM ||--o{ EVENT_LOG : referenced_by
+  INSTANCE {
+    string id PK
+    string key_id
+    string public_key
+    string status
+  }
+  AGENT_IDENTITY {
+    string id PK
+    string instance_id FK
+    string scopes
+    string status
+  }
+  EVENT_LOG {
+    string id PK
+    string instance_id FK
+    string type
+    string prev_hash
+    string hash
+    string anchor_batch_id FK
+    datetime ts
+  }
+  ANCHOR_BATCH {
+    string id PK
+    string merkle_root
+    string chain_ref
+    datetime anchored_at
+  }
+  CREDIT_ACCOUNT {
+    string id PK
+    string agent_id FK
+    decimal cap
+    decimal balance
+  }
+  CREDIT_ENTRY {
+    string id PK
+    string account_id FK
+    string event_id FK
+    decimal amount
+    string kind
+  }
+  REGISTRY_ITEM {
+    string id PK
+    string kind
+    string content_hash
+    string signer_key_id
+    string version
+  }

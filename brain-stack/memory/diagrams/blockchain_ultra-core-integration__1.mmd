@@ -1,0 +1,38 @@
+flowchart LR
+  subgraph UA["Ultra AI platform"]
+    BRAIN["Hermes brain, memory, skills"]
+    GW["Model gateway"]
+    AGN["Agents network and approvals"]
+    UI["Console and ZeroAI adaptive UI"]
+    OUT["Signed event outbox<br/>ultra-core-bridge"]
+    INB["Inbound receiver<br/>webhooks and event stream"]
+  end
+  subgraph UC["Ultra-Core"]
+    ING["Ingest API<br/>ExportTarget"]
+    VER["Verifier<br/>signature and hash chain"]
+    IDR["Identity registry"]
+    LED["Credits ledger<br/>off-chain first"]
+    REG["Provenance registry"]
+    ANC["Anchor service<br/>Merkle roots"]
+    GOV["Governance"]
+    EVS["Event publisher"]
+  end
+  CH["Own ledger or self-hosted chain nodes"]
+  BRAIN --> OUT
+  GW --> OUT
+  AGN --> OUT
+  OUT -->|"ultra.event.v1 batches"| ING
+  ING --> VER
+  VER --> IDR
+  VER --> LED
+  VER --> REG
+  VER --> ANC
+  ANC --> CH
+  GOV --> LED
+  LED --> EVS
+  REG --> EVS
+  ANC --> EVS
+  GOV --> EVS
+  EVS -->|"signed callbacks"| INB
+  INB --> AGN
+  INB --> UI

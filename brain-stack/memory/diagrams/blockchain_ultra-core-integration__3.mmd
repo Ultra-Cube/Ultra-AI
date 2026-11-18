@@ -1,0 +1,23 @@
+sequenceDiagram
+  autonumber
+  participant EX as EventExporter (Ultra AI)
+  participant API as Ingest API (Ultra-Core)
+  participant VER as Verifier
+  participant LOG as Event log
+  participant ANC as Anchor service
+  EX->>API: POST /v1/ingest/batches (Idempotency-Key, events)
+  API->>VER: authenticate instance, resolve key_id
+  VER->>VER: verify Ed25519 signature per event
+  VER->>VER: verify prev_hash continuity per instance
+  alt all valid
+    VER->>LOG: append, dedupe by event id
+    API-->>EX: 200 accepted ids
+  else some rejected
+    API-->>EX: 207 accepted ids plus rejected with reasons
+    Note over EX: cursor advances only past the contiguous accepted prefix
+  else transient failure
+    API-->>EX: 503
+    Note over EX: retry with backoff and the same Idempotency-Key
+  end
+  LOG->>ANC: periodic batch Merkle root
+  ANC-->>EX: callback anchor.confirmed with proof reference

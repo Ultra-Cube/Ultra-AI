@@ -1,0 +1,12 @@
+flowchart TB
+  A["Action in Ultra AI<br/>model call, tool call, skill publish, memory snapshot"] --> B["Build event<br/>schema ultra.event.v1, ULID, ts, subject, payload"]
+  B --> C["Canonical JSON"]
+  C --> D["Sign Ed25519<br/>instance key, key_id"]
+  D --> E["Append to outbox<br/>prev_hash links to previous event"]
+  E --> F["Exporter drains in batches<br/>per-target cursor"]
+  F --> G["Ultra-Core ingest"]
+  G --> H{"Valid?"}
+  H -->|"yes"| I["Stored, deduped by event id"]
+  H -->|"no"| J["Rejected with reason<br/>retried or quarantined"]
+  I --> K["Batch Merkle root"]
+  K --> L["Anchored<br/>receipt returned by callback"]
