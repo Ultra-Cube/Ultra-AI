@@ -78,37 +78,27 @@ export default function StudioPage() {
   };
 
   return (
-    <main className="flex h-screen flex-col bg-zinc-950 text-zinc-100">
-      <header className="flex items-center justify-between border-b border-zinc-800 px-6 py-3">
+    <div className="page uai-fill">
+      <header className="page-head">
         <div>
-          <h1 className="text-lg font-semibold">Ultra Studio</h1>
-          <p className="text-xs text-zinc-500">
+          <h1>Ultra Studio</h1>
+          <p className="muted">
             Code-OSS / Open VS Code — Open VSX extensions only
           </p>
         </div>
-        <div className="flex items-center gap-2">
-          {!connected && (
-            <span className="rounded bg-amber-500/10 px-2 py-1 text-xs text-amber-400">
-              supervisor offline
-            </span>
-          )}
+        <div className="uai-toolbar">
+          {!connected && <span className="badge warn">supervisor offline</span>}
           {engine && (
-            <span
-              className={`rounded px-2 py-1 text-xs ${
-                healthy
-                  ? 'bg-emerald-500/10 text-emerald-400'
-                  : 'bg-zinc-800 text-zinc-400'
-              }`}
-            >
+            <span className={`badge ${healthy ? 'ok' : 'off'}`}>
               {engine.state}
             </span>
           )}
           {engine && !healthy && (
             <button
               type="button"
+              className="btn primary"
               disabled={busy}
               onClick={() => void runAction('start')}
-              className="rounded bg-sky-600 px-3 py-1 text-xs font-medium text-white hover:bg-sky-500 disabled:opacity-50"
             >
               {busy ? 'Starting…' : 'Start'}
             </button>
@@ -116,9 +106,9 @@ export default function StudioPage() {
           {healthy && (
             <button
               type="button"
+              className="btn secondary"
               disabled={busy}
               onClick={() => void runAction('stop')}
-              className="rounded bg-red-600/80 px-3 py-1 text-xs font-medium text-white hover:bg-red-500 disabled:opacity-50"
             >
               {busy ? 'Stopping…' : 'Stop'}
             </button>
@@ -126,41 +116,33 @@ export default function StudioPage() {
         </div>
       </header>
 
-      {error && (
-        <div className="border-b border-red-900/50 bg-red-950/40 px-6 py-2 text-sm text-red-300">
-          {error}
-        </div>
-      )}
+      {error && <div className="uai-note err">{error}</div>}
       {engine?.lastError && !healthy && (
-        <div className="border-b border-amber-900/50 bg-amber-950/30 px-6 py-2 text-sm text-amber-300">
-          {engine.lastError}
-        </div>
+        <div className="uai-note warn">{engine.lastError}</div>
       )}
 
-      <div className="relative flex-1">
+      <div className="uai-frame-wrap">
         {healthy ? (
           <iframe
             src={`http://127.0.0.1:${port}/`}
             title="Ultra Studio"
-            className="h-full w-full border-0"
+            className="uai-frame-fill"
           />
         ) : (
-          <div className="flex h-full items-center justify-center">
-            <div className="max-w-md text-center">
-              <h2 className="text-base font-medium text-zinc-300">
-                {connected
-                  ? 'Ultra Studio is not running'
-                  : 'Supervisor offline'}
-              </h2>
-              <p className="mt-2 text-sm text-zinc-500">
-                {connected
-                  ? 'Start the openvscode-server sidecar to open the embedded IDE. Extensions load from Open VSX only — no Microsoft Marketplace.'
-                  : 'The desktop bridge is not reachable. Launch the desktop shell or check that core-api is running.'}
-              </p>
-            </div>
+          <div className="uai-empty" style={{ height: '100%' }}>
+            <h2 style={{ marginTop: 0 }}>
+              {connected
+                ? 'Ultra Studio is not running'
+                : 'Supervisor offline'}
+            </h2>
+            <p className="muted">
+              {connected
+                ? 'Start the openvscode-server sidecar to open the embedded IDE. Extensions load from Open VSX only — no Microsoft Marketplace.'
+                : 'The desktop bridge is not reachable. Launch the desktop shell or check that core-api is running.'}
+            </p>
           </div>
         )}
       </div>
-    </main>
+    </div>
   );
 }

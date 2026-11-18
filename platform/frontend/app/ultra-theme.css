@@ -1224,3 +1224,38 @@ label.check input {
     min-height: 480px;
   }
 }
+
+/* WS-C: unified page utilities (replaces dead Tailwind classes) */
+.uai-fill { display: flex; flex-direction: column; min-height: 0; flex: 1; }
+.uai-frame-wrap { position: relative; flex: 1; min-height: 320px; }
+.uai-frame-fill { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; background: var(--bg); }
+.uai-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.uai-input, .uai-select {
+  background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+  color: inherit; border-radius: 8px; padding: 8px 12px; font: inherit; font-size: 13px;
+}
+.uai-input:focus, .uai-select:focus { outline: none; border-color: var(--accent); }
+.uai-input.mono, .uai-select.mono { font-family: var(--font-plex-mono, monospace); font-size: 12px; }
+.uai-row {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 12px 14px; border: 1px solid var(--border); border-radius: 10px;
+  background: rgba(255,255,255,0.02);
+}
+.uai-row + .uai-row { margin-top: 8px; }
+.uai-empty {
+  border: 1px dashed var(--border); border-radius: 10px; padding: 24px;
+  text-align: center; color: var(--muted); font-size: 13px;
+}
+.uai-note {
+  border: 1px solid var(--border); border-left: 3px solid var(--accent-2);
+  border-radius: 8px; padding: 10px 14px; font-size: 13px; margin-bottom: 16px;
+  background: rgba(255,255,255,0.02);
+}
+.uai-note.warn { border-left-color: #e0a53a; }
+.uai-note.err { border-left-color: #e5534b; }
+.badge.info { color: var(--accent-2); border-color: rgba(77,208,225,0.35); }
+.badge.off { color: var(--muted); }
+.uai-status { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); }
+.uai-dot2 { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); display: inline-block; }
+.uai-dot2.ok { background: #3fb950; } .uai-dot2.err { background: #e5534b; }
+.uai-dot2.warn { background: #e0a53a; } .uai-dot2.info { background: var(--accent-2); }

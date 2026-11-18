@@ -31,13 +31,22 @@ interface WorkspaceState {
   sessions: WorkspaceSession[];
 }
 
-const STATUS_COLOR: Record<string, string> = {
-  idle: 'text-emerald-400',
-  running: 'text-sky-400',
-  paused: 'text-amber-400',
-  error: 'text-red-400',
-  stopped: 'text-zinc-500',
-  unknown: 'text-zinc-500',
+const STATUS_BADGE: Record<string, string> = {
+  idle: 'ok',
+  running: 'info',
+  paused: 'warn',
+  error: 'err',
+  stopped: 'off',
+  unknown: 'off',
+};
+
+const STATUS_DOT: Record<string, string> = {
+  idle: 'ok',
+  running: 'info',
+  paused: 'warn',
+  error: 'err',
+  stopped: '',
+  unknown: '',
 };
 
 export default function WorkspacePage() {
@@ -125,21 +134,17 @@ export default function WorkspacePage() {
   const reachable = state?.health.reachable === true;
 
   return (
-    <main className="mx-auto max-w-4xl px-6 py-10">
-      <header className="mb-8 flex items-center justify-between">
+    <div className="page">
+      <header className="page-head">
         <div>
-          <h1 className="text-2xl font-semibold">Workspace</h1>
-          <p className="text-sm text-zinc-400">
+          <h1>Workspace</h1>
+          <p className="muted">
             Embedded OpenHands sessions — agentic coding workspaces
           </p>
         </div>
-        <div className="flex items-center gap-2 text-sm">
-          <span
-            className={`inline-block h-2 w-2 rounded-full ${
-              reachable ? 'bg-emerald-400' : 'bg-zinc-600'
-            }`}
-          />
-          <span className="text-zinc-400">
+        <div className="uai-status">
+          <span className={`uai-dot2 ${reachable ? 'ok' : 'err'}`} />
+          <span>
             {reachable
               ? `sidecar ${state?.health.baseUrl ?? ''}`
               : 'sidecar offline'}
@@ -148,78 +153,67 @@ export default function WorkspacePage() {
       </header>
 
       {!state ? (
-        <p className="text-zinc-500">Loading…</p>
+        <p className="muted">Loading…</p>
       ) : !state.connected ? (
-        <div className="rounded-lg border border-amber-500/30 bg-amber-500/10 p-4 text-sm text-amber-300">
+        <div className="uai-note warn">
           Desktop bridge offline — workspace sessions unavailable. Start the
           desktop bridge and the OpenHands sidecar to manage workspaces.
         </div>
       ) : (
         <>
-          <section className="mb-8 rounded-lg border border-zinc-800 bg-zinc-900/50 p-4">
-            <h2 className="mb-3 text-sm font-medium text-zinc-300">
-              Open workspace
-            </h2>
-            <div className="flex flex-col gap-2 sm:flex-row">
+          <section className="card" style={{ marginBottom: 20 }}>
+            <h2 className="svc-group-title">Open workspace</h2>
+            <div className="uai-toolbar" style={{ alignItems: 'stretch' }}>
               <input
+                className="uai-input mono"
+                style={{ flex: 1, minWidth: 220 }}
                 value={path}
                 onChange={(e) => setPath(e.target.value)}
                 placeholder="/absolute/path/to/project"
-                className="flex-1 rounded-md border border-zinc-700 bg-zinc-950 px-3 py-2 font-mono text-sm"
               />
               <input
+                className="uai-input"
+                style={{ width: 220 }}
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="Title (optional)"
-                className="w-full rounded-md border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm sm:w-56"
               />
               <button
+                className="btn primary"
                 onClick={() => void openSession()}
                 disabled={busy || !path.trim()}
-                className="rounded-md bg-sky-600 px-4 py-2 text-sm font-medium text-white disabled:opacity-40"
               >
                 Open
               </button>
             </div>
-            {error && <p className="mt-2 text-sm text-red-400">{error}</p>}
+            {error && <p style={{ color: '#e5534b', marginTop: 10 }}>{error}</p>}
           </section>
 
-          <section className="mb-8 rounded-lg border border-zinc-800 bg-zinc-900/50 p-4">
-            <div className="mb-3 flex items-center justify-between">
-              <h2 className="text-sm font-semibold text-zinc-200">Engines</h2>
-              <Link
-                href="/services"
-                className="text-xs text-sky-400 hover:underline"
-              >
+          <section className="card" style={{ marginBottom: 20 }}>
+            <div className="uai-toolbar" style={{ justifyContent: 'space-between' }}>
+              <h2 className="svc-group-title" style={{ margin: 0 }}>
+                Engines
+              </h2>
+              <Link className="ghost-link" href="/services">
                 Services &amp; Engines →
               </Link>
             </div>
             {engines.length === 0 ? (
-              <p className="text-xs text-zinc-500">No engines registered.</p>
+              <p className="muted small">No engines registered.</p>
             ) : (
-              <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="grid">
                 {engines.map((e) => (
-                  <div
-                    key={e.id}
-                    className="flex items-center justify-between rounded-md border border-zinc-800 bg-zinc-950/60 px-3 py-2"
-                  >
-                    <div className="min-w-0">
-                      <div className="truncate text-xs font-medium text-zinc-200">
+                  <div key={e.id} className="uai-row">
+                    <div style={{ minWidth: 0 }}>
+                      <div className="small" style={{ fontWeight: 600 }}>
                         {e.label}
                       </div>
-                      <div className="text-[10px] text-zinc-500">
+                      <div className="muted small mono">
                         {e.category}
                         {e.port ? ` · :${e.port}` : ''}
                       </div>
                     </div>
-                    <span
-                      className={
-                        e.up
-                          ? 'ml-2 shrink-0 rounded-full bg-emerald-500/15 px-2 py-0.5 text-[10px] text-emerald-400'
-                          : 'ml-2 shrink-0 rounded-full bg-zinc-700/40 px-2 py-0.5 text-[10px] text-zinc-400'
-                      }
-                      title={e.up ? 'up' : 'down'}
-                    >
+                    <span className={`badge ${e.up ? 'ok' : 'off'}`}>
                       {e.up ? 'up' : 'down'}
                     </span>
                   </div>
@@ -229,55 +223,50 @@ export default function WorkspacePage() {
           </section>
 
           <section>
-            <h2 className="mb-3 text-sm font-medium text-zinc-300">
+            <h2 className="svc-group-title">
               Sessions ({state.sessions.length})
             </h2>
             {state.sessions.length === 0 ? (
-              <p className="rounded-lg border border-zinc-800 p-6 text-center text-sm text-zinc-500">
-                No workspace sessions. Open one above to start an agentic coding
-                session.
-              </p>
+              <div className="uai-empty">
+                No workspace sessions. Open one above to start an agentic
+                coding session.
+              </div>
             ) : (
-              <ul className="space-y-2">
+              <div>
                 {state.sessions.map((s) => (
-                  <li
-                    key={s.id}
-                    className="flex items-center justify-between rounded-lg border border-zinc-800 bg-zinc-900/50 px-4 py-3"
-                  >
-                    <div className="min-w-0">
-                      <div className="flex items-center gap-2">
-                        <span className="truncate font-medium">
+                  <div key={s.id} className="uai-row">
+                    <div style={{ minWidth: 0 }}>
+                      <div className="uai-toolbar" style={{ gap: 8 }}>
+                        <span style={{ fontWeight: 600 }}>
                           {s.title ?? s.workspacePath}
                         </span>
-                        <span
-                          className={`text-xs ${STATUS_COLOR[s.status] ?? 'text-zinc-400'}`}
-                        >
+                        <span className={`badge ${STATUS_BADGE[s.status] ?? 'off'}`}>
                           {s.status}
                         </span>
                       </div>
-                      <div className="mt-1 truncate font-mono text-xs text-zinc-500">
+                      <div className="muted small mono" style={{ marginTop: 4 }}>
                         {s.workspacePath} · {s.agent} · {s.id}
                       </div>
                       {s.lastError && (
-                        <div className="mt-1 text-xs text-red-400">
+                        <div className="small" style={{ color: '#e5534b', marginTop: 4 }}>
                           {s.lastError}
                         </div>
                       )}
                     </div>
                     <button
+                      className="btn secondary"
                       onClick={() => void closeSession(s.id)}
                       disabled={busy}
-                      className="ml-4 shrink-0 rounded-md border border-zinc-700 px-3 py-1.5 text-xs text-zinc-300 hover:border-red-500/50 hover:text-red-300 disabled:opacity-40"
                     >
                       Close
                     </button>
-                  </li>
+                  </div>
                 ))}
-              </ul>
+              </div>
             )}
           </section>
         </>
       )}
-    </main>
+    </div>
   );
 }

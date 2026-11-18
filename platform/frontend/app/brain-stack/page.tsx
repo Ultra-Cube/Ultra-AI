@@ -247,7 +247,24 @@ export default function BrainStackPage() {
               </button>
               <button
                 className="btn primary"
+                disabled={!form.name.trim()}
                 onClick={() => {
+                  const name = form.name.trim();
+                  const port = Number.parseInt(form.port.trim(), 10);
+                  const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+                  setSections((prev) => [
+                    ...prev,
+                    {
+                      id: 'custom-' + prev.length + '-' + slug,
+                      name,
+                      desc: form.desc.trim() || 'Custom component',
+                      icon: '◈',
+                      port: Number.isFinite(port) ? port : undefined,
+                      status: 'unknown',
+                      detail: 'Registered locally - no health probe yet',
+                    },
+                  ]);
+                  setSelected(null);
                   setAdding(false);
                   setForm({ name: '', desc: '', port: '' });
                 }}
