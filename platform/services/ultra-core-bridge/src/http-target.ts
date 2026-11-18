@@ -7,6 +7,10 @@ export interface HttpExportTargetOptions {
   /** Target id recorded in batches. Default 'ultra-core'. */
   id?: string;
   timeoutMs?: number;
+  /** Bearer token for ingest/key-registration routes (default env UCI_INGEST_TOKEN). */
+  token?: string;
+  /** Bearer token for read routes (default env UCI_ADMIN_TOKEN, else `token`). */
+  adminToken?: string;
   /** Pre-built client (tests). */
   client?: UltraCoreClient;
   fetchImpl?: typeof fetch;
@@ -30,6 +34,8 @@ export class HttpExportTarget implements ExportTarget {
       createCoreClient({
         baseUrl: options.baseUrl,
         timeoutMs: options.timeoutMs,
+        token: options.token,
+        adminToken: options.adminToken,
         fetchImpl: options.fetchImpl,
       });
   }

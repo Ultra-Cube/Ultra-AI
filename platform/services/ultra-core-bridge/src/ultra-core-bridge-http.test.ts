@@ -88,4 +88,15 @@ describe('HttpExportTarget / UltraCoreClient (WS-C, ADR-0001)', () => {
     const client = new UltraCoreClient({ baseUrl });
     await expect(client.listKeys()).resolves.toEqual([{ key_id: 'k1' }]);
   });
+
+  it('sends ingest token on producer routes and admin token on reads (WS-F)', async () => {
+    responder = () => ({ status: 200, json: { ok: true, keys: [] } });
+    const client = new UltraCoreClient({ baseUrl, token: 'ing-tok', adminToken: 'adm-tok' });
+
+    await client.ingestBatch({ batch_id: 'b1', target: 't', events: [] } as never);
+    expect(lastRequest?.headers['authorization']).toBe('Bearer ing-tok');
+
+    await client.listKeys();
+    expect(lastRequest?.headers['authorization']).toBe('Bearer adm-tok');
+  });
 });
