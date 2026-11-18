@@ -71,6 +71,8 @@ export class UltraCoreMock {
   private readonly reservations = new Map<string, Reservation>();
   private readonly registry = new Map<string, RegistryItem>();
   private readonly sseClients = new Set<ServerResponse>();
+  private ingestFailures = 0;
+  private ingestFailStatus = 503;
   private server: Server | null = null;
 
   constructor(private readonly opts: UltraCoreMockOptions = {}) {
@@ -95,6 +97,12 @@ export class UltraCoreMock {
     this.sseClients.clear();
     await new Promise<void>((resolve) => this.server?.close(() => resolve()));
     this.server = null;
+  }
+
+  /** Failure injection for contract tests: next N ingest calls fail with status. */
+  failNextIngest(status = 503): void {
+    this.ingestFailures++;
+    this.ingestFailStatus = status;
   }
 
   /** Emit a signed callback envelope on the SSE stream (contract: ultra-core.callback.v1). */
@@ -318,6 +326,12 @@ export class UltraCoreMock {
     req: IncomingMessage,
     res: ServerResponse
   ): Promise<void> {
+    if (this.ingestFailures > 0) {
+      this.ingestFailures--;
+      return this.err(res, this.ingestFailStatus, 'injected receiver failure', {
+        retryable: true,
+      });
+    }
     const idemKey = req.headers['idempotency-key'];
     if (typeof idemKey !== 'string' || !idemKey) {
       return this.err(
@@ -384,6 +398,14 @@ export class UltraCoreMock {
         continue;
       }
       const list = this.events.get(instance) ?? [];
+      const expectedPrev = list.length ? list[list.length - 1].hash : GENESIS;
+      const prev = typeof ev.prev_hash === 'string' ? ev.prev_hash : undefined;
+      // Genesis prev_hash is allowed (chain restart); any other value must
+      // match the anchored head of this instance.
+      if (prev !== undefined && prev !== GENESIS && prev !== expectedPrev) {
+        rejected.push({ id, reason: 'prev_hash chain break' });
+        continue;
+      }
       const hash = sha256(JSON.stringify(ev));
       list.push({
         id,

@@ -9,6 +9,8 @@
     "build": "tsup src/index.ts --format esm,cjs",
     "start": "node dist/index.js",
     "test": "jest --config jest.config.cjs",
+    "core:mock": "tsx src/mock-server.ts",
+    "test:core-contract": "jest --config jest.config.cjs ultra-core-mock.test.ts",
     "test:watch": "jest --config jest.config.cjs --watch",
     "lint": "eslint src --ext .ts",
     "lint:fix": "eslint src --ext .ts --fix",

@@ -367,3 +367,120 @@ describe('ultra-core-mock contract (contracts/ultra-core/openapi.yaml)', () => {
     expect((parsed.sig as Record<string, unknown>).alg).toBe('Ed25519');
   }, 10000);
 });
+
+describe('ultra-core-mock failure injection (P4B-11)', () => {
+  let mock2: UltraCoreMock;
+  let url2: string;
+
+  const post = (batch: ExportBatch) =>
+    fetch(url2 + '/v1/ingest/batches', {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        'idempotency-key': batch.batch_id,
+      },
+      body: JSON.stringify(batch),
+    });
+
+  beforeAll(async () => {
+    const started = await startUltraCoreMock({ port: 0 });
+    mock2 = started.mock;
+    url2 = started.url;
+    await fetch(url2 + '/v1/keys', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        key_id: 'key-producer-1',
+        alg: 'Ed25519',
+        public_key: 'dGVzdC1wdWJrZXk',
+      }),
+    });
+  });
+
+  afterAll(async () => {
+    await mock2.stop();
+  });
+
+  it('returns injected 503 once, then accepts the retried batch', async () => {
+    mock2.failNextIngest(503);
+    const batch: ExportBatch = {
+      batch_id: 'b_fail_1',
+      target: 'ultra-core',
+      events: [makeEvent({ subject: { instance: 'inst-fail' } })],
+    };
+    const first = await post(batch);
+    expect(first.status).toBe(503);
+    const second = await post(batch);
+    expect(second.status).toBe(200);
+    const body = (await second.json()) as { accepted: string[] };
+    expect(body.accepted).toHaveLength(1);
+  });
+
+  it('accepts a large batch (250 events) in one request', async () => {
+    const events = Array.from({ length: 250 }, (_, i) =>
+      makeEvent({
+        id: 'ev_big_' + i,
+        subject: { instance: 'inst-big' },
+      })
+    );
+    const res = await post({
+      batch_id: 'b_big_1',
+      target: 'ultra-core',
+      events,
+    });
+    expect(res.status).toBe(200);
+    const body = (await res.json()) as { accepted: string[] };
+    expect(body.accepted).toHaveLength(250);
+
+    const head = await fetch(url2 + '/v1/instances/inst-big/head');
+    expect(head.status).toBe(200);
+    const headBody = (await head.json()) as { height: number };
+    expect(headBody.height).toBe(249);
+  }, 20000);
+
+  it('rejects a tampered event (unregistered key) with 207 partial acceptance', async () => {
+    const good = makeEvent({ subject: { instance: 'inst-tamper' } });
+    const tampered = makeEvent({
+      id: 'ev_tampered_1',
+      subject: { instance: 'inst-tamper' },
+      sig: { alg: 'Ed25519', key_id: 'key-unknown', value: 'eA' },
+    });
+    const res = await post({
+      batch_id: 'b_tamper_1',
+      target: 'ultra-core',
+      events: [good, tampered],
+    });
+    expect(res.status).toBe(207);
+    const body = (await res.json()) as {
+      accepted: string[];
+      rejected: { id: string; reason: string }[];
+    };
+    expect(body.accepted).toEqual([good.id]);
+    expect(body.rejected).toHaveLength(1);
+    expect(body.rejected[0].id).toBe('ev_tampered_1');
+  });
+
+  it('rejects events with broken prev_hash chain as 207 partial acceptance', async () => {
+    const first = makeEvent({
+      id: 'ev_chain_1',
+      subject: { instance: 'inst-chain' },
+    });
+    const broken = makeEvent({
+      id: 'ev_chain_2',
+      subject: { instance: 'inst-chain' },
+      prev_hash: 'sha256:' + 'f'.repeat(64),
+    });
+    const res = await post({
+      batch_id: 'b_chain_1',
+      target: 'ultra-core',
+      events: [first, broken],
+    });
+    expect(res.status).toBe(207);
+    const body = (await res.json()) as {
+      accepted: string[];
+      rejected: { id: string; reason: string }[];
+    };
+    expect(body.accepted).toEqual([first.id]);
+    expect(body.rejected[0].reason).toMatch(/prev_hash/);
+  });
+});

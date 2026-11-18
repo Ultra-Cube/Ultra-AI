@@ -54,6 +54,22 @@ services:
     networks:
       - ultra-ai-network
 
+  ultra-core-mock:
+    image: node:20-alpine
+    working_dir: /repo
+    command: npx tsx platform/services/ultra-core-bridge/src/mock-server.ts
+    ports:
+      - "4100:4100"
+    volumes:
+      - ../../:/repo
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:4100/v1/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+    networks:
+      - ultra-ai-network
+
 volumes:
   postgres_data:
   redis_data:
