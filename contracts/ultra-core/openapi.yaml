@@ -1,0 +1,313 @@
+openapi: 3.1.0
+info:
+  title: Ultra AI ⇄ Ultra-Core Integration Contract
+  version: 0.1.0-draft
+  description: >
+    Contract-first interface between Ultra AI (producer/readiness side) and
+    Ultra-Core (receiver of signed `ultra.event.v1` batches and publisher of
+    signed `ultra-core.callback.v1` callbacks).
+
+    Scope guards (owner direction 2026-11-17): Ultra AI holds NO chain keys,
+    wallets, tokens, mining, rewards, or transferable-value features.
+    Rollout tiers: T0 evidence/provenance, T1 off-chain credits behind
+    approvals, T2 value/token layer BLOCKED by gate G-4.2 pending written
+    legal opinion.
+
+    Status: DRAFT — mock-validated only. Real Ultra-Core calls remain
+    prohibited until the owner supplies and approves the G-4.1 contract.
+  contact:
+    name: Ultra-Cube
+    url: https://github.com/Ultra-Cube
+servers:
+  - url: http://127.0.0.1:4100
+    description: ultra-core-mock (local contract test double)
+  - url: http://127.0.0.1:4000
+    description: Ultra-Core real endpoint (placeholder; set via env only)
+tags:
+  - name: meta
+  - name: ingest
+  - name: proofs
+  - name: credits
+  - name: registry
+  - name: callbacks
+paths:
+  /v1/health:
+    get:
+      tags: [meta]
+      summary: Liveness/readiness probe
+      responses:
+        '200':
+          description: Service is up
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Health' }
+  /v1/keys:
+    get:
+      tags: [meta]
+      summary: List registered public keys (key_id → alg/pubkey)
+      responses:
+        '200':
+          description: Key registry
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  keys:
+                    type: array
+                    items: { $ref: '#/components/schemas/KeyEntry' }
+    post:
+      tags: [meta]
+      summary: Register a producer/consumer public key
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/KeyRegistration' }
+      responses:
+        '201':
+          description: Key registered
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/KeyEntry' }
+        '409':
+          description: key_id already registered
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+  /v1/ingest/batches:
+    post:
+      tags: [ingest]
+      summary: Deliver a batch of signed ultra.event.v1 events (idempotent)
+      parameters:
+        - name: Idempotency-Key
+          in: header
+          required: true
+          description: MUST equal body.batch_id. Replays return the recorded result without re-processing.
+          schema: { type: string, minLength: 1 }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: './schemas/export-batch.schema.json' }
+      responses:
+        '200':
+          description: All events accepted
+          content:
+            application/json:
+              schema: { $ref: './schemas/ingest-response.schema.json' }
+        '207':
+          description: Partial acceptance — rejected events listed per-item
+          content:
+            application/json:
+              schema: { $ref: './schemas/ingest-response.schema.json' }
+        '400':
+          description: Malformed batch or Idempotency-Key mismatch
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+        '401':
+          description: Unknown or revoked signing key
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+        '422':
+          description: Schema or hash-chain verification failure
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+        '503':
+          description: Receiver unavailable — producer MUST retry with backoff
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+  /v1/proofs/{instance}/{event_id}:
+    get:
+      tags: [proofs]
+      summary: Merkle inclusion proof for an anchored event (T0)
+      parameters:
+        - { name: instance, in: path, required: true, schema: { type: string } }
+        - { name: event_id, in: path, required: true, schema: { type: string } }
+      responses:
+        '200':
+          description: Inclusion proof
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Proof' }
+        '404':
+          description: Event not anchored
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+  /v1/instances/{instance}/head:
+    get:
+      tags: [ingest]
+      summary: Current anchored head hash for an instance
+      parameters:
+        - { name: instance, in: path, required: true, schema: { type: string } }
+      responses:
+        '200':
+          description: Head descriptor
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  instance: { type: string }
+                  head: { type: string, description: 'sha256:<hex>' }
+                  height: { type: integer }
+        '404':
+          description: Unknown instance
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+  /v1/credits/balance:
+    get:
+      tags: [credits]
+      summary: Off-chain credit balance (T1 — behind approvals; read-only default)
+      parameters:
+        - { name: subject, in: query, required: true, schema: { type: string }, description: 'agent or instance id' }
+      responses:
+        '200':
+          description: Balance
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/CreditBalance' }
+        '403':
+          description: Tier T1 not enabled for this subject
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+  /v1/credits/reservations:
+    post:
+      tags: [credits]
+      summary: Reserve off-chain credits for a pending operation (T1, approval-gated)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CreditReservation' }
+      responses:
+        '201':
+          description: Reservation created
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/CreditReservation' }
+        '403':
+          description: Missing approval or cap exceeded
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+    get:
+      tags: [credits]
+      summary: List open reservations
+      responses:
+        '200':
+          description: Reservations
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reservations:
+                    type: array
+                    items: { $ref: '#/components/schemas/CreditReservation' }
+  /v1/registry/items:
+    get:
+      tags: [registry]
+      summary: List registry items (skills/keys/policies published by Ultra-Core)
+      responses:
+        '200':
+          description: Registry listing
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items: { $ref: '#/components/schemas/RegistryItem' }
+  /v1/events:
+    get:
+      tags: [callbacks]
+      summary: SSE stream of signed ultra-core.callback.v1 callbacks
+      responses:
+        '200':
+          description: Server-Sent Events stream; each `data:` frame is one callback envelope
+          content:
+            text/event-stream:
+              schema: { type: string }
+components:
+  schemas:
+    Health:
+      type: object
+      required: [status]
+      properties:
+        status: { type: string, enum: [ok, degraded, down] }
+        version: { type: string }
+        tiers: { type: object, description: 'Enabled tiers, e.g. {T0:true,T1:false,T2:false}' }
+    Error:
+      type: object
+      required: [error]
+      properties:
+        error: { type: string }
+        code: { type: string }
+        retryable: { type: boolean }
+    KeyEntry:
+      type: object
+      required: [key_id, alg, public_key]
+      properties:
+        key_id: { type: string }
+        alg: { type: string, const: Ed25519 }
+        public_key: { type: string, description: 'base64url Ed25519 public key' }
+        status: { type: string, enum: [active, revoked] }
+    KeyRegistration:
+      type: object
+      required: [key_id, alg, public_key]
+      properties:
+        key_id: { type: string }
+        alg: { type: string, const: Ed25519 }
+        public_key: { type: string }
+    Proof:
+      type: object
+      required: [event_id, root, proof]
+      properties:
+        event_id: { type: string }
+        instance: { type: string }
+        root: { type: string, description: 'sha256:<hex> Merkle root' }
+        height: { type: integer }
+        proof:
+          type: array
+          items:
+            type: object
+            properties:
+              hash: { type: string }
+              side: { type: string, enum: [left, right] }
+    CreditBalance:
+      type: object
+      required: [subject, balance]
+      properties:
+        subject: { type: string }
+        balance: { type: string, description: 'Decimal credits as string to avoid float drift' }
+        currency: { type: string, description: 'Off-chain credit unit; NOT transferable value' }
+        tier: { type: string, const: T1 }
+    CreditReservation:
+      type: object
+      required: [reservation_id, subject, amount]
+      properties:
+        reservation_id: { type: string }
+        subject: { type: string }
+        amount: { type: string }
+        status: { type: string, enum: [open, settled, released, expired] }
+        expires_at: { type: string, format: date-time }
+        approval_ref: { type: string, description: 'Reference to the approval that authorized this reservation' }
+    RegistryItem:
+      type: object
+      required: [id, kind, version]
+      properties:
+        id: { type: string }
+        kind: { type: string, enum: [skill, key, policy, agent] }
+        version: { type: string }
+        status: { type: string, enum: [active, revoked, deprecated] }
+        revoked_at: { type: string, format: date-time }
+        payload: { type: object }
