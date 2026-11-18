@@ -75,6 +75,8 @@ export default function ServicesPage() {
   const [openUrl, setOpenUrl] = useState<string | null>(null);
   const [openLabel, setOpenLabel] = useState('');
   const [loading, setLoading] = useState(true);
+  const [pending, setPending] = useState<Record<string, 'start' | 'stop'>>({});
+  const [actionError, setActionError] = useState('');
 
   const refresh = useCallback(async () => {
     try {
@@ -92,6 +94,40 @@ export default function ServicesPage() {
       setLoading(false);
     }
   }, []);
+
+  const control = useCallback(
+    async (id: string, action: 'start' | 'stop') => {
+      if (
+        !window.confirm(`${action === 'start' ? 'Start' : 'Stop'} engine "${id}"?`)
+      ) {
+        return;
+      }
+      setPending((p) => ({ ...p, [id]: action }));
+      setActionError('');
+      try {
+        const res = await fetch(`/api/control-center/engines/${id}/${action}`, {
+          method: 'POST',
+          cache: 'no-store',
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok || data?.error) {
+          setActionError(
+            `${action} ${id} failed: ${data?.error ?? `HTTP ${res.status}`}`
+          );
+        }
+      } catch {
+        setActionError(`${action} ${id} failed: control API unreachable`);
+      } finally {
+        setPending((p) => {
+          const next = { ...p };
+          delete next[id];
+          return next;
+        });
+        void refresh();
+      }
+    },
+    [refresh]
+  );
 
   useEffect(() => {
     void refresh();
@@ -127,6 +163,12 @@ export default function ServicesPage() {
           {loading ? 'Refreshing…' : 'Refresh status'}
         </button>
       </header>
+
+      {actionError && (
+        <p className="muted" role="alert">
+          {actionError}
+        </p>
+      )}
 
       {openUrl && (
         <div className="embed-frame card">
@@ -227,6 +269,19 @@ export default function ServicesPage() {
                       {e.up ? `up · ${e.latencyMs ?? '?'}ms` : 'offline'}
                     </span>
                     <span className="spacer" />
+                    <button
+                      className="svc-btn"
+                      disabled={pending[e.id] !== undefined}
+                      onClick={() => void control(e.id, e.up ? 'stop' : 'start')}
+                    >
+                      {pending[e.id] === 'start'
+                        ? 'Starting…'
+                        : pending[e.id] === 'stop'
+                          ? 'Stopping…'
+                          : e.up
+                            ? 'Stop'
+                            : 'Start'}
+                    </button>
                     {e.up && e.embed && (
                       <button
                         className="svc-btn"
