@@ -12,6 +12,18 @@ interface Service {
   latencyMs: number | null;
 }
 
+interface SupStatus {
+  id: string;
+  label: string;
+  state: string;
+  port: number;
+  pid?: number;
+  healthOk: boolean;
+  latencyMs?: number;
+  lastError?: string;
+  url?: string;
+}
+
 interface Engine {
   id: string;
   label: string;
@@ -72,6 +84,8 @@ function Icon({ d, size = 18 }: { d: string; size?: number }) {
 export default function ServicesPage() {
   const [services, setServices] = useState<Service[]>([]);
   const [engines, setEngines] = useState<Engine[]>([]);
+  const [sup, setSup] = useState<Record<number, SupStatus>>({});
+  const [bridgeOnline, setBridgeOnline] = useState<boolean | null>(null);
   const [openUrl, setOpenUrl] = useState<string | null>(null);
   const [openLabel, setOpenLabel] = useState('');
   const [loading, setLoading] = useState(true);
@@ -80,14 +94,22 @@ export default function ServicesPage() {
 
   const refresh = useCallback(async () => {
     try {
-      const [sysRes, engRes] = await Promise.all([
+      const [sysRes, engRes, supRes] = await Promise.all([
         fetch('/api/system/status', { cache: 'no-store' }),
         fetch('/api/engines', { cache: 'no-store' }),
+        fetch('/api/control-center/engines?probe=1', { cache: 'no-store' }),
       ]);
       const sys = await sysRes.json();
       const eng = await engRes.json();
+      const supData = await supRes.json().catch(() => null);
       setServices(sys.services ?? []);
       setEngines(eng.engines ?? []);
+      setBridgeOnline(supData?.connected === true);
+      const map: Record<number, SupStatus> = {};
+      for (const s of (supData?.statuses ?? []) as SupStatus[]) {
+        if (typeof s.port === 'number') map[s.port] = s;
+      }
+      setSup(map);
     } catch {
       // keep last known state
     } finally {
@@ -256,7 +278,16 @@ export default function ServicesPage() {
               </span>
             </h2>
             <div className="svc-grid">
-              {items.map((e) => (
+              {items.map((e) => {
+                const st = sup[e.port];
+                const ctlId = st?.id ?? e.id;
+                const running =
+                  st !== undefined
+                    ? st.state === 'running' ||
+                      st.state === 'starting' ||
+                      st.state === 'stopping'
+                    : e.up;
+                return (
                 <article key={e.id} className={`svc-card${e.up ? ' up' : ''}`}>
                   <div className="svc-card-head">
                     <span className={`svc-dot${e.up ? ' on' : ''}`} />
@@ -266,22 +297,41 @@ export default function ServicesPage() {
                   <p className="svc-desc">{e.description}</p>
                   <div className="svc-card-foot">
                     <span className="svc-status mono">
-                      {e.up ? `up · ${e.latencyMs ?? '?'}ms` : 'offline'}
+                      {st
+                        ? `${st.state}${st.healthOk ? ' · healthy' : ''}${
+                            st.pid ? ` · pid ${st.pid}` : ''
+                          }`
+                        : e.up
+                          ? `up · ${e.latencyMs ?? '?'}ms`
+                          : 'offline'}
                     </span>
                     <span className="spacer" />
-                    <button
-                      className="svc-btn"
-                      disabled={pending[e.id] !== undefined}
-                      onClick={() => void control(e.id, e.up ? 'stop' : 'start')}
-                    >
-                      {pending[e.id] === 'start'
-                        ? 'Starting…'
-                        : pending[e.id] === 'stop'
-                          ? 'Stopping…'
-                          : e.up
-                            ? 'Stop'
-                            : 'Start'}
-                    </button>
+                    {bridgeOnline === false ? (
+                      <span className="svc-status mono">bridge offline</span>
+                    ) : st === undefined ? (
+                      <span
+                        className="svc-status mono"
+                        title="Not managed by EngineSupervisor"
+                      >
+                        unmanaged
+                      </span>
+                    ) : (
+                      <button
+                        className="svc-btn"
+                        disabled={pending[ctlId] !== undefined}
+                        onClick={() =>
+                          void control(ctlId, running ? 'stop' : 'start')
+                        }
+                      >
+                        {pending[ctlId] === 'start'
+                          ? 'Starting…'
+                          : pending[ctlId] === 'stop'
+                            ? 'Stopping…'
+                            : running
+                              ? 'Stop'
+                              : 'Start'}
+                      </button>
+                    )}
                     {e.up && e.embed && (
                       <button
                         className="svc-btn"
@@ -304,7 +354,8 @@ export default function ServicesPage() {
                     </a>
                   </div>
                 </article>
-              ))}
+                );
+              })}
             </div>
           </section>
         );
