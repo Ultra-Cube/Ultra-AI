@@ -3,3 +3,5 @@ export * from './signer';
 export * from './outbox';
 export * from './exporter';
 export * from './mock-target';
+export * from './core-client';
+export * from './http-target';

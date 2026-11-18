@@ -50,6 +50,12 @@ export class EventOutbox {
         `Invalid ultra.event.v1 type: ${type} (expected usage.|contribution.|provenance.*)`
       );
     }
+    if (subject.instance && subject.instance !== this.opts.instanceId) {
+      throw new Error(
+        'EventOutbox is single-instance: subject.instance must equal instanceId ' +
+          `(${this.opts.instanceId}); use one outbox per instance to keep the hash-chain per-instance (ADR-0001).`
+      );
+    }
     const prev = this.records[this.records.length - 1];
     const unsigned: Omit<UltraEvent, 'sig'> = {
       schema: ULTRA_EVENT_SCHEMA,
@@ -58,7 +64,7 @@ export class EventOutbox {
       type,
       subject: {
         ...subject,
-        instance: subject.instance ?? this.opts.instanceId,
+        instance: this.opts.instanceId,
       },
       payload,
       prev_hash: prev ? prev.hash : GENESIS_HASH,

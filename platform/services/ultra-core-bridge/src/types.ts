@@ -3,8 +3,9 @@
  *
  * The platform emits signed, hash-chained `ultra.event.v1` events into an
  * append-only outbox. An exporter may deliver them later via `ExportTarget`.
- * Ultra Core is a separate project; its interface is NOT yet known (gate G-4.1).
- * Until the owner supplies it, only the mock target + contract tests exist.
+ * Ultra Core interface: ADR-0001 (Ultra-Core audit/07) — receiver is
+ * platform/services/ultra-core-ingest (POST /v1/ingest/batches).
+ * http-target.ts + core-client.ts implement the producer side (G-4.1).
  *
  * Explicitly out of scope: tokens, wallets, mining/rewards, smart contracts,
  * chain nodes, private-key custody. Signing keys here sign *events* only.
@@ -40,7 +41,7 @@ export interface UltraEventSignature {
   alg: 'Ed25519';
   /** Key identifier — public key reference, never private material. */
   key_id: string;
-  /** Base64-encoded Ed25519 signature over the canonical signing payload. */
+  /** base64url Ed25519 signature (canonical wire, ADR-0001); base64 tolerated by receivers during transition. */
   value: string;
 }
 

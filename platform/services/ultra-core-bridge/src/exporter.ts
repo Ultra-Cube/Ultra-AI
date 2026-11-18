@@ -1,4 +1,4 @@
-import { randomBytes } from 'node:crypto';
+import { createHash } from 'node:crypto';
 
 import {
   ExportBatch,
@@ -66,7 +66,10 @@ export class EventExporter {
       const slice = pending.slice(i, i + batchSize);
       const events: UltraEvent[] = slice.map((r) => r.event);
       const batch: ExportBatch = {
-        batch_id: `batch_${randomBytes(8).toString('hex')}`,
+        batch_id: `batch_${createHash('sha256')
+          .update(`${target.id}:${slice[0].event.id}:${slice[slice.length - 1].event.id}`)
+          .digest('hex')
+          .slice(0, 24)}`,
         target: target.id,
         events,
       };
