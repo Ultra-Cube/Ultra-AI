@@ -43,7 +43,7 @@ export default function GatewayProvidersPage() {
 
   const fetchProviders = async () => {
     try {
-      const response = await fetch('/platform/api/gateway/providers');
+      const response = await fetch('/api/gateway/providers');
       if (response.ok) {
         const data = await response.json();
         setProviders(data.providers || []);
@@ -57,7 +57,7 @@ export default function GatewayProvidersPage() {
 
   const checkNineRouterStatus = async () => {
     try {
-      const response = await fetch('/platform/api/gateway/health');
+      const response = await fetch('/api/gateway/health');
       if (response.ok) {
         const data = await response.json();
         setNineRouterStatus(data.status === 'ok' ? 'online' : 'offline');

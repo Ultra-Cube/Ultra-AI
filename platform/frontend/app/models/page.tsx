@@ -19,7 +19,7 @@
 
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 interface Model {
   id: string;
@@ -27,6 +27,7 @@ interface Model {
   provider: string;
   type: string;
   status: 'up' | 'down' | 'unknown';
+  state?: string;
   latency?: number;
 }
 
@@ -72,27 +73,53 @@ export default function ModelsPage() {
   const [models, setModels] = useState<Model[]>(FALLBACK);
   const [q, setQ] = useState('');
   const [provider, setProvider] = useState('all');
+  const [pending, setPending] = useState<Record<string, string>>({});
+  const [actionError, setActionError] = useState('');
 
-  useEffect(() => {
-    fetch('/api/engines')
+  const load = useCallback(() => {
+    fetch('/api/control-center/engines?probe=1', { cache: 'no-store' })
       .then((r) => r.json())
       .then((d) => {
-        const list = (d.engines || d || []) as any[];
+        const list = (d.statuses?.length ? d.statuses : d.engines || []) as any[];
         if (Array.isArray(list) && list.length) {
           setModels(
             list.map((e: any, i: number) => ({
               id: e.id || `m${i}`,
-              name: e.name || e.label || e.id,
-              provider: e.category || e.type || 'local',
-              type: e.type || 'engine',
-              status: e.up ? 'up' : 'down',
-              latency: e.latency,
+              name: e.name || e.label || e.manifest?.label || e.id,
+              provider: e.manifest?.category || e.category || 'local',
+              type: e.manifest?.type || e.type || 'engine',
+              status: e.state === 'running' || e.healthOk ? 'up' : 'down',
+              state: e.state,
+              latency: e.latencyMs ?? e.latency,
             }))
           );
         }
       })
       .catch(() => {});
   }, []);
+
+  useEffect(() => {
+    load();
+    const t = setInterval(load, 10000);
+    return () => clearInterval(t);
+  }, [load]);
+
+  async function control(id: string, action: 'start' | 'stop' | 'probe') {
+    if (pending[id]) return;
+    if (action !== 'probe' && !window.confirm(`${action === 'start' ? 'Start' : 'Stop'} engine "${id}"?`)) return;
+    setPending((p) => ({ ...p, [id]: action }));
+    setActionError('');
+    try {
+      const res = await fetch(`/api/control-center/engines/${encodeURIComponent(id)}/${action}`, { method: 'POST' });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) setActionError(data?.error ?? `${action} ${id} failed (${res.status})`);
+    } catch {
+      setActionError('core-api unreachable');
+    } finally {
+      setPending((p) => { const n = { ...p }; delete n[id]; return n; });
+      setTimeout(load, 1200);
+    }
+  }
 
   const filtered = models.filter(
     (m) =>
@@ -110,6 +137,7 @@ export default function ModelsPage() {
             {models.length} engines ·{' '}
             {models.filter((m) => m.status === 'up').length} live
           </p>
+          {actionError && <p className="muted small" style={{ color: '#f87171' }}>{actionError}</p>}
         </div>
       </header>
 
@@ -145,9 +173,22 @@ export default function ModelsPage() {
             </div>
             <div className="model-meta">
               <code>{m.id}</code>
+              {m.state && <span className="muted small">{m.state}</span>}
               {m.latency != null && (
                 <span className="muted small">{m.latency}ms</span>
               )}
+            </div>
+            <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
+              <button
+                className="secondary"
+                disabled={!!pending[m.id]}
+                onClick={() => void control(m.id, m.state === 'running' ? 'stop' : 'start')}
+              >
+                {pending[m.id] === 'start' ? 'Starting…' : pending[m.id] === 'stop' ? 'Stopping…' : m.state === 'running' ? 'Stop' : 'Start'}
+              </button>
+              <button className="secondary" disabled={!!pending[m.id]} onClick={() => void control(m.id, 'probe')}>
+                Probe
+              </button>
             </div>
           </div>
         ))}
