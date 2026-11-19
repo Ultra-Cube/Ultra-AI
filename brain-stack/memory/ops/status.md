@@ -132,3 +132,10 @@
 - QC-P4B-15 ANSWERED: owner chose live connection now (Option 1) — question-cards.md + ledger updated; still needs Ultra-Core base URL + credentials; T1 enablement approved pending those.
 - G-4.2 direction: owner chose "design T2 without enabling" — spec/design docs only, no activation.
 - P4B-13 COMPLETE: settlement flow added — mock POST /v1/credits/reservations/{id}/settle (404/409), openapi.yaml path, CoreClient.settleCreditReservation (readOnly-refused), e2e assertions (settle -> settled, re-settle 409, missing 404, readOnly reject); clock-skew contract test added (stale ts -> rejected + dead-letter). Bridge suite 67/67, tsc+eslint clean.
+
+## 2026-11-19 (cont.5) — Real browser verification + T2 design doc
+
+- Playwright MCP visual check EXECUTED (real browser, WSL IP): /chat loads (2 console errors = Open WebUI :8080 auth 401/403, external-service auth not page bug); /integrations fully functional — all connector cards render with live status (Grafana ONLINE 15ms/HTTP200, n8n/OmniRoute/Hermes OFFLINE), "2/9 services up" strip, API console + confirm notice present; sidebar complete (Chat/Build/Platform/System/External sections + collapse button).
+- REAL BUG FOUND+FIXED: /zeroai returned 500s — /api/zeroai/* proxied to :4000 (core-api) which was not running. Started platform/backend/core-api via tsx (health 200); page now renders live state, zero console errors. Note: core-api + next dev are dev-mode processes, not production services.
+- T2 design doc written per owner direction (design, no enable): docs/T2_VALUE_LAYER_DESIGN.md — contract surface draft, component mapping, 5 activation gates, explicit non-goals. G-4.2 remains CLOSED.
+- QC-P4B-15 recorded as ANSWERED (live approved); blocked only on Ultra-Core base URL + credentials supply.
