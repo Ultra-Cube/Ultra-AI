@@ -1,3 +1,8 @@
+<!--[UCUBETECH-COPYRIGHT]
+ Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+ Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+ GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved-->
+
 # 多语言支持 (i18n)
 
 本项目使用 i18next 和 react-i18next 实现多语言支持。

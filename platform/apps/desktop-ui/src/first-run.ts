@@ -1,3 +1,8 @@
+// [UCUBETECH-COPYRIGHT]
+// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 /**
  * First-run wizard state machine (P2-05).
  * Steps: welcome → hardware probe → model suggestions → engine opt-ins →

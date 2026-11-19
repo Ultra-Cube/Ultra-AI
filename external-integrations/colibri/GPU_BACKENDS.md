@@ -1,3 +1,8 @@
+<!--[UCUBETECH-COPYRIGHT]
+ Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+ Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+ GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved-->
+
 # GPU backends: CUDA and HIP/ROCm
 
 colibrì's GPU expert backend is **one source file** (`c/backend_cuda.cu`) compiled

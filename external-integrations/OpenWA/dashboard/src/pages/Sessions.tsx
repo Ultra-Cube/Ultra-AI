@@ -1,3 +1,8 @@
+// [UCUBETECH-COPYRIGHT]
+// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { Plus, QrCode, RefreshCw, Trash2, Eye, Loader2, Play, Square, X, Search, Filter } from 'lucide-react';

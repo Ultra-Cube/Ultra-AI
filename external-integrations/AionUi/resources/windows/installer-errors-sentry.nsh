@@ -1,3 +1,8 @@
+# [UCUBETECH-COPYRIGHT]
+# Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+# Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+# GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 !ifndef AIONUI_INSTALLER_ERRORS_SENTRY_NSH
 !define AIONUI_INSTALLER_ERRORS_SENTRY_NSH
 

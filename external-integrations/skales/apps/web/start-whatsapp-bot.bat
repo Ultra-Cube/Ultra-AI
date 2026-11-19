@@ -1,3 +1,8 @@
+REM  [UCUBETECH-COPYRIGHT]
+REM  Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+REM  Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+REM  GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 @echo off
 title Skales WhatsApp Bot
 echo.

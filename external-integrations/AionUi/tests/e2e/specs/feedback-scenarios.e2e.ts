@@ -1,3 +1,8 @@
+// [UCUBETECH-COPYRIGHT]
+// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 /**
  * Feedback button scenarios — walks each place in the product where the
  * "一键反馈" pill appears, verifies the pill shows up, clicks it, and

@@ -1,3 +1,8 @@
+// [UCUBETECH-COPYRIGHT]
+// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 export type FileOrFolderItem = {
   path: string; // 绝对路径 / Absolute path
   name: string; // 文件名（可能被清理过用于显示）/ File name (may be cleaned for display)

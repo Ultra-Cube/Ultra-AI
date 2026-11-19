@@ -1,3 +1,8 @@
+<!--[UCUBETECH-COPYRIGHT]
+ Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+ Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+ GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved-->
+
 # ULTRA AI — LIVING TO-DO BOARD
 
 **Maintained by:** A00 Lead Orchestrator · **Source of truth for status.** Update after every task report.

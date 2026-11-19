@@ -1,3 +1,8 @@
+// [UCUBETECH-COPYRIGHT]
+// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 /**
  * MCP client over HTTP (streamable-HTTP / JSON-RPC 2.0 subset).
  *

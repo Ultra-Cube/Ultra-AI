@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
+# [UCUBETECH-COPYRIGHT]
+# Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+# Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+# GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 # GLM-5.2 Expert Atlas — probe sweep (#175).
 #
 #   cd c && ./tools/expert_atlas/sweep.sh [probes.json] [outdir]

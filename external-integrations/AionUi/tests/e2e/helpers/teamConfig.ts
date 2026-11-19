@@ -1,3 +1,8 @@
+// [UCUBETECH-COPYRIGHT]
+// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 // E2E test infrastructure — hardcoded list of backends to test in team mode.
 // This is intentionally static (not dynamic from ACP init results) because
 // E2E tests need a predictable set of backends to validate.

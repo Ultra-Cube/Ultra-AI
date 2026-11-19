@@ -1,3 +1,8 @@
+<!--[UCUBETECH-COPYRIGHT]
+ Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+ Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+ GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved-->
+
 ---
 name: adaptive-ui-spec
 description: Specify the adaptive, directly-interactive ZeroAI-style interface: chat surface that adapts to context, task, and user; spec before implementation.

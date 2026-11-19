@@ -1,3 +1,8 @@
+// [UCUBETECH-COPYRIGHT]
+// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 /* Microbenchmark: old (single-accumulator) vs new (independent-accumulator) AVX-VNNI
  * int8/int4 dot kernels (quant.h). NOT a unit test -- test_idot.c proves correctness.
  * This measures the headline claim: breaking the serial vpdpbusd->acc chain lifts

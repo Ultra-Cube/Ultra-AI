@@ -1,3 +1,8 @@
+// [UCUBETECH-COPYRIGHT]
+// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 // Layout constants for the chat layout panel sizing
 export const MIN_CHAT_RATIO = 25;
 export const MIN_PREVIEW_RATIO = 20;

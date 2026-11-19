@@ -1,3 +1,8 @@
+// [UCUBETECH-COPYRIGHT]
+// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 /**
  * GitHub brand mark — inlined because lucide-react v1 removed all brand icons.
  * Filled path + `fill="currentColor"` so it inherits color from CSS like the

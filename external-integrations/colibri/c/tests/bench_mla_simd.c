@@ -1,3 +1,8 @@
+// [UCUBETECH-COPYRIGHT]
+// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 /* Microbenchmark: scalar vs SIMD MLA-absorb reductions (the #442 change).
  *
  * NOT a unit test — correctness is gated by the glm_tiny TF oracle (SNAP=./glm_tiny

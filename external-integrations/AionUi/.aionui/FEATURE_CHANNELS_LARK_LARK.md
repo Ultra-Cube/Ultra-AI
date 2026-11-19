@@ -1,3 +1,8 @@
+<!--[UCUBETECH-COPYRIGHT]
+ Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+ Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+ GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved-->
+
 # 飞书 (Lark) 接入方案
 
 > 本文档记录飞书平台接入的完整开发方案，基于现有 Telegram 插件架构进行扩展。

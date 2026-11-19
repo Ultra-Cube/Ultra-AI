@@ -1,3 +1,8 @@
+// [UCUBETECH-COPYRIGHT]
+// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 /* Regressione #369: un solo logit NaN o +Inf faceva emettere a dist_build/dist_sample
  * il token 0 PER SEMPRE, in silenzio (il fallback `g_pbuf[i]>0` e' falso su NaN ovunque).
  * Ora la distribuzione degenere ripiega sull'argmax dei logit FINITI e avvisa una volta.

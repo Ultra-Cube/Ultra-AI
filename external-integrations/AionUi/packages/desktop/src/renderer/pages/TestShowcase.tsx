@@ -1,3 +1,8 @@
+// [UCUBETECH-COPYRIGHT]
+// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 import { Button, Message, Collapse, Tag } from '@arco-design/web-react';
 import React, { useState } from 'react';
 import StepsWrapper from '@/renderer/components/base/StepsWrapper';

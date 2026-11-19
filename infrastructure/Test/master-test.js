@@ -1,3 +1,8 @@
+// [UCUBETECH-COPYRIGHT]
+// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 // master-test.js — Master Test Orchestrator (PLACEHOLDER)
 // Planned: runs suites in test/ (unit, integration, e2e, performance,
 // security, blockchain), aggregates reports/ (JSON, HTML, JUnit) and

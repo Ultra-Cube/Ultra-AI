@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
+# [UCUBETECH-COPYRIGHT]
+# Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+# Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+# GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 # colibrì — installazione su una macchina nuova (Linux x86-64, macOS, Windows/MinGW).
 # Compila il motore e fa un self-test. Il MODELLO (~372 GB int4) va copiato a parte
 # o rigenerato con: coli convert --model <dir-su-ext4/NVMe>

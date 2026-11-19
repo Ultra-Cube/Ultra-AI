@@ -1,3 +1,8 @@
+// [UCUBETECH-COPYRIGHT]
+// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 /* Dual-SSD mirror (st_mirror_init & friends): a second read-only model copy is
  * accepted only when byte-identical in size and safetensors header, reads on
  * either replica return the same bytes, and divergent/missing copies degrade

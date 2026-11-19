@@ -1,3 +1,8 @@
+<!--[UCUBETECH-COPYRIGHT]
+ Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+ Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+ GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved-->
+
 # ULTRA AI — CODE BUILD PROMPT (v1.0)
 
 **Status:** ADOPTED — owner-approved route plan (received 2026-11-11). This file is the authoritative build specification. Errata and owner decisions recorded in `## ERRATA & OWNER DECISIONS` at the end supersede the ground-truth table where they differ.

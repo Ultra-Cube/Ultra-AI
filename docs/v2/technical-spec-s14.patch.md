@@ -1,3 +1,8 @@
+<!--[UCUBETECH-COPYRIGHT]
+ Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+ Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+ GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved-->
+
 # Proposed patch — `docs/v2/technical-spec.md` §14
 
 Do **not** apply directly to the baseline spec until the owner approves the P4B contract-first direction. This file is the proposed replacement for the current §14 body.

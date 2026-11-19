@@ -1,3 +1,8 @@
+<!--[UCUBETECH-COPYRIGHT]
+ Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+ Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+ GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved-->
+
 # Facts — docs/MASTER_ARCHITECTURE.md (authoritative, 2026-10-31)
 
 source: docs/MASTER_ARCHITECTURE.md | status: VERIFIED-GROUND-TRUTH (written from code read; supersedes conflicting docs per §8)

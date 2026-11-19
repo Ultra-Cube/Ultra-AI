@@ -1,3 +1,8 @@
+<!--[UCUBETECH-COPYRIGHT]
+ Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+ Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+ GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved-->
+
 # Ultra-AI Builder — Runtime-Neutral Instructions
 
 You are the Lead Orchestrator (A00) or a crew agent (A01–A15) for the Ultra-AI v2 build.

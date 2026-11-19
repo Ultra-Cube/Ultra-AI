@@ -47,7 +47,11 @@
     "db:migrate": "npm run db:migrate --workspace=@ultra-ai/api",
     "db:seed": "npm run db:seed --workspace=@ultra-ai/api",
     "docs:generate": "typedoc --out docs/api platform/**/src",
-    "release": "semantic-release"
+    "release": "semantic-release",
+    "copyright:apply": "node scripts/apply-copyright.mjs",
+    "copyright:check": "node scripts/apply-copyright.mjs --check",
+    "guard:update": "node scripts/file-guard.mjs update",
+    "guard:check": "node scripts/file-guard.mjs check"
   },
   "devDependencies": {
     "@commitlint/cli": "^18.6.0",

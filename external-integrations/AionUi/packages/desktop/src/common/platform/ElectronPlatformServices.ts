@@ -1,3 +1,8 @@
+// [UCUBETECH-COPYRIGHT]
+// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 // This is the only file in src/common/platform/ permitted to import from 'electron'.
 import { app, net, Notification, powerSaveBlocker, utilityProcess, type UtilityProcess } from 'electron';
 import path from 'path';

@@ -1,3 +1,8 @@
+// [UCUBETECH-COPYRIGHT]
+// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 /* Exactness test for the integer-dot kernels: dot_i8i8 and dot_i4i8 must return
  * EXACTLY the same value as a plain-C reference, whatever SIMD path was compiled
  * in (avx512-vnni / avx2 / neon / vsx / scalar). Integer arithmetic has no

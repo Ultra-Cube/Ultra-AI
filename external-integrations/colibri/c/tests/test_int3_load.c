@@ -1,3 +1,8 @@
+// [UCUBETECH-COPYRIGHT]
+// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 /* Loader-seam test for fmt=5: writes a real .safetensors file containing an
  * int3-g64 tensor (U8 payload + per-GROUP .qs) next to an int4 control tensor
  * (per-row .qs), indexes it with st_init, loads both through qt_from_disk, and

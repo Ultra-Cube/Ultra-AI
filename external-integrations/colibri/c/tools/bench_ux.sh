@@ -1,4 +1,9 @@
 #!/bin/bash
+# [UCUBETECH-COPYRIGHT]
+# Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+# Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+# GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 # Unified user-experience benchmark: fixed scenarios, fixed decoding, medians.
 #
 # Reports, per scenario: TTFT (prefill wall), decode tok/s, and the first line

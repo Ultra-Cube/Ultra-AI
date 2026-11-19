@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+# [UCUBETECH-COPYRIGHT]
+# Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+# Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+# GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 """Remove build artifacts. Used by `make clean` so it works from any shell.
 
 Works from cmd.exe, PowerShell, Git Bash, or MSYS2 — no `rm` or POSIX

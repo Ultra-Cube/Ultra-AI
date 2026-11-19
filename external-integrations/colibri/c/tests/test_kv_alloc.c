@@ -1,3 +1,8 @@
+// [UCUBETECH-COPYRIGHT]
+// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 /* kv_alloc must survive re-allocation on the same KVState: every free path is
  * guarded by if(k->Lc) precisely so callers (context resize, slot re-init) can
  * call it again. A stale duplicate free block frees every Lc[i]/Rc[i] and both

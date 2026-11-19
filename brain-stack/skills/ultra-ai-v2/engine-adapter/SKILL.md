@@ -1,3 +1,8 @@
+<!--[UCUBETECH-COPYRIGHT]
+ Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+ Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+ GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved-->
+
 ---
 name: engine-adapter
 description: Implement adapters embedding open-source engines (OpenClaw, Ollama, 9router, n8n, Langflow, Dify, Open WebUI, OpenHands) behind Ultra-AI contracts.

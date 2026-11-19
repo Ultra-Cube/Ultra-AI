@@ -1,4 +1,9 @@
 #!/usr/bin/env node
+// [UCUBETECH-COPYRIGHT]
+// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 // package-release.mjs — build a release bundle under distribution/assets/releases/<version>/
 // Usage: node distribution/scripts/package-release.mjs <version> [--skip-build]
 // Zero-dependency: uses npm workspaces + tar + sha256. No chain features.

@@ -1,3 +1,8 @@
+// [UCUBETECH-COPYRIGHT]
+// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 /* fse_coli.h — entropy coder di casa per il container colibrì (LOCALE, non pushato).
  *
  * COSA: rANS statico ordine-0 sui NIBBLE (16 simboli), 2 stati interleaved,

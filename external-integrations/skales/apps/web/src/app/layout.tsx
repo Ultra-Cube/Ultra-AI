@@ -1,3 +1,8 @@
+// [UCUBETECH-COPYRIGHT]
+// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 // ‌‍‌‌‍‌‍‍‌‌‍‍‌‍‌‍‍‍‌‌‍‍‍‌‌‍‌‍‍‌‌‍‌‍‍‌‍‌‌‍‍‌‌‌‍‍‌‌‍‌‌‍‌‍‌‍‌‌‍‌
 // Skales v6.0.0 — BSL 1.1 — Mario Simic
 // ‌‍‌‌‍‌‍‍‌‌‍‍‌‍‌‍‍‍‌‌‍‍‍‌‌‍‌‍‍‌‌‍‌‍‍‌‍‌‌‍‍‌‌‌‍‍‌‌‍‌‌‍‌‍‌‍‌‌‍‌

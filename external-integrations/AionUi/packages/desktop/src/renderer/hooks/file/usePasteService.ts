@@ -1,3 +1,8 @@
+// [UCUBETECH-COPYRIGHT]
+// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 import type { FileMetadata } from '@/renderer/services/FileService';
 import type { UploadSource } from '@/renderer/hooks/file/useUploadState';
 import type { ImageCounter } from '@/renderer/services/PasteService';

@@ -1,3 +1,8 @@
+<!--[UCUBETECH-COPYRIGHT]
+ Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+ Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+ GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved-->
+
 ---
 name: skill-authoring
 description: Author SKILL.md files in agentskills.io format: frontmatter (name, description with triggers, platforms, version), body <=500 lines, long reference in references/.

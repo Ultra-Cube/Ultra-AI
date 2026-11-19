@@ -1,3 +1,8 @@
+// [UCUBETECH-COPYRIGHT]
+// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 /* Tokenizer GLM-5.2 in C puro (byte-level BPE stile cl100k / tiktoken).
  * Replica fedele di tokenizer.json:
  *   - model.type = BPE, ignore_merges=true, byte_fallback=false

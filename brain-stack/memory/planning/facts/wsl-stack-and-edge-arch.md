@@ -1,3 +1,8 @@
+<!--[UCUBETECH-COPYRIGHT]
+ Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+ Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+ GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved-->
+
 # Facts — wsl-ai-stack/* + docs/architecture/{zero-ai-integration,ai-os-blueprint}.md
 
 ## wsl-ai-stack/README.md (live-state snapshot)

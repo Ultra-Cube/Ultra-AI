@@ -1,3 +1,8 @@
+<!--[UCUBETECH-COPYRIGHT]
+ Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+ Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+ GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved-->
+
 ---
 name: desktop-packaging
 description: Package Ultra-AI as Linux + Windows desktop app: choose shell (Tauri 2 recommended pending G-2.1), sidecar bundling, auto-update, signing.

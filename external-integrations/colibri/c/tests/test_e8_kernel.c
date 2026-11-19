@@ -1,3 +1,8 @@
+// [UCUBETECH-COPYRIGHT]
+// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 /* fmt=6 (E8/IQ3 lattice) CPU kernel oracle — #452 ladder step 3.
  *
  * tools/iq3_pack.py is the format's reference implementation; this checks that

@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
+# [UCUBETECH-COPYRIGHT]
+# Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+# Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+# GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 # preservation.sh — prove that no existing file was lost or changed.
 # Usage:
 #   infrastructure/automation/preservation.sh manifest <git-ref> <out-file>     # SHA-256 manifest of every tracked file at <ref>

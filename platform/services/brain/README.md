@@ -1,3 +1,8 @@
+<!--[UCUBETECH-COPYRIGHT]
+ Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+ Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+ GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved-->
+
 # @ultra-ai/brain
 
 Brain package (P1A-02): manages the Hermes Agent process inside Ultra-AI — spawn/health/stop across embed modes, and merges `~/.hermes/config.yaml` so custom providers route through the platform model gateway.

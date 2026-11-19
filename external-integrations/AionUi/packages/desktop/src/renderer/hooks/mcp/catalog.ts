@@ -1,3 +1,8 @@
+// [UCUBETECH-COPYRIGHT]
+// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 import { mcpService } from '@/common/adapter/ipcBridge';
 import type { IMcpServer, IMcpServerTransport, ISessionMcpServer } from '@/common/config/storage';
 import { getClientBusinessSetting } from '@/renderer/services/clientBusinessSettings';

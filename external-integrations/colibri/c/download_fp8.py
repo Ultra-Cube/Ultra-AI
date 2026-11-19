@@ -1,3 +1,8 @@
+# [UCUBETECH-COPYRIGHT]
+# Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+# Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+# GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 """Download GLM-5.2-FP8 from ModelScope (fast, no HF throttling) with
 HuggingFace fallback. Parallel shard download, clean progress display.
 Usage: python download_fp8.py

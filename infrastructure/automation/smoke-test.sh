@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
+# [UCUBETECH-COPYRIGHT]
+# Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+# Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+# GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 # Ultra AI MVP smoke tests (docs/CONSOLIDATED_ENGINEERING_SPEC.md §6 step 7)
 set -u
 B=http://localhost:4000

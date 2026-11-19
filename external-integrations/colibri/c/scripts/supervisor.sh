@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
+# [UCUBETECH-COPYRIGHT]
+# Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+# Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+# GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 # Supervisore della conversione GLM-5.2 — a prova di rete WSL che si blocca.
 #  - tiene SEMPRE vivo un (solo) convertitore
 #  - se un download resta FERMO >180s (connessione zombie), lo ammazza e lo rilancia:

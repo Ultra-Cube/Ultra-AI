@@ -1,3 +1,8 @@
+// [UCUBETECH-COPYRIGHT]
+// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 import type { TFunction } from 'i18next';
 import { describe, expect, it } from 'vitest';
 import type { ManagedAgent } from '@/renderer/utils/model/agentTypes';

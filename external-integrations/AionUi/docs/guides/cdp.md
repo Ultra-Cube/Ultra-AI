@@ -1,3 +1,8 @@
+<!--[UCUBETECH-COPYRIGHT]
+ Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+ Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+ GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved-->
+
 # CDP (Chrome DevTools Protocol) for MCP Development
 
 AionUi supports CDP for external debugging tools integration. In development mode (`just dev`), CDP is enabled by default on port 9230.

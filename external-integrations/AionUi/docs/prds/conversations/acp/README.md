@@ -1,3 +1,8 @@
+<!--[UCUBETECH-COPYRIGHT]
+ Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+ Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+ GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved-->
+
 # ACP 单聊功能 PRD 索引
 
 > 本目录下的文档由 PM 从 `prd-acp-scenarios.md` 抽取 ACP 单聊相关功能点，按模块拆分。

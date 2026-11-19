@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+# [UCUBETECH-COPYRIGHT]
+# Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+# Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+# GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 """
 Fetch all repositories from Fadhel-SH GitHub account
 This script fetches all 124 repositories with complete details

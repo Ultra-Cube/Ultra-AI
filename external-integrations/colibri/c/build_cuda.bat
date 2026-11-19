@@ -1,3 +1,8 @@
+REM  [UCUBETECH-COPYRIGHT]
+REM  Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+REM  Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+REM  GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 @echo off
 call "C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Auxiliary\Build\vcvars64.bat"
 cd /d C:\Users\Mark\Desktop\Projects\colibri\c

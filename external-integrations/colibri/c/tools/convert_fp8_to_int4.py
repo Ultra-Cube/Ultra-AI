@@ -1,3 +1,8 @@
+# [UCUBETECH-COPYRIGHT]
+# Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+# Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+# GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 """
 Convertitore GLM-5.2-FP8 -> nostro container int4 (STADIO B).
 

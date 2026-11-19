@@ -1,3 +1,8 @@
+// [UCUBETECH-COPYRIGHT]
+// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 /* DSA top-keep partial-select: the quickselect rewrite (#356) must produce a
  * BIT-IDENTICAL kept-position set to the old full-vocab qsort, for every score
  * shape the attention indexer can see.

@@ -1,3 +1,8 @@
+<!--[UCUBETECH-COPYRIGHT]
+ Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+ Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+ GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved-->
+
 ---
 name: kanban-orchestration
 description: Task board and dispatch: maintain ULTRA_AI_TODO.md as the visible board, issue Task Cards to crew agents A00-A15, enforce one-owner-per-path and contract-first handoffs.

@@ -1,3 +1,8 @@
+# [UCUBETECH-COPYRIGHT]
+# Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+# Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+# GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 """Genera tok_unicode.h: tabelle di range per le classi Unicode usate dal
 pre-tokenizer cl100k (regex del tokenizer GLM-5.2):
   - \\p{L}  lettere   (categoria Unicode che inizia per 'L')

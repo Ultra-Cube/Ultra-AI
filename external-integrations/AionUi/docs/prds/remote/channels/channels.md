@@ -1,3 +1,8 @@
+<!--[UCUBETECH-COPYRIGHT]
+ Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+ Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+ GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved-->
+
 # 设置页 → 远程连接 — Channels 渠道接入 (F-CHAN)
 
 > 本文档覆盖「设置 → 远程连接」页面 **Channels Tab** 的全部功能，包括渠道卡片总览、各 IM 渠道配置（Telegram/Lark/DingTalk/WeChat/WeCom）、Agent/模型选择、配对授权通用流程、扩展渠道支持。

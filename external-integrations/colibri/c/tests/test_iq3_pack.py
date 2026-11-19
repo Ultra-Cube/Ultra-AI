@@ -1,3 +1,8 @@
+# [UCUBETECH-COPYRIGHT]
+# Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+# Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+# GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 """fmt=6 codec oracle (#452 ladder step 2).
 
 Checks the properties the container, the converter and the decode kernels all

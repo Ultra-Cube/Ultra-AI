@@ -1,3 +1,8 @@
+<!--[UCUBETECH-COPYRIGHT]
+ Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+ Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+ GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved-->
+
 # E5 — MTLResidencySet over the existing malloc'd slabs (experiment branch)
 
 Branch: `e5/metal-residency-set` (cut from `origin/dev` @ `caa49f7`, per spec — E4 was cut

@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+# [UCUBETECH-COPYRIGHT]
+# Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+# Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+# GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 """Convert OLMoE HuggingFace checkpoint to colibri merged int8 format.
 
 Consolidates gate_proj, up_proj, and down_proj into a single merged tensor per expert.

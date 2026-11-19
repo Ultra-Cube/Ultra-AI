@@ -1,3 +1,8 @@
+# [UCUBETECH-COPYRIGHT]
+# Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+# Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+# GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 # --- Target detection ---
 # Ask the compiler what it actually targets (rofl0r's note on #129): a gcc/clang
 # toolchain reports its target triple via `-dumpmachine`, e.g.

@@ -1,3 +1,8 @@
+<!--[UCUBETECH-COPYRIGHT]
+ Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+ Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+ GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved-->
+
 ---
 name: plugin-packaging
 description: Assemble the ultra-ai-builder plugin: plugin.json, skills, agents a00-a15, commands, hooks, .mcp.json, AGENTS.md. Verify manifest format against chosen runtime docs first.

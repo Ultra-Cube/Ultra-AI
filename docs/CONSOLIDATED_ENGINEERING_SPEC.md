@@ -1,3 +1,8 @@
+<!--[UCUBETECH-COPYRIGHT]
+ Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+ Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+ GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved-->
+
 # Ultra AI Platform — Consolidated Engineering Specification
 
 Consolidated from all 63 markdown files under `docs/` (architecture/, ui/, security/, operations/, phases/, planning/, reports/, business/, ux-design/). Sources are cited inline as `[doc]`. Where docs conflict, the conflict is called out explicitly.

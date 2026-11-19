@@ -1,3 +1,8 @@
+// [UCUBETECH-COPYRIGHT]
+// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 /* Microbenchmark: old (full-vocab qsort) vs new (heap partial-select) top-p truncation.
  *
  * This is NOT a unit test -- test_topp.c proves correctness. This measures the headline

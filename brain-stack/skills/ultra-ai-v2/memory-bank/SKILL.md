@@ -1,3 +1,8 @@
+<!--[UCUBETECH-COPYRIGHT]
+ Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+ Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+ GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved-->
+
 ---
 name: memory-bank
 description: Maintain the Memory Bank: facts/*.yaml, decisions/ADR-*.md + ledger.md, glossary.md, contradictions.md, timeline.md, sources.jsonl, coverage.md.

@@ -1,3 +1,8 @@
+<!--[UCUBETECH-COPYRIGHT]
+ Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+ Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+ GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved-->
+
 # 团队运行体验优化 · 技术设计
 
 配套 PRD：`team-runtime-experience.md`。本文面向实现，给出现状调研结论、架构决策、模块设计、关键代码骨架与分阶段落地。全部为渲染层改动，不改 aioncore 与团队数据结构；持久化走 `localStorage`。

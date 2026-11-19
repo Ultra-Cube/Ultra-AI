@@ -1,3 +1,8 @@
+# [UCUBETECH-COPYRIGHT]
+# Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+# Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+# GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 """Costruisce un GLM-5.2 (glm_moe_dsa) MINUSCOLO a pesi random come ORACOLO.
 Architettura vera (MLA + DSA indexer + router sigmoid/noaux_tc + shared expert),
 dimensioni minuscole. Salva pesi+config in c/glm_tiny/ e un riferimento greedy in

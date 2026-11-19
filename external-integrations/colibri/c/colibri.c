@@ -1,3 +1,8 @@
+// [UCUBETECH-COPYRIGHT]
+// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 /* Motore GLM-5.2 (architettura glm_moe_dsa) in C puro.
  * Stadio B: replica fedele del forward di transformers (modeling_glm_moe_dsa.py):
  *   - attenzione MLA (q/kv-LoRA, RoPE interleaved parziale)

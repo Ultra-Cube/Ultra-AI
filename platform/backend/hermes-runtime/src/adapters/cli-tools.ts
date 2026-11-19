@@ -1,3 +1,8 @@
+// [UCUBETECH-COPYRIGHT]
+// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 /**
  * CLI agent tool adapters — expose local CLI agents (Claude Code, Hermes Agent,
  * OpenClaw, or any command) as `ToolAdapter`s the runtime can invoke.

@@ -1,3 +1,8 @@
+// [UCUBETECH-COPYRIGHT]
+// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 // Bumped from v1: the v1 networkFirst fallback returned OFFLINE_PAGE_URL
 // (index.html) for failed script requests, causing "module script MIME text/html"
 // errors when the server was down or served a different asset hash. The v2

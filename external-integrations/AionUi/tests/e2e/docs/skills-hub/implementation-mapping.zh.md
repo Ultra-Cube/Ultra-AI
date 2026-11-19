@@ -1,3 +1,8 @@
+<!--[UCUBETECH-COPYRIGHT]
+ Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+ Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+ GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved-->
+
 # Skills Hub E2E 实现映射
 
 本文档记录 `test-cases.zh.md` 中定义的 29 个测试用例与实际 E2E 实现文件的对应关系。

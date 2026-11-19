@@ -1,3 +1,8 @@
+<!--[UCUBETECH-COPYRIGHT]
+ Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+ Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+ GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved-->
+
 # ADR-002: Ultra-Core as event receiver/publisher; tiered rollout T0/T1/T2
 
 - **Status**: accepted (owner gates G-4.1 interface approved, G-4.2 T2 construction approved but contract-blocked)

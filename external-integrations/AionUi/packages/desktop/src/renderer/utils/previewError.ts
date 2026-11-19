@@ -1,3 +1,8 @@
+// [UCUBETECH-COPYRIGHT]
+// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 import { isBackendHttpError } from '@/common/adapter/httpBridge';
 
 export type PreviewErrorKind = 'sandbox' | 'not_found' | 'timeout' | 'too_large' | 'unknown';

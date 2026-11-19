@@ -1,3 +1,8 @@
+<!--[UCUBETECH-COPYRIGHT]
+ Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+ Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+ GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved-->
+
 # ACP 单聊 - 可靠性与错误处理 (F-RELIABILITY)
 
 > 本文档由 PM 从 `prd-acp-scenarios.md` 抽取，保持与源同步。

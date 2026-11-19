@@ -1,3 +1,8 @@
+<!--[UCUBETECH-COPYRIGHT]
+ Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+ Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+ GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved-->
+
 ---
 name: hermes-integration
 description: Integrate Hermes Agent (Nous Research, MIT) as platform brain: persistent memory, skills, reasoning, orchestration, MCP, multi-platform gateway.

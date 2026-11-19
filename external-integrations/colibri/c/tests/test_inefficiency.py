@@ -1,3 +1,8 @@
+# [UCUBETECH-COPYRIGHT]
+# Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+# Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+# GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 """Inefficiency / regression tests for the colibri engine (tiny model, asserted).
 
 These run against the bundled glm_tiny model (~0.6 MB resident, ~0.1s/run) and

@@ -1,3 +1,8 @@
+// [UCUBETECH-COPYRIGHT]
+// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 import type { Locator, Page } from '@playwright/test';
 
 const PERMISSION_CARD_SELECTOR = '[data-testid="message-permission-card"], [data-testid="message-acp-permission-card"]';

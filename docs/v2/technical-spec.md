@@ -1,3 +1,8 @@
+<!--[UCUBETECH-COPYRIGHT]
+ Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+ Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+ GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved-->
+
 # ULTRA AI — V2 TECHNICAL SPECIFICATION
 
 **Status:** PROPOSED (needs owner gates G-0.x … G-4.x) · **Date:** 2026-11-09 · **Language:** English (user-facing UI: Arabic RTL + English)

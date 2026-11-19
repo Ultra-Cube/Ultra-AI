@@ -1,3 +1,8 @@
+# [UCUBETECH-COPYRIGHT]
+# Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+# Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+# GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 name: 'Call OpenAI'
 description: 'Call OpenAI Chat Completions API with retry logic. Reads system_prompt.txt and user_prompt.txt from RUNNER_TEMP.'
 

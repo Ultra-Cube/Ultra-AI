@@ -1,3 +1,8 @@
+<!--[UCUBETECH-COPYRIGHT]
+ Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+ Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+ GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved-->
+
 # CACHE_ROUTE — opt-in cache-aware MoE routing
 
 **Default: OFF.** Stock full top-K router behavior unless `CACHE_ROUTE=1`.

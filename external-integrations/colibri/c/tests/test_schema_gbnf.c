@@ -1,3 +1,8 @@
+// [UCUBETECH-COPYRIGHT]
+// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 /* test_schema_gbnf: JSON-Schema -> GBNF compiler (schema_gbnf.h) end-to-end with
  * the grammar.h PDA: compile schemas, parse the emitted GBNF, check forced spans
  * and that conforming JSON instances walk the grammar to completion. */

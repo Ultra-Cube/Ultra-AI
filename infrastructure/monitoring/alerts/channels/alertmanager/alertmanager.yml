@@ -1,3 +1,8 @@
+# [UCUBETECH-COPYRIGHT]
+# Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+# Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+# GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 # Hermes Alertmanager configuration
 # Default route logs/groups alerts. Wire a real receiver (Slack/PagerDuty/
 # email) by filling in the commented blocks and setting the webhook secret

@@ -1,3 +1,8 @@
+<!--[UCUBETECH-COPYRIGHT]
+ Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+ Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+ GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved-->
+
 # Pull Request
 
 > Please read [CONTRIBUTING.md](CONTRIBUTING.md) before submitting. PRs that ignore the rules below may be closed and asked to resubmit.

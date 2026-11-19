@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+# [UCUBETECH-COPYRIGHT]
+# Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+# Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+# GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 """Convert OLMoE HuggingFace checkpoint to colibri int4 format.
 
 Downloads or converts a local OLMoE checkpoint (e.g., allenai/OLMoE-1B-7B-0125-Instruct).

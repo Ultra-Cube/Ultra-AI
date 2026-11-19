@@ -1,3 +1,8 @@
+// [UCUBETECH-COPYRIGHT]
+// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 /* Batteria di test per fse_coli.h — scritta PRIMA che il codec tocchi glm.c.
  *
  * Questo codec decomprimera' PESI: un bug qui non crasha, corrompe l'output

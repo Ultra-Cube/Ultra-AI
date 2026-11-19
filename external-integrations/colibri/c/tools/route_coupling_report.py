@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+# [UCUBETECH-COPYRIGHT]
+# Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+# Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+# GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 """Copula/Fréchet analysis of MoE routing traces (ROUTE_TRACE output).
 
 Input lines: "<call> <pos> <layer> id:gate id:gate ..." — one line per (position, layer).

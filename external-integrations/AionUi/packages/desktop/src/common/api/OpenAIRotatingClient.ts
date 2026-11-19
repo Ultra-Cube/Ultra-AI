@@ -1,3 +1,8 @@
+// [UCUBETECH-COPYRIGHT]
+// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 import OpenAI from 'openai';
 import { AuthType } from '@/common/types/provider/authType';
 import type { RotatingApiClientOptions } from './RotatingApiClient';

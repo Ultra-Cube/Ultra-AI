@@ -1,3 +1,8 @@
+// [UCUBETECH-COPYRIGHT]
+// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 /* Unicode range tables for the o200k pre-tokenizer (Inkling, GPT-4o family).
  * Generated from Python unicodedata (see tools/ in git history):
  *   uni_U = Lu + Lt  (uppercase/titlecase letters)

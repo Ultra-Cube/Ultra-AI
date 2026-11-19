@@ -1,3 +1,8 @@
+// [UCUBETECH-COPYRIGHT]
+// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 import React, { useMemo, useState } from 'react';
 import { View, TouchableOpacity, StyleSheet, Modal, FlatList, Pressable } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';

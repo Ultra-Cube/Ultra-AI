@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+# [UCUBETECH-COPYRIGHT]
+# Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+# Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+# GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 """Build a .coli_pairs cross-layer coupling table from ROUTE_TRACE dumps.
 
 Input: one or more ROUTE_TRACE files ("call pos layer id:gate ...", one line per

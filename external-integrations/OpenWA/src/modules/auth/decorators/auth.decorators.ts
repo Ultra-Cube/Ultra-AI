@@ -1,3 +1,8 @@
+// [UCUBETECH-COPYRIGHT]
+// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 import { SetMetadata, createParamDecorator, ExecutionContext } from '@nestjs/common';
 import { ApiKeyRole } from '../entities/api-key.entity';
 import { Request } from 'express';

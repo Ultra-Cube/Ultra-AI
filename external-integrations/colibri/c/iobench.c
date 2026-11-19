@@ -1,3 +1,8 @@
+// [UCUBETECH-COPYRIGHT]
+// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 /* Microbench: banda in lettura RANDOM con blocchi tipo-expert (~19 MB int4).
  * Misura cio' che fa il motore davvero: N thread che leggono in parallelo
  * (expert_load sotto omp parallel for), buffered oppure O_DIRECT.

@@ -1,3 +1,8 @@
+// [UCUBETECH-COPYRIGHT]
+// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 import { NextRequest, NextResponse } from 'next/server';
 
 const HERMES_API = process.env.HERMES_API_URL || 'http://127.0.0.1:8642';

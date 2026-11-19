@@ -1,3 +1,8 @@
+// [UCUBETECH-COPYRIGHT]
+// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 /** @type {import('tailwindcss').Config} */
 // Warm neutral palette aligned with the Ultra AI design tokens
 // (globals.css: --bg #f7f3eb, --ink #1f1d1a, --muted #5d5953,

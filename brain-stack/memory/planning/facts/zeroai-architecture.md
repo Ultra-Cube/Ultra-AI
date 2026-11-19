@@ -1,3 +1,8 @@
+<!--[UCUBETECH-COPYRIGHT]
+ Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+ Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+ GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved-->
+
 # Facts — wsl-ai-stack/ZeroAI/* (vision docs, pre-implementation)
 
 source: wsl-ai-stack/ZeroAI/ARCHITECTURE.md + siblings | status: ASPIRATIONAL-DESIGN (target architecture, not yet built)

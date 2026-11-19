@@ -1,3 +1,8 @@
+// [UCUBETECH-COPYRIGHT]
+// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 /* Parser JSON minimale, header-only. Serve per:
  *  - l'header dei file safetensors (un grande oggetto nome->{dtype,shape,data_offsets})
  *  - ref.json (per leggere prompt_ids / full_ids)

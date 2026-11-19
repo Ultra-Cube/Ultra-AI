@@ -1,3 +1,8 @@
+<!--[UCUBETECH-COPYRIGHT]
+ Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+ Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+ GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved-->
+
 # Expert Atlas — what does each of the 19,456 experts actually do?
 
 Probe harness for #175. Runs a set of topic-tagged prompts, dumps each run's expert-routing

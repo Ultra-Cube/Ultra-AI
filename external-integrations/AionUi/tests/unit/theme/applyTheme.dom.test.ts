@@ -1,3 +1,8 @@
+// [UCUBETECH-COPYRIGHT]
+// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 import { describe, it, expect, beforeEach } from 'vitest';
 import { applyTheme } from '@/renderer/utils/theme/applyTheme';
 import type { Theme } from '@/common/theme/types';

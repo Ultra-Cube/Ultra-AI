@@ -1,3 +1,8 @@
+// [UCUBETECH-COPYRIGHT]
+// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 /* Microbenchmark: old (full-qsort) vs new (quickselect partial-select) DSA top-keep.
  *
  * This is NOT a unit test -- test_dsa_select.c proves correctness. This measures the

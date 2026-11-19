@@ -1,3 +1,8 @@
+<!--[UCUBETECH-COPYRIGHT]
+ Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+ Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+ GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved-->
+
 # Facts — Remaining docs classification (S2b batch 3)
 
 ## Status legend: VERIFIED = claims match BUILD_PLAN/live state; ASPIRATIONAL = inflated/unverified; STALE = superseded by later docs; OPS = operational how-to.

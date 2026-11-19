@@ -1,3 +1,8 @@
+<!--[UCUBETECH-COPYRIGHT]
+ Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+ Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+ GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved-->
+
 # brain-stack/memory/ops — Live Operations Memory
 
 Owner decision (layout-map.yaml): `memory/` project-level ops memory lives here, NOT at repo root. Root `memory/` never existed post-WP-0.

@@ -1,3 +1,8 @@
+// [UCUBETECH-COPYRIGHT]
+// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 /* Top-p (nucleus) truncation in dist_build: the partial-select rewrite (#335) must be
  * indistinguishable from the old full-vocab qsort for every shape dist_sample can see.
  *

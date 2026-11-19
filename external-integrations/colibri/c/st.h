@@ -1,3 +1,8 @@
+// [UCUBETECH-COPYRIGHT]
+// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 /* Indicizzazione e lettura on-demand di tensori da piu' file safetensors.
  * Equivale a Shards in engine.py, ma:
  *   - legge con pread (niente mmap) + posix_fadvise(DONTNEED) -> le pagine NON

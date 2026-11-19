@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
+# [UCUBETECH-COPYRIGHT]
+# Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+# Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+# GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 # Pipeline GLM-5.2 (int4, streaming, 15 GB RAM) — tutto in WSL, modello su ext4.
 #   uso da c/:  scripts/run.sh ["prompt"] [n_token]
 # Fa: (1) attende lo spostamento su ext4, (2) riprende la conversione fino a completarla,

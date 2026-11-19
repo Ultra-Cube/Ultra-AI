@@ -1,3 +1,8 @@
+// [UCUBETECH-COPYRIGHT]
+// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 // Next.js Route Segment loading.tsx
 // Shown on hard-refresh (CTRL+F5 / CMD+R) before React hydration
 // Uses CSS variables + blocking theme script in layout.tsx to respect light/dark mode

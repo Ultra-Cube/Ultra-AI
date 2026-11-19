@@ -1,3 +1,8 @@
+# [UCUBETECH-COPYRIGHT]
+# Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+# Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+# GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 """Helper: salva pesi in FP8 e4m3 + scale a blocchi 128x128, nello STESSO layout del
 checkpoint reale GLM-5.2-FP8 che `convert_fp8_to_int4.py` legge.
 

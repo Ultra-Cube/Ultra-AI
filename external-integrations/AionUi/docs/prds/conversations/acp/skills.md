@@ -1,3 +1,8 @@
+<!--[UCUBETECH-COPYRIGHT]
+ Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+ Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+ GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved-->
+
 # ACP 单聊 - 技能扩展 (F-SKILL)
 
 > 本文档由 PM 从 `prd-acp-scenarios.md` 抽取，保持与源同步。

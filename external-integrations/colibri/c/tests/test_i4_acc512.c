@@ -1,3 +1,8 @@
+// [UCUBETECH-COPYRIGHT]
+// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 /* Numeric regression test for the AVX-512 int4->float accumulator.
  * Mirrors dot_i4f_avx512 from glm.c (kept in sync by the engine's own
  * I4_ACC512_TEST selftest) and checks it against a double-precision oracle

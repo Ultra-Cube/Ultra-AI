@@ -1,3 +1,8 @@
+<!--[UCUBETECH-COPYRIGHT]
+ Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+ Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+ GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved-->
+
 # ULTRA AI — MASTER BUILD PROMPT (v1.0)
 
 > **Owner:** Fadhel — Ultra Cube Tech / Ultra Zone · **Owner language:** Arabic (all repo artifacts: English; Question Cards: English + one-line Arabic)

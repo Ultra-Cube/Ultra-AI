@@ -1,3 +1,8 @@
+// [UCUBETECH-COPYRIGHT]
+// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 /* st_pread_full: chunk loop + honest truncation errors.
  * Built with -DST_PREAD_CHUNK=7 so a ~100-byte tensor takes many pread calls —
  * exercising the loop that production only needs past 2^31 bytes (one pread

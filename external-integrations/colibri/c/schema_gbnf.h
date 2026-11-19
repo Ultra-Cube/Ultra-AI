@@ -1,3 +1,8 @@
+// [UCUBETECH-COPYRIGHT]
+// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 /* schema_gbnf.h — JSON-Schema -> GBNF compiler for the grammar-forced draft source (#48/#70).
  *
  * Compiles a practical subset of JSON Schema into the byte-level GBNF subset that

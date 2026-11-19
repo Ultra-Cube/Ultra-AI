@@ -1,4 +1,9 @@
 #!/usr/bin/env node
+// [UCUBETECH-COPYRIGHT]
+// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 // pre-release-check.mjs — gate suite that must pass before tagging a release.
 // Usage: node distribution/scripts/pre-release-check.mjs [--skip-build] [--skip-tests]
 // Runs: clean-tree check -> lint -> type-check -> test -> build -> smoke-desktop -> bundle verify (if tag given via --tag).

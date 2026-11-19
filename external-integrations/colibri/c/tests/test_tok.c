@@ -1,3 +1,8 @@
+// [UCUBETECH-COPYRIGHT]
+// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 /* Validazione del tokenizer C contro l'oracolo HF.
  * build da c/: gcc -O2 tests/test_tok.c -o tok_test
  * uso:  ./tok_test <tokenizer.json>   (legge righe "TEXT\tID,ID,.." da stdin) */

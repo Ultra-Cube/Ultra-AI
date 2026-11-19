@@ -1,3 +1,8 @@
+// [UCUBETECH-COPYRIGHT]
+// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 /* cfse_pack — converte uno shard safetensors nel container entropy-coded CFSE
  * (LOCALE, non pushato). E lo VERIFICA: --verify rilegge il convertito, lo
  * decomprime e lo confronta byte-per-byte con l'originale.

@@ -1,3 +1,8 @@
+<!--[UCUBETECH-COPYRIGHT]
+ Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+ Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+ GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved-->
+
 # Post-S2b Reorganization Directive
 
 **Status:** SUPERSEDED 2026-11-11 — replaced by `ULTRA_AI_BUILD_PROMPT.md`

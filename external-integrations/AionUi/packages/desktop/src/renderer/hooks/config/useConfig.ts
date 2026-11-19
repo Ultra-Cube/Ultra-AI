@@ -1,3 +1,8 @@
+// [UCUBETECH-COPYRIGHT]
+// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 import { useCallback, useSyncExternalStore } from 'react';
 import type { ConfigKey, ConfigKeyMap } from '@/common/config/configKeys';
 import { configService } from '@/common/config/configService';

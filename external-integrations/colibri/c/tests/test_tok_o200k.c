@@ -1,3 +1,8 @@
+// [UCUBETECH-COPYRIGHT]
+// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 /* o200k pre-tokenizer validation against HF-tokenizers-generated expectations.
  * Self-contained for the test-c harness: loads tests/tok_o200k_tiny.json (a
  * synthetic byte-level BPE whose Split regex is the o200k pattern — a few KB,

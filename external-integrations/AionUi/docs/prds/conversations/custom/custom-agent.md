@@ -1,3 +1,8 @@
+<!--[UCUBETECH-COPYRIGHT]
+ Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+ Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+ GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved-->
+
 # 设置页 → Agent 管理 → Custom Agent (F-CAGENT)
 
 > 本文档覆盖「设置 → Agents → 本地 Agents」页面中 **Custom Agent** 相关的全部功能，包括列表展示、创建/编辑/删除/启用禁用、连接测试、Agent 自动检测机制。

@@ -1,3 +1,8 @@
+// [UCUBETECH-COPYRIGHT]
+// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 /* Motore di inferenza OLMoE in C puro, con EXPERT-STREAMING dal disco.
  * Porting del motore Python (engine.py). Obiettivo Stadio A: produrre gli STESSI
  * token id del riferimento (ref.json) -> valida il core prima di scalare a GLM-5.2.

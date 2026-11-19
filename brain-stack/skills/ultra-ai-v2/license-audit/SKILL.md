@@ -1,3 +1,8 @@
+<!--[UCUBETECH-COPYRIGHT]
+ Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+ Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+ GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved-->
+
 ---
 name: license-audit
 description: Audit third-party licenses before vendoring: check ULTRA_AI_LEGAL_LICENSING.md row is APPROVED; update THIRD_PARTY.md and SBOM; never ship BSL/non-commercial code.

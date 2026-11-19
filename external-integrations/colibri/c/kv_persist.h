@@ -1,3 +1,8 @@
+// [UCUBETECH-COPYRIGHT]
+// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 /* kv_persist.h — .coli_kv on-disk KV cache persistence.
  * Conversations reopen warm across engine restarts: the compressed MLA KV-cache
  * is appended incrementally after every turn, crash-safe (nrec written last).

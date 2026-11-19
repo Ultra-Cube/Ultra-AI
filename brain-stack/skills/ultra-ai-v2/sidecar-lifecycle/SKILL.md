@@ -1,3 +1,8 @@
+<!--[UCUBETECH-COPYRIGHT]
+ Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+ Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+ GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved-->
+
 ---
 name: sidecar-lifecycle
 description: Manage embedded open-source engines (Ollama, OpenClaw, 9router, n8n, Langflow, Dify, Open WebUI, OpenHands) as supervised sidecars inside Ultra-AI.

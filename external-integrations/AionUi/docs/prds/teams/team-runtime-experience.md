@@ -1,3 +1,8 @@
+<!--[UCUBETECH-COPYRIGHT]
+ Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+ Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+ GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved-->
+
 # 团队运行体验优化 · PRD
 
 本次聚焦「创建团队之后、在团队详情页协作」的体验，不改团队的创建流程。目标是让用户在多成员并行协作时，能一眼分清谁是谁、清楚当前在跟谁对话、并在团队初始化期间得到明确的引导而非静默卡顿。

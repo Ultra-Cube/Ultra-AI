@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+# [UCUBETECH-COPYRIGHT]
+# Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+# Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+# GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 """fmt=6 (E8/IQ3 lattice container) index codec — #452 ladder step 2.
 
 Note: fmt=5 is taken by the int3 dual-plane container (#132); this lattice

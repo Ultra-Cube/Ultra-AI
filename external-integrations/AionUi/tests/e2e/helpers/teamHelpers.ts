@@ -1,3 +1,8 @@
+// [UCUBETECH-COPYRIGHT]
+// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 import { expect, type Locator, type Page } from '@playwright/test';
 import { invokeBridge } from './bridge';
 import { TEAM_SUPPORTED_BACKENDS } from './teamConfig';

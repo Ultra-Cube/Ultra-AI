@@ -1,4 +1,9 @@
 #!/usr/bin/env node
+// [UCUBETECH-COPYRIGHT]
+// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
+// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
+// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+
 import { execSync, spawn } from 'node:child_process';
 import path from 'node:path';
 import process from 'node:process';
