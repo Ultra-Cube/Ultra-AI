@@ -84,3 +84,10 @@
 - Bridge suite: 66/66 tests; hermes-openai-bridge 4/4; tsc+eslint clean (4 any-warnings in test mocks).
 - Commits this session: f027781, e2e7677, cbb2c3e, 98666aa, cd2994f, d3662d0 on release/planning-study.
 - Remaining gated: QC-P4B-15 answer (first live call + T1 enable), G-4.2 legal opinion (T2), P0 release/admin items, P3 Gate-OS real adapter.
+
+## 2026-11-19 (cont.2) — Real Merkle proofs + WSL recovery
+
+- Real Merkle inclusion proofs implemented (9b66a95): src/merkle.ts shared tree (sha256 leaves, odd-tail duplication, proof items {hash, side} matching contract Proof.proof[]); mock-server now emits genuine proofs; CoreClient.verifyProof() verifies leaf->root client-side; e2e demo uses a 2-event batch so the proof is non-empty and asserts verification.
+- Bug fixed: mock prev_hash chain check compared against sha256(JSON.stringify(ev)) instead of the event leaf (eventHash) — chained second events were falsely rejected; now compares to previous leaf.
+- WSL2 VM crashed mid-session (wsl -e catastrophic failure); recovered via wsl --shutdown. All dev servers (Next :3000, Open WebUI :8080) need restart if still desired.
+- Bridge suite: 66/66 tests, tsc clean, eslint clean (4 pre-existing any-warnings in ops.test.ts mocks).
