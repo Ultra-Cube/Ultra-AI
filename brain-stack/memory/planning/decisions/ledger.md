@@ -24,3 +24,6 @@ G-0.7 answered above (class-based). Remaining open: G-1.1…G-1.8, G-2.x, G-3.1,
 ## Owner directive (2026-11-11) — post-S2b reorganization
 - **Note:** All files under `brain-stack/` are temporary staging. After S2b finishes AND the project is verified working end-to-end, everything must be redistributed into proper root-level folders organized by purpose — e.g. docs folder, runtime/platform folder, config, etc. — matching the existing repo layout (`apps/`, `packages/`, `services/`, `docs/`, `config/`). `brain-stack/` must not remain as a permanent root directory.
 - Recorded as pending gate: applies after S2 completion + S3 release verification.
+
+| G-4.1 | 2026-11-19 | R2 | Ultra Core interface spec | **Owner-approved: contracts/ultra-core package is the agreed interface** (openapi.yaml + JSON Schemas); real calls stay mock-validated until live endpoint supplied | Ultra-AI is producer/readiness side; Ultra-Core is receiver of ultra.event.v1 and publisher of ultra-core.callback.v1 |
+| G-4.2 | 2026-11-19 | R2 | T2 on-chain/value functions | **Owner approved building credits/rewards/tokens where needed (team owns platform); T2 remains contract-BLOCKED pending written legal opinion** | Tier rollout T0 evidence / T1 off-chain credits behind approvals / T2 value layer gated |

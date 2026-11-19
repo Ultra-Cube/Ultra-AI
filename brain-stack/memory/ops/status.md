@@ -60,3 +60,14 @@
 - Reports: `docs/spikes/hermes-embed-results-wsl2-2026-11-15.md` (results) + `docs/spikes/hermes-embed-wsl2-rerun-2026-11-15.md` (raw probe log). TODO P1A-01 → DONE (WSL2).
 - Remaining: provider credentials (`hermes auth add <provider>` — owner credential gate) for real inference; bare-Linux + Windows-native reruns.
 - P3/P4 unchanged: owner-decision gated (Gate-OS adapter, Ultra Core real + legal gate before crypto).
+
+## 2026-11-19 — P4B Ultra Core integration (contract-first, mock-validated)
+
+- Owner approved real Ultra-Core connectivity and credits/rewards/tokens where needed (team owns the core platform). G-4.1 interface spec + G-4.2 T2 gate recorded as owner-approved direction; T2 on-chain stays contract-blocked until legal/security sign-off per tier rules.
+- P4B-05 contracts package: contracts/ultra-core/ — openapi.yaml (OpenAPI 3.1) + 4 JSON Schemas (ultra-event.v1, export-batch, ingest-response, ultra-core-callback.v1) + README with idempotency/ordering/skew/error model/T0-T2 tiers.
+- P4B-06/10/11 mock + contract tests: src/mock-server.ts implements the full contract (keys, ingest w/ signature+idempotency+207 partials, proofs, heads, credits T1-gated, registry, SSE callbacks); src/ultra-core-mock.test.ts 17 tests incl. failure injection (one-shot 503 retry, 250-event batch, tampered key, broken prev_hash); compose service ultra-core-mock :4100 + npm run core:mock / test:core-contract.
+- P4B-07 InboundReceiver (src/inbound-receiver.ts): ultra-core.callback.v1 intake — shape validation, Ed25519 verify vs publisher key registry, clock-skew window, callback_id/nonce dedupe, T2 blocked by G-4.2, dead-letter store (memory + optional JSONL), payloads never executed. 10 tests.
+- P4B-08 handler stubs (src/callback-handlers.ts): anchor.confirmed, credits.balance_changed, governance.policy_changed, registry.item_revoked, approval.decided + wildcard recorder. 4 tests.
+- Frontend: /chat is now the Open WebUI surface (thin Ultra AI bar + full-bleed iframe, honest offline fallback); studio/workspace rebuilt on unified uai-* classes; Tailwind pipeline enabled (postcss+tailwind configs committed in 6e83e8b); services page Start/Stop wired to real engine-supervisor ids via port matching.
+- Bridge suite: 47/47 tests, tsc clean, eslint clean. Branch release/planning-study pushed through d47233a/6e83e8b.
+- Remaining P4B: P4B-09 CoreClient typed from OpenAPI, P4B-12 env/observability, P4B-13 E2E demo vs mock, P4B-14 evidence report, P4B-15 owner Question Card before first real call.
