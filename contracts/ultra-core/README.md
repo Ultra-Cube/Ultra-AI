@@ -48,6 +48,18 @@ Contract-first boundary between **Ultra AI** (producer/readiness side) and
   embedded in `payload` fields.
 - Structured logs must not contain payload secrets.
 
+## Implementer checklist (Ultra-Core team)
+
+1. `POST /v1/keys` — register producer Ed25519 public keys.
+2. `POST /v1/ingest/batches` — idempotent (`Idempotency-Key == batch_id`),
+   verify per-event signatures + per-instance `prev_hash`, return
+   `200`/`207` + `accepted[]`/`rejected[]`.
+3. `GET /v1/instances/{i}/head` + `GET /v1/proofs/{i}/{event_id}` —
+   anchored head and inclusion proofs.
+4. `GET /v1/events` — SSE stream of signed `ultra-core.callback.v1`.
+5. T1 credits only behind `approval_ref`; **no T2 value layer** until
+   G-4.2 legal opinion. Callback payloads are data-only.
+
 ## Status
 
 `0.1.0-draft` — mock-validated only. Real Ultra-Core calls remain prohibited
