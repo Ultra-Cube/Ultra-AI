@@ -113,3 +113,13 @@
 - Bug fixed: mock prev_hash chain check compared against sha256(JSON.stringify(ev)) instead of the event leaf (eventHash) — chained second events were falsely rejected; now compares to previous leaf.
 - WSL2 VM crashed mid-session (wsl -e catastrophic failure); recovered via wsl --shutdown. All dev servers (Next :3000, Open WebUI :8080) need restart if still desired.
 - Bridge suite: 66/66 tests, tsc clean, eslint clean (4 pre-existing any-warnings in ops.test.ts mocks).
+
+## 2026-11-19 (cont.3) — Integrations surface, palette, copyright banners
+
+- External-app integrations shipped (98433f84): app/api/apps/catalog.ts unified catalog (n8n, Grafana, OmniRoute, Hermes, Open WebUI); /api/apps live status; /api/apps/[id]/proxy hardened read-only GET proxy (SSRF checks, apiBase path restriction, requiresConfirm -> 409, 8s timeout, sanitized headers, no body/credential forwarding); /integrations page with live cards + iframe embed + guarded API console; next.config rewrites -> fallback so local handlers win; sidebar entry added. Runtime-verified: /integrations 200, /api/apps 200, grafana proxy 200.
+- Palette finalized dark gray + orange (4c6b9398) via ultra-theme.css; design-system.css unified to same tokens.
+- Copyright banners v2 (8bcf9112, 200fc9ce): Kombai-style ASCII box on ~3,088 files via scripts/apply-copyright.mjs; INFO enriched with GitHub Org (github.com/Ultra-Cube) + Repository (github.com/Ultra-Cube/Ultra-AI) per copy.txt spec; stripOldBanner rewritten to handle legacy one-liner/small-box/full-box/duplicates while preserving comment wrappers; copy.txt excluded + restored to Kombai reference; file-guard manifest regenerated (10,330 files).
+- vlab audit: repo-wide word-boundary search finds ZERO literal "vlab" — only "vlabel" variable names inside vendored OfficeCLI code under external/ (excluded from stamping). All banners read "Ultra AI". No UI source renders "vlab" in rights sections.
+- Page audit: all app/ pages carry live wiring (fetch/useEffect//api/) except app/page.tsx dashboard shell (static by design); no "Coming soon"/stub markers remain — earlier grep hits were HTML placeholder= attributes.
+- Commits this session: 98433f84, 4c6b9398, 8bcf9112, 200fc9ce on release/planning-study.
+- Still gated: QC-P4B-15 owner answer (first live Ultra-Core call + T1 enable); G-4.2 legal opinion (T2).

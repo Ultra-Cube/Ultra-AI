@@ -89,9 +89,11 @@ Callback `payload` is **data only** — receivers must not execute it.
 
 ## Known gaps / next
 
-- Proof verification is structural (height/root/proof list), not yet a
-  full Merkle-path cryptographic verify against a published root.
-- T1 cap/reservation/settlement E2E against mock not yet exercised.
-- Per-agent spending-cap hook and Gate-OS local reachability doc
-  (P4B-12 remainder) pending.
-- Clock-skew contract test pending (receiver-side window is tested).
+- DONE: real Merkle inclusion proofs (src/merkle.ts) — mock emits genuine
+  proofs; CoreClient.verifyProof() does client-side leaf->root verify.
+- DONE: T1 credits E2E vs mock (balance -> approval-gated reservation ->
+  list; read-only guard). Settlement flow still open.
+- DONE: per-agent spending-cap hook (withSpendingCap) + Gate-OS
+  reachability doc + ops.ts metrics/redacting logger/kill switch.
+- OPEN: settlement flow; clock-skew contract test; QC-P4B-15 owner
+  answer before first live call; G-4.2 legal opinion before T2.
