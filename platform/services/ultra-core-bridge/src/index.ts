@@ -7,3 +7,4 @@ export * from './core-client';
 export * from './http-target';
 export * from './mock-server';
 export * from './inbound-receiver';
+export * from './callback-handlers';
