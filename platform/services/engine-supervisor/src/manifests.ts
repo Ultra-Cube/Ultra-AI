@@ -150,8 +150,7 @@ export const ENGINE_PRESETS: EngineManifest[] = [
     probe: 'http',
     startupTimeoutMs: 120000,
     managed: false,
-    licenseNote:
-      'BSD-3-Clause with branding clause; keep Ultra AI attribution',
+    licenseNote: 'BSD-3-Clause with branding clause; keep Ultra AI attribution',
   },
 ];
 

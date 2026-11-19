@@ -1,3 +1,4 @@
+import { MODEL_CATALOG } from './catalog';
 import type { ChatRequest, ProviderAdapter, ProviderId, Usage } from './types';
 
 import {
@@ -172,9 +173,12 @@ describe('ModelRouter', () => {
     expect(c[0].provider).toBe('ollama');
   });
 
-  it('routes agent tasks to manus', () => {
+  it('routes agent tasks to an agent-capable model', () => {
     const c = router.route({ ...req, taskClass: 'agent', dataClass: 'public' });
-    expect(c[0].provider).toBe('manus');
+    const top = MODEL_CATALOG.find(
+      (m) => m.provider === c[0].provider && m.model === c[0].model
+    );
+    expect(top?.capabilities).toContain('agent');
   });
 
   it('honors explicit model override', () => {
