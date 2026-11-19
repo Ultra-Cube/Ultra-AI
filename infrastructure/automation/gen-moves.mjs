@@ -1,8 +1,21 @@
 #!/usr/bin/env node
-// [UCUBETECH-COPYRIGHT]
-// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
-// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
-// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+// ╔══════════════════════════════════════════════════════════════════════════╗
+// ║                                                                          ║
+// ║ ██╗   ██╗██╗      █████╗ ██████╗                                         ║
+// ║ ██║   ██║██║     ██╔══██╗██╔══██╗                                        ║
+// ║ ██║   ██║██║     ███████║██████╔╝                                        ║
+// ║ ╚██╗ ██╔╝██║     ██╔══██║██╔══██╗                                        ║
+// ║  ╚████╔╝ ███████╗██║  ██║██████╔╝                                        ║
+// ║   ╚═══╝  ╚══════╝╚═╝  ╚═╝╚═════╝                                         ║
+// ║                                                                          ║
+// ║ Project   : Ultra AI — Proprietary AI Platform                           ║
+// ║ Developer : Ultra Cube Tech — ucubetech.com                              ║
+// ║ Team      : Ultra Zone Team — ultra-zone.ucubetech.com                   ║
+// ║ GitHub    : github.com/Ultra-Cube                                        ║
+// ║ Copyright : (c) Ultra Cube Tech — All rights reserved                    ║
+// ║ [UCUBETECH-COPYRIGHT]                                                    ║
+// ║                                                                          ║
+// ╚══════════════════════════════════════════════════════════════════════════╝
 
 // gen-moves.mjs — generate moves.tsv (src\tdst) from docs/planning/layout-map.yaml
 // Usage: node infrastructure/automation/gen-moves.mjs [layout-map.yaml] [out.tsv]

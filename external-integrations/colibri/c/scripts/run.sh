@@ -1,8 +1,21 @@
 #!/usr/bin/env bash
-# [UCUBETECH-COPYRIGHT]
-# Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
-# Developed by Ultra Zone Team — ultra-zone.ucubetech.com
-# GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+# ╔══════════════════════════════════════════════════════════════════════════╗
+# ║                                                                          ║
+# ║ ██╗   ██╗██╗      █████╗ ██████╗                                         ║
+# ║ ██║   ██║██║     ██╔══██╗██╔══██╗                                        ║
+# ║ ██║   ██║██║     ███████║██████╔╝                                        ║
+# ║ ╚██╗ ██╔╝██║     ██╔══██║██╔══██╗                                        ║
+# ║  ╚████╔╝ ███████╗██║  ██║██████╔╝                                        ║
+# ║   ╚═══╝  ╚══════╝╚═╝  ╚═╝╚═════╝                                         ║
+# ║                                                                          ║
+# ║ Project   : Ultra AI — Proprietary AI Platform                           ║
+# ║ Developer : Ultra Cube Tech — ucubetech.com                              ║
+# ║ Team      : Ultra Zone Team — ultra-zone.ucubetech.com                   ║
+# ║ GitHub    : github.com/Ultra-Cube                                        ║
+# ║ Copyright : (c) Ultra Cube Tech — All rights reserved                    ║
+# ║ [UCUBETECH-COPYRIGHT]                                                    ║
+# ║                                                                          ║
+# ╚══════════════════════════════════════════════════════════════════════════╝
 
 # Pipeline GLM-5.2 (int4, streaming, 15 GB RAM) — tutto in WSL, modello su ext4.
 #   uso da c/:  scripts/run.sh ["prompt"] [n_token]

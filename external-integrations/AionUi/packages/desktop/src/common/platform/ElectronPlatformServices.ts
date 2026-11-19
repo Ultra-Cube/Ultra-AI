@@ -1,7 +1,20 @@
-// [UCUBETECH-COPYRIGHT]
-// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
-// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
-// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+// ╔══════════════════════════════════════════════════════════════════════════╗
+// ║                                                                          ║
+// ║ ██╗   ██╗██╗      █████╗ ██████╗                                         ║
+// ║ ██║   ██║██║     ██╔══██╗██╔══██╗                                        ║
+// ║ ██║   ██║██║     ███████║██████╔╝                                        ║
+// ║ ╚██╗ ██╔╝██║     ██╔══██║██╔══██╗                                        ║
+// ║  ╚████╔╝ ███████╗██║  ██║██████╔╝                                        ║
+// ║   ╚═══╝  ╚══════╝╚═╝  ╚═╝╚═════╝                                         ║
+// ║                                                                          ║
+// ║ Project   : Ultra AI — Proprietary AI Platform                           ║
+// ║ Developer : Ultra Cube Tech — ucubetech.com                              ║
+// ║ Team      : Ultra Zone Team — ultra-zone.ucubetech.com                   ║
+// ║ GitHub    : github.com/Ultra-Cube                                        ║
+// ║ Copyright : (c) Ultra Cube Tech — All rights reserved                    ║
+// ║ [UCUBETECH-COPYRIGHT]                                                    ║
+// ║                                                                          ║
+// ╚══════════════════════════════════════════════════════════════════════════╝
 
 // This is the only file in src/common/platform/ permitted to import from 'electron'.
 import { app, net, Notification, powerSaveBlocker, utilityProcess, type UtilityProcess } from 'electron';

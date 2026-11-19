@@ -1,8 +1,21 @@
 #!/usr/bin/env bash
-# [UCUBETECH-COPYRIGHT]
-# Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
-# Developed by Ultra Zone Team — ultra-zone.ucubetech.com
-# GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+# ╔══════════════════════════════════════════════════════════════════════════╗
+# ║                                                                          ║
+# ║ ██╗   ██╗██╗      █████╗ ██████╗                                         ║
+# ║ ██║   ██║██║     ██╔══██╗██╔══██╗                                        ║
+# ║ ██║   ██║██║     ███████║██████╔╝                                        ║
+# ║ ╚██╗ ██╔╝██║     ██╔══██║██╔══██╗                                        ║
+# ║  ╚████╔╝ ███████╗██║  ██║██████╔╝                                        ║
+# ║   ╚═══╝  ╚══════╝╚═╝  ╚═╝╚═════╝                                         ║
+# ║                                                                          ║
+# ║ Project   : Ultra AI — Proprietary AI Platform                           ║
+# ║ Developer : Ultra Cube Tech — ucubetech.com                              ║
+# ║ Team      : Ultra Zone Team — ultra-zone.ucubetech.com                   ║
+# ║ GitHub    : github.com/Ultra-Cube                                        ║
+# ║ Copyright : (c) Ultra Cube Tech — All rights reserved                    ║
+# ║ [UCUBETECH-COPYRIGHT]                                                    ║
+# ║                                                                          ║
+# ╚══════════════════════════════════════════════════════════════════════════╝
 
 # colibrì — installazione su una macchina nuova (Linux x86-64, macOS, Windows/MinGW).
 # Compila il motore e fa un self-test. Il MODELLO (~372 GB int4) va copiato a parte

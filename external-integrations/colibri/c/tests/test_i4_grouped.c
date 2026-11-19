@@ -1,7 +1,20 @@
-// [UCUBETECH-COPYRIGHT]
-// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
-// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
-// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+// ╔══════════════════════════════════════════════════════════════════════════╗
+// ║                                                                          ║
+// ║ ██╗   ██╗██╗      █████╗ ██████╗                                         ║
+// ║ ██║   ██║██║     ██╔══██╗██╔══██╗                                        ║
+// ║ ██║   ██║██║     ███████║██████╔╝                                        ║
+// ║ ╚██╗ ██╔╝██║     ██╔══██║██╔══██╗                                        ║
+// ║  ╚████╔╝ ███████╗██║  ██║██████╔╝                                        ║
+// ║   ╚═══╝  ╚══════╝╚═╝  ╚═╝╚═════╝                                         ║
+// ║                                                                          ║
+// ║ Project   : Ultra AI — Proprietary AI Platform                           ║
+// ║ Developer : Ultra Cube Tech — ucubetech.com                              ║
+// ║ Team      : Ultra Zone Team — ultra-zone.ucubetech.com                   ║
+// ║ GitHub    : github.com/Ultra-Cube                                        ║
+// ║ Copyright : (c) Ultra Cube Tech — All rights reserved                    ║
+// ║ [UCUBETECH-COPYRIGHT]                                                    ║
+// ║                                                                          ║
+// ╚══════════════════════════════════════════════════════════════════════════╝
 
 /* Exactness test for the grouped-int4 kernel (fmt=4, one f32 scale per `gs`
  * elements along I) against a plain-C reference that dequantizes and multiplies

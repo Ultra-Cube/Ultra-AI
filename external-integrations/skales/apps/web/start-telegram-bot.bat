@@ -1,7 +1,20 @@
-REM  [UCUBETECH-COPYRIGHT]
-REM  Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
-REM  Developed by Ultra Zone Team — ultra-zone.ucubetech.com
-REM  GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+REM  ╔══════════════════════════════════════════════════════════════════════════╗
+REM  ║                                                                          ║
+REM  ║ ██╗   ██╗██╗      █████╗ ██████╗                                         ║
+REM  ║ ██║   ██║██║     ██╔══██╗██╔══██╗                                        ║
+REM  ║ ██║   ██║██║     ███████║██████╔╝                                        ║
+REM  ║ ╚██╗ ██╔╝██║     ██╔══██║██╔══██╗                                        ║
+REM  ║  ╚████╔╝ ███████╗██║  ██║██████╔╝                                        ║
+REM  ║   ╚═══╝  ╚══════╝╚═╝  ╚═╝╚═════╝                                         ║
+REM  ║                                                                          ║
+REM  ║ Project   : Ultra AI — Proprietary AI Platform                           ║
+REM  ║ Developer : Ultra Cube Tech — ucubetech.com                              ║
+REM  ║ Team      : Ultra Zone Team — ultra-zone.ucubetech.com                   ║
+REM  ║ GitHub    : github.com/Ultra-Cube                                        ║
+REM  ║ Copyright : (c) Ultra Cube Tech — All rights reserved                    ║
+REM  ║ [UCUBETECH-COPYRIGHT]                                                    ║
+REM  ║                                                                          ║
+REM  ╚══════════════════════════════════════════════════════════════════════════╝
 
 @echo off
 title Skales Telegram Bot

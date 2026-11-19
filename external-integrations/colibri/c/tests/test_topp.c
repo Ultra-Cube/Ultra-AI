@@ -1,7 +1,20 @@
-// [UCUBETECH-COPYRIGHT]
-// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
-// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
-// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+// ╔══════════════════════════════════════════════════════════════════════════╗
+// ║                                                                          ║
+// ║ ██╗   ██╗██╗      █████╗ ██████╗                                         ║
+// ║ ██║   ██║██║     ██╔══██╗██╔══██╗                                        ║
+// ║ ██║   ██║██║     ███████║██████╔╝                                        ║
+// ║ ╚██╗ ██╔╝██║     ██╔══██║██╔══██╗                                        ║
+// ║  ╚████╔╝ ███████╗██║  ██║██████╔╝                                        ║
+// ║   ╚═══╝  ╚══════╝╚═╝  ╚═╝╚═════╝                                         ║
+// ║                                                                          ║
+// ║ Project   : Ultra AI — Proprietary AI Platform                           ║
+// ║ Developer : Ultra Cube Tech — ucubetech.com                              ║
+// ║ Team      : Ultra Zone Team — ultra-zone.ucubetech.com                   ║
+// ║ GitHub    : github.com/Ultra-Cube                                        ║
+// ║ Copyright : (c) Ultra Cube Tech — All rights reserved                    ║
+// ║ [UCUBETECH-COPYRIGHT]                                                    ║
+// ║                                                                          ║
+// ╚══════════════════════════════════════════════════════════════════════════╝
 
 /* Top-p (nucleus) truncation in dist_build: the partial-select rewrite (#335) must be
  * indistinguishable from the old full-vocab qsort for every shape dist_sample can see.

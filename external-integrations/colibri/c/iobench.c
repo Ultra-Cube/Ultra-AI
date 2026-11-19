@@ -1,7 +1,20 @@
-// [UCUBETECH-COPYRIGHT]
-// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
-// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
-// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+// ╔══════════════════════════════════════════════════════════════════════════╗
+// ║                                                                          ║
+// ║ ██╗   ██╗██╗      █████╗ ██████╗                                         ║
+// ║ ██║   ██║██║     ██╔══██╗██╔══██╗                                        ║
+// ║ ██║   ██║██║     ███████║██████╔╝                                        ║
+// ║ ╚██╗ ██╔╝██║     ██╔══██║██╔══██╗                                        ║
+// ║  ╚████╔╝ ███████╗██║  ██║██████╔╝                                        ║
+// ║   ╚═══╝  ╚══════╝╚═╝  ╚═╝╚═════╝                                         ║
+// ║                                                                          ║
+// ║ Project   : Ultra AI — Proprietary AI Platform                           ║
+// ║ Developer : Ultra Cube Tech — ucubetech.com                              ║
+// ║ Team      : Ultra Zone Team — ultra-zone.ucubetech.com                   ║
+// ║ GitHub    : github.com/Ultra-Cube                                        ║
+// ║ Copyright : (c) Ultra Cube Tech — All rights reserved                    ║
+// ║ [UCUBETECH-COPYRIGHT]                                                    ║
+// ║                                                                          ║
+// ╚══════════════════════════════════════════════════════════════════════════╝
 
 /* Microbench: banda in lettura RANDOM con blocchi tipo-expert (~19 MB int4).
  * Misura cio' che fa il motore davvero: N thread che leggono in parallelo

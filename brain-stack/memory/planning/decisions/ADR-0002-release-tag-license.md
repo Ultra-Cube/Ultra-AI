@@ -1,7 +1,22 @@
-<!--[UCUBETECH-COPYRIGHT]
- Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
- Developed by Ultra Zone Team — ultra-zone.ucubetech.com
- GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved-->
+<!--
+╔══════════════════════════════════════════════════════════════════════════╗
+║                                                                          ║
+║ ██╗   ██╗██╗      █████╗ ██████╗                                         ║
+║ ██║   ██║██║     ██╔══██╗██╔══██╗                                        ║
+║ ██║   ██║██║     ███████║██████╔╝                                        ║
+║ ╚██╗ ██╔╝██║     ██╔══██║██╔══██╗                                        ║
+║  ╚████╔╝ ███████╗██║  ██║██████╔╝                                        ║
+║   ╚═══╝  ╚══════╝╚═╝  ╚═╝╚═════╝                                         ║
+║                                                                          ║
+║ Project   : Ultra AI — Proprietary AI Platform                           ║
+║ Developer : Ultra Cube Tech — ucubetech.com                              ║
+║ Team      : Ultra Zone Team — ultra-zone.ucubetech.com                   ║
+║ GitHub    : github.com/Ultra-Cube                                        ║
+║ Copyright : (c) Ultra Cube Tech — All rights reserved                    ║
+║ [UCUBETECH-COPYRIGHT]                                                    ║
+║                                                                          ║
+╚══════════════════════════════════════════════════════════════════════════╝
+-->
 
 # ADR-0002 — Planning release tag `v0.2.0-planning` and license Apache-2.0
 

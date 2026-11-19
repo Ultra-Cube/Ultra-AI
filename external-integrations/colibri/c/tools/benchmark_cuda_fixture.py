@@ -1,7 +1,20 @@
-# [UCUBETECH-COPYRIGHT]
-# Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
-# Developed by Ultra Zone Team — ultra-zone.ucubetech.com
-# GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
+# ╔══════════════════════════════════════════════════════════════════════════╗
+# ║                                                                          ║
+# ║ ██╗   ██╗██╗      █████╗ ██████╗                                         ║
+# ║ ██║   ██║██║     ██╔══██╗██╔══██╗                                        ║
+# ║ ██║   ██║██║     ███████║██████╔╝                                        ║
+# ║ ╚██╗ ██╔╝██║     ██╔══██║██╔══██╗                                        ║
+# ║  ╚████╔╝ ███████╗██║  ██║██████╔╝                                        ║
+# ║   ╚═══╝  ╚══════╝╚═╝  ╚═╝╚═════╝                                         ║
+# ║                                                                          ║
+# ║ Project   : Ultra AI — Proprietary AI Platform                           ║
+# ║ Developer : Ultra Cube Tech — ucubetech.com                              ║
+# ║ Team      : Ultra Zone Team — ultra-zone.ucubetech.com                   ║
+# ║ GitHub    : github.com/Ultra-Cube                                        ║
+# ║ Copyright : (c) Ultra Cube Tech — All rights reserved                    ║
+# ║ [UCUBETECH-COPYRIGHT]                                                    ║
+# ║                                                                          ║
+# ╚══════════════════════════════════════════════════════════════════════════╝
 
 """Reproducible CPU/CUDA A/B benchmark for tools/make_glm_bench_model.py output."""
 

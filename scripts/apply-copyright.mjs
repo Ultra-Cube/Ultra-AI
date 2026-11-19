@@ -2,14 +2,14 @@
 /**
  * apply-copyright.mjs — Ultra AI / Ultra Cube Tech
  *
- * Prepends a hidden copyright banner to every tracked text file that
- * supports comments. Idempotent: files already carrying the marker are
- * skipped. Binary, generated, lockfile, and third-party vendored files
- * are excluded (see EXCLUDE_DIRS / BINARY_EXT / GENERATED).
+ * Prepends a boxed copyright banner (Kombai-style ASCII frame) to every
+ * tracked text file that supports comments. Idempotent. Binary, generated,
+ * lockfile, and third-party vendored files are excluded.
  *
  * Usage:
- *   node scripts/apply-copyright.mjs          # apply
- *   node scripts/apply-copyright.mjs --check  # report coverage only
+ *   node scripts/apply-copyright.mjs            # apply
+ *   node scripts/apply-copyright.mjs --check    # report coverage only
+ *   node scripts/apply-copyright.mjs --migrate  # strip old 4-line banner, then apply
  */
 import { execSync } from 'node:child_process';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
@@ -17,103 +17,141 @@ import path from 'node:path';
 
 const ROOT = execSync('git rev-parse --show-toplevel', { encoding: 'utf8' }).trim();
 const CHECK_ONLY = process.argv.includes('--check');
+const MIGRATE = process.argv.includes('--migrate');
 const MARKER = 'UCUBETECH-COPYRIGHT';
+const OLD_MARKER = '[UCUBETECH-COPYRIGHT]';
 
-const BANNER_LINES = [
-  'Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com',
-  'Developed by Ultra Zone Team — ultra-zone.ucubetech.com',
-  'GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved',
+const IW = 74; // inner width of the box
+
+const ART = [
+  '██╗   ██╗██╗      █████╗ ██████╗ ',
+  '██║   ██║██║     ██╔══██╗██╔══██╗',
+  '██║   ██║██║     ███████║██████╔╝',
+  '╚██╗ ██╔╝██║     ██╔══██║██╔══██╗',
+  ' ╚████╔╝ ███████╗██║  ██║██████╔╝',
+  '  ╚═══╝  ╚══════╝╚═╝  ╚═╝╚═════╝ ',
 ];
 
-// Directories that are third-party imports, generated, or not project IP.
+const INFO = [
+  'Project   : Ultra AI — Proprietary AI Platform',
+  'Developer : Ultra Cube Tech — ucubetech.com',
+  'Team      : Ultra Zone Team — ultra-zone.ucubetech.com',
+  'GitHub    : github.com/Ultra-Cube',
+  'Copyright : (c) Ultra Cube Tech — All rights reserved',
+  `[${MARKER}]`,
+];
+
+function boxLine(text) {
+  const inner = ' ' + text;
+  return '║' + inner.padEnd(IW, ' ') + '║';
+}
+
+function buildBox() {
+  const top = '╔' + '═'.repeat(IW) + '╗';
+  const bottom = '╚' + '═'.repeat(IW) + '╝';
+  const lines = [top, boxLine(''), ...ART.map(boxLine), boxLine('')];
+  for (const l of INFO) lines.push(boxLine(l));
+  lines.push(boxLine(''), bottom);
+  return lines;
+}
+
+const BANNER_LINES = buildBox();
+
 const EXCLUDE_DIRS = [
-  'node_modules/',
-  '.git/',
-  '.devin/skills/', // imported mdskills/GitHub packs — third-party content
-  'external/', // vendored forks/imports
-  'dist/',
-  'build/',
-  '.next/',
-  'coverage/',
-  '.turbo/',
-  'out/',
+  'node_modules/', '.git/', '.devin/skills/', 'external/',
+  'dist/', 'build/', '.next/', 'coverage/', '.turbo/', 'out/',
 ];
 
 const BINARY_EXT = new Set([
-  'png', 'jpg', 'jpeg', 'gif', 'webp', 'ico', 'icns', 'svgz',
-  'webm', 'mp4', 'mov', 'avi', 'mp3', 'wav', 'ogg',
-  'pptx', 'ppt', 'docx', 'doc', 'xlsx', 'xls', 'pdf',
-  'zip', 'tar', 'gz', '7z', 'rar', 'woff', 'woff2', 'ttf', 'otf', 'eot',
-  'exe', 'dll', 'so', 'dylib', 'bin', 'wasm', 'pyc', 'class', 'jar',
-  'db', 'sqlite', 'parquet', 'onnx', 'safetensors', 'gguf', 'ckpt',
+  'png','jpg','jpeg','gif','webp','ico','icns','svgz',
+  'webm','mp4','mov','avi','mp3','wav','ogg',
+  'pptx','ppt','docx','doc','xlsx','xls','pdf',
+  'zip','tar','gz','7z','rar','woff','woff2','ttf','otf','eot',
+  'exe','dll','so','dylib','bin','wasm','pyc','class','jar',
+  'db','sqlite','parquet','onnx','safetensors','gguf','ckpt',
 ]);
 
 const GENERATED = /(?:^|\/)(package-lock\.json|yarn\.lock|pnpm-lock\.yaml|bun\.lockb|.*\.snap|.*\.min\.(js|css)|.*\.generated\..*|tsconfig\.tsbuildinfo)$/;
 
-// Comment syntaxes. 'line' = prefix per line, 'block' = wrap whole banner.
 function bannerFor(file) {
   const ext = path.extname(file).slice(1).toLowerCase();
   const base = path.basename(file).toLowerCase();
-
   const lineComment = {
-    ts: '//', tsx: '//', js: '//', jsx: '//', mjs: '//', cjs: '//',
-    java: '//', cs: '//', c: '//', h: '//', cpp: '//', hpp: '//',
-    go: '//', rs: '//', swift: '//', kt: '//', kts: '//', scala: '//',
-    php: '//', groovy: '//', dart: '//', vue: '//', svelte: '//',
-    sh: '#', bash: '#', zsh: '#', fish: '#', py: '#', rb: '#',
-    pl: '#', pm: '#', r: '#', jl: '#', ex: '#', exs: '#',
-    yaml: '#', yml: '#', toml: '#', ini: '#', cfg: '#', conf: '#',
-    gitignore: '#', gitattributes: '#', gitkeep: '#', dockerignore: '#',
-    env: '#', properties: '#', gitmodules: '#',
-    ps1: '#', psm1: '#', bat: 'REM ', cmd: 'REM ', nsh: '#',
-    tf: '#', hcl: '#', nix: '#', mk: '#', cmake: '#',
-    coffee: '#', nim: '#', crystal: '#', el: '#', erl: '%',
-    clj: ';', lisp: ';', scm: ';', sql: '--',
-    lua: '--', hs: '--', ml: '(*', fs: '(*',
-    tex: '%', latex: '%',
+    ts:'//',tsx:'//',js:'//',jsx:'//',mjs:'//',cjs:'//',
+    java:'//',cs:'//',c:'//',h:'//',cpp:'//',hpp:'//',
+    go:'//',rs:'//',swift:'//',kt:'//',kts:'//',scala:'//',
+    php:'//',groovy:'//',dart:'//',vue:'//',svelte:'//',
+    sh:'#',bash:'#',zsh:'#',fish:'#',py:'#',rb:'#',
+    pl:'#',pm:'#',r:'#',jl:'#',ex:'#',exs:'#',
+    yaml:'#',yml:'#',toml:'#',ini:'#',cfg:'#',conf:'#',
+    gitignore:'#',gitattributes:'#',gitkeep:'#',dockerignore:'#',
+    env:'#',properties:'#',gitmodules:'#',
+    ps1:'#',psm1:'#',bat:'REM ',cmd:'REM ',nsh:'#',
+    tf:'#',hcl:'#',nix:'#',mk:'#',cmake:'#',
+    coffee:'#',nim:'#',crystal:'#',el:'#',erl:'%',
+    clj:';',lisp:';',scm:';',sql:'--',
+    lua:'--',hs:'--',ml:'(*',fs:'(*',
+    tex:'%',latex:'%',
   };
   const blockComment = {
-    css: '/*', scss: '/*', sass: '/*', less: '/*',
-    html: '<!--', xml: '<!--', svg: '<!--', vue: '<!--', svelte: '<!--',
-    md: '<!--', markdown: '<!--', mdx: '{/*',
-    gql: '#', graphql: '#',
+    css:'/*',scss:'/*',sass:'/*',less:'/*',
+    html:'<!--',xml:'<!--',svg:'<!--',vue:'<!--',svelte:'<!--',
+    md:'<!--',markdown:'<!--',mdx:'{/*',
+    gql:'#',graphql:'#',
   };
-
-  if (base === 'dockerfile' || base.startsWith('dockerfile.')) return { kind: 'line', prefix: '#' };
-  if (base === 'makefile' || base === 'gnumakefile') return { kind: 'line', prefix: '#' };
+  if (base === 'dockerfile' || base.startsWith('dockerfile.')) return { kind:'line', prefix:'#' };
+  if (base === 'makefile' || base === 'gnumakefile') return { kind:'line', prefix:'#' };
   if (ext === 'json' || ext === 'jsonc') {
-    // JSON has no comments. jsonc allows them; plain .json is skipped
-    // (adding keys risks breaking strict parsers/schemas).
-    return ext === 'jsonc' ? { kind: 'line', prefix: '//' } : null;
+    return ext === 'jsonc' ? { kind:'line', prefix:'//' } : null;
   }
-  if (ext === 'mmd') return { kind: 'line', prefix: '%%' };
-  if (ext === 'txt' || ext === 'text' || ext === 'log' || ext === 'example' || base === 'license' || base === 'notice' || base === 'authors' || base === 'contributors' || base === 'changelog') {
-    return { kind: 'raw' };
+  if (ext === 'mmd') return { kind:'line', prefix:'%%' };
+  if (ext === 'txt' || ext === 'text' || ext === 'log' || ext === 'example' ||
+      base === 'license' || base === 'notice' || base === 'authors' ||
+      base === 'contributors' || base === 'changelog') return { kind:'raw' };
+  if (lineComment[ext]) return { kind:'line', prefix:lineComment[ext] };
+  if (blockComment[ext]) {
+    const o = blockComment[ext];
+    return { kind:'block', open:o, close: o === '<!--' ? '-->' : o === '{/*' ? '*/}' : '*/' };
   }
-  if (lineComment[ext]) return { kind: 'line', prefix: lineComment[ext] };
-  if (blockComment[ext]) return { kind: 'block', open: blockComment[ext], close: blockComment[ext] === '<!--' ? '-->' : blockComment[ext] === '{/*' ? '*/}' : '*/' };
-  return null; // unknown — skip rather than corrupt
+  return null;
 }
 
 function renderBanner(style) {
-  const tag = `[${MARKER}]`;
-  if (style.kind === 'raw') {
-    return `${tag}\n${BANNER_LINES.join('\n')}\n\n`;
-  }
+  if (style.kind === 'raw') return BANNER_LINES.join('\n') + '\n\n';
   if (style.kind === 'line') {
     const p = style.prefix;
-    return `${p} ${tag}\n${BANNER_LINES.map((l) => `${p} ${l}`).join('\n')}\n\n`;
+    return BANNER_LINES.map((l) => `${p} ${l}`).join('\n') + '\n\n';
   }
-  // block
-  const pad = ' ';
-  return `${style.open}${tag}\n${BANNER_LINES.map((l) => `${style.open === '<!--' ? ' ' : ''}${l}`).join('\n')}${style.close}\n\n`;
+  // block comment — wrap whole box
+  return style.open + '\n' + BANNER_LINES.join('\n') + '\n' + style.close + '\n\n';
+}
+
+// Strip a legacy banner: the line containing OLD_MARKER (without the box)
+// plus up to 3 following lines sharing its comment prefix, plus one blank.
+function stripOldBanner(content) {
+  const lines = content.split('\n');
+  const idx = lines.findIndex((l) => l.includes(OLD_MARKER) && !l.includes('╔'));
+  if (idx === -1) return null;
+  const first = lines[idx];
+  const prefixMatch = first.match(/^\s*(\/\/|#|--|%%|REM |;|\(\*|%|<!--|\/\*|\{\/\*)/);
+  const p = prefixMatch ? prefixMatch[1] : '';
+  let end = idx + 1;
+  let removed = 0;
+  while (end < lines.length && removed < 3) {
+    const l = lines[end];
+    if (p ? l.trimStart().startsWith(p) : l.trim() !== '') { end++; removed++; }
+    else break;
+  }
+  if (end < lines.length && lines[end].trim() === '') end++;
+  lines.splice(idx, end - idx);
+  return lines.join('\n');
 }
 
 const files = execSync('git ls-files', { cwd: ROOT, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 })
-  .split('\n')
-  .filter(Boolean);
+  .split('\n').filter(Boolean);
 
-let applied = 0, skippedMarked = 0, skippedType = 0, skippedBinary = 0, skippedExcluded = 0, errors = 0;
+let applied = 0, skippedMarked = 0, skippedType = 0, skippedBinary = 0,
+    skippedExcluded = 0, migrated = 0, errors = 0;
 const changed = [];
 
 for (const rel of files) {
@@ -128,12 +166,18 @@ for (const rel of files) {
   const abs = path.join(ROOT, norm);
   let content;
   try { content = readFileSync(abs, 'utf8'); } catch { errors++; continue; }
-  if (content.includes(MARKER)) { skippedMarked++; continue; }
-  if (content.charCodeAt(0) === 0xfeff) content = content.slice(1); // strip BOM; banner goes first
 
-  // Preserve shebang as the very first line.
-  let prefix = '';
-  let body = content;
+  if (MIGRATE) {
+    const stripped = stripOldBanner(content);
+    if (stripped !== null) { content = stripped; migrated++; }
+  }
+
+  const hasBox = content.includes('╔') && content.includes(MARKER);
+  if (hasBox) { skippedMarked++; continue; }
+
+  if (content.charCodeAt(0) === 0xfeff) content = content.slice(1);
+
+  let prefix = '', body = content;
   const nl = body.indexOf('\n');
   const firstLine = nl === -1 ? body : body.slice(0, nl);
   if (firstLine.startsWith('#!')) { prefix = firstLine + '\n'; body = nl === -1 ? '' : body.slice(nl + 1); }
@@ -147,8 +191,9 @@ for (const rel of files) {
   } catch (e) { errors++; console.error(`ERR ${norm}: ${e.message}`); }
 }
 
-console.log(`\napply-copyright: applied=${applied} already-marked=${skippedMarked} skipped-type=${skippedType} skipped-binary=${skippedBinary} skipped-excluded-dir=${skippedExcluded} errors=${errors}`);
+console.log(`\napply-copyright: applied=${applied} migrated=${migrated} already-marked=${skippedMarked} skipped-type=${skippedType} skipped-binary=${skippedBinary} skipped-excluded-dir=${skippedExcluded} errors=${errors}`);
 if (!CHECK_ONLY && changed.length) {
   mkdirSync(path.join(ROOT, 'security'), { recursive: true });
-  writeFileSync(path.join(ROOT, 'security', '.copyright-applied.json'), JSON.stringify({ count: changed.length, files: changed }, null, 2));
+  writeFileSync(path.join(ROOT, 'security', '.copyright-applied.json'),
+    JSON.stringify({ count: changed.length, files: changed }, null, 2));
 }

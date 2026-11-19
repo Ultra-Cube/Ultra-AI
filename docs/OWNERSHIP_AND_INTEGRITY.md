@@ -1,3 +1,23 @@
+<!--
+╔══════════════════════════════════════════════════════════════════════════╗
+║                                                                          ║
+║ ██╗   ██╗██╗      █████╗ ██████╗                                         ║
+║ ██║   ██║██║     ██╔══██╗██╔══██╗                                        ║
+║ ██║   ██║██║     ███████║██████╔╝                                        ║
+║ ╚██╗ ██╔╝██║     ██╔══██║██╔══██╗                                        ║
+║  ╚████╔╝ ███████╗██║  ██║██████╔╝                                        ║
+║   ╚═══╝  ╚══════╝╚═╝  ╚═╝╚═════╝                                         ║
+║                                                                          ║
+║ Project   : Ultra AI — Proprietary AI Platform                           ║
+║ Developer : Ultra Cube Tech — ucubetech.com                              ║
+║ Team      : Ultra Zone Team — ultra-zone.ucubetech.com                   ║
+║ GitHub    : github.com/Ultra-Cube                                        ║
+║ Copyright : (c) Ultra Cube Tech — All rights reserved                    ║
+║ [UCUBETECH-COPYRIGHT]                                                    ║
+║                                                                          ║
+╚══════════════════════════════════════════════════════════════════════════╝
+-->
+
 # Ownership headers & file integrity (Ultra AI)
 
 ## Copyright headers
@@ -6,10 +26,6 @@
 tracked text files:
 
 ```
-// [UCUBETECH-COPYRIGHT]
-// Ultra AI — Copyright (c) Ultra Cube Tech — ucubetech.com
-// Developed by Ultra Zone Team — ultra-zone.ucubetech.com
-// GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved
 ```
 
 - Shebangs (`#!/usr/bin/env bash`) and directives (`"use client"`) stay first;

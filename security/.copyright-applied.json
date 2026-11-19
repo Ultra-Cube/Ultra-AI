@@ -1,5 +1,5 @@
 {
-  "count": 3082,
+  "count": 3084,
   "files": [
     ".devin/agents/backend-architect.md",
     ".devin/agents/cloud-architect.md",
@@ -329,6 +329,7 @@
     "docs/FEATURES_IMPLEMENTED.md",
     "docs/LEGAL_COMPLIANCE_FRAMEWORK.md",
     "docs/MASTER_ARCHITECTURE.md",
+    "docs/OWNERSHIP_AND_INTEGRITY.md",
     "docs/PERFORMANCE_MONITORING_STRATEGY.md",
     "docs/POC_VALIDATION_STRATEGY.md",
     "docs/PRODUCTION_DEPLOYMENT.md",
@@ -3055,6 +3056,7 @@
     "platform/testing/e2e/README.md",
     "platform/testing/integration/README.md",
     "platform/testing/performance/README.md",
+    "scripts/file-guard.mjs",
     "wsl-ai-stack/.env.example",
     "wsl-ai-stack/AIRLLM.md",
     "wsl-ai-stack/FLOW.md",
