@@ -1,6 +1,6 @@
 # Ultra Core integration environment (P4B)
 
-Status: SPEC — contract-first design; no live Ultra-Core calls.
+Status: WORKING (mock-validated) — contract-first design implemented in `platform/services/ultra-core-bridge` + `contracts/ultra-core/`; no live Ultra-Core calls (QC-P4B-15 pending).
 Scope: T0 evidence/provenance, T1 off-chain credits behind approvals, T2 BLOCKED by G-4.2.
 Sources: `brain-stack/workflows/ULTRA_AI_TODO.md` P4B; `docs/v2/technical-spec.md` §14; `ultra-ai-blockchain-prompt.md` Appendix A.
 
