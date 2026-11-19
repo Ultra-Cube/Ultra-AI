@@ -74,3 +74,29 @@ deferred to later phases. Ed25519 keys here sign *events* only.
 ## Scripts
 
 `npm test` · `npm run lint` · `npm run type-check` · `npm run build`
+
+## Operations (P4B-12)
+
+`src/ops.ts` provides the operational surface; `HttpExportTarget` wires it in
+by default.
+
+| Control | Mechanism | Default |
+|---|---|---|
+| Kill switch | `ULTRA_CORE_ENABLED=false` (or `enabled:false` option) — `send()` throws, batch stays in outbox | enabled |
+| Read-only | `ULTRA_CORE_READ_ONLY=true` — `CoreClient` refuses `/v1/credits/*` mutations | false |
+| Metrics | `bridgeMetrics.render()` — Prometheus text exposition: `ultra_core_exports_total{result}`, `ultra_core_events_total{result}`, `ultra_core_export_duration_ms` | — |
+| Logs | `logEvent()` — JSON lines to stderr; `redactSecrets()` masks `token`/`key`/`secret`/`password`/`authorization` fields recursively | on |
+
+Tokens: `UCI_INGEST_TOKEN` (ingest/keys), `UCI_ADMIN_TOKEN` (read routes,
+falls back to ingest token). See `.env.example`. Never log tokens or event
+payloads — only counts, ids, and batch ids are emitted.
+
+### Mock + contract tests
+
+```sh
+npm run core:mock          # ultra-core-mock on :4100 (or ULTRA_CORE_MOCK_PORT)
+npm run test:core-contract # contract suite against mock-server
+```
+
+`docker compose -f infrastructure/docker/docker-compose.yml up -d ultra-core-mock`
+also works. `failNextIngest()` on the mock injects a one-shot 503 for retry tests.
