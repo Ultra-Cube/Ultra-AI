@@ -1,3 +1,4 @@
+import { verifyMerkleProof } from './merkle';
 import { ExportBatch } from './types';
 
 /**
@@ -48,6 +49,7 @@ export interface RegisteredKey {
 export interface Proof {
   event_id: string;
   instance?: string;
+  leaf?: string;
   root: string;
   height?: number;
   proof: Array<{ hash: string; side?: string }>;
@@ -197,6 +199,24 @@ export class UltraCoreClient {
       '/' +
       encodeURIComponent(eventId);
     return (await this.request(path)) as Proof;
+  }
+
+  /**
+   * T0: fetch an inclusion proof and verify it client-side against the
+   * returned root. Returns false on verification failure (never throws
+   * for a bad proof - a 404 still throws UltraCoreApiError).
+   */
+  async verifyProof(instance: string, eventId: string): Promise<boolean> {
+    const proof = await this.getProof(instance, eventId);
+    if (!proof.leaf) return false;
+    return verifyMerkleProof(
+      proof.leaf,
+      proof.proof.map((i) => ({
+        hash: i.hash,
+        side: (i.side === 'left' ? 'left' : 'right') as 'left' | 'right',
+      })),
+      proof.root
+    );
   }
 
   /** T1 read: off-chain credit balance for a subject. */

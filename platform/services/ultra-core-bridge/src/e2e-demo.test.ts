@@ -104,6 +104,15 @@ describe('P4B-13 E2E demo: usage.model_call -> ingest -> anchor -> proof', () =>
         tokens: 128,
       }
     );
+    // A second event so the Merkle proof has at least one sibling.
+    outbox.append(
+      'usage.model_call',
+      { agent: 'demo-agent' },
+      {
+        model: 'mock-model',
+        tokens: 64,
+      }
+    );
     expect(outbox.verifyChain().ok).toBe(true);
 
     // 3. Export via HttpExportTarget -> POST /v1/ingest/batches.
@@ -119,18 +128,19 @@ describe('P4B-13 E2E demo: usage.model_call -> ingest -> anchor -> proof', () =>
     });
     const reports = await exporter.flush();
     expect(reports).toEqual([
-      { target: 'ultra-core', sent: 1, accepted: 1, rejected: 0 },
+      { target: 'ultra-core', sent: 2, accepted: 2, rejected: 0 },
     ]);
 
     // 4. Anchored head + inclusion proof (mock anchors on ingest).
     const admin = createCoreClient({ baseUrl, adminToken: 'demo-admin' });
     const head = await admin.instanceHead(INSTANCE);
-    expect(head.height).toBe(0);
+    expect(head.height).toBe(1);
     const proof = await admin.getProof(INSTANCE, event.id);
     expect(proof.event_id).toBe(event.id);
     expect(proof.height).toBe(0);
     expect(proof.root).toBe(head.head);
     expect(proof.proof.length).toBeGreaterThan(0);
+    expect(await admin.verifyProof(INSTANCE, event.id)).toBe(true);
 
     // 5. anchor.confirmed callback: signed by publisher, delivered over SSE.
     const pub = makePublisher();

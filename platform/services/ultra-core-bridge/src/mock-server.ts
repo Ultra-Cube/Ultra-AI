@@ -17,6 +17,10 @@ import {
   ServerResponse,
 } from 'node:http';
 
+import { merkleProof, merkleRoot } from './merkle';
+import { eventHash } from './signer';
+import type { UltraEvent } from './types';
+
 const sha256 = (s: string) =>
   `sha256:${createHash('sha256').update(s).digest('hex')}`;
 const GENESIS = `sha256:${'0'.repeat(64)}`;
@@ -33,6 +37,7 @@ interface IngestedEvent {
   id: string;
   instance: string;
   hash: string;
+  leaf: string;
   prev_hash: string;
 }
 interface Reservation {
@@ -222,15 +227,14 @@ export class UltraCoreMock {
           return this.err(res, 404, 'event not anchored', {
             code: 'not_found',
           });
-        const root = list.length ? list[list.length - 1].hash : GENESIS;
+        const leaves = list.map((e) => e.leaf);
         this.json(res, 200, {
           event_id: eventId,
           instance,
-          root,
+          leaf: list[idx].leaf,
+          root: merkleRoot(leaves),
           height: idx,
-          proof: list
-            .slice(0, idx + 1)
-            .map((e) => ({ hash: e.hash, side: 'left' })),
+          proof: merkleProof(leaves, idx),
         });
         return;
       }
@@ -244,7 +248,7 @@ export class UltraCoreMock {
         }
         this.json(res, 200, {
           instance,
-          head: list[list.length - 1].hash,
+          head: merkleRoot(list.map((e) => e.leaf)),
           height: list.length - 1,
         });
         return;
@@ -398,7 +402,7 @@ export class UltraCoreMock {
         continue;
       }
       const list = this.events.get(instance) ?? [];
-      const expectedPrev = list.length ? list[list.length - 1].hash : GENESIS;
+      const expectedPrev = list.length ? list[list.length - 1].leaf : GENESIS;
       const prev = typeof ev.prev_hash === 'string' ? ev.prev_hash : undefined;
       // Genesis prev_hash is allowed (chain restart); any other value must
       // match the anchored head of this instance.
@@ -411,7 +415,8 @@ export class UltraCoreMock {
         id,
         instance,
         hash,
-        prev_hash: list.length ? list[list.length - 1].hash : GENESIS,
+        leaf: eventHash(ev as unknown as UltraEvent),
+        prev_hash: prev ?? GENESIS,
       });
       this.events.set(instance, list);
       accepted.push(id);
