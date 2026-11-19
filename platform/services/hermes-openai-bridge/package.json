@@ -1,0 +1,27 @@
+{
+  "name": "@ultra-ai/hermes-openai-bridge",
+  "version": "0.1.0",
+  "description": "OpenAI-compatible HTTP bridge for HermesRuntime — lets Open WebUI (or any OpenAI client) use Hermes Agent as a chat provider.",
+  "main": "dist/index.js",
+  "types": "src/index.ts",
+  "scripts": {
+    "dev": "tsup src/index.ts --format esm,cjs --watch",
+    "build": "tsup src/index.ts --format esm,cjs",
+    "start": "node dist/index.js",
+    "test": "jest --config jest.config.cjs",
+    "lint": "eslint src --ext .ts",
+    "type-check": "tsc --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@ultra-ai/hermes-runtime": "*"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.0",
+    "@types/node": "^20.0.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.3.3"
+  }
+}

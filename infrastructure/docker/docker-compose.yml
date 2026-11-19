@@ -70,6 +70,24 @@ services:
     networks:
       - ultra-ai-network
 
+  # Hermes OpenAI bridge — exposes HermesRuntime as /v1/chat/completions
+  # so Open WebUI can use Hermes as a model provider (port 9400).
+  hermes-openai-bridge:
+    image: node:20-alpine
+    working_dir: /repo
+    command: sh -c "npm run build -w @ultra-ai/hermes-runtime --if-present && npx tsx platform/services/hermes-openai-bridge/src/index.ts"
+    ports:
+      - "9400:9400"
+    volumes:
+      - ../../:/repo
+    environment:
+      - HERMES_OPENAI_PORT=9400
+      - HERMES_UPSTREAM_URL=http://host.docker.internal:11434/v1
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - ultra-ai-network
+
 volumes:
   postgres_data:
   redis_data:

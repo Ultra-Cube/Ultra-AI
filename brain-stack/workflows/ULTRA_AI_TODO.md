@@ -133,7 +133,7 @@ flowchart LR
 - [ ] **P1C-01** **Ollama** adapter: model pull, hardware probe, GGUF import · `IDEA`
 - [ ] **P1C-02** **OpenClaw** sidecar (gateway :18789, Node ≥ 22): channel pairing UI, skills sync with Hermes · `IDEA`
 - [ ] **P1C-03** **9router** sidecar · `IDEA`
-- [ ] **P1C-04** **Open WebUI** sidecar, branding kept, wired to Hermes · `IDEA` 🔒 G-1.4 R2
+- [~] **P1C-04** **Open WebUI** sidecar, branding kept, wired to Hermes · `IDEA` 🔒 G-1.4 R2 — PARTIAL: `platform/services/hermes-openai-bridge` exposes HermesRuntime as OpenAI-compatible /v1/chat/completions (port 9400, compose service added, 4 tests); Open WebUI needs the connection added in Admin→Connections (UI step) — G-1.4 branding gate still open
 - [ ] **P1C-05** **Langflow** sidecar (default flow builder) · `IDEA` 🔒 G-1.1
 - [ ] **P1C-06** **Dify** sidecar, single-tenant per install, logo kept · `IDEA` 🔒 G-1.3 R2
 - [ ] **P1C-07** **n8n** adapter: detect/connect a *user-installed* instance; never bundled · `IDEA` 🔒 G-1.2 R2
