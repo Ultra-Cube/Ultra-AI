@@ -11,13 +11,15 @@
 ║ Project   : Ultra AI — Proprietary AI Platform                           ║
 ║ Developer : Ultra Cube Tech — ucubetech.com                              ║
 ║ Team      : Ultra Zone Team — ultra-zone.ucubetech.com                   ║
-║ GitHub    : github.com/Ultra-Cube                                        ║
+║ GitHub Org: github.com/Ultra-Cube                                        ║
+║ Repository: github.com/Ultra-Cube/Ultra-AI                               ║
 ║ Copyright : (c) Ultra Cube Tech — All rights reserved                    ║
 ║ [UCUBETECH-COPYRIGHT]                                                    ║
 ║                                                                          ║
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
+<!--
 # Benchmarks & measured numbers
 
 Everything on this page is a measurement, not a promise. If you run colibrì on

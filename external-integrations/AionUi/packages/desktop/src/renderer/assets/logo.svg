@@ -11,13 +11,15 @@
 ║ Project   : Ultra AI — Proprietary AI Platform                           ║
 ║ Developer : Ultra Cube Tech — ucubetech.com                              ║
 ║ Team      : Ultra Zone Team — ultra-zone.ucubetech.com                   ║
-║ GitHub    : github.com/Ultra-Cube                                        ║
+║ GitHub Org: github.com/Ultra-Cube                                        ║
+║ Repository: github.com/Ultra-Cube/Ultra-AI                               ║
 ║ Copyright : (c) Ultra Cube Tech — All rights reserved                    ║
 ║ [UCUBETECH-COPYRIGHT]                                                    ║
 ║                                                                          ║
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
+<!--
 <svg class="w-5.5 h-5.5 absolute inset-0 m-auto" viewBox="0 0 80 80" fill="none">
                             <!-- 上方的"^"代表A - 更圆润的线条 -->
                             <path d="M40 20 Q38 22 25 40 Q23 42 26 42 L30 42 Q32 40 40 30 Q48 40 50 42 L54 42 Q57 42 55 40 Q42 22 40 20" fill="white"></path>

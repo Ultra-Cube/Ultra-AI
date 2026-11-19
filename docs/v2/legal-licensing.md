@@ -11,13 +11,15 @@
 ║ Project   : Ultra AI — Proprietary AI Platform                           ║
 ║ Developer : Ultra Cube Tech — ucubetech.com                              ║
 ║ Team      : Ultra Zone Team — ultra-zone.ucubetech.com                   ║
-║ GitHub    : github.com/Ultra-Cube                                        ║
+║ GitHub Org: github.com/Ultra-Cube                                        ║
+║ Repository: github.com/Ultra-Cube/Ultra-AI                               ║
 ║ Copyright : (c) Ultra Cube Tech — All rights reserved                    ║
 ║ [UCUBETECH-COPYRIGHT]                                                    ║
 ║                                                                          ║
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
+<!--
 # ULTRA AI — LEGAL, LICENSING AND COMPLIANCE ANALYSIS
 
 **Date of research:** 2026-11-09 · **Prepared for:** Ultra Cube Tech / Ultra Zone · **Owner agent:** A04 Legal & License Auditor

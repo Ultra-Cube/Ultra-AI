@@ -11,13 +11,15 @@
 ║ Project   : Ultra AI — Proprietary AI Platform                           ║
 ║ Developer : Ultra Cube Tech — ucubetech.com                              ║
 ║ Team      : Ultra Zone Team — ultra-zone.ucubetech.com                   ║
-║ GitHub    : github.com/Ultra-Cube                                        ║
+║ GitHub Org: github.com/Ultra-Cube                                        ║
+║ Repository: github.com/Ultra-Cube/Ultra-AI                               ║
 ║ Copyright : (c) Ultra Cube Tech — All rights reserved                    ║
 ║ [UCUBETECH-COPYRIGHT]                                                    ║
 ║                                                                          ║
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
+<!--
 # @ultra-ai/edge-proxy
 
 Single-origin reverse proxy for Ultra-AI (P1A-08): one public origin fronts the Next.js UI, core-api, and every supervised engine — users never leave the product to reach n8n, Langflow, Dify, OpenHands, Open WebUI, or the VS Code server.

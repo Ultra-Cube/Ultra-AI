@@ -11,13 +11,15 @@
 ║ Project   : Ultra AI — Proprietary AI Platform                           ║
 ║ Developer : Ultra Cube Tech — ucubetech.com                              ║
 ║ Team      : Ultra Zone Team — ultra-zone.ucubetech.com                   ║
-║ GitHub    : github.com/Ultra-Cube                                        ║
+║ GitHub Org: github.com/Ultra-Cube                                        ║
+║ Repository: github.com/Ultra-Cube/Ultra-AI                               ║
 ║ Copyright : (c) Ultra Cube Tech — All rights reserved                    ║
 ║ [UCUBETECH-COPYRIGHT]                                                    ║
 ║                                                                          ║
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
+<!--
 ---
 name: cloud-infrastructure-kubernetes-architect
 description: Expert Kubernetes architect specializing in cloud-native infrastructure, advanced GitOps workflows (ArgoCD/Flux), and enterprise container orchestration. Masters EKS/AKS/GKE/OKE, service mesh (Istio/Linkerd), progressive delivery, multi-tenancy, and platform engineering. Handles security, observability, cost optimization, and developer experience. Use PROACTIVELY for K8s architecture, GitOps implementation, or cloud-native platform design.

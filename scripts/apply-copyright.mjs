@@ -19,7 +19,6 @@ const ROOT = execSync('git rev-parse --show-toplevel', { encoding: 'utf8' }).tri
 const CHECK_ONLY = process.argv.includes('--check');
 const MIGRATE = process.argv.includes('--migrate');
 const MARKER = 'UCUBETECH-COPYRIGHT';
-const OLD_MARKER = '[UCUBETECH-COPYRIGHT]';
 
 const IW = 74; // inner width of the box
 
@@ -36,7 +35,8 @@ const INFO = [
   'Project   : Ultra AI — Proprietary AI Platform',
   'Developer : Ultra Cube Tech — ucubetech.com',
   'Team      : Ultra Zone Team — ultra-zone.ucubetech.com',
-  'GitHub    : github.com/Ultra-Cube',
+  'GitHub Org: github.com/Ultra-Cube',
+  'Repository: github.com/Ultra-Cube/Ultra-AI',
   'Copyright : (c) Ultra Cube Tech — All rights reserved',
   `[${MARKER}]`,
 ];
@@ -61,6 +61,9 @@ const EXCLUDE_DIRS = [
   'node_modules/', '.git/', '.devin/skills/', 'external/',
   'dist/', 'build/', '.next/', 'coverage/', '.turbo/', 'out/',
 ];
+
+// Reference/spec files that must keep their original content unstamped.
+const EXCLUDE_FILES = new Set(['copy.txt']);
 
 const BINARY_EXT = new Set([
   'png','jpg','jpeg','gif','webp','ico','icns','svgz',
@@ -126,24 +129,50 @@ function renderBanner(style) {
   return style.open + '\n' + BANNER_LINES.join('\n') + '\n' + style.close + '\n\n';
 }
 
-// Strip a legacy banner: the line containing OLD_MARKER (without the box)
-// plus up to 3 following lines sharing its comment prefix, plus one blank.
+// Strip any prior Ultra banner variant: the legacy 4-line `[UCUBETECH-COPYRIGHT]`
+// header, the `[UCUBETECH]` one-liner (possibly duplicated), the small 3-line
+// box, and the current full box banner. Comment wrappers (<!-- --> /* */ {/* */})
+// hugging the banner are removed with it. Returns null when nothing matched.
+const LEGACY_RE = /\[UCUBETECH(?:-COPYRIGHT)?\]/;
+const WRAPPER_RE = /^\s*(<!--|-->|\/\*|\*\/|\{\/\*|\*\/\})\s*$/;
+const BOX_CHARS_RE = /[╔╗╚╝║═█]/;
+const INFO_LINE_RE = /copyright|ultra cube|ultra zone|ucubetech|github\.com\/Ultra|all rights reserved/i;
+
 function stripOldBanner(content) {
   const lines = content.split('\n');
-  const idx = lines.findIndex((l) => l.includes(OLD_MARKER) && !l.includes('╔'));
+  const idx = lines.findIndex((l) => LEGACY_RE.test(l) && !l.includes('╔'));
   if (idx === -1) return null;
-  const first = lines[idx];
-  const prefixMatch = first.match(/^\s*(\/\/|#|--|%%|REM |;|\(\*|%|<!--|\/\*|\{\/\*)/);
-  const p = prefixMatch ? prefixMatch[1] : '';
-  let end = idx + 1;
-  let removed = 0;
-  while (end < lines.length && removed < 3) {
-    const l = lines[end];
-    if (p ? l.trimStart().startsWith(p) : l.trim() !== '') { end++; removed++; }
-    else break;
+
+  let start = idx;
+  let end = idx;
+
+  // Marker inside a box (║ ... ║): expand to the ╔/╚ edges.
+  if (lines[idx].includes('║')) {
+    while (start > 0 && !lines[start].includes('╔')) start--;
+    while (end < lines.length - 1 && !lines[end].includes('╚')) end++;
   }
-  if (end < lines.length && lines[end].trim() === '') end++;
-  lines.splice(idx, end - idx);
+
+  // Absorb comment-wrapper lines hugging the banner.
+  while (start > 0 && WRAPPER_RE.test(lines[start - 1])) start--;
+  while (end + 1 < lines.length && WRAPPER_RE.test(lines[end + 1])) end++;
+
+  // Absorb sibling banner lines using the marker line's own comment prefix.
+  const pm = lines[idx].match(/^\s*(\/\/|#|--|%%|REM |;|\(\*|%|<!--|\/\*|\{\/\*)/);
+  const p = pm ? pm[1] : '';
+  const isBannerLine = (l) => {
+    if (LEGACY_RE.test(l) || BOX_CHARS_RE.test(l)) return true;
+    if (!p) return false;
+    const t = l.trimStart();
+    return t.startsWith(p) && INFO_LINE_RE.test(l);
+  };
+  while (start > 0 && isBannerLine(lines[start - 1])) start--;
+  while (end + 1 < lines.length && isBannerLine(lines[end + 1])) end++;
+
+  // Consume one trailing blank and one preceding blank.
+  if (end + 1 < lines.length && lines[end + 1].trim() === '') end++;
+  if (start > 0 && lines[start - 1].trim() === '') start--;
+
+  lines.splice(start, end - start + 1);
   return lines.join('\n');
 }
 
@@ -157,6 +186,7 @@ const changed = [];
 for (const rel of files) {
   const norm = rel.split(path.sep).join('/');
   if (EXCLUDE_DIRS.some((d) => norm.startsWith(d) || norm.includes(`/${d}`))) { skippedExcluded++; continue; }
+  if (EXCLUDE_FILES.has(path.basename(norm).toLowerCase())) { skippedExcluded++; continue; }
   const ext = path.extname(norm).slice(1).toLowerCase();
   if (BINARY_EXT.has(ext)) { skippedBinary++; continue; }
   if (GENERATED.test(norm)) { skippedType++; continue; }
@@ -168,8 +198,16 @@ for (const rel of files) {
   try { content = readFileSync(abs, 'utf8'); } catch { errors++; continue; }
 
   if (MIGRATE) {
-    const stripped = stripOldBanner(content);
-    if (stripped !== null) { content = stripped; migrated++; }
+    let stripped = stripOldBanner(content);
+    if (stripped !== null) {
+      content = stripped;
+      for (let g = 0; g < 8; g++) {
+        const again = stripOldBanner(content);
+        if (again === null) break;
+        content = again;
+      }
+      migrated++;
+    }
   }
 
   const hasBox = content.includes('╔') && content.includes(MARKER);

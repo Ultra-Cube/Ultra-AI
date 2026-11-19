@@ -11,13 +11,15 @@
 ║ Project   : Ultra AI — Proprietary AI Platform                           ║
 ║ Developer : Ultra Cube Tech — ucubetech.com                              ║
 ║ Team      : Ultra Zone Team — ultra-zone.ucubetech.com                   ║
-║ GitHub    : github.com/Ultra-Cube                                        ║
+║ GitHub Org: github.com/Ultra-Cube                                        ║
+║ Repository: github.com/Ultra-Cube/Ultra-AI                               ║
 ║ Copyright : (c) Ultra Cube Tech — All rights reserved                    ║
 ║ [UCUBETECH-COPYRIGHT]                                                    ║
 ║                                                                          ║
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
+<!--
 <svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
 <rect width="180" height="180" rx="45" fill="black"/>
 <path d="M139.13 36.5136C144.237 36.5136 148.377 40.6534 148.377 45.7602C148.377 50.8669 144.237 55.0067 139.13 55.0067L130.971 55.0067C130.371 55.0067 129.884 54.5197 129.884 53.9189L129.884 45.7602C129.884 40.6534 134.023 36.5136 139.13 36.5136Z" fill="#1783FF"/>

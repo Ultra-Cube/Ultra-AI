@@ -11,13 +11,15 @@
 ║ Project   : Ultra AI — Proprietary AI Platform                           ║
 ║ Developer : Ultra Cube Tech — ucubetech.com                              ║
 ║ Team      : Ultra Zone Team — ultra-zone.ucubetech.com                   ║
-║ GitHub    : github.com/Ultra-Cube                                        ║
+║ GitHub Org: github.com/Ultra-Cube                                        ║
+║ Repository: github.com/Ultra-Cube/Ultra-AI                               ║
 ║ Copyright : (c) Ultra Cube Tech — All rights reserved                    ║
 ║ [UCUBETECH-COPYRIGHT]                                                    ║
 ║                                                                          ║
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
+<!--
 # Ownership headers & file integrity (Ultra AI)
 
 ## Copyright headers
@@ -33,8 +35,6 @@ tracked text files:
 - Skipped: binaries, generated files, lockfile internals where comments are
   invalid, and third-party trees (`.devin/skills/`, `external/`,
   `external-integrations/`, `external/github-forks/`).
-- Idempotent — the `[UCUBETECH-COPYRIGHT]` marker prevents double-stamping.
-
 ```bash
 npm run copyright:apply   # apply / refresh headers
 npm run copyright:check   # report files missing the header (dry run)

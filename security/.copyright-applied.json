@@ -1,5 +1,5 @@
 {
-  "count": 3084,
+  "count": 3088,
   "files": [
     ".devin/agents/backend-architect.md",
     ".devin/agents/cloud-architect.md",
@@ -2840,6 +2840,9 @@
     "platform/enterprise/white-label/README.md",
     "platform/frontend/app/about/page.tsx",
     "platform/frontend/app/agents/page.tsx",
+    "platform/frontend/app/api/apps/[id]/proxy/route.ts",
+    "platform/frontend/app/api/apps/catalog.ts",
+    "platform/frontend/app/api/apps/route.ts",
     "platform/frontend/app/api/control-center/directories/route.ts",
     "platform/frontend/app/api/control-center/engines/[id]/[action]/route.ts",
     "platform/frontend/app/api/control-center/engines/route.ts",
@@ -2877,6 +2880,7 @@
     "platform/frontend/app/hermes/api/[...path]/route.ts",
     "platform/frontend/app/hermes/page.tsx",
     "platform/frontend/app/icon.svg",
+    "platform/frontend/app/integrations/page.tsx",
     "platform/frontend/app/layout.tsx",
     "platform/frontend/app/models/page.tsx",
     "platform/frontend/app/page.tsx",

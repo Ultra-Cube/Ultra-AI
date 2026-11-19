@@ -11,13 +11,15 @@
 ║ Project   : Ultra AI — Proprietary AI Platform                           ║
 ║ Developer : Ultra Cube Tech — ucubetech.com                              ║
 ║ Team      : Ultra Zone Team — ultra-zone.ucubetech.com                   ║
-║ GitHub    : github.com/Ultra-Cube                                        ║
+║ GitHub Org: github.com/Ultra-Cube                                        ║
+║ Repository: github.com/Ultra-Cube/Ultra-AI                               ║
 ║ Copyright : (c) Ultra Cube Tech — All rights reserved                    ║
 ║ [UCUBETECH-COPYRIGHT]                                                    ║
 ║                                                                          ║
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
+<!--
 # 设置页 → Agents → 远端 Agents (F-RAGENT)
 
 > 本文档覆盖「设置 → Agents → 远端 Agents」页面的全部功能，包括 Remote Agent 的列表展示、创建/编辑/删除 (CRUD)、连接测试、OpenClaw 配对握手、会话管理、消息收发与流式响应、工具调用展示、权限审批、连接状态管理。
