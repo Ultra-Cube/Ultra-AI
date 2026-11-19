@@ -910,3 +910,85 @@ graph TB
 ---
 
 **✨ Developed by Ultra Cube Tech** - [www.ucubetech.com](https://www.ucubetech.com)
+---
+
+## Running the project
+
+### Prerequisites
+
+- Node.js >= 20
+- npm (workspaces are used — do not use pnpm/yarn)
+- Docker + Docker Compose (for the full stack)
+- Optional: WSL2 on Windows for the Linux dev environment
+
+### 1. Install dependencies
+
+```bash
+git clone https://github.com/Ultra-Cube/Ultra-AI.git
+cd Ultra-AI
+npm install
+```
+
+### 2. Environment
+
+```bash
+cp .env.example .env   # fill in DATABASE_URL, REDIS_URL, API keys as needed
+```
+
+### 3. Start infrastructure (Postgres, Redis, Mongo, n8n, Grafana, Open WebUI)
+
+```bash
+npm run docker:dev     # docker compose up for the supporting stack
+npm run docker:logs    # optional: follow logs
+docker:down            # stop everything when done
+```
+
+### 4. Run the apps (development mode)
+
+```bash
+npm run dev            # turbo dev — starts frontend (:3000) + core-api (:4000) + services
+```
+
+Or run pieces individually:
+
+```bash
+# Frontend only (Next.js dev server)
+cd platform/frontend && npm run dev        # http://localhost:3000
+
+# Core API only (Fastify/Express backend on :4000)
+cd platform/api && npm run dev
+```
+
+### 5. Verify
+
+```bash
+npm run type-check     # TypeScript across all workspaces
+npm run lint           # ESLint
+npm run test           # unit + integration tests
+npm run build          # production build (turbo)
+```
+
+### 6. Durable / production-like run
+
+`next dev` and `core-api` started manually do **not** survive a WSL/machine restart. For a durable setup use the Docker stack:
+
+```bash
+npm run docker:dev     # containers restart with Docker; add restart: unless-stopped in compose for boot persistence
+```
+
+For systemd-style persistence inside WSL, create user units for `core-api` and the frontend, e.g. `~/.config/systemd/user/ultra-core-api.service` with `WorkingDirectory=/home/pc/ucube/project/Ultra-AI/platform/api` and `ExecStart=npm run dev`, then `systemctl --user enable --now ultra-core-api`. Note WSL requires `systemd=true` in `/etc/wsl.conf` and the distro must stay running.
+
+### Key URLs (dev defaults)
+
+| Surface        | URL                          |
+|----------------|------------------------------|
+| Ultra AI UI    | http://localhost:3000         |
+| core-api       | http://localhost:4000         |
+| Open WebUI     | http://localhost:8080         |
+| n8n            | http://localhost:5678         |
+| Grafana        | http://localhost:3001         |
+| OmniRoute      | http://localhost:20128        |
+
+### Copyright & integrity
+
+Every source file carries the UCUBETECH banner (see `copy.txt`). `scripts/apply-copyright.mjs` re-applies it; `scripts/file-guard.mjs` + `security/file-manifest.sha256` detect unauthorized deletion/modification (`npm run guard:check`). Details: `docs/OWNERSHIP_AND_INTEGRITY.md`.
