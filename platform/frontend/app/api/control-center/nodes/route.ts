@@ -32,7 +32,7 @@ const SERVICES: ServiceDef[] = [
   {
     id: 'desktop-bridge',
     label: 'Desktop Bridge',
-    url: process.env.DESKTOP_BRIDGE_URL ?? 'http://127.0.0.1:9477/health',
+    url: process.env.DESKTOP_BRIDGE_HEALTH_URL ?? 'http://127.0.0.1:4000/zeroai/edge/status',
   },
   {
     id: 'zeroai-edge',

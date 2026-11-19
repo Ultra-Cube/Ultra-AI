@@ -29,6 +29,7 @@ import Fastify, { FastifyInstance } from 'fastify';
 
 import { swaggerOptions, swaggerUiOptions } from './config/swagger.config';
 import workflowRoutes from './routes/workflows.routes';
+import { brainStackRoutes } from './routes/brain-stack.routes';
 import { AgentStaffStore } from './services/agents/agent-staff-store';
 import { ModelGateway, createModelGateway } from './services/ai/model-gateway';
 import {
@@ -204,6 +205,7 @@ export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
   }
 
   await app.register(workflowRoutes);
+  await app.register(brainStackRoutes);
 
   const aiCore =
     context?.aiCore ||
