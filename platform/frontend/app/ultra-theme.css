@@ -309,12 +309,6 @@ th {
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
 }
 
-@media (max-width: 860px) {
-  .ultra-sidebar {
-    display: none;
-  }
-}
-
 /* ===== Collapsible sidebar + mobile drawer ===== */
 .ultra-sidebar {
   transition: width 0.18s ease;
@@ -333,6 +327,17 @@ th {
 }
 .ultra-sidebar.collapsed .side-link .side-label {
   display: none;
+}
+.ultra-sidebar.collapsed .side-head {
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px 8px;
+}
+.ultra-sidebar.collapsed .side-brand {
+  justify-content: center;
+}
+.ultra-sidebar.collapsed .side-toggle {
+  margin: 0 auto;
 }
 .side-head {
   display: flex;
@@ -438,6 +443,7 @@ th {
     display: inline-flex;
   }
   .ultra-sidebar {
+    display: flex;
     position: fixed;
     left: 0;
     top: 0;

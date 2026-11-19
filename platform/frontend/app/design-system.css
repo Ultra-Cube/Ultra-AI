@@ -12,27 +12,27 @@ GitHub: github.com/Ultra-Cube · Proprietary — all rights reserved*/
 
 :root {
   /* Core palette — deep space with electric accents */
-  --ds-bg-0: #070a12;
-  --ds-bg-1: #0d1220;
-  --ds-bg-2: #141b2e;
+  --ds-bg-0: #0d0f14;
+  --ds-bg-1: #141821;
+  --ds-bg-2: #1c212b;
   --ds-surface: rgba(255, 255, 255, 0.04);
   --ds-surface-2: rgba(255, 255, 255, 0.07);
-  --ds-border: rgba(255, 255, 255, 0.1);
-  --ds-border-strong: rgba(255, 255, 255, 0.18);
+  --ds-border: rgba(255, 255, 255, 0.08);
+  --ds-border-strong: rgba(255, 255, 255, 0.16);
 
-  --ds-ink: #eef2ff;
-  --ds-muted: #94a3c4;
-  --ds-faint: #5b6684;
+  --ds-ink: #e8eaf0;
+  --ds-muted: #9aa3b2;
+  --ds-faint: #6b7386;
 
-  --ds-accent: #6d8bff; /* electric indigo */
-  --ds-accent-2: #38e0c8; /* teal */
-  --ds-accent-3: #c678ff; /* violet */
+  --ds-accent: #7c6cff; /* ultra violet */
+  --ds-accent-2: #4dd0e1; /* ultra cyan */
+  --ds-accent-3: #b48cff;
   --ds-warn: #fbbf24;
   --ds-bad: #fb6a6a;
   --ds-ok: #35d98a;
 
-  --ds-glow: 0 0 40px rgba(109, 139, 255, 0.35);
-  --ds-radius: 18px;
+  --ds-glow: 0 0 40px rgba(124, 108, 255, 0.30);
+  --ds-radius: 16px;
   --ds-radius-sm: 12px;
 }
 
