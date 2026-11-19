@@ -124,3 +124,11 @@
 - Page audit: all app/ pages carry live wiring (fetch/useEffect//api/) except app/page.tsx dashboard shell (static by design); no "Coming soon"/stub markers remain — earlier grep hits were HTML placeholder= attributes.
 - Commits this session: 98433f84, 4c6b9398, 8bcf9112, 200fc9ce on release/planning-study.
 - Still gated: QC-P4B-15 owner answer (first live Ultra-Core call + T1 enable); G-4.2 legal opinion (T2).
+
+
+## 2026-11-19 (cont.4) — Owner decisions + P4B-13 completion + banner fix
+
+- Banner art fix (23595f9c): ART glyphs in apply-copyright.mjs were malformed (read as garbage/"VLAB"); replaced with proper big-font ULTRA letterforms; re-applied to all ~3,089 files; README verified.
+- QC-P4B-15 ANSWERED: owner chose live connection now (Option 1) — question-cards.md + ledger updated; still needs Ultra-Core base URL + credentials; T1 enablement approved pending those.
+- G-4.2 direction: owner chose "design T2 without enabling" — spec/design docs only, no activation.
+- P4B-13 COMPLETE: settlement flow added — mock POST /v1/credits/reservations/{id}/settle (404/409), openapi.yaml path, CoreClient.settleCreditReservation (readOnly-refused), e2e assertions (settle -> settled, re-settle 409, missing 404, readOnly reject); clock-skew contract test added (stale ts -> rejected + dead-letter). Bridge suite 67/67, tsc+eslint clean.

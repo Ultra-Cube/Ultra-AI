@@ -19,8 +19,7 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
+
 # Contributing to Ultra AI Platform
 
 First off, thank you for considering contributing to Ultra AI Platform! It's people like you that make this platform such a great tool.

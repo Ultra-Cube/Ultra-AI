@@ -242,5 +242,46 @@ describe('P4B-13 E2E demo: usage.model_call -> ingest -> anchor -> proof', () =>
     expect(list.some((r) => r.reservation_id === res.reservation_id)).toBe(
       true
     );
+
+    // Settlement: settle the open reservation; second settle -> 409.
+    await expect(
+      ro.settleCreditReservation(res.reservation_id)
+    ).rejects.toThrow(/read-only/i);
+    const settled = await rw.settleCreditReservation(res.reservation_id);
+    expect(settled.status).toBe('settled');
+    await expect(
+      rw.settleCreditReservation(res.reservation_id)
+    ).rejects.toThrow();
+    await expect(
+      rw.settleCreditReservation('res_does_not_exist')
+    ).rejects.toThrow();
+  });
+
+  it('contract: callback outside clock-skew window is rejected', async () => {
+    const pub = makePublisher();
+    const stale = new Date(Date.now() - 60 * 60 * 1000).toISOString();
+    const cb = signCallback(
+      {
+        schema: 'ultra-core.callback.v1',
+        callback_id: 'cb-skew-1',
+        ts: stale,
+        type: 'anchor.confirmed',
+        subject: { instance: INSTANCE },
+        payload: { merkle_root: 'sha256:stale' },
+        tier: 'T0',
+      },
+      pub.privateKey,
+      pub.keyId
+    );
+    const rx = new InboundReceiver({
+      publisherKeys: { [pub.keyId]: pub.publicKeyPem },
+    });
+    const result = await rx.receive(cb);
+    expect(result.accepted).toBe(false);
+    if (!result.accepted) {
+      expect(result.reason).toMatch(/clock skew/i);
+    }
+    expect(rx.deadLetterCount).toBe(1);
+    expect(rx.deadLettersList()[0].reason).toMatch(/clock skew/i);
   });
 });

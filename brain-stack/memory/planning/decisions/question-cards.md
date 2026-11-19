@@ -27,7 +27,13 @@ Drafted cards awaiting owner answer. Answered cards move to `ledger.md`.
 
 ---
 
-## QC-P4B-15 — First live Ultra-Core connection + T1 enablement — DRAFT (R2, blocking)
+## QC-P4B-15 — First live Ultra-Core connection + T1 enablement — ANSWERED (R2)
+
+**Owner decision (2026-11-19): Option 1 — approve live connection now.**
+Live anchoring + T1 enablement approved by owner. Still required before
+the first real call: Ultra-Core base URL + ingest/admin credentials (or
+key-registration flow) — not yet supplied. Rollback stays
+ULTRA_CORE_ENABLED=false. T2 remains BLOCKED by G-4.2.
 
 **Class:** R2 — blocks first real Ultra-Core call and any T1 credit activity.
 **Phase:** P4B / WS-C→D transition.

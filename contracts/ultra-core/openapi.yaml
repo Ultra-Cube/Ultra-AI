@@ -231,6 +231,25 @@ paths:
                   reservations:
                     type: array
                     items: { $ref: '#/components/schemas/CreditReservation' }
+  /v1/credits/reservations/{reservation_id}/settle:
+    post:
+      tags: [credits]
+      summary: Settle an open reservation (T1)
+      parameters:
+        - name: reservation_id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: Reservation settled
+          content:
+            application/json:
+              schema: { : '#/components/schemas/CreditReservation' }
+        '404':
+          description: Reservation not found
+        '409':
+          description: Reservation not open
   /v1/registry/items:
     get:
       tags: [registry]

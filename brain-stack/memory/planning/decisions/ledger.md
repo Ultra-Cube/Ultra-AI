@@ -50,3 +50,6 @@ G-0.7 answered above (class-based). Remaining open: G-1.1…G-1.8, G-2.x, G-3.1,
 
 | G-4.1 | 2026-11-19 | R2 | Ultra Core interface spec | **Owner-approved: contracts/ultra-core package is the agreed interface** (openapi.yaml + JSON Schemas); real calls stay mock-validated until live endpoint supplied | Ultra-AI is producer/readiness side; Ultra-Core is receiver of ultra.event.v1 and publisher of ultra-core.callback.v1 |
 | G-4.2 | 2026-11-19 | R2 | T2 on-chain/value functions | **Owner approved building credits/rewards/tokens where needed (team owns platform); T2 remains contract-BLOCKED pending written legal opinion** | Tier rollout T0 evidence / T1 off-chain credits behind approvals / T2 value layer gated |
+
+| QC-P4B-15 | 2026-11-19 | R2 | First live Ultra-Core call + T1 | **Owner: approve live now (Option 1)** — pending base URL + credentials from Ultra-Core team; rollback via ULTRA_CORE_ENABLED=false | Live anchoring irreversible once anchored; contract openapi.yaml v0.1.0-draft is the agreed interface (G-4.1) |
+| G-4.2-dir | 2026-11-19 | R2 | T2 scope while legal opinion pending | **Owner: design T2 fully but DO NOT enable** — spec/design docs only, no on-chain/value code paths activated | Keeps momentum on design while honoring the legal gate |

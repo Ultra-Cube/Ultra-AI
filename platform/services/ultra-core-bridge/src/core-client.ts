@@ -277,6 +277,18 @@ export class UltraCoreClient {
     return body.reservations ?? [];
   }
 
+  /** T1 write: settle an open reservation. Refused in readOnly mode. */
+  async settleCreditReservation(
+    reservationId: string
+  ): Promise<CreditReservation> {
+    return (await this.request(
+      '/v1/credits/reservations/' +
+        encodeURIComponent(reservationId) +
+        '/settle',
+      { method: 'POST' }
+    )) as CreditReservation;
+  }
+
   /** List registry items (skills/keys/policies/agents) published by Ultra-Core. */
   async listRegistryItems(): Promise<RegistryItem[]> {
     const body = (await this.request('/v1/registry/items')) as {

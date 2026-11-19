@@ -334,6 +334,24 @@ export class UltraCoreMock {
         }
       }
 
+      const settleMatch = path.match(
+        /^\/v1\/credits\/reservations\/([^/]+)\/settle$/
+      );
+      if (settleMatch && method === 'POST') {
+        const r = this.reservations.get(decodeURIComponent(settleMatch[1]));
+        if (!r)
+          return this.err(res, 404, 'reservation not found', {
+            code: 'not_found',
+          });
+        if (r.status !== 'open')
+          return this.err(res, 409, 'reservation not open', {
+            code: 'invalid_state',
+          });
+        r.status = 'settled';
+        this.json(res, 200, r);
+        return;
+      }
+
       if (path === '/v1/registry/items' && method === 'GET') {
         this.json(res, 200, { items: [...this.registry.values()] });
         return;
