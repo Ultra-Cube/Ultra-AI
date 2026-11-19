@@ -71,3 +71,16 @@
 - Frontend: /chat is now the Open WebUI surface (thin Ultra AI bar + full-bleed iframe, honest offline fallback); studio/workspace rebuilt on unified uai-* classes; Tailwind pipeline enabled (postcss+tailwind configs committed in 6e83e8b); services page Start/Stop wired to real engine-supervisor ids via port matching.
 - Bridge suite: 47/47 tests, tsc clean, eslint clean. Branch release/planning-study pushed through d47233a/6e83e8b.
 - Remaining P4B: P4B-09 CoreClient typed from OpenAPI, P4B-12 env/observability, P4B-13 E2E demo vs mock, P4B-14 evidence report, P4B-15 owner Question Card before first real call.
+
+## 2026-11-19 (cont.) — P4B completed to mock ceiling + Hermes↔Open WebUI bridge
+
+- P4B-09 CoreClient completed earlier (typed OpenAPI surface, read-only default, approval_ref enforcement).
+- P4B-12 DONE: src/ops.ts (BridgeMetrics Prometheus exposition, logEvent JSON + recursive secret redaction, ULTRA_CORE_ENABLED kill switch) wired into HttpExportTarget; .env.example; README ops section; src/spending-cap.ts withSpendingCap per-agent sliding-window token ceiling (fail-closed); Gate-OS bridge README reachability section.
+- P4B-13 DONE(mock): src/e2e-demo.test.ts — usage.model_call → outbox → HttpExportTarget ingest → anchored head + inclusion proof → signed anchor.confirmed over SSE → InboundReceiver dispatch; cursor idempotency; T1 credits flow (read-only guard, approval_ref enforcement, reservation create/list).
+- P4B-14 DONE: brain-stack/memory/ops/ultra-core-integration-status.md evidence report; contracts/ultra-core/README.md implementer checklist.
+- P4B-15 DRAFTED (awaiting owner): brain-stack/memory/planning/decisions/question-cards.md QC-P4B-15 — options live-now / freeze-contract / staging-canary; recommendation canary-or-freeze. Live Ultra-Core calls remain prohibited.
+- P4B-02 DONE: docs/adr/ADR-002-ultra-core-receiver-and-tiers.md.
+- P1C-04 PARTIAL: new platform/services/hermes-openai-bridge — OpenAI-compatible /v1/chat/completions (+/v1/models, /health, SSE, bearer auth) over HermesRuntime; sessions via x-hermes-session/conversation_id/user; HERMES_UPSTREAM_URL points Hermes provider at Ollama/9router (default MockProvider); compose service :9400; live-verified (health/models/chat 200). NOTE: WSL2 Hermes Agent gateway already serves OpenAI API at 127.0.0.1:8642 — Open WebUI can target it directly; this bridge is the embedded-runtime alternative.
+- Bridge suite: 66/66 tests; hermes-openai-bridge 4/4; tsc+eslint clean (4 any-warnings in test mocks).
+- Commits this session: f027781, e2e7677, cbb2c3e, 98666aa, cd2994f, d3662d0 on release/planning-study.
+- Remaining gated: QC-P4B-15 answer (first live call + T1 enable), G-4.2 legal opinion (T2), P0 release/admin items, P3 Gate-OS real adapter.
