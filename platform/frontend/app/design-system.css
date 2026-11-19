@@ -27,9 +27,9 @@
 
 :root {
   /* Core palette — deep space with electric accents */
-  --ds-bg-0: #0d0f14;
-  --ds-bg-1: #141821;
-  --ds-bg-2: #1c212b;
+  --ds-bg-0: #14161a;
+  --ds-bg-1: #1a1d22;
+  --ds-bg-2: #22252d;
   --ds-surface: rgba(255, 255, 255, 0.04);
   --ds-surface-2: rgba(255, 255, 255, 0.07);
   --ds-border: rgba(255, 255, 255, 0.08);
@@ -39,14 +39,14 @@
   --ds-muted: #9aa3b2;
   --ds-faint: #6b7386;
 
-  --ds-accent: #7c6cff; /* ultra violet */
-  --ds-accent-2: #4dd0e1; /* ultra cyan */
-  --ds-accent-3: #b48cff;
+  --ds-accent: #f97316; /* ultra orange */
+  --ds-accent-2: #fbbf24; /* ultra amber */
+  --ds-accent-3: #fdba74;
   --ds-warn: #fbbf24;
   --ds-bad: #fb6a6a;
   --ds-ok: #35d98a;
 
-  --ds-glow: 0 0 40px rgba(124, 108, 255, 0.30);
+  --ds-glow: 0 0 40px rgba(249, 115, 22, 0.30);
   --ds-radius: 16px;
   --ds-radius-sm: 12px;
 }
@@ -57,17 +57,17 @@ body {
   background:
     radial-gradient(
       1200px 600px at 12% -5%,
-      rgba(109, 139, 255, 0.16),
+      rgba(249, 115, 22, 0.16),
       transparent 55%
     ),
     radial-gradient(
       1000px 500px at 95% 0%,
-      rgba(56, 224, 200, 0.12),
+      rgba(251, 191, 36, 0.12),
       transparent 50%
     ),
     radial-gradient(
       900px 700px at 50% 120%,
-      rgba(198, 120, 255, 0.1),
+      rgba(234, 88, 12, 0.1),
       transparent 55%
     ),
     linear-gradient(180deg, var(--ds-bg-0), var(--ds-bg-1) 60%, var(--ds-bg-0)) !important;
@@ -117,7 +117,7 @@ button,
   color: #fff !important;
   border: 0;
   border-radius: 999px;
-  box-shadow: 0 8px 24px -8px rgba(109, 139, 255, 0.7);
+  box-shadow: 0 8px 24px -8px rgba(249, 115, 22, 0.7);
 }
 button:hover {
   filter: brightness(1.08);
@@ -141,7 +141,7 @@ input::placeholder {
 input:focus,
 select:focus,
 textarea:focus {
-  outline: 2px solid rgba(109, 139, 255, 0.5) !important;
+  outline: 2px solid rgba(249, 115, 22, 0.5) !important;
   border-color: var(--ds-accent) !important;
 }
 
@@ -163,14 +163,14 @@ textarea:focus {
 .topnav-link.active {
   background: linear-gradient(
     135deg,
-    rgba(109, 139, 255, 0.28),
-    rgba(198, 120, 255, 0.22)
+    rgba(249, 115, 22, 0.28),
+    rgba(234, 88, 12, 0.22)
   ) !important;
   color: #fff !important;
   box-shadow: inset 0 0 0 1px var(--ds-border-strong);
 }
 .topnav-cta {
-  background: rgba(56, 224, 200, 0.16) !important;
+  background: rgba(251, 191, 36, 0.16) !important;
   color: var(--ds-accent-2) !important;
 }
 
@@ -276,7 +276,7 @@ textarea:focus {
 }
 .roster-row.active {
   border-color: var(--ds-accent) !important;
-  background: rgba(109, 139, 255, 0.14) !important;
+  background: rgba(249, 115, 22, 0.14) !important;
 }
 
 /* Links */

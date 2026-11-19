@@ -47,12 +47,12 @@ export type SceneAgent = {
 const STATUS_COLOR: Record<string, string> = {
   active: '#35d98a',
   busy: '#fbbf24',
-  idle: '#38e0c8',
+  idle: '#fbbf24',
   offline: '#5b6684',
   suspended: '#fb6a6a',
 };
 
-const ACCENT = '#6d8bff';
+const ACCENT = '#f97316';
 
 function colorFor(status: string) {
   return STATUS_COLOR[status] ?? '#5b6684';
@@ -97,11 +97,11 @@ function Core() {
       <Billboard position={[0, 1.7, 0]}>
         <Text
           fontSize={0.42}
-          color="#eef2ff"
+          color="#faf3e3"
           anchorX="center"
           anchorY="middle"
           outlineWidth={0.012}
-          outlineColor="#070a12"
+          outlineColor="#0e1013"
         >
           Ultra&nbsp;AI
         </Text>
@@ -140,7 +140,7 @@ function AgentNode({ agent, position, selected, onSelect }: NodeProps) {
       {/* Tether from core to node */}
       <Line
         points={[[0, 0, 0], position]}
-        color={active ? color : '#2a3350'}
+        color={active ? color : '#2a2f3a'}
         lineWidth={active ? 2 : 1}
         transparent
         opacity={active ? 0.85 : 0.35}
@@ -186,7 +186,7 @@ function AgentNode({ agent, position, selected, onSelect }: NodeProps) {
           <Billboard position={[radius + 0.18, radius + 0.1, 0]}>
             <mesh>
               <circleGeometry args={[0.16, 24]} />
-              <meshBasicMaterial color="#6d8bff" />
+              <meshBasicMaterial color="#f97316" />
             </mesh>
             <Text
               position={[0, 0, 0.01]}
@@ -204,11 +204,11 @@ function AgentNode({ agent, position, selected, onSelect }: NodeProps) {
         <Billboard position={[0, -(radius + 0.28), 0]}>
           <Text
             fontSize={0.26}
-            color={active ? '#ffffff' : '#c9d2f0'}
+            color={active ? '#ffffff' : '#cfc8bb'}
             anchorX="center"
             anchorY="middle"
             outlineWidth={0.01}
-            outlineColor="#070a12"
+            outlineColor="#0e1013"
             maxWidth={3}
           >
             {`${agent.avatar} ${agent.name}`}
@@ -305,12 +305,12 @@ export default function AgentOrbScene3D({
         <directionalLight
           position={[5, 8, 5]}
           intensity={1.1}
-          color="#aab8ff"
+          color="#fdba74"
         />
         <directionalLight
           position={[-6, -3, -4]}
           intensity={0.5}
-          color="#38e0c8"
+          color="#fbbf24"
         />
 
         <Cluster agents={agents} selectedId={selectedId} onSelect={onSelect} />

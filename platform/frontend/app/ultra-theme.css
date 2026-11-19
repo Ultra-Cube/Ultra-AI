@@ -20,14 +20,14 @@
 
 /* Ultra AI — ChatGPT / Copilot / AI Studio inspired theme (loaded last, overrides globals) */
 :root {
-  --bg: #0d0f14;
+  --bg: #14161a;
   --ink: #e8eaf0;
   --muted: #9aa3b2;
-  --card: #161a22;
-  --card-2: #1c212b;
-  --accent: #7c6cff;
-  --accent-2: #4dd0e1;
-  --ring: rgba(124, 108, 255, 0.45);
+  --card: #1c1f26;
+  --card-2: #22252d;
+  --accent: #f97316;
+  --accent-2: #fbbf24;
+  --ring: rgba(249, 115, 22, 0.45);
   --border: rgba(255, 255, 255, 0.08);
 }
 
@@ -36,15 +36,15 @@ body {
   background:
     radial-gradient(
       1200px 600px at 80% -10%,
-      rgba(124, 108, 255, 0.14),
+      rgba(249, 115, 22, 0.14),
       transparent 60%
     ),
     radial-gradient(
       900px 500px at -10% 110%,
-      rgba(77, 208, 225, 0.08),
+      rgba(251, 191, 36, 0.08),
       transparent 55%
     ),
-    #0d0f14;
+    #14161a;
 }
 
 /* Sidebar shell */
@@ -62,7 +62,7 @@ body {
   flex-direction: column;
   gap: 4px;
   padding: 18px 12px;
-  background: #10131a;
+  background: #17191e;
   border-right: 1px solid var(--border);
   overflow-y: auto;
 }
@@ -105,8 +105,8 @@ body {
 .ultra-nav-link.active {
   background: linear-gradient(
     90deg,
-    rgba(124, 108, 255, 0.18),
-    rgba(77, 208, 225, 0.08)
+    rgba(249, 115, 22, 0.18),
+    rgba(251, 191, 36, 0.08)
   );
   color: var(--ink);
   box-shadow: inset 2px 0 0 var(--accent);
@@ -155,14 +155,14 @@ section.card {
   color: var(--ink);
 }
 .card:hover {
-  border-color: rgba(124, 108, 255, 0.35);
+  border-color: rgba(249, 115, 22, 0.35);
 }
 
 /* Buttons */
 button,
 .btn,
 a.btn {
-  background: linear-gradient(135deg, var(--accent), #5a8bff);
+  background: linear-gradient(135deg, var(--accent), #ea580c);
   color: #fff;
   border: none;
   border-radius: 10px;
@@ -253,7 +253,7 @@ th {
   box-shadow: none;
 }
 .chat-bubble-user {
-  background: linear-gradient(135deg, var(--accent), #5a8bff);
+  background: linear-gradient(135deg, var(--accent), #ea580c);
   color: #fff;
   border-radius: 16px 16px 4px 16px;
   padding: 10px 14px;
@@ -302,7 +302,7 @@ th {
 }
 .hero h1 {
   font-size: 2.6rem;
-  background: linear-gradient(90deg, #fff, #9db4ff 55%, #4dd0e1);
+  background: linear-gradient(90deg, #fff, #9db4ff 55%, #fbbf24);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -641,7 +641,7 @@ th {
 }
 .ghost-link {
   font-size: 12px;
-  color: var(--accent, #6ea8fe);
+  color: var(--accent, #fdba74);
   text-decoration: none;
 }
 .ghost-link:hover {
@@ -684,8 +684,8 @@ th {
   font-size: 12px;
 }
 .card {
-  background: var(--card, #161a23);
-  border: 1px solid var(--border, #262c3a);
+  background: var(--card, #1c1f26);
+  border: 1px solid var(--border, #2a2f3a);
   border-radius: 12px;
   padding: 18px 20px;
   margin-bottom: 16px;
@@ -705,8 +705,8 @@ th {
   gap: 6px;
   padding: 8px 14px;
   border-radius: 8px;
-  border: 1px solid var(--border, #2a3040);
-  background: var(--card, #1a1f2b);
+  border: 1px solid var(--border, #2e3440);
+  background: var(--card, #1e222b);
   color: inherit;
   font-size: 13px;
   cursor: pointer;
@@ -715,7 +715,7 @@ th {
 .btn.primary {
   background: var(--ua-orange);
   border-color: var(--ua-orange);
-  color: #14161c;
+  color: #181b21;
   font-weight: 600;
 }
 .btn-link {
@@ -730,7 +730,7 @@ th {
 }
 .btn-link.on {
   background: var(--ua-orange);
-  color: #14161c;
+  color: #181b21;
 }
 .toolbar {
   display: flex;
@@ -744,8 +744,8 @@ th {
   min-width: 200px;
   padding: 9px 14px;
   border-radius: 8px;
-  border: 1px solid var(--border, #2a3040);
-  background: var(--card, #1a1f2b);
+  border: 1px solid var(--border, #2e3440);
+  background: var(--card, #1e222b);
   color: inherit;
 }
 .chips {
@@ -756,7 +756,7 @@ th {
 .chip {
   padding: 5px 12px;
   border-radius: 999px;
-  border: 1px solid var(--border, #2a3040);
+  border: 1px solid var(--border, #2e3440);
   background: none;
   color: inherit;
   font-size: 12px;
@@ -765,7 +765,7 @@ th {
 .chip.on {
   background: var(--ua-orange);
   border-color: var(--ua-orange);
-  color: #14161c;
+  color: #181b21;
   font-weight: 600;
 }
 .dot {
@@ -819,8 +819,8 @@ th {
   gap: 8px;
   padding: 18px 10px;
   border-radius: 14px;
-  border: 1px solid var(--border, #2a3040);
-  background: var(--card, #161a23);
+  border: 1px solid var(--border, #2e3440);
+  background: var(--card, #1c1f26);
   cursor: pointer;
   color: inherit;
   animation: brain-in 0.4s both;
@@ -887,8 +887,8 @@ th {
   align-items: start;
 }
 .panel {
-  background: var(--card, #161a23);
-  border: 1px solid var(--border, #262c3a);
+  background: var(--card, #1c1f26);
+  border: 1px solid var(--border, #2a2f3a);
   border-radius: 12px;
   padding: 16px;
 }
@@ -919,7 +919,7 @@ button.list-item {
   cursor: pointer;
 }
 button.list-item:hover {
-  background: var(--border, #262c3a);
+  background: var(--border, #2a2f3a);
 }
 .kv {
   display: grid;
@@ -955,8 +955,8 @@ label select,
 label textarea {
   padding: 9px 12px;
   border-radius: 8px;
-  border: 1px solid var(--border, #2a3040);
-  background: var(--bg, #0f1219);
+  border: 1px solid var(--border, #2e3440);
+  background: var(--bg, #13151b);
   color: inherit;
   font: inherit;
 }
@@ -973,8 +973,8 @@ label.check input {
   z-index: 50;
 }
 .modal {
-  background: var(--card, #161a23);
-  border: 1px solid var(--border, #2a3040);
+  background: var(--card, #1c1f26);
+  border: 1px solid var(--border, #2e3440);
   border-radius: 14px;
   padding: 24px;
   width: min(480px, 92vw);
@@ -1078,7 +1078,7 @@ label.check input {
   font-size: 1.5rem;
   font-weight: 800;
   letter-spacing: -0.02em;
-  background: linear-gradient(120deg, #fff 20%, #b9b0ff 70%, var(--accent-2));
+  background: linear-gradient(120deg, #fff 20%, #fdba74 70%, var(--accent-2));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -1144,9 +1144,9 @@ label.check input {
   color: var(--ink);
 }
 .uai-tab.active {
-  background: linear-gradient(135deg, var(--accent), #5a8bff);
+  background: linear-gradient(135deg, var(--accent), #ea580c);
   color: #fff;
-  box-shadow: 0 4px 14px rgba(124, 108, 255, 0.35);
+  box-shadow: 0 4px 14px rgba(249, 115, 22, 0.35);
 }
 
 /* Chat surface */
@@ -1230,7 +1230,7 @@ label.check input {
 }
 .uai-portal:hover {
   border-color: var(--accent);
-  background: rgba(124, 108, 255, 0.08);
+  background: rgba(249, 115, 22, 0.08);
   transform: translateY(-1px);
 }
 .uai-portal-label {
@@ -1279,7 +1279,7 @@ label.check input {
 }
 .uai-note.warn { border-left-color: #e0a53a; }
 .uai-note.err { border-left-color: #e5534b; }
-.badge.info { color: var(--accent-2); border-color: rgba(77,208,225,0.35); }
+.badge.info { color: var(--accent-2); border-color: rgba(251,191,36,0.35); }
 .badge.off { color: var(--muted); }
 .uai-status { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); }
 .uai-dot2 { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); display: inline-block; }

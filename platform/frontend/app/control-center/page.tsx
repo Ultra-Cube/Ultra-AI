@@ -187,7 +187,7 @@ export default function ControlCenterPage() {
                   kind: k as NodeKind,
                   label,
                   value: v,
-                  color: '#38bdf8',
+                  color: '#fbbf24',
                   detail: `${label} usage: ${v.toFixed(1)}%`,
                   position: [0, 1.6, -4.5],
                 };
@@ -221,7 +221,7 @@ export default function ControlCenterPage() {
                 kind: 'service',
                 label: s.label,
                 value: s.status === 'up' ? 100 : 0,
-                color: s.status === 'up' ? '#60a5fa' : '#f87171',
+                color: s.status === 'up' ? '#fdba74' : '#f87171',
                 detail: `${s.label}: ${s.status.toUpperCase()} (${s.latencyMs}ms) — ${s.url}`,
                 position: [0, -0.4, -2.6],
               };

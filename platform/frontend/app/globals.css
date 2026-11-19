@@ -23,13 +23,13 @@
 @tailwind utilities;
 
 :root {
-  --bg: #f7f3eb;
-  --ink: #1f1d1a;
-  --muted: #5d5953;
-  --card: rgba(255, 255, 255, 0.75);
-  --accent: #d95d39;
-  --accent-2: #2f8f9d;
-  --ring: rgba(217, 93, 57, 0.35);
+  --bg: #14161a;
+  --ink: #e8eaf0;
+  --muted: #9aa3b2;
+  --card: #1c1f26;
+  --accent: #f97316;
+  --accent-2: #fbbf24;
+  --ring: rgba(249, 115, 22, 0.45);
 }
 
 * {
@@ -57,7 +57,7 @@ body {
       rgba(47, 143, 157, 0.24),
       transparent 35%
     ),
-    linear-gradient(140deg, #fdf8f2, #f2eee6 45%, #e9e4dc);
+    linear-gradient(140deg, #1c1f26, #242833 45%, #2a2f3a);
 }
 
 .page {
@@ -543,7 +543,7 @@ button:disabled {
   flex-wrap: wrap;
   padding: 0.5rem 1.25rem;
   background: rgba(31, 29, 26, 0.9);
-  color: #f3efe8;
+  color: #22252d;
   font-size: 0.82rem;
 }
 
@@ -644,7 +644,7 @@ button:disabled {
   align-items: center;
   padding: 0.6rem 1rem;
   border-radius: 999px;
-  background: linear-gradient(135deg, var(--accent-2), #3aa7b6);
+  background: linear-gradient(135deg, var(--accent-2), #fbbf24);
   color: #fff;
   text-decoration: none;
   font-weight: 600;
@@ -891,15 +891,15 @@ button:disabled {
   background:
     radial-gradient(
       circle at 50% 38%,
-      rgba(109, 139, 255, 0.16),
+      rgba(249, 115, 22, 0.16),
       transparent 62%
     ),
     radial-gradient(
       circle at 80% 85%,
-      rgba(56, 224, 200, 0.1),
+      rgba(251, 191, 36, 0.1),
       transparent 55%
     ),
-    linear-gradient(180deg, #080b14, #0b1020);
+    linear-gradient(180deg, #0e1013, #101216);
   touch-action: none;
 }
 
@@ -923,8 +923,8 @@ button:disabled {
   width: 46px;
   height: 46px;
   border-radius: 50%;
-  border: 3px solid rgba(109, 139, 255, 0.25);
-  border-top-color: #6d8bff;
+  border: 3px solid rgba(249, 115, 22, 0.25);
+  border-top-color: #fdba74;
   animation: orb3d-spin 0.9s linear infinite;
 }
 
@@ -946,7 +946,7 @@ button:disabled {
   border: 1px solid rgba(255, 255, 255, 0.14);
   box-shadow: 0 16px 40px -16px rgba(0, 0, 0, 0.8);
   backdrop-filter: blur(8px);
-  color: #eef2ff;
+  color: #1e2430;
   font-family: var(--font-sora), sans-serif;
   transform: translateY(-6px);
 }
@@ -958,7 +958,7 @@ button:disabled {
 
 .orb3d-tip span {
   font-size: 0.74rem;
-  color: #94a3c4;
+  color: #9aa3b2;
 }
 
 .orb3d-tip-status {
@@ -1034,7 +1034,7 @@ button:disabled {
 }
 .ag-info {
   background: rgba(56, 189, 248, 0.2);
-  color: #0369a1;
+  color: #ea580c;
 }
 .ag-bad {
   background: rgba(239, 68, 68, 0.18);
@@ -1159,7 +1159,7 @@ button:disabled {
 }
 .prio-normal {
   background: rgba(56, 189, 248, 0.16);
-  color: #0369a1;
+  color: #ea580c;
 }
 .prio-high {
   background: rgba(245, 158, 11, 0.2);

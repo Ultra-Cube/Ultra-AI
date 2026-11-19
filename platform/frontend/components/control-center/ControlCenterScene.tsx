@@ -102,7 +102,7 @@ function buildNodes(
       kind: 'service',
       position: [Math.cos(angle) * 2.6, -0.4, Math.sin(angle) * 2.6],
       value: up ? 100 : 0,
-      color: up ? '#60a5fa' : '#f87171',
+      color: up ? '#fdba74' : '#f87171',
       detail: `${s.label}: ${up ? 'UP' : 'DOWN'} (${s.latencyMs}ms) — ${s.url}`,
     });
   });
@@ -195,15 +195,15 @@ export default function ControlCenterScene({
       onPointerMissed={() => onSelect(null)}
       style={{
         background:
-          'radial-gradient(circle at 50% 35%, #0f172a 0%, #020617 75%)',
+          'radial-gradient(circle at 50% 35%, #1a1d22 0%, #101216 75%)',
       }}
     >
       <ambientLight intensity={0.5} />
-      <pointLight position={[6, 8, 6]} intensity={60} color="#93c5fd" />
-      <pointLight position={[-6, 4, -4]} intensity={30} color="#a78bfa" />
+      <pointLight position={[6, 8, 6]} intensity={60} color="#fdba74" />
+      <pointLight position={[-6, 4, -4]} intensity={30} color="#f97316" />
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -2.2, 0]}>
         <ringGeometry args={[2.2, 4.4, 64]} />
-        <meshBasicMaterial color="#1e293b" side={THREE.DoubleSide} />
+        <meshBasicMaterial color="#22252d" side={THREE.DoubleSide} />
       </mesh>
       {nodes.map((n) => (
         <NodeMesh
