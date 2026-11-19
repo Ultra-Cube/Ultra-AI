@@ -18,7 +18,8 @@ import { existsSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 
 const ROOT = execSync('git rev-parse --show-toplevel', { encoding: 'utf8' }).trim();
-const MANIFEST = path.join(ROOT, 'security', 'file-manifest.sha256');
+const MANIFEST_REL = 'security/file-manifest.sha256';
+const MANIFEST = path.join(ROOT, MANIFEST_REL);
 const MODE = process.argv[2] || 'check';
 const STAGED = process.argv.includes('--staged');
 
@@ -38,7 +39,7 @@ function sha256File(abs) {
 }
 
 if (MODE === 'update') {
-  const files = listFiles();
+  const files = listFiles().filter((rel) => rel !== MANIFEST_REL);
   const lines = files.map((rel) => {
     const abs = path.join(ROOT, rel);
     if (!existsSync(abs) || !statSync(abs).isFile()) return null; // skip gitlinks/submodules
@@ -66,7 +67,7 @@ for (const line of readFileSync(MANIFEST, 'utf8').split('\n')) {
   if (m) manifest.set(m[2], m[1]);
 }
 
-const current = new Set(listFiles());
+const current = new Set(listFiles().filter((rel) => rel !== MANIFEST_REL));
 const missing = [];
 const modified = [];
 const added = [];
