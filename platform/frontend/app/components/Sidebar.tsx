@@ -99,6 +99,7 @@ const SECTIONS: NavSection[] = [
       { href: '/models', label: 'Models', icon: 'route' },
       { href: '/customers', label: 'Customers & Teams', icon: 'agents' },
       { href: '/services', label: 'Services & Engines', icon: 'grid' },
+      { href: '/integrations', label: 'Integrations', icon: 'external' },
       { href: '/gateway', label: 'Model Gateway', icon: 'route' },
       { href: '/control-center', label: 'Control Center', icon: 'cube' },
     ],
