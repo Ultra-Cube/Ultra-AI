@@ -22,6 +22,12 @@ export interface CoreClientOptions {
   adminToken?: string;
   /** Injectable for tests. */
   fetchImpl?: typeof fetch;
+  /**
+   * Read-only mode (P4B-09): when true, value-moving calls
+   * (POST /v1/credits/*) are refused client-side even if the server
+   * would accept them. Defaults to env ULTRA_CORE_READ_ONLY === "true".
+   */
+  readOnly?: boolean;
 }
 
 export interface IngestRejection {
@@ -37,6 +43,39 @@ export interface IngestResponse {
 
 export interface RegisteredKey {
   key_id: string;
+}
+
+export interface Proof {
+  event_id: string;
+  instance?: string;
+  root: string;
+  height?: number;
+  proof: Array<{ hash: string; side?: string }>;
+}
+
+export interface CreditBalance {
+  subject: string;
+  balance: string;
+  currency?: string;
+  tier?: string;
+}
+
+export interface CreditReservation {
+  reservation_id: string;
+  subject: string;
+  amount: string;
+  status?: 'open' | 'settled' | 'released' | 'expired';
+  expires_at?: string;
+  approval_ref?: string;
+}
+
+export interface RegistryItem {
+  id: string;
+  kind: 'skill' | 'key' | 'policy' | 'agent';
+  version: string;
+  status?: 'active' | 'revoked' | 'deprecated';
+  revoked_at?: string;
+  payload?: Record<string, unknown>;
 }
 
 export class UltraCoreApiError extends Error {
@@ -58,6 +97,7 @@ export class UltraCoreClient {
   private readonly fetchImpl: typeof fetch;
   private readonly token?: string;
   private readonly adminToken?: string;
+  private readonly readOnly: boolean;
 
   constructor(options: CoreClientOptions) {
     this.baseUrl = options.baseUrl.replace(/\/+$/, '');
@@ -66,6 +106,8 @@ export class UltraCoreClient {
     this.token = options.token ?? process.env.UCI_INGEST_TOKEN;
     this.adminToken =
       options.adminToken ?? process.env.UCI_ADMIN_TOKEN ?? this.token;
+    this.readOnly =
+      options.readOnly ?? process.env.ULTRA_CORE_READ_ONLY === 'true';
   }
 
   private authFor(path: string, method: string): Record<string, string> {
@@ -76,6 +118,13 @@ export class UltraCoreClient {
 
   private async request(path: string, init?: RequestInit): Promise<unknown> {
     const method = init?.method ?? 'GET';
+    if (this.readOnly && method !== 'GET' && path.startsWith('/v1/credits/')) {
+      throw new UltraCoreApiError(
+        0,
+        null,
+        'Ultra-Core client is read-only (ULTRA_CORE_READ_ONLY); credits mutations refused'
+      );
+    }
     const res = await this.fetchImpl(`${this.baseUrl}${path}`, {
       ...init,
       headers: { ...this.authFor(path, method), ...(init?.headers ?? {}) },
@@ -134,10 +183,67 @@ export class UltraCoreClient {
 
   async instanceHead(
     instance: string
-  ): Promise<{ instance: string; head: string }> {
+  ): Promise<{ instance: string; head: string; height?: number }> {
     return (await this.request(
       `/v1/instances/${encodeURIComponent(instance)}/head`
-    )) as { instance: string; head: string };
+    )) as { instance: string; head: string; height?: number };
+  }
+
+  /** T0: Merkle inclusion proof for an anchored event. 404 throws UltraCoreApiError. */
+  async getProof(instance: string, eventId: string): Promise<Proof> {
+    const path =
+      '/v1/proofs/' +
+      encodeURIComponent(instance) +
+      '/' +
+      encodeURIComponent(eventId);
+    return (await this.request(path)) as Proof;
+  }
+
+  /** T1 read: off-chain credit balance for a subject. */
+  async getCreditBalance(subject: string): Promise<CreditBalance> {
+    return (await this.request(
+      '/v1/credits/balance?subject=' + encodeURIComponent(subject)
+    )) as CreditBalance;
+  }
+
+  /**
+   * T1 write: reserve credits. approval_ref is REQUIRED - value-moving
+   * calls must trace to an approval record. Refused in readOnly mode.
+   */
+  async createCreditReservation(input: {
+    subject: string;
+    amount: string;
+    approval_ref: string;
+    expires_at?: string;
+  }): Promise<CreditReservation> {
+    if (!input.approval_ref) {
+      throw new UltraCoreApiError(
+        0,
+        null,
+        'createCreditReservation requires approval_ref'
+      );
+    }
+    return (await this.request('/v1/credits/reservations', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify(input),
+    })) as CreditReservation;
+  }
+
+  /** T1 read: list open credit reservations. */
+  async listCreditReservations(): Promise<CreditReservation[]> {
+    const body = (await this.request('/v1/credits/reservations')) as {
+      reservations?: CreditReservation[];
+    };
+    return body.reservations ?? [];
+  }
+
+  /** List registry items (skills/keys/policies/agents) published by Ultra-Core. */
+  async listRegistryItems(): Promise<RegistryItem[]> {
+    const body = (await this.request('/v1/registry/items')) as {
+      items?: RegistryItem[];
+    };
+    return body.items ?? [];
   }
 }
 
