@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # Security Instructions
 
 **applyTo**: Security-sensitive code, authentication, authorization, encryption, secrets management

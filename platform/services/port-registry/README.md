@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # @ultra-ai/port-registry
 
 Platform port registry and conflict resolver (P1A-09).

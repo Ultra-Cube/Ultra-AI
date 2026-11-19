@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 ---
 name: adr-writing
 description: Write Architecture Decision Records: context, decision, alternatives, consequences, status; sequential numbering; register in ledger.

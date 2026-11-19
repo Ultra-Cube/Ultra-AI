@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 ---
 name: contract-first-api
 description: Define OpenAPI 3.1 / JSON Schema contracts in contracts/ before implementation; handoffs between agents go through contracts, never shared private code.

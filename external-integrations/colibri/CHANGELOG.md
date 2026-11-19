@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # Changelog
 
 All notable changes to colibrì are documented here.

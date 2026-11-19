@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # Ultra AI — Corrected Master Plan (v2)
 
 **Status:** Proposed — needs owner approval of the decisions in section 4 before Phase 0 starts.

@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # Contributing to Skales
 
 Thanks for your interest in contributing!

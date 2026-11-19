@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 ---
 name: a05-runtime-engineer
 description: Runtime Engineer: runtime supervisor, sidecar lifecycle, reverse-proxy SSO.

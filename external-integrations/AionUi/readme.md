@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 <p align="center">
   <img src="./resources/aionui-banner-1.png" alt="AionUi - Cowork with AI Agents" width="100%">
 </p>

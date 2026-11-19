@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 ---
 name: ask-with-options
 description: Owner communication protocol: when blocked or a decision is needed, issue a structured Question Card with options (R0/R1/R2 classes) instead of stopping silently.

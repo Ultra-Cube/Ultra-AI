@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 ---
 name: doc-ingestion
 description: Read every in-scope .md file fully and convert it into facts (memory), skills (procedures), and diagram registry entries. Never edit the source.

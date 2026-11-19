@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 ---
 name: plugin-packaging
 description: Assemble the ultra-ai-builder plugin: plugin.json, skills, agents a00-a15, commands, hooks, .mcp.json, AGENTS.md. Verify manifest format against chosen runtime docs first.

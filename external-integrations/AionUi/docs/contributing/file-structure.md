@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # File & Directory Structure
 
 Rules for organizing files and directories across the entire Electron project.

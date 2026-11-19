@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 ---
 name: sidecar-lifecycle
 description: Manage embedded open-source engines (Ollama, OpenClaw, 9router, n8n, Langflow, Dify, Open WebUI, OpenHands) as supervised sidecars inside Ultra-AI.

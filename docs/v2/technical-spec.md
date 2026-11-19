@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # ULTRA AI — V2 TECHNICAL SPECIFICATION
 
 **Status:** PROPOSED (needs owner gates G-0.x … G-4.x) · **Date:** 2026-11-09 · **Language:** English (user-facing UI: Arabic RTL + English)

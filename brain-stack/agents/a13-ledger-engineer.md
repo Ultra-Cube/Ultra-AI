@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 ---
 name: a13-ledger-engineer
 description: Ledger Bridge Engineer: signed hash-chained event outbox preparing Ultra Core export. No chain keys held.

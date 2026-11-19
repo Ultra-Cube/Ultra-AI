@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # Tuning & runtime knobs
 
 Everything here is opt-in; the defaults are chosen so a plain `./coli chat`

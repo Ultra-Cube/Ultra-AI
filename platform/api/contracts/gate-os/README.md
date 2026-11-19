@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # Gate-OS Contract (`/v1`)
 
 Stable integration contract for Gate-OS readiness (phase S4-P3).

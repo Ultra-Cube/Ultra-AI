@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # Grammar-forced speculative drafts
 
 *The canonical reference for the `GRAMMAR=` draft source (method F). History: idea in

@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # Open Source Options
 
 This list captures candidate open-source components for ZeroAI.

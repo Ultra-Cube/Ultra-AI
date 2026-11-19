@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # infrastructure/test — Master Test Orchestrator
 
 **Status:** PLACEHOLDER (structure defined, orchestrator pending)

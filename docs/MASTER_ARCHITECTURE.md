@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # Ultra AI — Master Architecture & Plan
 
 **Status:** Authoritative. Supersedes the conflicting status claims scattered across

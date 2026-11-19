@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 ---
 name: reverse-proxy-sso
 description: Front all platform services with one reverse proxy and unified SSO; auth on every non-loopback endpoint.

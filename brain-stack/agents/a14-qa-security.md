@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 ---
 name: a14-qa-security
 description: QA & Security: test strategy, threat models, reviews every PR from A05-A13, dependency reviews.

@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 ---
 description: Show Ultra-AI build board status — phase, tasks, pending decisions, risks.
 ---

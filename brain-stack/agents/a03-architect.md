@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 ---
 name: a03-architect
 description: Architect: owns ADRs and API contracts; resolves plan contradictions.

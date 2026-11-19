@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # @ultra-ai/secrets-vault
 
 Multi-provider secrets vault for the Ultra-AI platform (P1A-10).

@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # S2b Facts — Batch 4: external-integrations, monitoring, config, packages READMEs, skills/devops
 
 ## external-integrations/ (7 files)

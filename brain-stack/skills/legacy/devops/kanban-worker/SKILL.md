@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 ---
 name: kanban-worker
 description: Implements a single story/task by delegating to the right specialist agent, runs code-review and quality gates before marking done

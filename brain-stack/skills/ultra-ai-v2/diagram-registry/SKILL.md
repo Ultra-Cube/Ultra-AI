@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 ---
 name: diagram-registry
 description: Extract Mermaid blocks to .mmd files, validate syntax, and emit machine-readable graph JSON so the AI can query connections.

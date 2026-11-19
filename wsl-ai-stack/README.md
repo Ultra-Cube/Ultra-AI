@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # Ultra AI WSL Stack
 
 This folder is the WSL and Ubuntu control plane for the Ultra-AI workspace.

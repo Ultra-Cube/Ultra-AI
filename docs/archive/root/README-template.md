@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # 🏗️ Enterprise Project Template v2.1.0
 
 **Professional enterprise-grade project template with comprehensive structure and automation**

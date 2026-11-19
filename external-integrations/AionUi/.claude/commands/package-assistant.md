@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # Package OfficeCLI Skill as AionUi Assistant
 
 Convert an OfficeCLI skill into a fully wired AionUi assistant preset, or update an existing one.

@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # ADR-0001 — Crew runtime: Hermes Agent + Claude Code (hybrid)
 
 - **Status:** Accepted

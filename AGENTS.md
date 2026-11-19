@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # Ultra-AI — Agent Guide
 
 TypeScript monorepo (Turborepo, npm workspaces): `platform/` (frontend, backend, api, shared, services, devtools, apps), `brain-stack/`, `control/`, `infrastructure/`. Node >=20.

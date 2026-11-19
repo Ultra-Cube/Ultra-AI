@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # @ultra-ai/zeroai-edge
 
 ZeroAI local-first execution contract for the Ultra AI platform.

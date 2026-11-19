@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 ---
 name: a15-docs-i18n
 description: Docs & i18n: English repo docs, Arabic owner-facing summaries, locales, glossary consistency.

@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # ADR-0002 — Planning release tag `v0.2.0-planning` and license Apache-2.0
 
 - **Status:** Accepted

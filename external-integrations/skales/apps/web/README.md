@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # Skales v3.0.0
 
 **Local AI that runs on your machine. No Docker. No YAML. No cloud.**

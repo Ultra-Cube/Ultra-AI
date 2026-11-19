@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # @ultra-ai/mcp-hub
 
 P1A-05 — MCP hub: registers MCP servers over pluggable transports

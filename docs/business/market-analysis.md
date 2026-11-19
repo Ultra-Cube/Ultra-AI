@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # 📈 Market Analysis - Ultra AI Platform
 
 ## 🌍 Global AI Market Overview

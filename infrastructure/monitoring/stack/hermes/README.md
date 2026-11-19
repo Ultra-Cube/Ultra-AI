@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # Hermes Monitoring Stack
 
 Hermes is the observability layer for Ultra-AI. It is a self-contained

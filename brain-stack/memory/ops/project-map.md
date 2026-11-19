@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # Ultra-AI Project Map (post-WP-0b canonical layout)
 
 > First file to read when navigating the repo. Reflects the owner-supplied path map implemented in WP-0/WP-0b. Historical pre-migration paths appear only in `docs/archive/` and `docs/planning/layout-map.yaml` (as move records).

@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # Local-Model "Brain" Scaffold
 
 This directory scaffolds a **self-hosted model backend** ("brain") so Ultra-AI /

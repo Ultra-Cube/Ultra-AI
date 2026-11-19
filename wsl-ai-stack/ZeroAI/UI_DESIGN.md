@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # ZeroAI UI Design
 
 ZeroAI needs a local user interface that acts as the control surface for the assistant.

@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 ---
 name: a10-desktop-engineer
 description: Desktop Engineer: Linux + Windows desktop app packaging and Devin-like workspace.

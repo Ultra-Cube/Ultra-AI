@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # ULTRA AI — LIVING TO-DO BOARD
 
 **Maintained by:** A00 Lead Orchestrator · **Source of truth for status.** Update after every task report.

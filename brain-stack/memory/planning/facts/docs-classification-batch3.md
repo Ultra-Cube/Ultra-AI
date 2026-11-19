@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # Facts — Remaining docs classification (S2b batch 3)
 
 ## Status legend: VERIFIED = claims match BUILD_PLAN/live state; ASPIRATIONAL = inflated/unverified; STALE = superseded by later docs; OPS = operational how-to.

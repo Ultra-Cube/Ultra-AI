@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # Commercial Licensing - Skales
 
 Skales is released under the **Business Source License 1.1 (BSL)**.

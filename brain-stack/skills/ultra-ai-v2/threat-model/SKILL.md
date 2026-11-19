@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 ---
 name: threat-model
 description: Produce per-phase threat models: trust boundaries, assets, attacker capabilities, abuse paths, mitigations (STRIDE/PASTA-lite).

@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # Facts — Root docs, BUILD_PLAN, README (S2b batch)
 
 ## README.md (root) — ASPIRATIONAL/MARKETING, partially stale

@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 ---
 name: a02-skill-smith
 description: Skill & Plugin Smith: authors SKILL.md files and assembles the ultra-ai-builder plugin.

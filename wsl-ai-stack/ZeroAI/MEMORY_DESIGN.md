@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # ZeroAI Memory Design
 
 ZeroAI needs memory to behave like a real assistant rather than a one-shot chatbot.

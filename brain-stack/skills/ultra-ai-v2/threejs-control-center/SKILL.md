@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 ---
 name: threejs-control-center
 description: Build 3D control-center visualizations for memory, skills, reasoning (mind), and orchestration using Three.js / React Three Fiber.

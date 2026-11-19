@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # Theme Tokens Reference / 主题语义 Token 参考
 
 This is the canonical list of semantic design tokens used by AionUi's theming system.

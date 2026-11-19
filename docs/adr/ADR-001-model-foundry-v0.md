@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # ADR-001: Model Foundry v0 — stages, artifacts, and hardware tiers
 
 - **Status**: proposed (pending owner gate G-1.7)

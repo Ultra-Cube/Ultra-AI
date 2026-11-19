@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # @ultra-ai/hermes-openai-bridge
 
 OpenAI-compatible HTTP bridge for `HermesRuntime`. Lets **Open WebUI** (or

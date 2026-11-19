@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # ZeroAI
 
 ZeroAI is the WSL-first local assistant layer for this workspace.

@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # GPU backends: CUDA and HIP/ROCm
 
 colibrì's GPU expert backend is **one source file** (`c/backend_cuda.cu`) compiled

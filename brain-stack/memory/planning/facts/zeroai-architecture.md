@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # Facts — wsl-ai-stack/ZeroAI/* (vision docs, pre-implementation)
 
 source: wsl-ai-stack/ZeroAI/ARCHITECTURE.md + siblings | status: ASPIRATIONAL-DESIGN (target architecture, not yet built)

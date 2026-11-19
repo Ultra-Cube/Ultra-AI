@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # docs/archive/2026-11
 
 Historical session/phase reports archived during the P0 documentation cleanup

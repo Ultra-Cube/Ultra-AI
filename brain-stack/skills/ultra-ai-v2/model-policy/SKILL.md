@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 ---
 name: model-policy
 description: Define and enforce model routing policy: which models for which tasks, cost/quality tiers, data-sensitivity rules, fallback chains.

@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # 13 - Horizontal Scaling Guide
 
 This guide explains how to deploy OpenWA in a horizontally scaled environment for high availability and increased capacity.

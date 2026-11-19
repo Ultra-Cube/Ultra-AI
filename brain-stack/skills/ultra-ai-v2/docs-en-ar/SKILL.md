@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 ---
 name: docs-en-ar
 description: Write and maintain English repo docs plus Arabic owner-facing summaries; Question Cards bilingual; consistent terminology via glossary.

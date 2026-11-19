@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # CUDA backend (Linux)
 
 colibrì includes an opt-in CUDA backend for model-resident tensors. Streaming

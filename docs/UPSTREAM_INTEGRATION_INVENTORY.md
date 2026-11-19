@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # Upstream Integration Inventory
 
 > Inventory of the 8 fadhel-sh upstream forks that back the Ultra-AI catalog

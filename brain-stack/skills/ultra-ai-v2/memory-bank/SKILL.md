@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 ---
 name: memory-bank
 description: Maintain the Memory Bank: facts/*.yaml, decisions/ADR-*.md + ledger.md, glossary.md, contradictions.md, timeline.md, sources.jsonl, coverage.md.

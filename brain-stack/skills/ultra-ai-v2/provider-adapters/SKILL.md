@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 ---
 name: provider-adapters
 description: Build provider/model adapters for the gateway: OpenAI-compatible endpoints, DeepSeek, GLM, Kimi, Manus connector, 9router/OmniRoute routing.

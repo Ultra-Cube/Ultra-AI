@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # brain-stack/memory/ops — Live Operations Memory
 
 Owner decision (layout-map.yaml): `memory/` project-level ops memory lives here, NOT at repo root. Root `memory/` never existed post-WP-0.

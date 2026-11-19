@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 ---
 name: eval-harness
 description: Build evaluation harness: reproducible benchmarks, LLM-as-judge where appropriate, regression detection, evidence files.

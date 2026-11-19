@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # ULTRA AI — CODE BUILD PROMPT (v1.0)
 
 **Status:** ADOPTED — owner-approved route plan (received 2026-11-11). This file is the authoritative build specification. Errata and owner decisions recorded in `## ERRATA & OWNER DECISIONS` at the end supersede the ground-truth table where they differ.

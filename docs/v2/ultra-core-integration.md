@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # Ultra Core integration environment (P4B)
 
 Status: WORKING (mock-validated) — contract-first design implemented in `platform/services/ultra-core-bridge` + `contracts/ultra-core/`; no live Ultra-Core calls (QC-P4B-15 pending).

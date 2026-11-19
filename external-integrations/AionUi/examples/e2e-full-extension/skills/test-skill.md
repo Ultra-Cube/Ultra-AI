@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # E2E Test Skill
 
 You are a test skill for E2E validation. Follow these instructions:

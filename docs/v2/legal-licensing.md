@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # ULTRA AI — LEGAL, LICENSING AND COMPLIANCE ANALYSIS
 
 **Date of research:** 2026-11-09 · **Prepared for:** Ultra Cube Tech / Ultra Zone · **Owner agent:** A04 Legal & License Auditor

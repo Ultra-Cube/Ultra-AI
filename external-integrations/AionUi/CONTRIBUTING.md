@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # Contributing Guide
 
 > **Chinese version**: [CONTRIBUTING.zh.md](CONTRIBUTING.zh.md)

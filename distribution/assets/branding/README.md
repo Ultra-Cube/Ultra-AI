@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # Ultra-AI Brand Package
 
 **Status:** PLACEHOLDER — brand identity system to be produced.

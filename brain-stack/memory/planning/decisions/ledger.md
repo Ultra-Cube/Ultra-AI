@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # Decision Ledger — Ultra-AI v2
 
 Every owner answer to a Question Card is recorded here: id, date, choice, rationale.

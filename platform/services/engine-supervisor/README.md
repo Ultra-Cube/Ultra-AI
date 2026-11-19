@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # @ultra-ai/engine-supervisor
 
 Runtime supervisor for embedded engine sidecars (Ollama, 9router/OmniRoute,

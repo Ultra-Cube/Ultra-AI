@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # CACHE_ROUTE — opt-in cache-aware MoE routing
 
 **Default: OFF.** Stock full top-K router behavior unless `CACHE_ROUTE=1`.

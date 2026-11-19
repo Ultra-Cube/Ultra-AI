@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 ---
 name: test-strategy
 description: Define test strategy per phase: unit/integration/contract/e2e, coverage >=80% lines for new packages, Playwright AR+EN smoke tests.

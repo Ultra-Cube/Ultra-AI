@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 ---
 description: Prepare the planning & study release — additions-only branch, tag, notes, bundle.
 ---

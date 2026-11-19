@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # @ultra-ai/edge-proxy
 
 Single-origin reverse proxy for Ultra-AI (P1A-08): one public origin fronts the Next.js UI, core-api, and every supervised engine — users never leave the product to reach n8n, Langflow, Dify, OpenHands, Open WebUI, or the VS Code server.

@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # Quick Start — from zero to a running model
 
 A step-by-step guide for first-time users on **Linux**, **Windows**, and **macOS**.

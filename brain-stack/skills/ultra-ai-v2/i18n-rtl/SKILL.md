@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 ---
 name: i18n-rtl
 description: Internationalization with Arabic (RTL) and English from the first screen; locale files, RTL layout rules, Arabic docs where required.

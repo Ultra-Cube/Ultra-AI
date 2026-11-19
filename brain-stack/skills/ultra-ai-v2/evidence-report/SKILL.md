@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 ---
 name: evidence-report
 description: Produce work reports and phase-gate reports with commands, outputs, file paths and hashes. 'Done' requires evidence.

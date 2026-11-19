@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # Ultra Studio — Code-OSS / Open VS Code dev surface (G-2.2 Option 2)
 
 Readiness artifacts for the Devin-like development experience. **No Microsoft

@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # Ultra AI ⇄ Ultra-Core Integration Contract
 
 Contract-first boundary between **Ultra AI** (producer/readiness side) and

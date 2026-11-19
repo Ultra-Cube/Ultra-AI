@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # ext-wecom-bot
 
 Enterprise WeCom AI Bot channel extension example for AionUI.

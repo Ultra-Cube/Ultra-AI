@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # Facts — docs/architecture/system-architecture.md + wsl-ai-stack/ZeroAI/*
 
 ## docs/architecture/system-architecture.md

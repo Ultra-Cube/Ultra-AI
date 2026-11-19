@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 ---
 name: a07-gateway-engineer
 description: Gateway & Models Engineer: provider adapters, model policy, Chinese models, routing.

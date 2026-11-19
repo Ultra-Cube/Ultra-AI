@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # Efficiency suite — regression tests + optimization dossier
 
 Two layers:

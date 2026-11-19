@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # @ultra-ai/mock-adapters
 
 A single lightweight Fastify process that makes the imported Ultra-AI

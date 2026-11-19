@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # ZeroAI Architecture
 
 ZeroAI is the local assistant layer for the Ultra-AI workspace.

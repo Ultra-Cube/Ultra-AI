@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # Ultra AI Platform — Consolidated Engineering Specification
 
 Consolidated from all 63 markdown files under `docs/` (architecture/, ui/, security/, operations/, phases/, planning/, reports/, business/, ux-design/). Sources are cited inline as `[doc]`. Where docs conflict, the conflict is called out explicitly.

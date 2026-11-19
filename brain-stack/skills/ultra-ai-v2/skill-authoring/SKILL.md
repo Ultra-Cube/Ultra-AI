@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 ---
 name: skill-authoring
 description: Author SKILL.md files in agentskills.io format: frontmatter (name, description with triggers, platforms, version), body <=500 lines, long reference in references/.

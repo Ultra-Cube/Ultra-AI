@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # Environment Variables
 
 Reference for the environment variables read by the colibrì engine.

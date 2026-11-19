@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # @ultra-ai/workspace
 
 Embedded workspace contract for the Ultra desktop shell (P2-06, G-2.2 Option 1).

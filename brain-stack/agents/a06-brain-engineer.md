@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 ---
 name: a06-brain-engineer
 description: Brain Engineer: Hermes Agent integration — memory, skill registry, reasoning, MCP.

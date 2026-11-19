@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # ultra-ai-builder (plugin)
 
 Runtime-neutral plugin packaging the Ultra-AI v2 build crew for Hermes Agent / Claude Code / any AGENTS.md-compatible runtime.

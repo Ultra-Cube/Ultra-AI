@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # Benchmarks & measured numbers
 
 Everything on this page is a measurement, not a promise. If you run colibrì on

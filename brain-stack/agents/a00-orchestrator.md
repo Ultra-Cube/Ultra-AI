@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 ---
 name: a00-orchestrator
 description: Lead Orchestrator: owns the task board, dispatches Task Cards, is the only agent that talks to the owner.

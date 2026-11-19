@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 <p align="center">
   <img src="assets/colibri.svg" width="500" alt="colibrì — motore piccolo, modello immenso">
 </p>

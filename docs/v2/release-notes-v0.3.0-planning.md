@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # Ultra-AI v0.3.0-planning — Post-Migration Planning Release
 
 **Type:** pre-release (planning/study). Not a product release — documents the reorganized repository.

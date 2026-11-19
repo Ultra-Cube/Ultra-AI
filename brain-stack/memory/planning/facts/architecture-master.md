@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # Facts — docs/MASTER_ARCHITECTURE.md (authoritative, 2026-10-31)
 
 source: docs/MASTER_ARCHITECTURE.md | status: VERIFIED-GROUND-TRUTH (written from code read; supersedes conflicting docs per §8)

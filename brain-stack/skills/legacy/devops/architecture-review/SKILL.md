@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 ---
 name: architecture-review
 description: Orchestrates an architecture decision through the ADR workflow, gathers context, delegates to chief-architect for options, runs architecture gates, produces ADR doc

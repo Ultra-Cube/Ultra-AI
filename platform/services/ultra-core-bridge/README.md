@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # @ultra-ai/ultra-core-bridge
 
 Ultra Core bridge **readiness** package (spec §14, gate G-4.1). Ultra Core is a

@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 ---
 name: a11-foundry-engineer
 description: Model Foundry Engineer: model orchestration, LoRA/distill pipeline, eval on GPU host.

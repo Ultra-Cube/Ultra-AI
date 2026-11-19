@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # E2E Test Parallel Execution Feasibility
 
 **Author**: assistant-engineer-2

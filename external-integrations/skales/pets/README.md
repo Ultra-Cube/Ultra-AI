@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # Skales Pixel Pets
 
 The Skales buddy family as [Petdex](https://petdex.dev)-format pixel pets:

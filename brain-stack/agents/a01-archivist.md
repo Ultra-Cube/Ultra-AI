@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 ---
 name: a01-archivist
 description: Archivist: ingests all repo docs into facts, skills, diagram registry; owns memory bank and docs/archive.

@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # Ultra-AI Sentinel (WP-2)
 
 Application-level watchdog for the Ultra-AI stack. Zero dependencies — plain

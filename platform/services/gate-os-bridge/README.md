@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # @ultra-ai/gate-os-bridge
 
 Reference implementation of the Gate-OS `/v1` integration contract

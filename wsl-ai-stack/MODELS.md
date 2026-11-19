@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # Model Tracks
 
 This stack currently treats the model layer as a pluggable target behind OpenClaw.

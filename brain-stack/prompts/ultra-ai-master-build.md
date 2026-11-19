@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # ULTRA AI — MASTER BUILD PROMPT (v1.0)
 
 > **Owner:** Fadhel — Ultra Cube Tech / Ultra Zone · **Owner language:** Arabic (all repo artifacts: English; Question Cards: English + one-line Arabic)

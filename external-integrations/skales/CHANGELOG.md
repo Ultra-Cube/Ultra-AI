@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # **Changelog**
 
 All notable changes to Skales will be documented in this file.

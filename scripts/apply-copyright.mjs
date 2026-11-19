@@ -23,12 +23,12 @@ const MARKER = 'UCUBETECH-COPYRIGHT';
 const IW = 74; // inner width of the box
 
 const ART = [
-  '██╗   ██╗ ██╗      ███████╗ ██████╗   █████╗ ',
-  '██║   ██║ ██║      ╚══██╔══╝ ██╔══██╗ ██╔══██╗',
-  '██║   ██║ ██║         ██║    ██████╔╝ ███████║',
-  '╚██╗ ██╔╝ ██║         ██║    ██╔══██║ ██╔══██║',
-  ' ╚████╔╝ ███████╗    ██║    ██║  ██║ ██║  ██║',
-  '  ╚═══╝  ╚══════╝    ╚═╝    ╚═╝  ╚═╝ ╚═╝  ╚═╝',
+  '██╗   ██╗ ██╗     ███████╗ ██████╗   █████╗            █████╗  ██╗  ',
+  '██║   ██║ ██║    ╚══██╔══╝ ██╔══██╗ ██╔══██╗          ██╔══██╗ ██║  ',
+  '██║   ██║ ██║       ██║    ██████╔╝ ███████║          ███████║ ██║  ',
+ '╚██╗   ██╔╝██║       ██║    ██╔══██║ ██╔══██║          ██╔══██║ ██║  ',
+  ' ╚████╔╝  ███████╗  ██║    ██║  ██║ ██║  ██║          ██║  ██║ ██║  ',
+  '  ╚═══╝   ╚══════╝  ╚═╝    ╚═╝  ╚═╝ ╚═╝  ╚═╝          ╚═╝  ╚═╝ ╚═╝  ',
 ];
 
 const INFO = [
@@ -140,7 +140,7 @@ const INFO_LINE_RE = /copyright|ultra cube|ultra zone|ucubetech|github\.com\/Ult
 
 function stripOldBanner(content) {
   const lines = content.split('\n');
-  const idx = lines.findIndex((l) => LEGACY_RE.test(l) && !l.includes('╔'));
+  const idx = lines.findIndex((l) => LEGACY_RE.test(l) && !/[║╔╗╚╝═]/.test(l));
   if (idx === -1) return null;
 
   let start = idx;
@@ -155,6 +155,15 @@ function stripOldBanner(content) {
   // Absorb comment-wrapper lines hugging the banner.
   while (start > 0 && WRAPPER_RE.test(lines[start - 1])) start--;
   while (end + 1 < lines.length && WRAPPER_RE.test(lines[end + 1])) end++;
+
+  // Legacy inline form: <!--[UCUBETECH-COPYRIGHT] ... reserved--> — the
+  // opening <!-- shares the marker line, so following orphan lines must be
+  // consumed through the line that closes the comment.
+  if (lines[idx].includes('<!--') && !lines[idx].includes('-->')) {
+    let j = idx + 1;
+    while (j < lines.length && !lines[j].includes('-->')) j++;
+    if (j < lines.length) end = Math.max(end, j);
+  }
 
   // Absorb sibling banner lines using the marker line's own comment prefix.
   const pm = lines[idx].match(/^\s*(\/\/|#|--|%%|REM |;|\(\*|%|<!--|\/\*|\{\/\*)/);

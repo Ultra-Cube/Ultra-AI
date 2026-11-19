@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # The serve protocols — engine ⇄ server wire format
 
 The engine speaks two line-oriented protocols over stdin/stdout. Both are plain text

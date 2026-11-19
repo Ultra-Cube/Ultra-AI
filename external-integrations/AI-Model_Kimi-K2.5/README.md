@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 <div align="center">
   <picture>
       <img src="figures/kimi-logo.png" width="30%" alt="Kimi K2.5">

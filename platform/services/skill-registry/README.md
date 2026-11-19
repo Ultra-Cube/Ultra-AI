@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # @ultra-ai/skill-registry
 
 P1A-04 — skill registry for SKILL.md packs: recursive scan, name/version dedupe,

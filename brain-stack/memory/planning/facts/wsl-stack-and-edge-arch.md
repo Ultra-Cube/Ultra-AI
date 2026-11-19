@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # Facts — wsl-ai-stack/* + docs/architecture/{zero-ai-integration,ai-os-blueprint}.md
 
 ## wsl-ai-stack/README.md (live-state snapshot)

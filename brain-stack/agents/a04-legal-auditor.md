@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 ---
 name: a04-legal-auditor
 description: Legal & License Auditor: license matrix, ToS review, THIRD_PARTY.md, SBOM.

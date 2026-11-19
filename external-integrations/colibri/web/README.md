@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # colibrì web
 
 React/Vite interface for an OpenAI-compatible colibrì server.

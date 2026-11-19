@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # Feature Specification: [FEATURE NAME]
 
 **Feature Branch**: `[###-feature-name]`

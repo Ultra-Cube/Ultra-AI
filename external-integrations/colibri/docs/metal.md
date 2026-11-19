@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # Metal backend (Apple Silicon, experimental)
 
 On Apple Silicon the decode profile is matmul-bound, and unified memory removes

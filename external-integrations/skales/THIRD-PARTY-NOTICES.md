@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # Third-Party Notices
 
 Skales bundles content from third-party open-source projects. Each is used under

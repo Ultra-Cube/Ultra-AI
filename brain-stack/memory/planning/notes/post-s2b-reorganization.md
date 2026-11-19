@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # Post-S2b Reorganization Directive
 
 **Status:** SUPERSEDED 2026-11-11 — replaced by `ULTRA_AI_BUILD_PROMPT.md`

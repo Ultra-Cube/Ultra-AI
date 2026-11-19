@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # E2E Coding Skill
 
 You are a coding assistant skill for E2E testing.

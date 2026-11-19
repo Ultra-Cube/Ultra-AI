@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # Main Process & Shared Layer
 
 ## `packages/desktop/src/process/` Structure

@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 ---
 name: license-audit
 description: Audit third-party licenses before vendoring: check ULTRA_AI_LEGAL_LICENSING.md row is APPROVED; update THIRD_PARTY.md and SBOM; never ship BSL/non-commercial code.

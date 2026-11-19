@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # Proposed patch — `docs/v2/technical-spec.md` §14
 
 Do **not** apply directly to the baseline spec until the owner approves the P4B contract-first direction. This file is the proposed replacement for the current §14 body.

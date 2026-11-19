@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # Infrastructure Instructions
 
 **applyTo**: `infrastructure/**`, `control/templates/kubernetes/**`, Dockerfiles, `docker-compose.yml`

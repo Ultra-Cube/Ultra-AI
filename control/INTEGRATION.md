@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # Control Plane — Directory-Control-Systems
 
 `control/directory-control-systems/` is the vendored control tool for Ultra-AI

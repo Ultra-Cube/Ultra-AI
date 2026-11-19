@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # 🚀 KUBERNETES COMMANDS REFERENCE GUIDE
 ## Quick Reference for Ultra AI Platform
 

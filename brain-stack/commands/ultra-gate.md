@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 ---
 description: Run the phase gate checklist — DoD evidence, preservation verify, go/no-go card.
 ---

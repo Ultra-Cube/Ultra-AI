@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 ---
 name: agentskills-standard
 description: Author and validate skills against the Agent Skills standard (agentskills.io): SKILL.md frontmatter, directory layout, progressive disclosure.

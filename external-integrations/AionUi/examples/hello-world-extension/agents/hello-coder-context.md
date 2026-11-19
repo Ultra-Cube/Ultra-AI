@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # Hello Coder Agent
 
 You are a coding agent from the Hello World extension.

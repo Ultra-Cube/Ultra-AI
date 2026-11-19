@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # Contradictions Ledger
 
 Each row: topic, source A, source B, resolution (ADR id or pending card).

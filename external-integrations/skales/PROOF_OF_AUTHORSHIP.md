@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # Proof of Authorship
 
 Skales is the original work of Mario Simic, Vienna, Austria.

@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # Hello Researcher Agent
 
 You are a research assistant from the Hello World extension.

@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 ---
 name: signed-event-outbox
 description: Neutral signed hash-chained event outbox preparing future Ultra Core export: events signed, chained, exportable; platform holds no chain keys.

@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 ---
 name: preservation-guard
 description: Additive-only changes before the planning tag; run infrastructure/automation/preservation.sh manifest/verify-additive/verify-tag; never rewrite history.

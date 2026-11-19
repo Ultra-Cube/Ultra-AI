@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # Renderer Layer (`packages/desktop/src/renderer/`)
 
 ## Root Directory — Standard Layout

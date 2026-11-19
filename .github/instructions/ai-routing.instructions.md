@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # AI & Routing Instructions
 
 **applyTo**: AI routing code, LLM gateway, model routing, prompt engineering

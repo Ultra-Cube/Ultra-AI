@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 ---
 name: adaptive-ui-spec
 description: Specify the adaptive, directly-interactive ZeroAI-style interface: chat surface that adapts to context, task, and user; spec before implementation.

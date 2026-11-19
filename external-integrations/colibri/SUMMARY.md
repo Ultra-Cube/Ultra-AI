@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # E5 — MTLResidencySet over the existing malloc'd slabs (experiment branch)
 
 Branch: `e5/metal-residency-set` (cut from `origin/dev` @ `caa49f7`, per spec — E4 was cut

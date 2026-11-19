@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 ---
 name: engine-adapter
 description: Implement adapters embedding open-source engines (OpenClaw, Ollama, 9router, n8n, Langflow, Dify, Open WebUI, OpenHands) behind Ultra-AI contracts.

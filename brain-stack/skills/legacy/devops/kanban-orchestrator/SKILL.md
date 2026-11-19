@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 ---
 name: kanban-orchestrator
 description: Orchestrates a feature from epic breakdown through implementation to done, delegates to appropriate tier agents, runs quality gates at checkpoints

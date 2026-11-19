@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # ✅ PHASE 19 - KUBERNETES ORCHESTRATION
 ## COMPLETE & PRODUCTION-READY
 

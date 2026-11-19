@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # External Integrations
 
 This directory contains imported repositories that will be integrated into the Ultra AI Platform.

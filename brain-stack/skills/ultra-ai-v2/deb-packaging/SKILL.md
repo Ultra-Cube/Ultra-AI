@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 ---
 name: deb-packaging
 description: Build Debian packages for Linux deployment: control files, dependencies, sidecar bundling, repo/policy compliance.

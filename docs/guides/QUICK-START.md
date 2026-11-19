@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # Ultra AI Platform - Quick Start Guide
 
 **Get up and running in 5 minutes!**

@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # Ownership headers & file integrity (Ultra AI)
 
 ## Copyright headers

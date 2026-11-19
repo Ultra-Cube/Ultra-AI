@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # work-dispatch contract (ultra.work-dispatch.v1)
 
 Readiness contract for distributing work across customers and specialized

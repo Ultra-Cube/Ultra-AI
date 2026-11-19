@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 ---
 name: tos-review
 description: Review terms of service and acceptable-use constraints for APIs, models, and services before integration (OAuth pooling, resellers, model providers).

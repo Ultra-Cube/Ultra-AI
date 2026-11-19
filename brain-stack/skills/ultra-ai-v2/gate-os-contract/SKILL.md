@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 ---
 name: gate-os-contract
 description: Define the versioned Gate-OS integration contract: capability discovery, environment switching hooks, AI-adaptive surface; contract tests. Never modify Gate-OS.

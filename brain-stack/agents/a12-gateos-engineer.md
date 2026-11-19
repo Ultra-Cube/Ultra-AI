@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 ---
 name: a12-gateos-engineer
 description: Gate-OS Bridge Engineer: versioned contract + packaging for Gate-OS readiness. Never modifies Gate-OS.

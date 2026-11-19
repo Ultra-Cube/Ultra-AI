@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # ZeroAI Agent Layer
 
 ZeroAI does not need a separate public assistant personality in front of OpenClaw.

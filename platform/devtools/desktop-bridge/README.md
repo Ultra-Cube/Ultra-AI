@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # @ultra-ai/desktop-bridge
 
 JSON-RPC 2.0 bridge over WebSocket between the Ultra desktop shell

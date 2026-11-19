@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 ---
 name: a09-experience-engineer
 description: Experience Engineer: console app — adaptive ZeroAI-style UI, chat, automation, 3D control center.

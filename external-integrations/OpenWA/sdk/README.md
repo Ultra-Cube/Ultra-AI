@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # OpenWA SDKs
 
 Official client libraries for the OpenWA WhatsApp API Gateway.

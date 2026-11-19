@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # @ultra-ai/work-dispatch
 
 Implements the `ultra.work-dispatch.v1` contract

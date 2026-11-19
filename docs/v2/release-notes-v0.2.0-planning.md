@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # Ultra-AI v0.2.0-planning — Planning & Study Release
 
 **Type:** pre-release (planning/study). Not a product release — no runtime code is shipped.

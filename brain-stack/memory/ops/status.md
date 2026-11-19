@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # Ops Status
 
 - WP-0 monorepo migration: COMPLETE (verify-moves --post 58/58, lint/type-check/test green)

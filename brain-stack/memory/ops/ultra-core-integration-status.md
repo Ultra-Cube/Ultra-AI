@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # Ultra-Core Integration — Status & Evidence Report (P4B-14)
 
 Date: 2026-11-19 · Branch: `release/planning-study` · Status: **mock-validated, live calls prohibited**

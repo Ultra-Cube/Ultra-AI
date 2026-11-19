@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # Contributing
 
 Keep changes focused and preserve Colibri's dependency-free default CPU path.

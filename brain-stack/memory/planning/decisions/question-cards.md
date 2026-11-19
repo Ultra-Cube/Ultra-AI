@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # Question Cards — pending / draft
 
 Drafted cards awaiting owner answer. Answered cards move to `ledger.md`.

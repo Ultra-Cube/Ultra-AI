@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 ---
 name: hermes-integration
 description: Integrate Hermes Agent (Nous Research, MIT) as platform brain: persistent memory, skills, reasoning, orchestration, MCP, multi-platform gateway.

@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # CDP (Chrome DevTools Protocol) for MCP Development
 
 AionUi supports CDP for external debugging tools integration. In development mode (`just dev`), CDP is enabled by default on port 9230.

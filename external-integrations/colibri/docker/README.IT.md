@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 _Read the read me in [English](README.md)._
 
 # Guida a Colibrì - Motore di Inferenza Locale

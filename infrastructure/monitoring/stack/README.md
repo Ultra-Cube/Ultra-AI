@@ -19,8 +19,6 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 -->
 
-<!--
-<!--
 # Stack monitor configs
 
 Status: ACTIVE — hosts two complementary stacks:
