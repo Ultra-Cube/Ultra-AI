@@ -9,3 +9,4 @@ export * from './mock-server';
 export * from './inbound-receiver';
 export * from './callback-handlers';
 export * from './ops';
+export * from './spending-cap';

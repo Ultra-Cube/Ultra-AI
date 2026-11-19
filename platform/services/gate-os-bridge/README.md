@@ -55,3 +55,19 @@ npm run lint && npm run type-check && npm run build
   Core bridge — see `brain-stack/skills/ultra-ai-v2/signed-event-outbox`.
 - Resource budgets in `src/environments.ts` are first drafts pending
   Gate-OS maintainer confirmation.
+
+## Local reachability (P4B-12)
+
+The bridge binds `127.0.0.1` by default — it is reachable only from the
+local machine (or the Compose network when containerized). Gate-OS or any
+local client discovers it via:
+
+- `GET http://127.0.0.1:9300/v1/health` — liveness (no auth).
+- `GET http://127.0.0.1:9300/v1/capabilities` — feature advertisement for
+  capability-based switching.
+- Auth: set `GATE_OS_BRIDGE_TOKEN`; all `/v1/*` except `/health` then
+  require `Authorization: Bearer <token>`.
+
+No inbound ports are opened beyond the single HTTP listener; the bridge
+never modifies Gate-OS — it only exposes the contract surface Gate-OS
+will adopt.

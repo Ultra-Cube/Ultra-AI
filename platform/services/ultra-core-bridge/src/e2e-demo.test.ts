@@ -172,4 +172,46 @@ describe('P4B-13 E2E demo: usage.model_call -> ingest -> anchor -> proof', () =>
     const again = await exporter.flush();
     expect(again[0].sent).toBe(0);
   });
+
+  it('T1 credits: balance, approval-gated reservation, read-only guard', async () => {
+    // Read-only client: mutations refused client-side before any HTTP call.
+    const ro = createCoreClient({
+      baseUrl,
+      adminToken: 'demo-admin',
+      readOnly: true,
+    });
+    await expect(
+      ro.createCreditReservation({
+        subject: 'agent:demo',
+        amount: '10',
+        approval_ref: 'appr-1',
+      })
+    ).rejects.toThrow(/read-only/i);
+
+    // Writable client: balance read + reservation requires approval_ref.
+    const rw = createCoreClient({ baseUrl, adminToken: 'demo-admin' });
+    const bal = await rw.getCreditBalance('agent:demo');
+    expect(bal.subject).toBe('agent:demo');
+
+    await expect(
+      rw.createCreditReservation({
+        subject: 'agent:demo',
+        amount: '10',
+        approval_ref: '',
+      })
+    ).rejects.toThrow(/approval_ref/);
+
+    const res = await rw.createCreditReservation({
+      subject: 'agent:demo',
+      amount: '10',
+      approval_ref: 'appr-e2e-1',
+    });
+    expect(res.status).toBe('open');
+    expect(res.approval_ref).toBe('appr-e2e-1');
+
+    const list = await rw.listCreditReservations();
+    expect(list.some((r) => r.reservation_id === res.reservation_id)).toBe(
+      true
+    );
+  });
 });
