@@ -19,7 +19,7 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 interface Provider {
   id: string;
@@ -30,195 +30,254 @@ interface Provider {
   status: 'active' | 'inactive' | 'error';
 }
 
+const statusBadge = (status: string) => {
+  if (status === 'active')
+    return 'bg-emerald-500/15 text-emerald-300 border-emerald-500/40';
+  if (status === 'error')
+    return 'bg-red-500/15 text-red-300 border-red-500/40';
+  return 'bg-slate-500/15 text-slate-300 border-slate-500/40';
+};
+
 export default function GatewayProvidersPage() {
   const [providers, setProviders] = useState<Provider[]>([]);
-  const [nineRouterStatus, setNineRouterStatus] = useState<
+  const [routerStatus, setRouterStatus] = useState<
     'online' | 'offline' | 'loading'
   >('loading');
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [showAdd, setShowAdd] = useState(false);
+  const [addForm, setAddForm] = useState({
+    name: '',
+    type: 'api-key',
+    endpoint: '',
+    models: '',
+  });
+  const [saving, setSaving] = useState(false);
 
-  useEffect(() => {
-    fetchProviders();
-  }, []);
-
-  const fetchProviders = async () => {
+  const fetchProviders = useCallback(async () => {
+    setError(null);
     try {
-      const response = await fetch('/api/gateway/providers');
+      const response = await fetch('/api/gateway/providers', {
+        cache: 'no-store',
+      });
+      const data = await response.json();
       if (response.ok) {
-        const data = await response.json();
         setProviders(data.providers || []);
+      } else {
+        setError(data.error || `Gateway error (${response.status})`);
+        setProviders([]);
       }
-    } catch (error) {
-      console.error('Failed to fetch providers:', error);
+    } catch {
+      setError('Gateway unreachable');
+      setProviders([]);
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  const checkNineRouterStatus = async () => {
+  const checkRouterStatus = useCallback(async () => {
     try {
-      const response = await fetch('/api/gateway/health');
-      if (response.ok) {
-        const data = await response.json();
-        setNineRouterStatus(data.status === 'ok' ? 'online' : 'offline');
-      } else {
-        setNineRouterStatus('offline');
+      const response = await fetch('/api/gateway/health', {
+        cache: 'no-store',
+      });
+      const data = await response.json();
+      setRouterStatus(data.status === 'ok' ? 'online' : 'offline');
+    } catch {
+      setRouterStatus('offline');
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchProviders();
+    checkRouterStatus();
+    const interval = setInterval(checkRouterStatus, 30000);
+    return () => clearInterval(interval);
+  }, [fetchProviders, checkRouterStatus]);
+
+  const submitProvider = async () => {
+    setSaving(true);
+    setError(null);
+    try {
+      const response = await fetch('/api/gateway/providers', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: addForm.name,
+          type: addForm.type,
+          endpoint: addForm.endpoint,
+          models: addForm.models
+            .split(',')
+            .map((m) => m.trim())
+            .filter(Boolean),
+        }),
+      });
+      if (!response.ok) {
+        const data = await response.json().catch(() => ({}));
+        setError(data.error || `Failed to add provider (${response.status})`);
+        return;
       }
-    } catch (error) {
-      setNineRouterStatus('offline');
+      setShowAdd(false);
+      setAddForm({ name: '', type: 'api-key', endpoint: '', models: '' });
+      fetchProviders();
+    } catch {
+      setError('Gateway unreachable');
+    } finally {
+      setSaving(false);
     }
   };
 
-  useEffect(() => {
-    checkNineRouterStatus();
-    const interval = setInterval(checkNineRouterStatus, 30000);
-    return () => clearInterval(interval);
-  }, []);
-
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
-      <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold text-gray-900 mb-6">
-          AI Gateway Providers
-        </h1>
-
-        {/* 9Router Status */}
-        <div className="bg-white rounded-lg shadow p-6 mb-6">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-semibold text-gray-800">
-              9Router Service Status
-            </h2>
-            <div className="flex items-center gap-2">
-              <span
-                className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
-                  nineRouterStatus === 'online'
-                    ? 'bg-green-100 text-green-800'
-                    : nineRouterStatus === 'loading'
-                      ? 'bg-yellow-100 text-yellow-800'
-                      : 'bg-red-100 text-red-800'
-                }`}
-              >
-                {nineRouterStatus === 'online' && '● Online'}
-                {nineRouterStatus === 'loading' && '● Loading...'}
-                {nineRouterStatus === 'offline' && '● Offline'}
-              </span>
-            </div>
+    <div className="min-h-screen bg-slate-950 p-6 text-slate-200">
+      <div className="mx-auto max-w-5xl">
+        <div className="mb-6 flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-semibold text-slate-100">
+              AI Gateway
+            </h1>
+            <p className="mt-1 text-sm text-slate-400">
+              Provider routing status and configuration
+            </p>
           </div>
-          <p className="text-gray-600 text-sm">
-            {nineRouterStatus === 'online'
-              ? '9Router service is available and handling requests'
-              : nineRouterStatus === 'loading'
-                ? 'Checking 9Router service status...'
-                : '9Router service is not available. Gateway will use internal routing.'}
-          </p>
+          <span
+            className={`rounded-full border px-3 py-1 text-xs font-medium ${
+              routerStatus === 'online'
+                ? 'border-emerald-500/40 bg-emerald-500/15 text-emerald-300'
+                : routerStatus === 'loading'
+                  ? 'border-amber-500/40 bg-amber-500/15 text-amber-300'
+                  : 'border-red-500/40 bg-red-500/15 text-red-300'
+            }`}
+          >
+            {routerStatus === 'online'
+              ? '● Router online'
+              : routerStatus === 'loading'
+                ? '● Checking…'
+                : '● Router offline — local routing'}
+          </span>
         </div>
 
-        {/* Provider List */}
-        <div className="bg-white rounded-lg shadow p-6">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-semibold text-gray-800">
+        {error && (
+          <div className="mb-4 rounded-lg border border-red-500/40 bg-red-500/10 px-4 py-3 text-sm text-red-300">
+            {error}
+          </div>
+        )}
+
+        <div className="rounded-xl border border-slate-700/60 bg-slate-900/60 p-5">
+          <div className="mb-4 flex items-center justify-between">
+            <h2 className="text-lg font-medium text-slate-100">
               Configured Providers
             </h2>
-            <button
-              onClick={fetchProviders}
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-            >
-              Refresh
-            </button>
+            <div className="flex gap-2">
+              <button
+                onClick={fetchProviders}
+                className="rounded-lg border border-slate-600/60 px-3 py-1.5 text-sm text-slate-300 hover:border-slate-400"
+              >
+                Refresh
+              </button>
+              <button
+                onClick={() => setShowAdd((v) => !v)}
+                className="rounded-lg bg-orange-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-orange-500"
+              >
+                {showAdd ? 'Cancel' : 'Add Provider'}
+              </button>
+            </div>
           </div>
 
+          {showAdd && (
+            <div className="mb-5 grid gap-3 rounded-lg border border-slate-700/60 bg-slate-900/80 p-4 sm:grid-cols-2">
+              <input
+                placeholder="Provider name"
+                value={addForm.name}
+                onChange={(e) =>
+                  setAddForm((f) => ({ ...f, name: e.target.value }))
+                }
+                className="rounded-md border border-slate-700 bg-slate-950 px-3 py-2 text-sm text-slate-200 outline-none focus:border-orange-500"
+              />
+              <select
+                value={addForm.type}
+                onChange={(e) =>
+                  setAddForm((f) => ({ ...f, type: e.target.value }))
+                }
+                className="rounded-md border border-slate-700 bg-slate-950 px-3 py-2 text-sm text-slate-200 outline-none focus:border-orange-500"
+              >
+                <option value="api-key">API Key</option>
+                <option value="oauth">OAuth</option>
+                <option value="compatible">Compatible</option>
+              </select>
+              <input
+                placeholder="Endpoint URL"
+                value={addForm.endpoint}
+                onChange={(e) =>
+                  setAddForm((f) => ({ ...f, endpoint: e.target.value }))
+                }
+                className="rounded-md border border-slate-700 bg-slate-950 px-3 py-2 text-sm text-slate-200 outline-none focus:border-orange-500 sm:col-span-2"
+              />
+              <input
+                placeholder="Models (comma-separated)"
+                value={addForm.models}
+                onChange={(e) =>
+                  setAddForm((f) => ({ ...f, models: e.target.value }))
+                }
+                className="rounded-md border border-slate-700 bg-slate-950 px-3 py-2 text-sm text-slate-200 outline-none focus:border-orange-500 sm:col-span-2"
+              />
+              <button
+                onClick={submitProvider}
+                disabled={saving || !addForm.name || !addForm.endpoint}
+                className="rounded-md bg-orange-600 px-4 py-2 text-sm font-medium text-white hover:bg-orange-500 disabled:opacity-40 sm:col-span-2"
+              >
+                {saving ? 'Saving…' : 'Save Provider'}
+              </button>
+            </div>
+          )}
+
           {loading ? (
-            <div className="text-center py-8 text-gray-500">
-              Loading providers...
+            <div className="py-8 text-center text-sm text-slate-500">
+              Loading providers…
             </div>
           ) : providers.length === 0 ? (
-            <div className="text-center py-8 text-gray-500">
-              No providers configured. Add providers through the API Gateway
-              service.
+            <div className="py-8 text-center text-sm text-slate-500">
+              {error
+                ? 'No providers could be loaded.'
+                : 'No providers configured. Add one to get started.'}
             </div>
           ) : (
-            <div className="space-y-4">
+            <div className="space-y-3">
               {providers.map((provider) => (
                 <div
                   key={provider.id}
-                  className="border border-gray-200 rounded-lg p-4 hover:border-blue-300 transition-colors"
+                  className="flex items-start justify-between rounded-lg border border-slate-700/60 bg-slate-900/80 p-4"
                 >
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <h3 className="font-semibold text-gray-900">
-                        {provider.name}
-                      </h3>
-                      <p className="text-sm text-gray-600 mt-1">
-                        Type:{' '}
-                        <span className="font-medium">{provider.type}</span>
-                      </p>
-                      <p className="text-sm text-gray-600">
-                        Endpoint:{' '}
-                        <code className="bg-gray-100 px-2 py-1 rounded">
-                          {provider.endpoint}
-                        </code>
-                      </p>
-                      <div className="mt-2">
-                        <p className="text-sm font-medium text-gray-700 mb-1">
-                          Models:
-                        </p>
-                        <div className="flex flex-wrap gap-2">
-                          {provider.models.map((model) => (
-                            <span
-                              key={model}
-                              className="inline-block bg-gray-100 text-gray-700 px-2 py-1 rounded text-xs"
-                            >
-                              {model}
-                            </span>
-                          ))}
-                        </div>
+                  <div className="min-w-0">
+                    <h3 className="font-medium text-slate-100">
+                      {provider.name}
+                    </h3>
+                    <p className="mt-0.5 text-xs text-slate-400">
+                      {provider.type} ·{' '}
+                      <code className="rounded bg-slate-800 px-1.5 py-0.5 text-[11px]">
+                        {provider.endpoint}
+                      </code>
+                    </p>
+                    {provider.models?.length > 0 && (
+                      <div className="mt-2 flex flex-wrap gap-1.5">
+                        {provider.models.map((model) => (
+                          <span
+                            key={model}
+                            className="rounded bg-slate-800 px-2 py-0.5 text-[11px] text-slate-300"
+                          >
+                            {model}
+                          </span>
+                        ))}
                       </div>
-                    </div>
-                    <div className="ml-4">
-                      <span
-                        className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
-                          provider.status === 'active'
-                            ? 'bg-green-100 text-green-800'
-                            : provider.status === 'inactive'
-                              ? 'bg-gray-100 text-gray-800'
-                              : 'bg-red-100 text-red-800'
-                        }`}
-                      >
-                        {provider.status}
-                      </span>
-                    </div>
+                    )}
                   </div>
+                  <span
+                    className={`ml-4 shrink-0 rounded-full border px-2.5 py-0.5 text-xs font-medium ${statusBadge(provider.status)}`}
+                  >
+                    {provider.status}
+                  </span>
                 </div>
               ))}
             </div>
           )}
-        </div>
-
-        {/* Quick Actions */}
-        <div className="bg-white rounded-lg shadow p-6 mt-6">
-          <h2 className="text-xl font-semibold text-gray-800 mb-4">
-            Quick Actions
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <button
-              className="px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-              onClick={() => console.log('Add provider dialog')}
-            >
-              Add New Provider
-            </button>
-            <button
-              className="px-4 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
-              onClick={() => console.log('Test all providers')}
-            >
-              Test All Providers
-            </button>
-            <button
-              className="px-4 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
-              onClick={() => console.log('View usage stats')}
-            >
-              View Usage Statistics
-            </button>
-          </div>
         </div>
       </div>
     </div>
