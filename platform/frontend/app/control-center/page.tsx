@@ -275,7 +275,7 @@ export default function ControlCenterPage() {
                       ? e.state === 'running'
                         ? 'text-emerald-400'
                         : 'text-amber-400'
-                      : e.state === 'degraded'
+                      : e.state === 'degraded' || e.state === 'unknown'
                         ? 'text-amber-400'
                         : 'text-red-400'
                   }

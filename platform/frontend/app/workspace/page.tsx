@@ -77,9 +77,28 @@ export default function WorkspacePage() {
   const [engines, setEngines] = useState<EngineInfo[]>([]);
 
   useEffect(() => {
-    fetch('/api/engines', { cache: 'no-store' })
+    fetch('/api/control-center/engines?probe=1', { cache: 'no-store' })
       .then((r) => r.json())
-      .then((d) => setEngines(Array.isArray(d?.engines) ? d.engines : []))
+      .then((d) => {
+        const list = (d?.statuses ?? d?.engines ?? []) as Array<{
+          id: string;
+          label: string;
+          port?: number;
+          state?: string;
+          healthOk?: boolean;
+          latencyMs?: number;
+        }>;
+        setEngines(
+          list.map((e) => ({
+            id: e.id,
+            label: e.label,
+            category: 'engine',
+            port: e.port,
+            up: e.healthOk === true || e.state === 'running',
+            latencyMs: e.latencyMs,
+          }))
+        );
+      })
       .catch(() => setEngines([]));
   }, []);
 
