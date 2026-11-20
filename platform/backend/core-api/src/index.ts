@@ -1120,13 +1120,39 @@ export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
 
   // ---------------------------------------------------------------------------
   // Engines — live sidecar/engine state from EngineSupervisor, proxied through
-  // the desktop bridge (engines.* JSON-RPC). Falls back to offline payloads so
-  // the control-center can distinguish "bridge down" from "no engines".
+  // the desktop bridge (engines.* JSON-RPC). When the bridge is offline we fall
+  // back to the static catalog below so UI pages still render the known
+  // services (marked unreachable) instead of an empty list.
   // ---------------------------------------------------------------------------
+  interface KnownEngine {
+    id: string;
+    label: string;
+    port?: number;
+    state: string;
+    healthOk: boolean;
+    lastError?: string;
+    manifest?: { port?: number; healthPath?: string };
+  }
+
+  // Mirrors platform/services/engine-supervisor/src/manifests.ts presets.
+  // Kept here so core-api can render service inventory even without the bridge.
+  const KNOWN_ENGINES: KnownEngine[] = [
+    { id: 'ollama', label: 'Ollama', port: 11434, state: 'unknown', healthOk: false, manifest: { port: 11434, healthPath: '/api/tags' } },
+    { id: '9router', label: '9router / OmniRoute', port: 20128, state: 'unknown', healthOk: false, manifest: { port: 20128, healthPath: '/health' } },
+    { id: 'openclaw', label: 'OpenClaw', port: 18789, state: 'unknown', healthOk: false, manifest: { port: 18789, healthPath: '/health' } },
+    { id: 'openhands', label: 'OpenHands (agentic coding workspace)', port: 3300, state: 'unknown', healthOk: false, manifest: { port: 3300, healthPath: '/health' } },
+    { id: 'langflow', label: 'Langflow', port: 7860, state: 'unknown', healthOk: false, manifest: { port: 7860, healthPath: '/health' } },
+    { id: 'openvscode-server', label: 'Ultra Studio (Code-OSS web IDE, Open VSX)', port: 8443, state: 'unknown', healthOk: false, manifest: { port: 8443, healthPath: '/' } },
+    { id: 'dify', label: 'Dify', port: 5001, state: 'unknown', healthOk: false, manifest: { port: 5001, healthPath: '/health' } },
+    { id: 'n8n', label: 'n8n', port: 5678, state: 'unknown', healthOk: false, manifest: { port: 5678, healthPath: '/healthz' } },
+    { id: 'airllm', label: 'airllm (low-VRAM LLM inference)', port: 8090, state: 'unknown', healthOk: false, manifest: { port: 8090, healthPath: '/health' } },
+    { id: 'open-webui', label: 'Open WebUI (chat surface)', port: 8080, state: 'unknown', healthOk: false, manifest: { port: 8080, healthPath: '/' } },
+  ];
+
   const enginesUnavailable = {
     connected: false,
     bridge: 'offline',
-    engines: [] as unknown[],
+    engines: KNOWN_ENGINES as unknown[],
   };
 
   const engineId = (request: { params: unknown }) =>
@@ -1146,7 +1172,11 @@ export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
       const statuses = await edgeBridge.call<unknown[]>('engines.probeAll');
       return { connected: true, bridge: 'online', statuses };
     } catch {
-      return { connected: false, bridge: 'offline', statuses: [] as unknown[] };
+      return {
+        connected: false,
+        bridge: 'offline',
+        statuses: KNOWN_ENGINES as unknown[],
+      };
     }
   });
 
