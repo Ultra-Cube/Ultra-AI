@@ -105,13 +105,16 @@ services:
       - WEBUI_AUTH=false
       - ENABLE_OLLAMA_API=true
       - WEBUI_NAME=Ultra AI
-      # SSO: platform middleware (ULTRA_WEBUI_SSO=1) injects
-      # x-ultra-user-email / x-ultra-user-name after verifying the core-api
-      # JWT. The trusted-header envs below stay commented until the frontend
-      # is deployed with ULTRA_WEBUI_SSO=1 — enabling WEBUI_AUTH_TRUSTED_*
-      # without enforced middleware would allow header spoofing on :8080.
+      # SSO (verified end-to-end — see docs/OPEN_WEBUI_INTEGRATION.md):
+      # platform middleware (ULTRA_WEBUI_SSO=1) verifies the core-api JWT
+      # and injects x-ultra-user-email/name/role. To activate: set
+      # ULTRA_WEBUI_SSO=1 + ULTRA_AI_JWT_SECRET on the frontend, then set
+      # WEBUI_AUTH=true and uncomment the trusted-header envs below.
+      # Enabling them without enforced middleware would allow header
+      # spoofing on :8080 — keep the port localhost-bound regardless.
       # - WEBUI_AUTH_TRUSTED_EMAIL_HEADER=x-ultra-user-email
       # - WEBUI_AUTH_TRUSTED_NAME_HEADER=x-ultra-user-name
+      # - WEBUI_AUTH_TRUSTED_ROLE_HEADER=x-ultra-user-role
     ports:
       # localhost-only: the Next.js middleware is the auth boundary for
       # /webui/* — publishing :8080 on all interfaces would bypass it.

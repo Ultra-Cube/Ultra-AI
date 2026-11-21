@@ -55,26 +55,58 @@ the platform origin.
   `/api/v1` routes today; if that changes, scope the rewrite or move WebUI
   API under a dedicated prefix (requires WebUI-side support — it has none).
 
-## SSO (groundwork, not yet active)
+## SSO (active, verified end-to-end)
 
-The compose file (`control/config/docker/docker-compose.yml`) has commented
-`WEBUI_AUTH_TRUSTED_EMAIL_HEADER` / `WEBUI_AUTH_TRUSTED_NAME_HEADER` envs.
-Trusted-header SSO requires `WEBUI_AUTH=true` plus a header-injecting
-component:
+Real platform auth exists in core-api (`POST /auth/login` /
+`/auth/register`, HS256 JWT, 12h expiry, secret `ULTRA_AI_JWT_SECRET`).
+The SSO chain is wired and verified live:
 
-1. Ultra-AI platform auth session must exist (not implemented yet — the
-   frontend currently has no auth pages).
-2. `platform/frontend/middleware.ts` + `platform/frontend/app/_lib/webui-sso.ts` now exist: they
-   inject `x-ultra-user-email` / `x-ultra-user-name` on WebUI paths when
-   `ULTRA_WEBUI_SSO=1` and `resolveUltraIdentity()` returns a session.
-   The resolver is a documented seam — replace its dev-env branch with real
-   session verification when platform auth ships.
-3. Uncomment the trusted-header envs, set `WEBUI_AUTH=true`, and set
-   `ULTRA_WEBUI_SSO=1` on the frontend once real identities resolve.
+1. **Login** — `platform/frontend/app/login/page.tsx` posts to
+   `POST /api/auth/login`, which proxies to core-api and stores the JWT in
+   an HttpOnly `ultra_session` cookie (`SameSite=Lax`, 12h). Companion
+   routes: `GET /api/auth/me` (verified identity), `POST /api/auth/logout`.
+2. **Middleware** — `platform/frontend/middleware.ts` +
+   `app/_lib/webui-sso.ts`: when `ULTRA_WEBUI_SSO=1`, the resolver verifies
+   the platform JWT (via `jose`, same `ULTRA_AI_JWT_SECRET`) from the cookie
+   or an `Authorization: Bearer` header, then injects `x-ultra-user-email` /
+   `x-ultra-user-name` / `x-ultra-user-role` on WebUI paths.
+3. **WebUI trusted-header signin** — Open WebUI does NOT auto-auth per
+   request. Its SPA calls `POST /api/v1/auths/signin`; only on that call do
+   the `WEBUI_AUTH_TRUSTED_*` headers matter — WebUI provisions the user
+   (email/name/role) and returns its own session JWT (`auth_method:
+   trusted_header`), which the SPA then uses for all `/api/v1/*` calls.
 
-Until then `WEBUI_AUTH=false` keeps the embedded surface open on the local
-development network only — do not expose port 3000/8080 beyond localhost
-without completing SSO or adding an edge auth layer.
+**Two auth layers — do not conflate them:**
+- Platform session (`ultra_session`) = who you are on Ultra-AI.
+- WebUI session (WebUI JWT) = WebUI's own API credential.
+Middleware therefore: injects trusted headers when a platform identity
+resolves; passes `/api/v1/*`, `/oauth/*`, `/ws/*` through untouched when it
+doesn't (WebUI enforces its own auth — its Bearer tokens are not platform
+JWTs); redirects page/asset paths (`/webui`, `/_app`, `/static`, manifest,
+favicon) to `/login` when unauthenticated.
+
+**Verified live (2026-11-21):** register → `/api/auth/login` sets cookie →
+`/api/auth/me` returns identity → `POST /api/v1/auths/signin` through the
+proxy returns a WebUI token for `sso-test@ultra.local` (role `user`) →
+`GET /api/v1/models` with that token → 200. Without a platform session:
+`/webui` → 307 `/login`, signin → WebUI "no trusted header" rejection.
+
+**Deployment envs:**
+- Frontend: `ULTRA_WEBUI_SSO=1`, `ULTRA_AI_JWT_SECRET` (must equal
+  core-api's secret; `.env.local` carries the dev fallback locally).
+- WebUI container: `WEBUI_AUTH=true` + `WEBUI_AUTH_TRUSTED_EMAIL_HEADER` /
+  `WEBUI_AUTH_TRUSTED_NAME_HEADER` / `WEBUI_AUTH_TRUSTED_ROLE_HEADER`
+  (commented in compose until rollout is intentional).
+
+**Exposure rule:** the `open-webui` port is bound to `127.0.0.1:8080`
+only. Do NOT publish it on all interfaces — direct `:8080` access bypasses
+the Next.js middleware, and trusted-header auth has no proxy check, so
+anyone who can reach the port could spoof `x-ultra-user-*` headers. The
+middleware is the auth boundary; WebUI must stay behind it.
+
+Dev escape hatch: `ULTRA_WEBUI_SSO_DEV_IDENTITY=1` +
+`ULTRA_DEV_SSO_EMAIL` bypasses JWT verification — local testing only,
+never in shared/production environments.
 
 ## Theme
 

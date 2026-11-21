@@ -4,6 +4,7 @@ import {
   resolveUltraIdentity,
   ULTRA_USER_EMAIL_HEADER,
   ULTRA_USER_NAME_HEADER,
+  ULTRA_USER_ROLE_HEADER,
 } from './app/_lib/webui-sso';
 
 /**
@@ -13,25 +14,21 @@ import {
  * Middleware runs before rewrites, so it is the only place that can inject
  * the trusted identity headers WebUI's WEBUI_AUTH_TRUSTED_* mechanism reads.
  *
- * Behaviour:
- *  - ULTRA_WEBUI_SSO != '1'  -> pass-through (WEBUI_AUTH=false dev default).
- *  - ULTRA_WEBUI_SSO = '1'   -> verify the platform JWT (core-api, HS256,
- *    shared ULTRA_AI_JWT_SECRET) from the `ultra_session` cookie or
- *    Authorization header, inject x-ultra-user-* headers; unauthenticated
- *    /api/* calls get 401, page paths redirect to '/'.
+ * WebUI has two auth layers and they must not be conflated:
+ *  - Platform session (`ultra_session` cookie / Bearer platform JWT) —
+ *    verified here; drives trusted-header injection at signin.
+ *  - WebUI session (its own JWT from /api/v1/auths/signin) — enforced by
+ *    WebUI itself on every /api/v1/* call.
+ *
+ * Behaviour when ULTRA_WEBUI_SSO=1:
+ *  - Valid platform identity -> inject x-ultra-user-* headers, pass through.
+ *  - No identity on page/asset paths (/webui, /_app, /static, manifest,
+ *    favicon) -> redirect to /login.
+ *  - No identity on /api/v1/*, /oauth/*, /ws/* -> pass through untouched;
+ *    WebUI's own session auth decides (its 401s are correct, and its
+ *    Bearer tokens are NOT platform JWTs — verifying them here would
+ *    break the WebUI SPA).
  */
-
-const WEBUI_PATHS = [
-  '/webui/:path*',
-  '/_app/:path*',
-  '/static/:path*',
-  '/api/v1/:path*',
-  '/oauth/:path*',
-  '/ws/:path*',
-  '/manifest.json',
-  '/favicon.ico',
-];
-
 export async function middleware(request: NextRequest) {
   if (process.env.ULTRA_WEBUI_SSO !== '1') {
     return NextResponse.next();
@@ -41,19 +38,37 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   if (!identity) {
-    if (pathname.startsWith('/api/')) {
-      return NextResponse.json({ error: 'unauthenticated' }, { status: 401 });
+    const isApiPath =
+      pathname.startsWith('/api/') ||
+      pathname.startsWith('/oauth/') ||
+      pathname.startsWith('/ws/');
+    if (isApiPath) {
+      return NextResponse.next();
     }
-    return NextResponse.redirect(new URL('/', request.url));
+    return NextResponse.redirect(new URL('/login', request.url));
   }
 
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set(ULTRA_USER_EMAIL_HEADER, identity.email);
   requestHeaders.set(ULTRA_USER_NAME_HEADER, identity.name);
+  // WebUI trusted-role header accepts admin|user|pending only.
+  const role = identity.role?.toLowerCase();
+  if (role === 'admin' || role === 'user') {
+    requestHeaders.set(ULTRA_USER_ROLE_HEADER, role);
+  }
 
   return NextResponse.next({ request: { headers: requestHeaders } });
 }
 
 export const config = {
-  matcher: WEBUI_PATHS,
+  matcher: [
+    '/webui/:path*',
+    '/_app/:path*',
+    '/static/:path*',
+    '/api/v1/:path*',
+    '/oauth/:path*',
+    '/ws/:path*',
+    '/manifest.json',
+    '/favicon.ico',
+  ],
 };

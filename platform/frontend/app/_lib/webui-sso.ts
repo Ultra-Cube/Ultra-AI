@@ -21,6 +21,7 @@ import { jwtVerify } from 'jose';
 
 export const ULTRA_USER_EMAIL_HEADER = 'x-ultra-user-email';
 export const ULTRA_USER_NAME_HEADER = 'x-ultra-user-name';
+export const ULTRA_USER_ROLE_HEADER = 'x-ultra-user-role';
 export const SESSION_COOKIE = 'ultra_session';
 
 export interface UltraIdentity {
