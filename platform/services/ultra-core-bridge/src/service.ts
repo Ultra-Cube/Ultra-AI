@@ -45,16 +45,15 @@
  *   BRIDGE_FLUSH_MS     export loop interval (default: 5000; 0 disables loop)
  */
 
-import { createServer, IncomingMessage, ServerResponse } from 'node:http';
 import { randomBytes, generateKeyPairSync } from 'node:crypto';
-import {
-  existsSync,
-  mkdirSync,
-  readFileSync,
-  writeFileSync,
-} from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { createServer, IncomingMessage, ServerResponse } from 'node:http';
 import { hostname } from 'node:os';
 import { join } from 'node:path';
+
+import type { EventSigner } from './signer';
+import type { UltraEventType } from './types';
+
 import {
   createCoreClient,
   createEventSigner,
@@ -68,8 +67,6 @@ import {
   logEvent,
   registerStubHandlers,
 } from './index';
-import type { EventSigner } from './signer';
-import type { UltraEventType } from './types';
 
 // ---------------------------------------------------------------------------
 // signer key persistence (Ed25519; private key stays on this host only)
@@ -81,18 +78,28 @@ interface PersistedSigner {
   publicKeyPem: string;
 }
 
-function loadOrCreateSigner(dataDir: string): { signer: EventSigner; persisted: PersistedSigner } {
+function loadOrCreateSigner(dataDir: string): {
+  signer: EventSigner;
+  persisted: PersistedSigner;
+} {
   const keyPath = join(dataDir, 'signer-key.json');
   if (existsSync(keyPath)) {
     const raw = JSON.parse(readFileSync(keyPath, 'utf8')) as PersistedSigner;
     return {
-      signer: createEventSigner({ privateKeyPem: raw.privateKeyPem, keyId: raw.keyId }),
+      signer: createEventSigner({
+        privateKeyPem: raw.privateKeyPem,
+        keyId: raw.keyId,
+      }),
       persisted: raw,
     };
   }
   const { privateKey, publicKey } = generateKeyPairSync('ed25519');
-  const privateKeyPem = privateKey.export({ format: 'pem', type: 'pkcs8' }).toString();
-  const publicKeyPem = publicKey.export({ format: 'pem', type: 'spki' }).toString();
+  const privateKeyPem = privateKey
+    .export({ format: 'pem', type: 'pkcs8' })
+    .toString();
+  const publicKeyPem = publicKey
+    .export({ format: 'pem', type: 'spki' })
+    .toString();
   const keyId = `ucb-${randomBytes(4).toString('hex')}`;
   const persisted: PersistedSigner = { privateKeyPem, keyId, publicKeyPem };
   writeFileSync(keyPath, JSON.stringify(persisted, null, 2), { mode: 0o600 });
@@ -120,7 +127,9 @@ function readBody(req: IncomingMessage): Promise<string> {
 
 function bearerToken(req: IncomingMessage): string | null {
   const h = req.headers.authorization;
-  return typeof h === 'string' && h.startsWith('Bearer ') ? h.slice(7).trim() : null;
+  return typeof h === 'string' && h.startsWith('Bearer ')
+    ? h.slice(7).trim()
+    : null;
 }
 
 // ---------------------------------------------------------------------------
@@ -219,7 +228,10 @@ async function main(): Promise<void> {
   void flush();
 
   const server = createServer(async (req, res) => {
-    const url = new URL(req.url ?? '/', `http://${req.headers.host ?? 'localhost'}`);
+    const url = new URL(
+      req.url ?? '/',
+      `http://${req.headers.host ?? 'localhost'}`
+    );
     const path = url.pathname;
 
     try {
@@ -260,7 +272,9 @@ async function main(): Promise<void> {
           instance: instanceId,
           count: outbox.list().length,
           chain_ok: chain.ok,
-          ...(chain.ok ? {} : { chain_broken_at: chain.brokenAt, chain_reason: chain.reason }),
+          ...(chain.ok
+            ? {}
+            : { chain_broken_at: chain.brokenAt, chain_reason: chain.reason }),
         });
       }
 
@@ -290,7 +304,10 @@ async function main(): Promise<void> {
 
       if (req.method === 'POST' && path === '/v1/flush') {
         await flush();
-        return send(res, 200, { flushed: true, cursor: exporter.cursor(target.id) });
+        return send(res, 200, {
+          flushed: true,
+          cursor: exporter.cursor(target.id),
+        });
       }
 
       return send(res, 404, { error: 'not found' });

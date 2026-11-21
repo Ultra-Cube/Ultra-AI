@@ -34,7 +34,11 @@
  * pretend the records are ultra-core.callback.v1.
  */
 
-import { verify as cryptoVerify, createPublicKey, KeyObject } from 'node:crypto';
+import {
+  verify as cryptoVerify,
+  createPublicKey,
+  KeyObject,
+} from 'node:crypto';
 import {
   appendFileSync,
   existsSync,
@@ -42,12 +46,12 @@ import {
   readFileSync,
   writeFileSync,
 } from 'node:fs';
-import { dirname, join } from 'node:path';
-import { canonicalize, sha256Hex } from './signer';
+import { join } from 'node:path';
+
+import type { IngestCallbackRecord, UltraCoreClient } from './core-client';
 import type { CallbackHandler, UltraCoreCallback } from './inbound-receiver';
-import type { IngestCallbackRecord } from './core-client';
-import type { UltraCoreClient } from './core-client';
 import { logEvent } from './ops';
+import { canonicalize, sha256Hex } from './signer';
 
 export interface IngestCallbackDeadLetter {
   id?: string;
@@ -85,7 +89,12 @@ export function verifyIngestCallback(
     const key: KeyObject = createPublicKey(publicKeyPem);
     return cryptoVerify(
       null,
-      Buffer.from(ingestCallbackSigningMessage(unsigned as Omit<IngestCallbackRecord, 'sig'>), 'utf8'),
+      Buffer.from(
+        ingestCallbackSigningMessage(
+          unsigned as Omit<IngestCallbackRecord, 'sig'>
+        ),
+        'utf8'
+      ),
       key,
       Buffer.from(sig.value, 'base64url')
     );
@@ -177,7 +186,11 @@ export class IngestCallbackPoller {
     logEvent('warn', 'bridge.callback.dead_letter', { reason, id });
   }
 
-  private async publisherKey(): Promise<{ keyId: string; pem: string; key: KeyObject } | null> {
+  private async publisherKey(): Promise<{
+    keyId: string;
+    pem: string;
+    key: KeyObject;
+  } | null> {
     if (this.key) return this.key;
     if (this.opts.publisherKeyPem) {
       this.key = {
@@ -226,7 +239,11 @@ export class IngestCallbackPoller {
    * Fetch callbacks since the persisted cursor, verify signatures, dedupe,
    * dispatch, and advance the cursor. Safe to call repeatedly.
    */
-  async poll(): Promise<{ fetched: number; accepted: number; rejected: number }> {
+  async poll(): Promise<{
+    fetched: number;
+    accepted: number;
+    rejected: number;
+  }> {
     const key = await this.publisherKey();
     if (!key) return { fetched: 0, accepted: 0, rejected: 0 };
 
@@ -268,7 +285,10 @@ export class IngestCallbackPoller {
     try {
       writeFileSync(
         join(dir, 'callbacks-cursor.json'),
-        JSON.stringify({ since: this.cursor, updated_at: new Date().toISOString() })
+        JSON.stringify({
+          since: this.cursor,
+          updated_at: new Date().toISOString(),
+        })
       );
     } catch {
       // cursor persistence failure is non-fatal; dedupe set still protects

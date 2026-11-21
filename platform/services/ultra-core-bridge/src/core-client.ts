@@ -241,7 +241,10 @@ export class UltraCoreClient {
   }
 
   /** Public key used to verify ingest callback signatures. */
-  async callbackPublicKey(): Promise<{ key_id: string; public_key_pem: string }> {
+  async callbackPublicKey(): Promise<{
+    key_id: string;
+    public_key_pem: string;
+  }> {
     return (await this.request('/v1/callbacks/public-key')) as {
       key_id: string;
       public_key_pem: string;

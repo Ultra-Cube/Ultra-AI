@@ -21,17 +21,22 @@ import { generateKeyPairSync, sign as cryptoSign } from 'node:crypto';
 import { mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
+
+import type { IngestCallbackRecord, UltraCoreClient } from './core-client';
+import type { UltraCoreCallback } from './inbound-receiver';
 import {
   IngestCallbackPoller,
   ingestCallbackSigningMessage,
   verifyIngestCallback,
 } from './ingest-callbacks';
-import type { IngestCallbackRecord, UltraCoreClient } from './core-client';
-import type { UltraCoreCallback } from './inbound-receiver';
 
 /** Build a properly-signed ingest record using a fresh keypair. */
 function signedRecord(
-  kp: { privateKey: import('node:crypto').KeyObject; publicKeyPem: string; keyId: string },
+  kp: {
+    privateKey: import('node:crypto').KeyObject;
+    publicKeyPem: string;
+    keyId: string;
+  },
   over: Record<string, unknown> = {}
 ): { rec: IngestCallbackRecord; publicKeyPem: string } {
   const unsigned = {
@@ -45,9 +50,16 @@ function signedRecord(
     ...over,
   };
   const msg = ingestCallbackSigningMessage(unsigned);
-  const value = cryptoSign(null, Buffer.from(msg, 'utf8'), kp.privateKey).toString('base64url');
+  const value = cryptoSign(
+    null,
+    Buffer.from(msg, 'utf8'),
+    kp.privateKey
+  ).toString('base64url');
   return {
-    rec: { ...unsigned, sig: { alg: 'Ed25519', key_id: kp.keyId, value } } as IngestCallbackRecord,
+    rec: {
+      ...unsigned,
+      sig: { alg: 'Ed25519', key_id: kp.keyId, value },
+    } as IngestCallbackRecord,
     publicKeyPem: kp.publicKeyPem,
   };
 }
@@ -55,7 +67,10 @@ function signedRecord(
 function fakeClient(records: IngestCallbackRecord[], pubPem: string) {
   return {
     listCallbacks: jest.fn(async (since = 0) => records.slice(since)),
-    callbackPublicKey: jest.fn(async () => ({ key_id: 'uc-callback-test', public_key_pem: pubPem })),
+    callbackPublicKey: jest.fn(async () => ({
+      key_id: 'uc-callback-test',
+      public_key_pem: pubPem,
+    })),
   } as unknown as UltraCoreClient;
 }
 
@@ -64,7 +79,9 @@ describe('ingest callback adapter (ultra.callback.v1)', () => {
     const { privateKey, publicKey } = generateKeyPairSync('ed25519');
     return {
       privateKey,
-      publicKeyPem: publicKey.export({ format: 'pem', type: 'spki' }).toString(),
+      publicKeyPem: publicKey
+        .export({ format: 'pem', type: 'spki' })
+        .toString(),
       keyId: 'uc-callback-test',
     };
   })();
@@ -80,9 +97,15 @@ describe('ingest callback adapter (ultra.callback.v1)', () => {
     const dir = mkdtempSync(join(tmpdir(), 'ucb-cb-'));
     const { rec } = signedRecord(kp);
     const client = fakeClient([rec], kp.publicKeyPem);
-    const poller = new IngestCallbackPoller({ client, dataDir: dir, intervalMs: 0 });
+    const poller = new IngestCallbackPoller({
+      client,
+      dataDir: dir,
+      intervalMs: 0,
+    });
     const seen: UltraCoreCallback[] = [];
-    poller.on('credits.balance_changed', (cb) => { seen.push(cb); });
+    poller.on('credits.balance_changed', (cb) => {
+      seen.push(cb);
+    });
 
     const r1 = await poller.poll();
     expect(r1).toEqual({ fetched: 1, accepted: 1, rejected: 0 });
@@ -100,9 +123,16 @@ describe('ingest callback adapter (ultra.callback.v1)', () => {
   it('dead-letters bad signatures and keeps polling', async () => {
     const dir = mkdtempSync(join(tmpdir(), 'ucb-cb-'));
     const { rec } = signedRecord(kp);
-    const forged = { ...rec, sig: { ...rec.sig, value: Buffer.alloc(64).toString('base64url') } };
+    const forged = {
+      ...rec,
+      sig: { ...rec.sig, value: Buffer.alloc(64).toString('base64url') },
+    };
     const client = fakeClient([forged], kp.publicKeyPem);
-    const poller = new IngestCallbackPoller({ client, dataDir: dir, intervalMs: 0 });
+    const poller = new IngestCallbackPoller({
+      client,
+      dataDir: dir,
+      intervalMs: 0,
+    });
 
     const r = await poller.poll();
     expect(r).toEqual({ fetched: 1, accepted: 0, rejected: 1 });
