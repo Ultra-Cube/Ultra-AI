@@ -152,3 +152,12 @@
 - Commits: 2c5911c8 (phase0), a15bd290 + e0170f96 (prior bridge/open-webui proxy work), 71c89e21 (this checkpoint).
 - Remaining: dashboard redesign pass, Open WebUI live embed test, Phase 5 full verification sweep, PNG favicon-16/48 optional, bridge ingest unit test. See RESUME.md.
 - Gates unchanged: QC-P4B-15 needs Ultra-Core URL+creds; G-4.2 needs counsel sign-off.
+
+## 2026-11-21 — Dense-card UI pass + auth/SSO + poller tests
+
+- Auth/SSO (ce467fb5): /login page + /api/auth/{login,logout,me} routes; webui-sso.ts now verifies real HS256 JWTs (jose) from ultra_session cookie or Bearer header against ULTRA_AI_JWT_SECRET; middleware injects trusted headers only post-verification; open-webui compose bound to 127.0.0.1 (middleware is the auth boundary for /webui/*).
+- Dense-card pass (a99789e7): /models provider latency + capability badges; /workspace KPI strip (engines up, avg latency) + per-engine ms; /studio engine status strip with live up/down.
+- ingest-callbacks.test.ts extended to 5 cases: cursor persistence across poller restarts + wildcard listeners/handler-failure isolation. jest 5/5 PASS.
+- Verification: frontend tsc clean, eslint 0 errors (2 pre-existing any-warnings in models page), routes /dashboard /models /workspace /studio HTTP 200.
+- Docker confirmed working via Docker Desktop host integration (WSL socket absent but localhost ports forward): open-webui :8080 healthy, grafana :3001, prometheus :9090 reachable.
+- Gates unchanged: QC-P4B-15 (Ultra-Core URL+creds), G-4.2 (counsel sign-off).
