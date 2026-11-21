@@ -37,11 +37,8 @@ export async function GET() {
     const data = await response.json();
     return NextResponse.json(data);
   } catch (error) {
-    console.error('Failed to fetch providers from gateway:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch providers', providers: [] },
-      { status: 500 }
-    );
+    console.error('Gateway providers unreachable (offline):', error);
+    return NextResponse.json({ providers: [], offline: true });
   }
 }
 

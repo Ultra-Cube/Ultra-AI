@@ -37,10 +37,7 @@ export async function GET() {
     const data = await response.json();
     return NextResponse.json(data);
   } catch (error) {
-    console.error('Failed to check gateway health:', error);
-    return NextResponse.json(
-      { status: 'error', usingNineRouter: false },
-      { status: 500 }
-    );
+    console.error('Gateway health check failed (offline):', error);
+    return NextResponse.json({ status: 'offline', usingNineRouter: false });
   }
 }
