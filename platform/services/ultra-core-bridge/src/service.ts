@@ -169,6 +169,19 @@ async function main(): Promise<void> {
     adminToken: process.env.UCI_ADMIN_TOKEN,
   });
 
+  // Inbound: poll ultra-core-ingest signed callbacks (ultra.callback.v1)
+  // and dispatch to the stub handler registry. BRIDGE_CALLBACK_POLL_MS=0
+  // disables polling.
+  const callbackPollMs = Number(process.env.BRIDGE_CALLBACK_POLL_MS ?? 10_000);
+  const callbackObs = createObservations();
+  const callbackPoller = new IngestCallbackPoller({
+    client,
+    dataDir,
+    intervalMs: callbackPollMs,
+  });
+  registerStubHandlers(callbackPoller, callbackObs);
+  callbackPoller.start();
+
   // Register our producer public key with ingest (idempotent; ignores
   // 'already registered' style failures so restarts are safe).
   try {
@@ -220,6 +233,12 @@ async function main(): Promise<void> {
           records: outbox.list().length,
           cursor: exporter.cursor(target.id),
           pending: outbox.pending(target.id).length,
+          callbacks: {
+            cursor: callbackPoller.cursorPosition,
+            dead_letters: callbackPoller.deadLetterCount,
+            balance_changes: callbackObs.balanceChanges.length,
+            anchor_confirmations: callbackObs.anchorConfirmations.length,
+          },
         });
       }
       if (req.method === 'GET' && path === '/metrics') {
