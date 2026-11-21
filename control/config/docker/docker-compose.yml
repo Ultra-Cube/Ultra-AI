@@ -105,6 +105,12 @@ services:
       - WEBUI_AUTH=false
       - ENABLE_OLLAMA_API=true
       - WEBUI_NAME=Ultra AI
+      # SSO groundwork (trusted-header auto-login): once the platform auth
+      # session exists, Next.js middleware on /webui/* + /api/v1/* injects
+      # these headers and WEBUI_AUTH can be re-enabled. Header names below
+      # must match what the middleware sends.
+      # - WEBUI_AUTH_TRUSTED_EMAIL_HEADER=x-ultra-user-email
+      # - WEBUI_AUTH_TRUSTED_NAME_HEADER=x-ultra-user-name
     ports:
       - "8080:8080"
     volumes:

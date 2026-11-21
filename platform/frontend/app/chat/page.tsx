@@ -24,8 +24,13 @@ import { useEffect, useState } from 'react';
 
 import { Logo, Icon } from '../components/Sidebar';
 
+// Same-origin embed path served by the next.config rewrites → Open WebUI.
+// NEXT_PUBLIC_OPEN_WEBUI_URL still points at the raw container for the
+// health probe and the "Standalone" escape link.
 const OPEN_WEBUI_URL =
   process.env.NEXT_PUBLIC_OPEN_WEBUI_URL ?? 'http://localhost:8080';
+const OPEN_WEBUI_EMBED =
+  process.env.NEXT_PUBLIC_OPEN_WEBUI_EMBED ?? '/webui/';
 
 interface EngineHealth {
   id: string;
@@ -46,7 +51,8 @@ export default function ChatPage() {
         if (alive && d?.engines) setEngines(d.engines);
       })
       .catch(() => {});
-    fetch(OPEN_WEBUI_URL, { mode: 'no-cors' })
+    fetch(`${OPEN_WEBUI_URL}/api/version`, { cache: 'no-store' })
+      .then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
       .then(() => {
         if (alive) setWebuiUp(true);
       })
@@ -110,7 +116,7 @@ export default function ChatPage() {
           </div>
         ) : (
           <iframe
-            src={OPEN_WEBUI_URL}
+            src={OPEN_WEBUI_EMBED}
             title="Open WebUI — Ultra AI"
             className="uai-frame uai-frame-fill"
             allow="microphone; clipboard-read; clipboard-write"
