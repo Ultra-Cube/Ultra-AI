@@ -51,3 +51,12 @@ G-0.7 answered above (class-based). Remaining open: G-1.1…G-1.8, G-2.x, G-3.1,
 
 | QC-P4B-15 | 2026-11-19 | R2 | First live Ultra-Core call + T1 | **Owner: approve live now (Option 1)** — pending base URL + credentials from Ultra-Core team; rollback via ULTRA_CORE_ENABLED=false | Live anchoring irreversible once anchored; contract openapi.yaml v0.1.0-draft is the agreed interface (G-4.1) |
 | G-4.2-dir | 2026-11-19 | R2 | T2 scope while legal opinion pending | **Owner: design T2 fully but DO NOT enable** — spec/design docs only, no on-chain/value code paths activated | Keeps momentum on design while honoring the legal gate |
+
+## MASTER PROMPT v2.0 — setup interview (2026-11-21)
+| ID | Date | Class | Question | Choice | Rationale |
+|----|------|-------|----------|--------|-----------|
+| MP-0.1 | 2026-11-21 | R1 | Run scope | **Full plan (Phases 1–5)** | Owner: "أكملها بالكامل" |
+| MP-0.2 | 2026-11-21 | R1 | External-service posture | **Confirmed default** — internal build; OSS apps as updatable pinned sidecars, never forked | Owner confirmed |
+| MP-0.3 | 2026-11-21 | R2 | Dashboard mount | **Open WebUI at /** — console pages become panels/iframe routes | Owner selected WebUI at root; same-origin /webui/* rewrites already landed in a15bd290 — ADR to reconcile mount topology in Phase 3 |
+| MP-0.4 | 2026-11-21 | R1 | Brand palette | **Locked** dark gray #1a1a1a-family + orange #ff7a00-family | Already in ultra-theme.css; logo per Ultra-Zone-scale dark cube + orange electron dots |
+| MP-0.5 | 2026-11-21 | R2 | Gates unblocked now | **P0-02/15 tag push, QC-P4B-15, P0-18** | Tag baseline/pre-planning-20261111 verified already on origin → P0-02 effectively DONE; P0-15 needs gh/release auth (gh CLI not installed); P0-18 executed (archive+replace); QC-P4B-15 still needs Ultra-Core URL+credentials from owner |
