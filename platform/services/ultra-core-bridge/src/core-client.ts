@@ -112,6 +112,16 @@ export class UltraCoreApiError extends Error {
 
 const PRODUCER_PATHS = new Set(['/v1/ingest/batches', '/v1/keys']);
 
+/** Credit reservation writes are producer routes on the ingest side too. */
+function isProducerPath(path: string, method: string): boolean {
+  if (method === 'GET') return false;
+  if (PRODUCER_PATHS.has(path)) return true;
+  return (
+    path === '/v1/credits/reservations' ||
+    /^\/v1\/credits\/reservations\/[^/]+\/settle$/.test(path)
+  );
+}
+
 export class UltraCoreClient {
   private readonly baseUrl: string;
   private readonly timeoutMs: number;
@@ -132,7 +142,7 @@ export class UltraCoreClient {
   }
 
   private authFor(path: string, method: string): Record<string, string> {
-    const isProducer = method !== 'GET' && PRODUCER_PATHS.has(path);
+    const isProducer = isProducerPath(path, method);
     const t = isProducer ? this.token : this.adminToken;
     return t ? { authorization: `Bearer ${t}` } : {};
   }
