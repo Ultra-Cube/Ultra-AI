@@ -58,12 +58,15 @@ import { join } from 'node:path';
 import {
   createCoreClient,
   createEventSigner,
+  createObservations,
   EventExporter,
   EventOutbox,
   HttpExportTarget,
+  IngestCallbackPoller,
   isValidEventType,
   bridgeMetrics,
   logEvent,
+  registerStubHandlers,
 } from './index';
 import type { EventSigner } from './signer';
 import type { UltraEventType } from './types';

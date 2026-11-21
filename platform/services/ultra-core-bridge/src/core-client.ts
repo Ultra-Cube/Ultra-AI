@@ -90,6 +90,18 @@ export interface CreditReservation {
   approval_ref?: string;
 }
 
+/** ultra.callback.v1 record as emitted by ultra-core-ingest src/callbacks.ts. */
+export interface IngestCallbackRecord {
+  schema: 'ultra.callback.v1';
+  id: string;
+  ts: string;
+  type: string;
+  subject: Record<string, unknown>;
+  payload: Record<string, unknown>;
+  prev_hash: string;
+  sig: { alg: 'Ed25519'; key_id: string; value: string };
+}
+
 export interface RegistryItem {
   id: string;
   kind: 'skill' | 'key' | 'policy' | 'agent';
@@ -218,6 +230,22 @@ export class UltraCoreClient {
     return (await this.request(
       `/v1/instances/${encodeURIComponent(instance)}/head`
     )) as { instance: string; head: string; height?: number };
+  }
+
+  /** Signed outbound callback events emitted by ultra-core-ingest (ultra.callback.v1). */
+  async listCallbacks(since = 0): Promise<IngestCallbackRecord[]> {
+    const body = (await this.request(
+      `/v1/callbacks?since=${encodeURIComponent(String(since))}`
+    )) as { callbacks?: IngestCallbackRecord[] };
+    return body.callbacks ?? [];
+  }
+
+  /** Public key used to verify ingest callback signatures. */
+  async callbackPublicKey(): Promise<{ key_id: string; public_key_pem: string }> {
+    return (await this.request('/v1/callbacks/public-key')) as {
+      key_id: string;
+      public_key_pem: string;
+    };
   }
 
   /** T0: Merkle inclusion proof for an anchored event. 404 throws UltraCoreApiError. */

@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" role="img" aria-label="Ultra AI logo">
+  <defs>
+    <linearGradient id="cubeFace" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#262626"/>
+      <stop offset="1" stop-color="#1a1a1a"/>
+    </linearGradient>
+    <linearGradient id="cubeFaceSide" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#333333"/>
+      <stop offset="1" stop-color="#1f1f1f"/>
+    </linearGradient>
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="2.5" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <!-- cube: top, left, right faces (isometric) -->
+  <polygon points="120,44 188,80 120,116 52,80" fill="url(#cubeFace)" stroke="#3a3a3a" stroke-width="1.5"/>
+  <polygon points="52,80 120,116 120,184 52,148" fill="url(#cubeFaceSide)" stroke="#333333" stroke-width="1.5"/>
+  <polygon points="188,80 120,116 120,184 188,148" fill="#232323" stroke="#3a3a3a" stroke-width="1.5"/>
+  <!-- electron path arcs between faces -->
+  <path d="M88 66 Q120 52 152 66" fill="none" stroke="#ff7a00" stroke-width="2" opacity="0.9" filter="url(#glow)"/>
+  <path d="M64 118 Q92 132 118 118" fill="none" stroke="#ff7a00" stroke-width="1.6" opacity="0.7" filter="url(#glow)"/>
+  <path d="M152 100 Q176 112 176 136" fill="none" stroke="#ff7a00" stroke-width="1.6" opacity="0.7" filter="url(#glow)"/>
+  <!-- electron dots -->
+  <circle cx="88" cy="60" r="4" fill="#ff7a00" filter="url(#glow)"/>
+  <circle cx="120" cy="55" r="5" fill="#ff9a3d" filter="url(#glow)"/>
+  <circle cx="152" cy="60" r="4" fill="#ff7a00" filter="url(#glow)"/>
+  <circle cx="78" cy="126" r="3.5" fill="#ff9a3d" filter="url(#glow)"/>
+  <circle cx="164" cy="124" r="3.5" fill="#ff7a00" filter="url(#glow)"/>
+  <circle cx="176" cy="150" r="4" fill="#ff7a00" filter="url(#glow)"/>
+  <!-- wordmark -->
+  <text x="120" y="212" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="17" font-weight="700" letter-spacing="4" fill="#e6e6e6">ULTRA<tspan fill="#ff7a00">AI</tspan></text>
+</svg>

@@ -30,3 +30,4 @@ export * from './callback-handlers';
 export * from './ops';
 export * from './spending-cap';
 export * from './merkle';
+export * from './ingest-callbacks';

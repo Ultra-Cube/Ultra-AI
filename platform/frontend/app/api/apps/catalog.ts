@@ -42,6 +42,7 @@ const APPS: AppDef[] = [
   { id: "omniroute", name: "OmniRoute", category: "gateway", baseUrl: "http://localhost:20128", healthPath: "/health", embedPath: "/", apiBase: "/v1", requiresConfirm: true, description: "Model routing gateway (provider failover, budgets)" },
   { id: "hermes", name: "Hermes Dashboard", category: "runtime", baseUrl: "http://localhost:9119", healthPath: "/health", embedPath: "/", requiresConfirm: false, description: "Hermes agent runtime control surface" },
   { id: "open-webui", name: "Open WebUI", category: "chat", baseUrl: "http://localhost:8080", healthPath: "/health", embedPath: "/", requiresConfirm: false, description: "Primary chat surface (embedded in /chat)" },
+  { id: "obsidian", name: "Obsidian", category: "runtime", baseUrl: "http://localhost:27123", healthPath: "/", requiresConfirm: false, description: "Knowledge vault via Local REST API plugin" },
 ];
 
 export function getApp(id: string): AppDef | undefined {
