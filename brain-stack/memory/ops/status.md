@@ -137,3 +137,18 @@
 - REAL BUG FOUND+FIXED: /zeroai returned 500s — /api/zeroai/* proxied to :4000 (core-api) which was not running. Started platform/backend/core-api via tsx (health 200); page now renders live state, zero console errors. Note: core-api + next dev are dev-mode processes, not production services.
 - T2 design doc written per owner direction (design, no enable): docs/T2_VALUE_LAYER_DESIGN.md — contract surface draft, component mapping, 5 activation gates, explicit non-goals. G-4.2 remains CLOSED.
 - QC-P4B-15 recorded as ANSWERED (live approved); blocked only on Ultra-Core base URL + credentials supply.
+
+## 2026-11-20 — Master-prompt run: Phase 0-4 partial checkpoint
+
+- Phase 0: MP-0.x setup decisions recorded in decisions/ledger.md; .github/copilot-instructions.md archived; baseline tag pushed.
+- Phase 1: PLAN_RECONCILIATION_2026-11.md refreshed — every prior plan item mapped DONE/PARTIAL/SUPERSEDED/LOST with evidence; P1G console-surfaces section merged so the untracked UI sprint is not dropped.
+- Phase 2 (partial): docs/UPSTREAM_INTEGRATION_INVENTORY.md — sidecar matrix (n8n, Open WebUI, Grafana, OmniRoute, Hermes, Obsidian) with pins/probes/embed URLs.
+- Phase 3 (partial): brand set created — public/brand/logo.svg + favicon.svg + logo.png + favicon-32/180.png (cairosvg). Dark-gray isometric cube, orange glowing electron dots/paths between faces, ULTRA-AI wordmark. Sidebar Logo already matched this language.
+- ADR-003 accepted: Open WebUI = independent updatable sidecar + /chat iframe embed; console pages NOT ported into its tree (preserves upstream updates).
+- Phase 4 (partial): obsidian added to app/api/apps/catalog.ts (Local REST :27123); docs/operations/sidecar-updates.md runbook for all 6 sidecars.
+- ultra-core-bridge: ingest-callbacks.ts wired (createObservations, IngestCallbackPoller, registerStubHandlers); tsc clean, runtime test pending.
+- Palette audit: hex sweep across app/ — palette lock holds (dark grays + orange family); greens/reds are semantic status colors only.
+- Sidecar liveness probe: all external ports (8080/5678/3001/20128/9119/27123) offline — honest offline states confirmed; frontend :3000 responding (307 redirect).
+- Commits: 2c5911c8 (phase0), a15bd290 + e0170f96 (prior bridge/open-webui proxy work), 71c89e21 (this checkpoint).
+- Remaining: dashboard redesign pass, Open WebUI live embed test, Phase 5 full verification sweep, PNG favicon-16/48 optional, bridge ingest unit test. See RESUME.md.
+- Gates unchanged: QC-P4B-15 needs Ultra-Core URL+creds; G-4.2 needs counsel sign-off.
