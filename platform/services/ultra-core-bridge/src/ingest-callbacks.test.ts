@@ -139,4 +139,61 @@ describe('ingest callback adapter (ultra.callback.v1)', () => {
     expect(poller.deadLetterCount).toBe(1);
     rmSync(dir, { recursive: true, force: true });
   });
+
+  it('persists cursor across poller restarts', async () => {
+    const dir = mkdtempSync(join(tmpdir(), 'ucb-cb-'));
+    const { rec } = signedRecord(kp);
+    const client = fakeClient([rec], kp.publicKeyPem);
+
+    const first = new IngestCallbackPoller({
+      client,
+      dataDir: dir,
+      intervalMs: 0,
+    });
+    expect((await first.poll()).accepted).toBe(1);
+    first.stop();
+
+    const second = new IngestCallbackPoller({
+      client,
+      dataDir: dir,
+      intervalMs: 0,
+    });
+    const seen: UltraCoreCallback[] = [];
+    second.on('credits.balance_changed', (cb) => {
+      seen.push(cb);
+    });
+    const r = await second.poll();
+    expect(r.fetched).toBe(0);
+    expect(seen).toHaveLength(0);
+    expect(second.cursorPosition).toBe(1);
+    rmSync(dir, { recursive: true, force: true });
+  });
+
+  it('wildcard listeners receive events and handler errors do not break polling', async () => {
+    const dir = mkdtempSync(join(tmpdir(), 'ucb-cb-'));
+    const { rec: good } = signedRecord(kp, { id: 'cb_good_1' });
+    const { rec: second } = signedRecord(kp, { id: 'cb_good_2' });
+    const client = fakeClient([good, second], kp.publicKeyPem);
+    const poller = new IngestCallbackPoller({
+      client,
+      dataDir: dir,
+      intervalMs: 0,
+    });
+
+    const wild: string[] = [];
+    const typed: string[] = [];
+    poller.on('*', (cb) => {
+      wild.push(cb.callback_id);
+      if (cb.callback_id === 'cb_good_1') throw new Error('boom');
+    });
+    poller.on('credits.balance_changed', (cb) => {
+      typed.push(cb.callback_id);
+    });
+
+    const r = await poller.poll();
+    expect(r).toEqual({ fetched: 2, accepted: 2, rejected: 0 });
+    expect(wild).toEqual(['cb_good_1', 'cb_good_2']);
+    expect(typed).toEqual(['cb_good_1', 'cb_good_2']);
+    rmSync(dir, { recursive: true, force: true });
+  });
 });

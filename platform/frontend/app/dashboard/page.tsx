@@ -64,9 +64,7 @@ const APP_STATUS_COLOR: Record<string, string> = {
 };
 
 function pct(v: number | undefined): string {
-  return typeof v === 'number' && Number.isFinite(v)
-    ? `${v.toFixed(1)}%`
-    : '—';
+  return typeof v === 'number' && Number.isFinite(v) ? `${v.toFixed(1)}%` : '—';
 }
 
 function Icon({ d, size = 16 }: { d: string; size?: number }) {
@@ -401,7 +399,8 @@ export default function DashboardPage() {
             >
               <Icon d={ICONS.bolt} size={16} /> External apps
               <span className="svc-count">
-                {apps.filter((a) => a.status === 'online').length}/{apps.length} up
+                {apps.filter((a) => a.status === 'online').length}/{apps.length}{' '}
+                up
               </span>
             </h3>
             <div className="stack-list">

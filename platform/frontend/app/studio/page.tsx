@@ -140,6 +140,27 @@ export default function StudioPage() {
         <div className="uai-note warn">{engine.lastError}</div>
       )}
 
+      {engine && (
+        <div className="uai-row" style={{ marginBottom: 12 }}>
+          <span className={`dot ${healthy ? 'up' : 'down'}`} />
+          <div style={{ flex: 1 }}>
+            <div className="small" style={{ fontWeight: 600 }}>
+              {ENGINE_ID}
+            </div>
+            <div className="muted small mono">
+              :{port}
+              {engine.startedAt
+                ? ` · up since ${new Date(engine.startedAt).toLocaleTimeString()}`
+                : ''}
+              {' · Code-OSS · Open VSX'}
+            </div>
+          </div>
+          <span className={`badge ${healthy ? 'ok' : 'off'}`}>
+            {engine.state}
+          </span>
+        </div>
+      )}
+
       <div className="uai-frame-wrap">
         {healthy ? (
           <iframe
@@ -150,9 +171,7 @@ export default function StudioPage() {
         ) : (
           <div className="uai-empty" style={{ height: '100%' }}>
             <h2 style={{ marginTop: 0 }}>
-              {connected
-                ? 'Ultra Studio is not running'
-                : 'Supervisor offline'}
+              {connected ? 'Ultra Studio is not running' : 'Supervisor offline'}
             </h2>
             <p className="muted">
               {connected

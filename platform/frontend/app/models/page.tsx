@@ -80,7 +80,9 @@ export default function ModelsPage() {
     fetch('/api/control-center/engines?probe=1', { cache: 'no-store' })
       .then((r) => r.json())
       .then((d) => {
-        const list = (d.statuses?.length ? d.statuses : d.engines || []) as any[];
+        const list = (
+          d.statuses?.length ? d.statuses : d.engines || []
+        ) as any[];
         if (Array.isArray(list) && list.length) {
           setModels(
             list.map((e: any, i: number) => ({
@@ -106,17 +108,31 @@ export default function ModelsPage() {
 
   async function control(id: string, action: 'start' | 'stop' | 'probe') {
     if (pending[id]) return;
-    if (action !== 'probe' && !window.confirm(`${action === 'start' ? 'Start' : 'Stop'} engine "${id}"?`)) return;
+    if (
+      action !== 'probe' &&
+      !window.confirm(
+        `${action === 'start' ? 'Start' : 'Stop'} engine "${id}"?`
+      )
+    )
+      return;
     setPending((p) => ({ ...p, [id]: action }));
     setActionError('');
     try {
-      const res = await fetch(`/api/control-center/engines/${encodeURIComponent(id)}/${action}`, { method: 'POST' });
+      const res = await fetch(
+        `/api/control-center/engines/${encodeURIComponent(id)}/${action}`,
+        { method: 'POST' }
+      );
       const data = await res.json().catch(() => ({}));
-      if (!res.ok) setActionError(data?.error ?? `${action} ${id} failed (${res.status})`);
+      if (!res.ok)
+        setActionError(data?.error ?? `${action} ${id} failed (${res.status})`);
     } catch {
       setActionError('core-api unreachable');
     } finally {
-      setPending((p) => { const n = { ...p }; delete n[id]; return n; });
+      setPending((p) => {
+        const n = { ...p };
+        delete n[id];
+        return n;
+      });
       setTimeout(load, 1200);
     }
   }
@@ -127,6 +143,14 @@ export default function ModelsPage() {
       m.name.toLowerCase().includes(q.toLowerCase())
   );
   const providers = ['all', ...new Set(models.map((m) => m.provider))];
+  const upCount = models.filter((m) => m.status === 'up').length;
+  const downCount = models.filter((m) => m.status === 'down').length;
+  const latencies = models
+    .map((m) => m.latency)
+    .filter((l): l is number => typeof l === 'number');
+  const avgLatency = latencies.length
+    ? Math.round(latencies.reduce((a, b) => a + b, 0) / latencies.length)
+    : null;
 
   return (
     <div className="page">
@@ -137,9 +161,61 @@ export default function ModelsPage() {
             {models.length} engines ·{' '}
             {models.filter((m) => m.status === 'up').length} live
           </p>
-          {actionError && <p className="muted small" style={{ color: '#f87171' }}>{actionError}</p>}
+          {actionError && (
+            <p className="muted small" style={{ color: '#f87171' }}>
+              {actionError}
+            </p>
+          )}
+        </div>
+        <div className="uai-status">
+          <span
+            className={`uai-dot2 ${upCount ? 'ok' : downCount ? 'err' : ''}`}
+          />
+          <span>
+            {upCount}/{models.length} engines up
+            {avgLatency != null ? ` · avg ${avgLatency}ms` : ''}
+          </span>
         </div>
       </header>
+
+      <div className="grid cards-3" style={{ marginBottom: 16 }}>
+        <div className="card" style={{ padding: '12px 16px' }}>
+          <div className="muted small">Engines</div>
+          <strong style={{ fontSize: '1.4rem' }}>{models.length}</strong>
+        </div>
+        <div className="card" style={{ padding: '12px 16px' }}>
+          <div className="muted small">Live</div>
+          <strong
+            style={{
+              fontSize: '1.4rem',
+              color: upCount ? '#3fb950' : undefined,
+            }}
+          >
+            {upCount}
+          </strong>
+        </div>
+        <div className="card" style={{ padding: '12px 16px' }}>
+          <div className="muted small">Down</div>
+          <strong
+            style={{
+              fontSize: '1.4rem',
+              color: downCount ? '#e5534b' : undefined,
+            }}
+          >
+            {downCount}
+          </strong>
+        </div>
+        <div className="card" style={{ padding: '12px 16px' }}>
+          <div className="muted small">Avg latency</div>
+          <strong style={{ fontSize: '1.4rem' }}>
+            {avgLatency != null ? `${avgLatency}ms` : '—'}
+          </strong>
+        </div>
+        <div className="card" style={{ padding: '12px 16px' }}>
+          <div className="muted small">Providers</div>
+          <strong style={{ fontSize: '1.4rem' }}>{providers.length - 1}</strong>
+        </div>
+      </div>
 
       <div className="toolbar">
         <input
@@ -173,20 +249,34 @@ export default function ModelsPage() {
             </div>
             <div className="model-meta">
               <code>{m.id}</code>
-              {m.state && <span className="muted small">{m.state}</span>}
+              {m.state && <span className="badge off">{m.state}</span>}
               {m.latency != null && (
-                <span className="muted small">{m.latency}ms</span>
+                <span className={`badge ${m.status === 'up' ? 'ok' : 'off'}`}>
+                  {m.latency}ms
+                </span>
               )}
             </div>
             <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
               <button
                 className="secondary"
                 disabled={!!pending[m.id]}
-                onClick={() => void control(m.id, m.state === 'running' ? 'stop' : 'start')}
+                onClick={() =>
+                  void control(m.id, m.state === 'running' ? 'stop' : 'start')
+                }
               >
-                {pending[m.id] === 'start' ? 'Starting…' : pending[m.id] === 'stop' ? 'Stopping…' : m.state === 'running' ? 'Stop' : 'Start'}
+                {pending[m.id] === 'start'
+                  ? 'Starting…'
+                  : pending[m.id] === 'stop'
+                    ? 'Stopping…'
+                    : m.state === 'running'
+                      ? 'Stop'
+                      : 'Start'}
               </button>
-              <button className="secondary" disabled={!!pending[m.id]} onClick={() => void control(m.id, 'probe')}>
+              <button
+                className="secondary"
+                disabled={!!pending[m.id]}
+                onClick={() => void control(m.id, 'probe')}
+              >
                 Probe
               </button>
             </div>

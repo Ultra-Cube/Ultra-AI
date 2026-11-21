@@ -59,15 +59,6 @@ const STATUS_BADGE: Record<string, string> = {
   unknown: 'off',
 };
 
-const STATUS_DOT: Record<string, string> = {
-  idle: 'ok',
-  running: 'info',
-  paused: 'warn',
-  error: 'err',
-  stopped: '',
-  unknown: '',
-};
-
 export default function WorkspacePage() {
   const [state, setState] = useState<WorkspaceState | null>(null);
   const [path, setPath] = useState('');
@@ -170,6 +161,11 @@ export default function WorkspacePage() {
   };
 
   const reachable = state?.health.reachable === true;
+  const enginesUp = engines.filter((e) => e.up).length;
+  const activeSessions =
+    state?.sessions.filter((s) =>
+      ['idle', 'running', 'paused'].includes(s.status)
+    ).length ?? 0;
 
   return (
     <div className="page">
@@ -189,6 +185,36 @@ export default function WorkspacePage() {
           </span>
         </div>
       </header>
+
+      <div className="grid cards-3" style={{ marginBottom: 16 }}>
+        <div className="card" style={{ padding: '12px 16px' }}>
+          <div className="muted small">Sessions</div>
+          <strong style={{ fontSize: '1.4rem' }}>
+            {state?.sessions.length ?? '—'}
+          </strong>
+        </div>
+        <div className="card" style={{ padding: '12px 16px' }}>
+          <div className="muted small">Active</div>
+          <strong style={{ fontSize: '1.4rem' }}>{activeSessions}</strong>
+        </div>
+        <div className="card" style={{ padding: '12px 16px' }}>
+          <div className="muted small">Engines up</div>
+          <strong
+            style={{
+              fontSize: '1.4rem',
+              color: enginesUp ? '#3fb950' : undefined,
+            }}
+          >
+            {engines.length ? `${enginesUp}/${engines.length}` : '—'}
+          </strong>
+        </div>
+        <div className="card" style={{ padding: '12px 16px' }}>
+          <div className="muted small">Bridge</div>
+          <strong style={{ fontSize: '1.4rem' }}>
+            {state ? state.bridge : '—'}
+          </strong>
+        </div>
+      </div>
 
       {!state ? (
         <p className="muted">Loading…</p>
@@ -224,11 +250,16 @@ export default function WorkspacePage() {
                 Open
               </button>
             </div>
-            {error && <p style={{ color: '#e5534b', marginTop: 10 }}>{error}</p>}
+            {error && (
+              <p style={{ color: '#e5534b', marginTop: 10 }}>{error}</p>
+            )}
           </section>
 
           <section className="card" style={{ marginBottom: 20 }}>
-            <div className="uai-toolbar" style={{ justifyContent: 'space-between' }}>
+            <div
+              className="uai-toolbar"
+              style={{ justifyContent: 'space-between' }}
+            >
               <h2 className="svc-group-title" style={{ margin: 0 }}>
                 Engines
               </h2>
@@ -242,6 +273,7 @@ export default function WorkspacePage() {
               <div className="grid">
                 {engines.map((e) => (
                   <div key={e.id} className="uai-row">
+                    <span className={`dot ${e.up ? 'up' : 'down'}`} />
                     <div style={{ minWidth: 0 }}>
                       <div className="small" style={{ fontWeight: 600 }}>
                         {e.label}
@@ -249,6 +281,7 @@ export default function WorkspacePage() {
                       <div className="muted small mono">
                         {e.category}
                         {e.port ? ` · :${e.port}` : ''}
+                        {e.latencyMs != null ? ` · ${e.latencyMs}ms` : ''}
                       </div>
                     </div>
                     <span className={`badge ${e.up ? 'ok' : 'off'}`}>
@@ -266,8 +299,8 @@ export default function WorkspacePage() {
             </h2>
             {state.sessions.length === 0 ? (
               <div className="uai-empty">
-                No workspace sessions. Open one above to start an agentic
-                coding session.
+                No workspace sessions. Open one above to start an agentic coding
+                session.
               </div>
             ) : (
               <div>
@@ -278,15 +311,23 @@ export default function WorkspacePage() {
                         <span style={{ fontWeight: 600 }}>
                           {s.title ?? s.workspacePath}
                         </span>
-                        <span className={`badge ${STATUS_BADGE[s.status] ?? 'off'}`}>
+                        <span
+                          className={`badge ${STATUS_BADGE[s.status] ?? 'off'}`}
+                        >
                           {s.status}
                         </span>
                       </div>
-                      <div className="muted small mono" style={{ marginTop: 4 }}>
+                      <div
+                        className="muted small mono"
+                        style={{ marginTop: 4 }}
+                      >
                         {s.workspacePath} · {s.agent} · {s.id}
                       </div>
                       {s.lastError && (
-                        <div className="small" style={{ color: '#e5534b', marginTop: 4 }}>
+                        <div
+                          className="small"
+                          style={{ color: '#e5534b', marginTop: 4 }}
+                        >
                           {s.lastError}
                         </div>
                       )}
