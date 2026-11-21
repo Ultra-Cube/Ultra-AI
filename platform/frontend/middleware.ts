@@ -7,17 +7,18 @@ import {
 } from './app/_lib/webui-sso';
 
 /**
- * Open WebUI SSO groundwork (see docs/OPEN_WEBUI_INTEGRATION.md).
+ * Open WebUI SSO (see docs/OPEN_WEBUI_INTEGRATION.md).
  *
  * The rewrites in next.config.js forward WebUI paths to the container.
  * Middleware runs before rewrites, so it is the only place that can inject
  * the trusted identity headers WebUI's WEBUI_AUTH_TRUSTED_* mechanism reads.
  *
  * Behaviour:
- *  - ULTRA_WEBUI_SSO != '1'  -> pass-through (current default; WEBUI_AUTH=false).
- *  - ULTRA_WEBUI_SSO = '1'   -> inject x-ultra-user-* headers when an identity
- *    resolves; requests without identity are rejected for /api/v1/* and
- *    redirected to '/' for page paths.
+ *  - ULTRA_WEBUI_SSO != '1'  -> pass-through (WEBUI_AUTH=false dev default).
+ *  - ULTRA_WEBUI_SSO = '1'   -> verify the platform JWT (core-api, HS256,
+ *    shared ULTRA_AI_JWT_SECRET) from the `ultra_session` cookie or
+ *    Authorization header, inject x-ultra-user-* headers; unauthenticated
+ *    /api/* calls get 401, page paths redirect to '/'.
  */
 
 const WEBUI_PATHS = [
@@ -31,12 +32,12 @@ const WEBUI_PATHS = [
   '/favicon.ico',
 ];
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   if (process.env.ULTRA_WEBUI_SSO !== '1') {
     return NextResponse.next();
   }
 
-  const identity = resolveUltraIdentity();
+  const identity = await resolveUltraIdentity(request);
   const { pathname } = request.nextUrl;
 
   if (!identity) {
