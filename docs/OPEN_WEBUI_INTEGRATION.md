@@ -64,10 +64,13 @@ component:
 
 1. Ultra-AI platform auth session must exist (not implemented yet — the
    frontend currently has no auth pages).
-2. `platform/frontend/middleware.ts` should inject
-   `x-ultra-user-email` / `x-ultra-user-name` on `/webui/*` and `/api/v1/*`
-   requests for authenticated users.
-3. Uncomment the trusted-header envs and re-enable `WEBUI_AUTH`.
+2. `platform/frontend/middleware.ts` + `platform/frontend/app/_lib/webui-sso.ts` now exist: they
+   inject `x-ultra-user-email` / `x-ultra-user-name` on WebUI paths when
+   `ULTRA_WEBUI_SSO=1` and `resolveUltraIdentity()` returns a session.
+   The resolver is a documented seam — replace its dev-env branch with real
+   session verification when platform auth ships.
+3. Uncomment the trusted-header envs, set `WEBUI_AUTH=true`, and set
+   `ULTRA_WEBUI_SSO=1` on the frontend once real identities resolve.
 
 Until then `WEBUI_AUTH=false` keeps the embedded surface open on the local
 development network only — do not expose port 3000/8080 beyond localhost
