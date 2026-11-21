@@ -49,6 +49,20 @@ interface HostStats {
   uptime?: number;
 }
 
+interface AppStatus {
+  id: string;
+  name: string;
+  category: string;
+  status: 'online' | 'degraded' | 'offline';
+  latencyMs: number | null;
+}
+
+const APP_STATUS_COLOR: Record<string, string> = {
+  online: 'var(--accent)',
+  degraded: 'var(--accent-2)',
+  offline: 'var(--muted)',
+};
+
 function pct(v: number | undefined): string {
   return typeof v === 'number' && Number.isFinite(v)
     ? `${v.toFixed(1)}%`
@@ -105,17 +119,21 @@ export default function DashboardPage() {
   });
   const [loading, setLoading] = useState(true);
   const [lastCheck, setLastCheck] = useState<Date | null>(null);
+  const [apps, setApps] = useState<AppStatus[]>([]);
 
   const refresh = useCallback(async () => {
     try {
-      const [sysRes, engRes] = await Promise.all([
+      const [sysRes, engRes, appsRes] = await Promise.all([
         fetch('/api/system/status', { cache: 'no-store' }),
         fetch('/api/engines', { cache: 'no-store' }),
+        fetch('/api/apps', { cache: 'no-store' }),
       ]);
       const sys = await sysRes.json();
       const eng = await engRes.json();
+      const appsData = await appsRes.json();
       setServices(sys.services ?? []);
       setEngines(eng.engines ?? []);
+      setApps(appsData.apps ?? []);
       if (sys.host) setHost(sys.host);
       setLastCheck(new Date());
     } catch {
@@ -369,6 +387,45 @@ export default function DashboardPage() {
               >
                 n8n ↗
               </a>
+            </div>
+          </div>
+
+          <div className="card" style={{ marginTop: 16 }}>
+            <h3
+              style={{
+                marginTop: 0,
+                display: 'flex',
+                alignItems: 'center',
+                gap: 8,
+              }}
+            >
+              <Icon d={ICONS.bolt} size={16} /> External apps
+              <span className="svc-count">
+                {apps.filter((a) => a.status === 'online').length}/{apps.length} up
+              </span>
+            </h3>
+            <div className="stack-list">
+              {apps.map((a) => (
+                <Link key={a.id} className="list-item" href="/integrations">
+                  <span
+                    className="svc-dot"
+                    style={{
+                      background: APP_STATUS_COLOR[a.status] ?? 'var(--muted)',
+                    }}
+                  />
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ fontWeight: 600 }}>{a.name}</div>
+                    <div className="small muted">{a.category}</div>
+                  </div>
+                  <span className="small muted mono">
+                    {a.status}
+                    {a.latencyMs != null ? ` · ${a.latencyMs}ms` : ''}
+                  </span>
+                </Link>
+              ))}
+              {apps.length === 0 && (
+                <div className="small muted">No apps registered</div>
+              )}
             </div>
           </div>
         </aside>
