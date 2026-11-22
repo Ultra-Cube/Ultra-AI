@@ -161,3 +161,11 @@
 - Verification: frontend tsc clean, eslint 0 errors (2 pre-existing any-warnings in models page), routes /dashboard /models /workspace /studio HTTP 200.
 - Docker confirmed working via Docker Desktop host integration (WSL socket absent but localhost ports forward): open-webui :8080 healthy, grafana :3001, prometheus :9090 reachable.
 - Gates unchanged: QC-P4B-15 (Ultra-Core URL+creds), G-4.2 (counsel sign-off).
+
+## 2026-11-21 (cont.) — Live sidecar verification + branch check
+
+- Branch audit: release/planning-study = 182 ahead / 0 behind origin/master; it is the active integration branch — continue here. Working tree clean except temp sweep script (removed).
+- Route sweep: all 11 pages HTTP 200 (/dashboard /chat /gateway /control-center /brain-stack /automation /integrations /models /workspace /studio /zeroai).
+- /api/apps live probe (core-api :4000 + frontend :3000 running): n8n OFFLINE, grafana ONLINE (22ms), omniroute OFFLINE, hermes OFFLINE, open-webui ONLINE (15ms), obsidian OFFLINE — honest mixed state, no fabrication.
+- ADR-003 embed path verified live: /webui unauthenticated → 307 to /login (middleware boundary working); webui API /api/v1/models → 401 (auth required); direct :8080/ → 200 (sidecar healthy, bound localhost).
+- Next: authenticated /webui session flow needs a login credential to fully verify; docker:dev full-stack bring-up and remaining dense-card pages are the open dev items.
