@@ -31,3 +31,4 @@ export * from './ops';
 export * from './spending-cap';
 export * from './merkle';
 export * from './ingest-callbacks';
+export * from './fabric-client';
