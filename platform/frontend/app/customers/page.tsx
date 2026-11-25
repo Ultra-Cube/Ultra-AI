@@ -68,6 +68,7 @@ export default function CustomersPage() {
   const [sel, setSel] = useState<string | null>(teams[0].id);
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState<Team | null>(null);
+  const [clientDraft, setClientDraft] = useState<Client | null>(null);
 
   useEffect(() => {
     try {
@@ -87,6 +88,22 @@ export default function CustomersPage() {
   }, [clients, teams]);
 
   const current = teams.find((t) => t.id === sel) || null;
+
+  const saveClient = () => {
+    if (!clientDraft) return;
+    setClients((prev) =>
+      prev.some((c) => c.id === clientDraft.id)
+        ? prev.map((c) => (c.id === clientDraft.id ? clientDraft : c))
+        : [...prev, clientDraft]
+    );
+    setClientDraft(null);
+  };
+
+  const deleteClient = (id: string) => {
+    if (!window.confirm('Delete this client? Its teams will be unassigned.')) return;
+    setClients((prev) => prev.filter((c) => c.id !== id));
+    setTeams((prev) => prev.map((t) => (t.client === id ? { ...t, client: '' } : t)));
+  };
 
   const save = () => {
     if (!draft) return;
@@ -135,6 +152,19 @@ export default function CustomersPage() {
         >
           + New Team
         </button>
+        <button
+          className="btn"
+          onClick={() =>
+            setClientDraft({
+              id: `c${Date.now()}`,
+              name: 'New Client',
+              plan: 'standard',
+              teams: 0,
+            })
+          }
+        >
+          + New Client
+        </button>
       </header>
 
       <div className="split">
@@ -145,7 +175,15 @@ export default function CustomersPage() {
               <strong>{c.name}</strong>
               <span className="muted small">
                 {c.plan} · {c.teams} teams
-              </span>
+              </span>{' '}
+              <button
+                className="btn-link muted small"
+                onClick={() =>
+                  setClientDraft({ ...c, teams: teams.filter((t) => t.client === c.id).length })
+                }
+              >
+                edit
+              </button>
             </div>
           ))}
           <h3>Teams</h3>
@@ -293,6 +331,55 @@ export default function CustomersPage() {
           )}
         </section>
       </div>
+
+      {clientDraft && (
+        <div className="uai-modal-backdrop" onClick={() => setClientDraft(null)}>
+          <div className="modal" onClick={(e) => e.stopPropagation()}>
+            <h3>{clients.some((c) => c.id === clientDraft.id) ? 'Edit Client' : 'New Client'}</h3>
+            <label>
+              Name
+              <input
+                value={clientDraft.name}
+                onChange={(e) =>
+                  setClientDraft({ ...clientDraft, name: e.target.value })
+                }
+              />
+            </label>
+            <label>
+              Plan
+              <select
+                value={clientDraft.plan}
+                onChange={(e) =>
+                  setClientDraft({ ...clientDraft, plan: e.target.value })
+                }
+              >
+                {['standard', 'pro', 'enterprise'].map((p) => (
+                  <option key={p} value={p}>
+                    {p}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <div className="modal-actions">
+              {clients.some((c) => c.id === clientDraft.id) && (
+                <button
+                  className="btn"
+                  style={{ color: '#f87171' }}
+                  onClick={() => deleteClient(clientDraft.id)}
+                >
+                  Delete
+                </button>
+              )}
+              <button className="btn" onClick={() => setClientDraft(null)}>
+                Cancel
+              </button>
+              <button className="btn primary" onClick={saveClient}>
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
