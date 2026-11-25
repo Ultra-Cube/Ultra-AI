@@ -1419,3 +1419,30 @@ label.check input {
 .uai-check { display:flex; align-items:center; gap:8px; font-size:12.5px; color:var(--muted); margin-top:10px; }
 .uai-pre { background:#0d0f12; border:1px solid var(--border); border-radius:8px; padding:10px; font-size:11.5px; font-family:var(--font-plex-mono,monospace); overflow:auto; white-space:pre-wrap; word-break:break-all; max-height:220px; margin-top:10px; }
 .uai-empty { text-align:center; padding:32px; }
+
+/* ── Ultra Zone / Rights pages ─────────────────────────────── */
+.uz-brand { display:flex; align-items:center; gap:14px; }
+.uz-brand svg { width:44px; height:44px; }
+.uz-brand h1 { margin:0; font-size:22px; font-weight:650; }
+.uz-hero {
+  display:grid; grid-template-columns:minmax(220px,320px) 1fr;
+  gap:32px; align-items:center;
+  padding:28px 0 8px;
+}
+.uz-cube svg { width:100%; height:auto; filter:drop-shadow(0 0 28px rgba(249,115,22,0.18)); }
+.uz-hero-text h2 { margin:0 0 10px; font-size:24px; font-weight:650; line-height:1.25; }
+.uz-accent { color:var(--accent); }
+.uz-actions { display:flex; gap:10px; margin-top:16px; flex-wrap:wrap; }
+.grid-cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:14px; margin-top:20px; }
+.uz-card { display:flex; flex-direction:column; text-decoration:none; color:var(--ink); }
+.uz-card:hover { border-color:var(--accent); }
+.uz-card h3 { margin:0 0 6px; }
+.uz-card-link { margin-top:auto; padding-top:10px; font-size:12px; color:var(--accent); }
+.uz-links { list-style:none; padding:0; margin:10px 0 0; display:flex; flex-direction:column; gap:8px; font-size:13px; }
+.uz-links li { color:var(--ink); }
+.uz-links a { color:var(--accent); text-decoration:none; }
+.uz-links a:hover { text-decoration:underline; }
+.uz-footer { margin-top:28px; padding-top:16px; border-top:1px solid var(--border); }
+@media (max-width:760px) {
+  .uz-hero { grid-template-columns:1fr; }
+}

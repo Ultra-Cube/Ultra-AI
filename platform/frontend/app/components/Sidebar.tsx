@@ -95,6 +95,7 @@ const SECTIONS: NavSection[] = [
   {
     title: 'Platform',
     items: [
+      { href: '/ultra-zone', label: 'Ultra Zone', icon: 'cube' },
       { href: '/dashboard', label: 'Dashboard', icon: 'gauge' },
       { href: '/brain-stack', label: 'Brain Stack', icon: 'brain' },
       { href: '/models', label: 'Models', icon: 'route' },
@@ -110,6 +111,7 @@ const SECTIONS: NavSection[] = [
     items: [
       { href: '/settings', label: 'Settings', icon: 'wrench' },
       { href: '/about', label: 'About & Credits', icon: 'chart' },
+      { href: '/rights', label: 'Rights & Owner', icon: 'chart' },
     ],
   },
 ];
