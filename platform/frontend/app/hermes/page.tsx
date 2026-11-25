@@ -20,15 +20,17 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 
 /**
- * Hermes — in-app monitoring page.
+ * Hermes — Ultra-AI command dashboard.
  *
- * Gives operators a native view of the observability stack without leaving the
- * platform: stack reachability, headline metrics (request/error rate, p95
- * latency, targets up), and active alerts — with a one-click jump to the full
- * Grafana dashboards. Polls /api/hermes/overview every 10s and degrades
- * gracefully when the (optional) Hermes stack is offline.
+ * The primary operator surface of the platform: Hermes runtime status, the
+ * Prometheus · Grafana · Alertmanager observability stack, headline metrics,
+ * and active alerts — plus quick access to the agent chat, the external-apps
+ * control layer, and the rest of the Ultra-AI portals. Polls
+ * /api/hermes/overview every 10s and degrades gracefully when the (optional)
+ * Hermes stack is offline.
  */
 
 type Overview = {
@@ -57,6 +59,8 @@ type Overview = {
   }>;
 };
 
+type AppStatus = { id: string; name: string; online?: boolean };
+
 function fmtUptime(s: number | null | undefined): string {
   if (s == null) return '—';
   const h = Math.floor(s / 3600);
@@ -71,8 +75,18 @@ function fmt(n: number | null, digits = 2, suffix = ''): string {
   return `${n.toFixed(digits)}${suffix}`;
 }
 
+const QUICK_LINKS: Array<{ href: string; label: string; hint: string }> = [
+  { href: '/hermes/agent', label: 'Hermes Agent', hint: 'AI core chat' },
+  { href: '/models', label: 'Models', hint: 'Engine control' },
+  { href: '/brain-stack', label: 'Brain Stack', hint: 'AI brain map' },
+  { href: '/customers', label: 'Customers', hint: 'Clients & teams' },
+  { href: '/services', label: 'Services', hint: 'Service catalog' },
+  { href: '/integrations', label: 'Integrations', hint: 'External apps' },
+];
+
 export default function HermesPage() {
   const [data, setData] = useState<Overview | null>(null);
+  const [apps, setApps] = useState<AppStatus[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -88,11 +102,24 @@ export default function HermesPage() {
         if (active) setLoading(false);
       }
     };
+    const loadApps = async () => {
+      try {
+        const res = await fetch('/api/apps', { cache: 'no-store' });
+        const json = await res.json();
+        const list = (json?.apps ?? json ?? []) as AppStatus[];
+        if (active) setApps(Array.isArray(list) ? list : []);
+      } catch {
+        /* catalog optional */
+      }
+    };
     load();
+    loadApps();
     const interval = setInterval(load, 10000);
+    const appsInterval = setInterval(loadApps, 30000);
     return () => {
       active = false;
       clearInterval(interval);
+      clearInterval(appsInterval);
     };
   }, []);
 
@@ -108,26 +135,50 @@ export default function HermesPage() {
       ]
     : [];
 
+  const onlineApps = apps.filter((a) => a.online).length;
+
   return (
     <div className="hermes-page">
       <div className="hermes-header">
         <div>
-          <p className="kicker">📡 Monitoring</p>
-          <h1>Hermes Observability</h1>
+          <p className="kicker">◆ Ultra AI Command</p>
+          <h1>Hermes Dashboard</h1>
           <p className="muted">
-            Live view of the Prometheus · Grafana · Alertmanager stack that
-            scrapes the Ultra-AI platform.
+            Central control surface — Hermes runtime, observability stack, and
+            every Ultra-AI portal in one view.
           </p>
         </div>
-        <a
-          className="hermes-grafana-btn"
-          href={GRAFANA_URL}
-          target="_blank"
-          rel="noreferrer"
-        >
-          Open Grafana Dashboards ↗
-        </a>
+        <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap' }}>
+          <Link className="hermes-grafana-btn" href="/hermes/agent">
+            Talk to Hermes →
+          </Link>
+          <a
+            className="hermes-grafana-btn"
+            href={GRAFANA_URL}
+            target="_blank"
+            rel="noreferrer"
+          >
+            Open Grafana ↗
+          </a>
+        </div>
       </div>
+
+      {/* Portal quick links */}
+      <section className="hermes-stack" aria-label="Ultra-AI portals">
+        {QUICK_LINKS.map((l) => (
+          <Link
+            key={l.href}
+            href={l.href}
+            className="hermes-stack-card"
+            style={{ textDecoration: 'none', color: 'inherit' }}
+          >
+            <div>
+              <strong>{l.label}</strong>
+              <p className="muted">{l.hint}</p>
+            </div>
+          </Link>
+        ))}
+      </section>
 
       {!loading && data && !data.reachable && (
         <div className="hermes-offline card">
@@ -162,6 +213,17 @@ export default function HermesPage() {
             </div>
           </div>
         ))}
+        {apps.length > 0 && (
+          <div className="hermes-stack-card up">
+            <span className="dot" />
+            <div>
+              <strong>External Apps</strong>
+              <p className="muted">
+                {onlineApps}/{apps.length} online — via /apps control layer
+              </p>
+            </div>
+          </div>
+        )}
       </section>
 
       {/* Data-source badge — honest about where the numbers come from */}
@@ -216,6 +278,10 @@ export default function HermesPage() {
               ? fmtUptime(data.metrics.uptimeSeconds)
               : fmt(data?.metrics.targetsUp ?? null, 0)}
           </strong>
+        </div>
+        <div className="metric-card">
+          <span className="metric-label">Memory</span>
+          <strong>{fmt(data?.metrics.memoryMB ?? null, 0, ' MB')}</strong>
         </div>
       </section>
 
