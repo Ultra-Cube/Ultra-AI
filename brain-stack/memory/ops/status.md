@@ -169,3 +169,12 @@
 - /api/apps live probe (core-api :4000 + frontend :3000 running): n8n OFFLINE, grafana ONLINE (22ms), omniroute OFFLINE, hermes OFFLINE, open-webui ONLINE (15ms), obsidian OFFLINE — honest mixed state, no fabrication.
 - ADR-003 embed path verified live: /webui unauthenticated → 307 to /login (middleware boundary working); webui API /api/v1/models → 401 (auth required); direct :8080/ → 200 (sidecar healthy, bound localhost).
 - Next: authenticated /webui session flow needs a login credential to fully verify; docker:dev full-stack bring-up and remaining dense-card pages are the open dev items.
+
+## 2026-11-21 — Master Plan v3.0: P0 + G0 complete
+
+- Plan doc: docs/planning/ULTRA_AI_MASTER_PLAN_V3.md (English, phase-numbered P0–P6, gates G0–G6, Mermaid diagrams, agent prompts).
+- Memory registry: brain-stack/memory/planning/phases-v3.md; master prompt: brain-stack/prompts/ultra-ai-master-v3.md.
+- P0 audits: docs/audit/{prior-plans-inventory,diagrams-audit,conflict-register,branch-decision}.md + heartbeat/2026-11-21-v3-p0.md.
+- Branch decision: CONTINUE release/planning-study (206 ahead / 0 behind origin/master). C-015 dirty submodule pointers flagged for review before commits.
+- G0 gate: PASS (docs/audit/g0-gate-report.md). Open conflicts routed: C-002/C-008/C-011/C-014 → P2; C-012/C-013 owner-blocked.
+- Next: P1 workflow verification (per-page functional + auth flow sweep).
