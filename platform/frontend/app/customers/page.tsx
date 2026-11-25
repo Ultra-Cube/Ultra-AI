@@ -364,7 +364,7 @@ export default function CustomersPage() {
               {clients.some((c) => c.id === clientDraft.id) && (
                 <button
                   className="btn"
-                  style={{ color: '#f87171' }}
+                  style={{ color: 'var(--bad)' }}
                   onClick={() => deleteClient(clientDraft.id)}
                 >
                   Delete

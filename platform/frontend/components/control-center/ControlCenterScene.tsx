@@ -58,9 +58,9 @@ export type SceneNode = {
 };
 
 function usageColor(v: number): string {
-  if (v < 60) return '#34d399';
+  if (v < 60) return '#3fb950';
   if (v < 85) return '#fbbf24';
-  return '#f87171';
+  return '#e5534b';
 }
 
 function buildNodes(
@@ -103,7 +103,7 @@ function buildNodes(
       kind: 'service',
       position: [Math.cos(angle) * 2.6, -0.4, Math.sin(angle) * 2.6],
       value: up ? 100 : 0,
-      color: up ? '#fdba74' : '#f87171',
+      color: up ? '#fbbf24' : '#e5534b',
       detail: `${s.label}: ${up ? 'UP' : 'DOWN'} (${s.latencyMs}ms) — ${s.url}`,
     });
   });
@@ -200,7 +200,7 @@ export default function ControlCenterScene({
       }}
     >
       <ambientLight intensity={0.5} />
-      <pointLight position={[6, 8, 6]} intensity={60} color="#fdba74" />
+      <pointLight position={[6, 8, 6]} intensity={60} color="#fbbf24" />
       <pointLight position={[-6, 4, -4]} intensity={30} color="#f97316" />
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -2.2, 0]}>
         <ringGeometry args={[2.2, 4.4, 64]} />

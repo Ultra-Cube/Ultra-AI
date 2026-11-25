@@ -162,7 +162,7 @@ export default function ModelsPage() {
             {models.filter((m) => m.status === 'up').length} live
           </p>
           {actionError && (
-            <p className="muted small" style={{ color: '#f87171' }}>
+            <p className="muted small" style={{ color: 'var(--bad)' }}>
               {actionError}
             </p>
           )}
@@ -188,7 +188,7 @@ export default function ModelsPage() {
           <strong
             style={{
               fontSize: '1.4rem',
-              color: upCount ? '#3fb950' : undefined,
+              color: upCount ? 'var(--ok)' : undefined,
             }}
           >
             {upCount}
@@ -199,7 +199,7 @@ export default function ModelsPage() {
           <strong
             style={{
               fontSize: '1.4rem',
-              color: downCount ? '#e5534b' : undefined,
+              color: downCount ? 'var(--bad)' : undefined,
             }}
           >
             {downCount}

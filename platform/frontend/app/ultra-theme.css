@@ -32,6 +32,9 @@
   --accent-2: #fbbf24;
   --ring: rgba(249, 115, 22, 0.45);
   --border: rgba(255, 255, 255, 0.08);
+  --ok: #3fb950;
+  --warn: #fbbf24;
+  --bad: #e5534b;
 }
 
 body {

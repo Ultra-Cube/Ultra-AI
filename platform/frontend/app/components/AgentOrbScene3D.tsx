@@ -46,11 +46,11 @@ export type SceneAgent = {
 };
 
 const STATUS_COLOR: Record<string, string> = {
-  active: '#35d98a',
+  active: '#3fb950',
   busy: '#fbbf24',
   idle: '#fbbf24',
   offline: '#5b6684',
-  suspended: '#fb6a6a',
+  suspended: '#e5534b',
 };
 
 const ACCENT = '#f97316';
@@ -306,7 +306,7 @@ export default function AgentOrbScene3D({
         <directionalLight
           position={[5, 8, 5]}
           intensity={1.1}
-          color="#fdba74"
+          color="#fbbf24"
         />
         <directionalLight
           position={[-6, -3, -4]}

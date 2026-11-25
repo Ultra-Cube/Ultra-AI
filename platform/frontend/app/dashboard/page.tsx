@@ -244,7 +244,7 @@ export default function DashboardPage() {
                 fontSize: 22,
                 fontWeight: 700,
                 marginTop: 6,
-                color: m.warn ? '#e5534b' : 'inherit',
+                color: m.warn ? 'var(--bad)' : 'inherit',
               }}
             >
               {m.value}
@@ -257,7 +257,7 @@ export default function DashboardPage() {
       {offline.length > 0 && (
         <div
           className="card"
-          style={{ borderLeft: '3px solid #e5534b', marginBottom: 20 }}
+          style={{ borderLeft: '3px solid var(--bad)', marginBottom: 20 }}
         >
           <strong>
             Attention — {offline.length} service{offline.length > 1 ? 's' : ''}{' '}

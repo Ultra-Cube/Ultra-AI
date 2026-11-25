@@ -202,7 +202,7 @@ export default function WorkspacePage() {
           <strong
             style={{
               fontSize: '1.4rem',
-              color: enginesUp ? '#3fb950' : undefined,
+              color: enginesUp ? 'var(--ok)' : undefined,
             }}
           >
             {engines.length ? `${enginesUp}/${engines.length}` : '—'}
@@ -251,7 +251,7 @@ export default function WorkspacePage() {
               </button>
             </div>
             {error && (
-              <p style={{ color: '#e5534b', marginTop: 10 }}>{error}</p>
+              <p style={{ color: 'var(--bad)', marginTop: 10 }}>{error}</p>
             )}
           </section>
 
@@ -326,7 +326,7 @@ export default function WorkspacePage() {
                       {s.lastError && (
                         <div
                           className="small"
-                          style={{ color: '#e5534b', marginTop: 4 }}
+                          style={{ color: 'var(--bad)', marginTop: 4 }}
                         >
                           {s.lastError}
                         </div>

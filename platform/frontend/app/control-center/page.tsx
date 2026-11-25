@@ -188,7 +188,7 @@ export default function ControlCenterPage() {
                   kind: k as NodeKind,
                   label,
                   value: v,
-                  color: '#fbbf24',
+                  color: 'var(--warn)',
                   detail: `${label} usage: ${v.toFixed(1)}%`,
                   position: [0, 1.6, -4.5],
                 };
@@ -222,7 +222,7 @@ export default function ControlCenterPage() {
                 kind: 'service',
                 label: s.label,
                 value: s.status === 'up' ? 100 : 0,
-                color: s.status === 'up' ? '#fdba74' : '#f87171',
+                color: s.status === 'up' ? 'var(--warn)' : 'var(--bad)',
                 detail: `${s.label}: ${s.status.toUpperCase()} (${s.latencyMs}ms) — ${s.url}`,
                 position: [0, -0.4, -2.6],
               };
@@ -260,7 +260,7 @@ export default function ControlCenterPage() {
                     kind: 'service',
                     label: e.label,
                     value: healthy ? 100 : 0,
-                    color: healthy ? '#34d399' : '#f87171',
+                    color: healthy ? 'var(--ok)' : 'var(--bad)',
                     detail: `${e.label}: ${e.state.toUpperCase()}${e.port ? ` :${e.port}` : ''}${e.lastError ? ` — ${e.lastError}` : ''}`,
                     position: [0, -0.4, -2.6],
                   };
