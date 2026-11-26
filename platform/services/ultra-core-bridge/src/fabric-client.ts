@@ -78,7 +78,7 @@ export class FabricGatewayApiError extends Error {
   constructor(
     public readonly status: number,
     public readonly body: unknown,
-    message?: string,
+    message?: string
   ) {
     super(message ?? `fabric-gateway error ${status}`);
     this.name = 'FabricGatewayApiError';
@@ -111,7 +111,7 @@ export class FabricAssetsClient {
       throw new FabricGatewayApiError(
         0,
         null,
-        'fabric-gateway client is read-only (ULTRA_CORE_READ_ONLY); asset mutations refused',
+        'fabric-gateway client is read-only (ULTRA_CORE_READ_ONLY); asset mutations refused'
       );
     }
     const headers: Record<string, string> = {
@@ -158,47 +158,47 @@ export class FabricAssetsClient {
 
   async getAsset(id: string): Promise<FabricAsset> {
     return (await this.request(
-      `/v1/assets/${encodeURIComponent(id)}`,
+      `/v1/assets/${encodeURIComponent(id)}`
     )) as FabricAsset;
   }
 
   async balanceOf(id: string): Promise<number> {
     const body = (await this.request(
-      `/v1/assets/${encodeURIComponent(id)}/balance`,
+      `/v1/assets/${encodeURIComponent(id)}/balance`
     )) as { balance?: number };
     return body.balance ?? 0;
   }
 
   async spend(
     id: string,
-    input: { amount: number; reference: string },
+    input: { amount: number; reference: string }
   ): Promise<FabricAsset> {
-    return (await this.request(
-      `/v1/assets/${encodeURIComponent(id)}/spend`,
-      { method: 'POST', body: JSON.stringify(input) },
-    )) as FabricAsset;
+    return (await this.request(`/v1/assets/${encodeURIComponent(id)}/spend`, {
+      method: 'POST',
+      body: JSON.stringify(input),
+    })) as FabricAsset;
   }
 
   async revoke(
     id: string,
-    input: { reason?: string } = {},
+    input: { reason?: string } = {}
   ): Promise<FabricAsset> {
-    return (await this.request(
-      `/v1/assets/${encodeURIComponent(id)}/revoke`,
-      { method: 'POST', body: JSON.stringify(input) },
-    )) as FabricAsset;
+    return (await this.request(`/v1/assets/${encodeURIComponent(id)}/revoke`, {
+      method: 'POST',
+      body: JSON.stringify(input),
+    })) as FabricAsset;
   }
 
   async history(id: string): Promise<FabricAssetEvent[]> {
     const body = (await this.request(
-      `/v1/assets/${encodeURIComponent(id)}/history`,
+      `/v1/assets/${encodeURIComponent(id)}/history`
     )) as { history?: FabricAssetEvent[] };
     return body.history ?? [];
   }
 }
 
 export function createFabricAssetsClient(
-  options?: FabricAssetsClientOptions,
+  options?: FabricAssetsClientOptions
 ): FabricAssetsClient {
   return new FabricAssetsClient(options);
 }

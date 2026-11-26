@@ -37,7 +37,8 @@
     "redis": "^4.7.1",
     "uuid": "^9.0.1",
     "winston": "^3.19.0",
-    "ws": "^8.18.0"
+    "ws": "^8.18.0",
+    "@ultra-ai/hermes-runtime": "*"
   },
   "devDependencies": {
     "@types/jest": "^29.5.0",

@@ -17,13 +17,13 @@
 // ║                                                                          ║
 // ╚══════════════════════════════════════════════════════════════════════════╝
 
-import {
-  FabricAssetsClient,
-  FabricGatewayApiError,
-} from './fabric-client';
+import { FabricAssetsClient, FabricGatewayApiError } from './fabric-client';
 
 function mockFetch(
-  handler: (url: string, init?: RequestInit) => { status?: number; body?: unknown },
+  handler: (
+    url: string,
+    init?: RequestInit
+  ) => { status?: number; body?: unknown }
 ): typeof fetch {
   return (async (url: unknown, init?: RequestInit) => {
     const { status = 200, body = {} } = handler(String(url), init);
@@ -78,7 +78,8 @@ describe('FabricAssetsClient', () => {
       baseUrl: 'http://gw.test',
       token: 'tok',
       fetchImpl: mockFetch((url) => {
-        if (url.endsWith('/balance')) return { body: { id: 'cr-1', balance: 70 } };
+        if (url.endsWith('/balance'))
+          return { body: { id: 'cr-1', balance: 70 } };
         if (url.endsWith('/history'))
           return { body: { id: 'cr-1', history: [{ asset, txId: 'tx1' }] } };
         return { status: 404, body: { error: 'nf' } };
@@ -110,7 +111,7 @@ describe('FabricAssetsClient', () => {
       })),
     });
     await expect(client.balanceOf('cr-1')).rejects.toBeInstanceOf(
-      FabricGatewayApiError,
+      FabricGatewayApiError
     );
     await expect(client.balanceOf('cr-1')).rejects.toMatchObject({
       status: 401,
@@ -125,10 +126,10 @@ describe('FabricAssetsClient', () => {
       fetchImpl: mockFetch(() => ({ body: asset })),
     });
     await expect(
-      client.issue({ id: 'x', owner: 'o', amount: 1 }),
+      client.issue({ id: 'x', owner: 'o', amount: 1 })
     ).rejects.toMatchObject({ status: 0 });
     await expect(
-      client.spend('x', { amount: 1, reference: 'r' }),
+      client.spend('x', { amount: 1, reference: 'r' })
     ).rejects.toBeInstanceOf(FabricGatewayApiError);
     // reads still allowed
     await expect(client.balanceOf('x')).resolves.toBeDefined();
@@ -140,8 +141,7 @@ describe('FabricAssetsClient', () => {
       token: 'tok',
       fetchImpl: mockFetch((url) => {
         if (url.endsWith('/healthz')) return { body: { status: 'ok' } };
-        if (url.endsWith('/readyz'))
-          return { body: { fabric: { ok: true } } };
+        if (url.endsWith('/readyz')) return { body: { fabric: { ok: true } } };
         return { status: 404 };
       }),
     });

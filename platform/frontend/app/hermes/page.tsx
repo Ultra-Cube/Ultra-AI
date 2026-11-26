@@ -19,8 +19,8 @@
 
 'use client';
 
-import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 /**
  * Hermes — Ultra-AI command dashboard.
@@ -61,6 +61,16 @@ type Overview = {
 
 type AppStatus = { id: string; name: string; online?: boolean };
 
+type AgentTeam = {
+  id: string;
+  displayName: string;
+  role: string;
+  trigger: string;
+  deliverable: string;
+  engine: 'hermes' | 'openclaw' | 'n8n';
+  n8nWorkflow: string;
+};
+
 function fmtUptime(s: number | null | undefined): string {
   if (s == null) return '—';
   const h = Math.floor(s / 3600);
@@ -87,6 +97,7 @@ const QUICK_LINKS: Array<{ href: string; label: string; hint: string }> = [
 export default function HermesPage() {
   const [data, setData] = useState<Overview | null>(null);
   const [apps, setApps] = useState<AppStatus[]>([]);
+  const [teams, setTeams] = useState<AgentTeam[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -112,14 +123,27 @@ export default function HermesPage() {
         /* catalog optional */
       }
     };
+    const loadTeams = async () => {
+      try {
+        const res = await fetch('/api/hermes/teams', { cache: 'no-store' });
+        const json = await res.json();
+        const list = (json?.teams ?? []) as AgentTeam[];
+        if (active) setTeams(Array.isArray(list) ? list : []);
+      } catch {
+        /* roster is static, non-blocking */
+      }
+    };
     load();
     loadApps();
+    loadTeams();
     const interval = setInterval(load, 10000);
     const appsInterval = setInterval(loadApps, 30000);
+    const teamsInterval = setInterval(loadTeams, 60000);
     return () => {
       active = false;
       clearInterval(interval);
       clearInterval(appsInterval);
+      clearInterval(teamsInterval);
     };
   }, []);
 
@@ -284,6 +308,27 @@ export default function HermesPage() {
           <strong>{fmt(data?.metrics.memoryMB ?? null, 0, ' MB')}</strong>
         </div>
       </section>
+
+      {/* Agent teams (R9) */}
+      {teams.length > 0 && (
+        <section className="hermes-alerts card">
+          <h2>Agent Teams</h2>
+          <ul className="alert-list">
+            {teams.map((t) => (
+              <li key={t.id} className="alert-row sev-none">
+                <span className="alert-sev">{t.engine}</span>
+                <div>
+                  <strong>{t.displayName}</strong>
+                  <p className="muted">
+                    {t.role} · {t.trigger} · {t.n8nWorkflow}
+                  </p>
+                  <p className="muted">{t.deliverable}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       {/* Active alerts */}
       <section className="hermes-alerts card">
