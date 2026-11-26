@@ -133,10 +133,21 @@ not env). Both reach the container via `host.docker.internal`:
 
 | Provider | URL | Model ids | Upstream |
 |---|---|---|---|
-| OmniRoute | `http://host.docker.internal:20128/v1` | `auto/*` combos (~100) | gateway `external/github-forks/OmniRoute` (webpack dev mode; better-sqlite3 rebuilt for Node 24 — see note below) |
+| OmniRoute | `http://host.docker.internal:20128/v1` | `auto/*` combos (~100) + `ollama-local/*`, `ollama/*`, `hermes` | gateway `external/github-forks/OmniRoute` (webpack dev mode; better-sqlite3 rebuilt for Node 24 — see note below) |
 | Hermes bridge | `http://host.docker.internal:8642/v1` | `hermes` | `platform/services/hermes-openai-bridge` (`HERMES_UPSTREAM_URL` decides the real backend; MockProvider default) |
 
-Verified live: `GET /api/v1/models` lists 100 models including `hermes`.
+OmniRoute connection `ollama-local` (id `471c57e1-15c1-464b-82dc-1c3fde53e31e`)
+points at Windows Ollama via `http://172.19.144.1:11434/v1` (WSL→Windows host
+gateway). Synced models: `llama3.2:1b` (working), plus stale
+`deepseek-v4-flash:cloud` (retired upstream, HTTP 410) and `gemma4:latest`
+(needs 7.1 GiB GPU, only 6.8 available). Re-sync after pulling new Ollama
+models: `POST /api/providers/{id}/sync-models`.
+
+Verified live end-to-end: `POST /api/chat/completions` with
+`ollama-local/llama3.2:1b` returns a real completion ("PONG.") through
+WebUI → OmniRoute → Windows Ollama. `hermes` model is listed but its
+upstream combo pool is exhausted (OmniRoute 503) until real providers are
+configured — tracked under R5.
 
 **OmniRoute launch note (R25):** dev server must run with webpack —
 `turbopack` breaks `better-sqlite3` (`MODULE_NOT_FOUND ./db/omp` →
