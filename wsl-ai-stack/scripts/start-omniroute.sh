@@ -58,7 +58,8 @@ main() {
   fi
 
   echo "[OK] Starting OmniRoute on http://127.0.0.1:$PORT (log: $LOG_FILE)"
-  nohup npm run dev >"$LOG_FILE" 2>&1 &
+  # setsid + full fd detach so the server survives this launcher exiting
+  setsid nohup npm run dev >"$LOG_FILE" 2>&1 < /dev/null &
   echo "[PID] $!"
 }
 
