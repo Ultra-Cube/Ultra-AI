@@ -122,7 +122,7 @@ export type {
 } from './memory/memory';
 
 // Skills
-export { SkillRegistry } from './skills/skills';
+export { SkillRegistry, loadSkillsFromDirectory } from './skills/skills';
 export type { SkillDefinition } from './skills/skills';
 
 // Reasoning

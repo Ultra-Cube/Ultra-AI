@@ -120,7 +120,8 @@ function safeRelId(raw: string): string | null {
 async function readFrontmatter(file: string): Promise<Record<string, string>> {
   try {
     const raw = await fs.readFile(file, 'utf8');
-    const m = raw.match(/^---\r?\n([\s\S]*?)\r?\n---/);
+    const stripped = raw.replace(/^(?:<!--[\s\S]*?-->\s*)+/, '');
+    const m = stripped.match(/^---\r?\n([\s\S]*?)\r?\n---/);
     const out: Record<string, string> = {};
     if (m) {
       for (const line of m[1].split(/\r?\n/)) {

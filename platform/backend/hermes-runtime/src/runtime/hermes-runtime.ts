@@ -25,7 +25,9 @@
  * provider/engine implementations plug in via the adapter contracts.
  */
 
+import { existsSync } from 'node:fs';
 import { randomUUID } from 'node:crypto';
+import path from 'node:path';
 
 import type {
   EngineAdapter,
@@ -38,7 +40,7 @@ import { InMemoryMemoryStore } from '../memory/memory';
 import type { MemoryStore } from '../memory/memory';
 import { ReActReasoner, ReasonerEngineAdapter } from '../reasoning/reasoner';
 import type { Reasoner } from '../reasoning/reasoner';
-import { SkillRegistry } from '../skills/skills';
+import { loadSkillsFromDirectory, SkillRegistry } from '../skills/skills';
 import type {
   AgentId,
   EventHandler,
@@ -68,9 +70,38 @@ export class HermesRuntime {
     this.reasoner = new ReActReasoner();
     this.engine = new ReasonerEngineAdapter(this.reasoner);
     this.config = config;
+    this.preloadSkills();
   }
 
   private config: HermesConfig;
+
+  /**
+   * Load SKILL.md packs from `brain-stack/skills/` (walking up from cwd to
+   * find the repo root). `config.skills` acts as an allow-list of skill
+   * names; when absent every discovered skill is registered.
+   */
+  private preloadSkills(): void {
+    const root = this.findRepoRoot(process.cwd());
+    if (!root) return;
+    const dir = path.join(root, 'brain-stack', 'skills');
+    if (!existsSync(dir)) return;
+    const loaded = loadSkillsFromDirectory(dir);
+    const allow = this.config.skills;
+    const selected = allow?.length
+      ? loaded.filter((s) => allow.includes(s.name))
+      : loaded;
+    this.skills.registerAll(selected);
+  }
+
+  private findRepoRoot(from: string): string | null {
+    let dir = path.resolve(from);
+    for (;;) {
+      if (existsSync(path.join(dir, 'brain-stack', 'skills'))) return dir;
+      const parent = path.dirname(dir);
+      if (parent === dir) return null;
+      dir = parent;
+    }
+  }
 
   // -- wiring ---------------------------------------------------------------
 
@@ -168,6 +199,15 @@ export class HermesRuntime {
         timestamp: e.createdAt,
       }));
       context.push(...session.messages.slice(-20));
+
+      const matched = this.skills.match(prompt).slice(0, 3);
+      if (matched.length > 0) {
+        context.unshift({
+          role: 'system',
+          content: this.skills.renderContext(matched.map((s) => s.name)),
+          timestamp: Date.now(),
+        });
+      }
 
       const deps: EngineDeps = {
         provider: this.requireProvider(this.config.provider ?? 'mock'),
