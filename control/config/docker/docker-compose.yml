@@ -105,6 +105,7 @@ services:
       - WEBUI_AUTH=false
       - ENABLE_OLLAMA_API=true
       - WEBUI_NAME=Ultra AI
+      - ULTRA_CORE_API=http://host.docker.internal:4000
       # SSO (verified end-to-end — see docs/OPEN_WEBUI_INTEGRATION.md):
       # platform middleware (ULTRA_WEBUI_SSO=1) verifies the core-api JWT
       # and injects x-ultra-user-email/name/role. To activate: set
@@ -122,6 +123,7 @@ services:
     volumes:
       - open-webui-data:/app/backend/data
       - ./open-webui/custom.css:/app/backend/open_webui/static/custom.css:ro
+      - ./open-webui/functions:/app/backend/data/functions:ro
     networks:
       - ultra-ai-network
     extra_hosts:

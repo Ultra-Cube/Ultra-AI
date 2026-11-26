@@ -113,3 +113,18 @@ never in shared/production environments.
 `control/config/docker/open-webui/custom.css` (mounted into the container)
 carries the Ultra dark theme tokens (`--ultra-bg-*`, `--ultra-accent*`) and
 is served through the proxy at `/static/custom.css`.
+
+## Platform tools (Open WebUI Functions)
+
+ is mounted
+into the container at  and calls the core-api
+(, default ) so chat can
+reach Ultra AI surfaces directly: agent teams, model families, apps,
+engines, Hermes state and n8n workflows.
+
+Enable it per workspace: Admin Panel -> Functions -> "Ultra AI Platform"
+toggle on. Requires  (bundled in the image).
+
+Feature pages (, , , ,
+) remain Ultra AI routes; chat-side access is via the tools
+above plus the  iframe shell (ADR-003).
