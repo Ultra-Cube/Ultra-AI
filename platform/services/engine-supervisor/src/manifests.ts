@@ -173,16 +173,30 @@ export const ENGINE_PRESETS: EngineManifest[] = [
   },
   {
     id: 'hermes',
-    label: 'Hermes Agent (NousResearch hermes-agent, customized)',
+    label: 'Hermes Agent backend (NousResearch hermes-agent, `hermes serve` JSON-RPC/WebSocket)',
     command: 'hermes',
-    args: ['serve'],
+    args: ['serve', '--port', '9119', '--host', '127.0.0.1', '--skip-build'],
     port: 9119,
     portEnvVar: 'HERMES_PORT',
     probe: 'tcp',
     startupTimeoutMs: 30000,
     managed: false,
     licenseNote:
-      'MIT (NousResearch/hermes-agent); api_server bridge on :8642, dashboard on :9119',
+      'MIT (NousResearch/hermes-agent); headless api_server backend on :9119',
+  },
+  {
+    id: 'hermes-dashboard',
+    label: 'Hermes Dashboard (web UI, `hermes dashboard --isolated`)',
+    command: 'hermes',
+    args: ['dashboard', '--isolated', '--port', '9120', '--skip-build'],
+    port: 9120,
+    portEnvVar: 'HERMES_DASHBOARD_PORT',
+    probe: 'http',
+    healthPath: '/api/health',
+    startupTimeoutMs: 30000,
+    managed: false,
+    licenseNote:
+      'MIT (NousResearch/hermes-agent); web UI on :9120, coexists with :9119 backend',
   },
   {
     id: 'obsidian',

@@ -18,6 +18,7 @@
 // ╚══════════════════════════════════════════════════════════════════════════╝
 
 import { execFile } from 'node:child_process';
+import net from 'node:net';
 import path from 'node:path';
 import { promisify } from 'node:util';
 
@@ -1157,15 +1158,40 @@ export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
     { id: 'n8n', label: 'n8n', port: 5678, state: 'unknown', healthOk: false, manifest: { port: 5678, healthPath: '/healthz' } },
     { id: 'airllm', label: 'airllm (low-VRAM LLM inference)', port: 8090, state: 'unknown', healthOk: false, manifest: { port: 8090, healthPath: '/health' } },
     { id: 'open-webui', label: 'Open WebUI (chat surface)', port: 8080, state: 'unknown', healthOk: false, manifest: { port: 8080, healthPath: '/' } },
-    { id: 'hermes', label: 'Hermes Agent (NousResearch hermes-agent, customized)', port: 9119, state: 'unknown', healthOk: false, manifest: { port: 9119 } },
+    { id: 'hermes', label: 'Hermes Agent backend (JSON-RPC/WebSocket gateway)', port: 9119, state: 'unknown', healthOk: false, manifest: { port: 9119 } },
+    { id: 'hermes-dashboard', label: 'Hermes Dashboard (web UI, isolated)', port: 9120, state: 'unknown', healthOk: false, manifest: { port: 9120, healthPath: '/api/health' } },
     { id: 'obsidian', label: 'Obsidian (detect-only vault memory)', port: 27123, state: 'unknown', healthOk: false, manifest: { port: 27123 } },
   ];
 
-  const enginesUnavailable = {
+  const probeTcpPort = (port: number, timeoutMs = 800) =>
+    new Promise<boolean>((resolve) => {
+      const socket = net.connect({ host: '127.0.0.1', port });
+      socket.setTimeout(timeoutMs);
+      socket.once('connect', () => {
+        socket.destroy();
+        resolve(true);
+      });
+      socket.once('timeout', () => {
+        socket.destroy();
+        resolve(false);
+      });
+      socket.once('error', () => {
+        socket.destroy();
+        resolve(false);
+      });
+    });
+
+  const enginesOffline = async () => ({
     connected: false,
     bridge: 'offline',
-    engines: KNOWN_ENGINES as unknown[],
-  };
+    engines: (await Promise.all(
+      KNOWN_ENGINES.map(async (engine) => {
+        if (!engine.port) return engine;
+        const up = await probeTcpPort(engine.port);
+        return { ...engine, state: up ? 'running' : 'stopped', healthOk: up };
+      })
+    )) as unknown[],
+  });
 
   const engineId = (request: { params: unknown }) =>
     (request.params as { id: string }).id;
@@ -1175,7 +1201,7 @@ export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
       const engines = await edgeBridge.call<unknown[]>('engines.list');
       return { connected: true, bridge: 'online', engines };
     } catch {
-      return enginesUnavailable;
+      return enginesOffline();
     }
   });
 
@@ -1187,7 +1213,7 @@ export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
       return {
         connected: false,
         bridge: 'offline',
-        statuses: KNOWN_ENGINES as unknown[],
+        statuses: (await enginesOffline()).engines,
       };
     }
   });

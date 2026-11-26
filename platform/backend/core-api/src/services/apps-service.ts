@@ -79,9 +79,9 @@ export const APP_CATALOG: AppConnector[] = [
   },
   {
     id: 'hermes', name: 'Hermes Agent', description: 'Nous Research Hermes — primary agent orchestrator',
-    category: 'agent', port: 18789, baseUrl: 'http://localhost:18789',
-    healthPath: '/health', readOnlyPaths: ['/health', '/v1/models', '/api/status'],
-    writePaths: ['/v1/chat/completions', '/api/run'], sensitive: false,
+    category: 'agent', port: 9120, baseUrl: 'http://localhost:9120',
+    healthPath: '/api/health', readOnlyPaths: ['/api/health', '/api/status', '/api/sessions', '/api/config'],
+    writePaths: ['/api/chat/completions', '/api/run'], sensitive: false,
     upstream: 'https://github.com/NousResearch/hermes-agent',
   },
   {

@@ -145,9 +145,36 @@ models: `POST /api/providers/{id}/sync-models`.
 
 Verified live end-to-end: `POST /api/chat/completions` with
 `ollama-local/llama3.2:1b` returns a real completion ("PONG.") through
-WebUI → OmniRoute → Windows Ollama. `hermes` model is listed but its
-upstream combo pool is exhausted (OmniRoute 503) until real providers are
-configured — tracked under R5.
+WebUI → OmniRoute → Windows Ollama.
+
+**R5 — Hermes bind (verified 2026-11-26):**
+
+- `hermes serve` runs on `127.0.0.1:9119` (headless JSON-RPC/WebSocket
+  backend only — it refuses to also serve a dashboard on the same host).
+  Launch detached: `setsid hermes serve --port 9119 --host 127.0.0.1
+  --skip-build` — backgrounded children die with the shell.
+- `hermes dashboard --isolated --port 9120 --skip-build` serves the web
+  UI on `127.0.0.1:9120` (v0.23.1, `/api/health` returns `{"ok":true,...}`).
+  The `--isolated` flag lets it coexist with the `:9119` backend instead
+  of refusing to start; dist is prebuilt at
+  `~/.hermes/hermes-agent/hermes_cli/web_dist`.
+- core-api `/engines` lists both `hermes` (:9119) and `hermes-dashboard`
+  (:9120); `/apps/hermes` (apps-service) now points at :9120 with
+  `healthPath: '/api/health'` and GET-only proxy allowlist
+  (`/api/health`, `/api/status`, `/api/sessions`, `/api/config`) —
+  verified `GET /apps/hermes/proxy?path=/api/health` end-to-end.
+  engine-supervisor has `hermes` and `hermes-dashboard` presets with the
+  exact launch args above.
+- `hermes-openai-bridge` on `:8642` is launched with
+  `HERMES_UPSTREAM_URL=http://127.0.0.1:20128/v1` (OmniRoute) and upstream
+  model `ollama-local/llama3.2:1b` — verified end-to-end ("BRIDGE_OK").
+  Do NOT point it at combo ids (`auto/*`) — they 503 when the combo pool
+  is exhausted. OmniRoute model `hermes` still 503s upstream; the bridge
+  path bypasses it.
+- core-api `/engines` now falls back to live TCP probes from the
+  engine-supervisor manifest when the edge-bridge JSON-RPC is offline
+  (`enginesOffline()` in `src/index.ts`), so `hermes`/`open-webui`/
+  `9router` show `running` without the desktop bridge.
 
 **OmniRoute launch note (R25):** dev server must run with webpack —
 `turbopack` breaks `better-sqlite3` (`MODULE_NOT_FOUND ./db/omp` →
