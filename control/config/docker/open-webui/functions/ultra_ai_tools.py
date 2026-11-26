@@ -1,8 +1,8 @@
 """
 title: Ultra AI Platform
 author: Ultra Cube Tech
-version: 1.0.0
-description: Exposes the Ultra AI control plane (agent teams, model families, apps, engines, Hermes, n8n) as chat tools inside Open WebUI.
+version: 1.1.0
+description: Exposes the Ultra AI control plane (agent teams, model families, apps, engines, brain-stack, n8n, DCS, Hermes) as chat tools inside Open WebUI.
 requirements: requests
 """
 
@@ -16,9 +16,9 @@ __manifest__ = {
     "name": "Ultra AI Platform",
     "description": (
         "Exposes the Ultra AI control plane (agent teams, model families, "
-        "apps, engines, Hermes, n8n) as chat tools inside Open WebUI."
+        "apps, engines, brain-stack, n8n, DCS, Hermes) as chat tools inside Open WebUI."
     ),
-    "version": "1.0.0",
+    "version": "1.1.0",
     "author": "Ultra Cube Tech",
     "requirements": ["requests"],
 }
@@ -87,6 +87,62 @@ class Tools:
                     "parameters": {"type": "object", "properties": {}},
                 },
             },
+            {
+                "type": "function",
+                "function": {
+                    "name": "ultra_brain_components",
+                    "description": (
+                        "List Brain Stack components (memory, skills, prompts, workflows, "
+                        "diagrams) registered in the Ultra AI platform."
+                    ),
+                    "parameters": {"type": "object", "properties": {}},
+                },
+            },
+            {
+                "type": "function",
+                "function": {
+                    "name": "ultra_brain_skills",
+                    "description": (
+                        "List platform skills registered in the Brain Stack "
+                        "(RAG, Agents, LLMOps, Evals, Fine-tuning, Guardrails, "
+                        "AI Agent, Agentic AI, ArtCraft, and more)."
+                    ),
+                    "parameters": {"type": "object", "properties": {}},
+                },
+            },
+            {
+                "type": "function",
+                "function": {
+                    "name": "ultra_n8n_workflows",
+                    "description": (
+                        "List n8n automation workflows powering Ultra AI "
+                        "(agent team triggers, model routing, scheduled tasks)."
+                    ),
+                    "parameters": {"type": "object", "properties": {}},
+                },
+            },
+            {
+                "type": "function",
+                "function": {
+                    "name": "ultra_dcs_status",
+                    "description": (
+                        "Status of Directory-Control-Systems domains "
+                        "(control plane, directory services health)."
+                    ),
+                    "parameters": {"type": "object", "properties": {}},
+                },
+            },
+            {
+                "type": "function",
+                "function": {
+                    "name": "ultra_engine_status",
+                    "description": (
+                        "Engine supervisor status: which platform engines "
+                        "(hermes, openclaw, n8n, omniroute, obsidian, ...) are running."
+                    ),
+                    "parameters": {"type": "object", "properties": {}},
+                },
+            },
         ]
 
     async def ultra_agent_teams(self, **kwargs):
@@ -101,8 +157,23 @@ class Tools:
     async def ultra_platform_overview(self, **kwargs):
         summary = {
             "health": _get("/health"),
-            "services": _get("/services"),
+            "apps": _get("/apps"),
             "engines": _get("/engines"),
             "work_pending": _get("/work/pending"),
         }
         return json.dumps(summary, ensure_ascii=False, indent=2)
+
+    async def ultra_brain_components(self, **kwargs):
+        return json.dumps(_get("/brain-stack/components"), ensure_ascii=False, indent=2)
+
+    async def ultra_brain_skills(self, **kwargs):
+        return json.dumps(_get("/brain-stack/skills"), ensure_ascii=False, indent=2)
+
+    async def ultra_n8n_workflows(self, **kwargs):
+        return json.dumps(_get("/n8n/workflows"), ensure_ascii=False, indent=2)
+
+    async def ultra_dcs_status(self, **kwargs):
+        return json.dumps(_get("/dcs"), ensure_ascii=False, indent=2)
+
+    async def ultra_engine_status(self, **kwargs):
+        return json.dumps(_get("/engines"), ensure_ascii=False, indent=2)
