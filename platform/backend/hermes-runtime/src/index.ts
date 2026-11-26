@@ -137,3 +137,7 @@ export type {
   DelegationResult,
   OrchestratorDeps,
 } from './orchestration/orchestrator';
+
+// Agent Teams (R9: dot / muse / grok-bot / skilltree / anymodelbot)
+export { AGENT_TEAMS, getAgentTeam } from './teams';
+export type { AgentTeamId, AgentTeamProfile } from './teams';
