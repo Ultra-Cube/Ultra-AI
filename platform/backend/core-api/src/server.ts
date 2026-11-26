@@ -27,6 +27,10 @@
  * - Phase 9: Performance Caching
  */
 
+import { config as loadEnv } from 'dotenv';
+loadEnv({ path: '.env.development' });
+loadEnv({ path: '.env.local', override: true });
+
 import { appLogger } from './services/monitoring/logger';
 
 import { startServer } from './index';
