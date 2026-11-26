@@ -24,7 +24,7 @@
 
 ![Ultra Cube Tech Logo](https://www.ucubetech.com/logo.svg)
 
-**Version**: `0.1.0` (workspace) · `v0.3.0-planning` (planning tag) · `v0.9.0-p2` (desktop artifacts) | **Status**: Under Development 🔧 | **Architecture**: Distributed AI Platform | **Branch**: `release/planning-study`
+**Version**: `0.1.0` (workspace) · `v0.3.0-planning` (planning tag) · `v0.9.0-p2` (desktop artifacts) · **V3** in progress | **Status**: Under Development 🔧 | **Architecture**: Distributed AI Platform | **Branch**: `release/planning-study`
 
 [![Ultra Cube Tech](https://img.shields.io/badge/by-Ultra%20Cube%20Tech-blue.svg)](https://www.ucubetech.com)
 [![Documentation](https://img.shields.io/badge/Docs-Comprehensive-blue)](docs/README.md)
@@ -75,6 +75,68 @@ graph TB
     Z --> R[Local Tools and Apps]
     Z --> V[Ultra AI Network]
 ```
+
+## 🔗 Integration Layer (V3-P2 — the largest phase)
+
+All external engines run as separate services, updated from upstream, and are controlled **only** through the dashboard API (`/api/apps`, `/api/engines`). Ultra AI never forks their UI — features are exposed via API proxies and Open WebUI Tools/Functions.
+
+```mermaid
+flowchart TB
+    subgraph UI["Ultra AI UI Layer"]
+        OWUI["Open WebUI :8080<br/>(primary shell — all features via API)"]
+        UAI["Ultra AI Frontend<br/>/models /workspace /studio /customers<br/>/brain-stack /settings /about /agent-os"]
+    end
+
+    subgraph AGENTS["Agent Engine Layer"]
+        HERMES["Hermes Agent :9119<br/>api_server :8642<br/>profiles: dot muse grok-bot skilltree anymodelbot"]
+        OCLAW["OpenClaw (fadhel-sh)<br/>background backend assistant"]
+        N8N["n8n :5678<br/>workflows: reviews, routing, schedules"]
+    end
+
+    subgraph MODELS["Model Layer"]
+        OMNI["OmniRoute :20128<br/>OpenAI-compatible gateway"]
+        AGENTOS["Agent OS<br/>registry / router / policy / lifecycle"]
+        OLLAMA["Ollama + AirLLM<br/>local inference"]
+        DS["DeepSeek harness<br/>Kimi K2/K3 open weights"]
+    end
+
+    subgraph OPS["Ops Layer"]
+        GRAF["Grafana + Prometheus (Docker)"]
+        OBS["Obsidian (detect-only)"]
+        DCS["Directory-Control-Systems"]
+        SUP["Engine Supervisor<br/>catalog: hermes openclaw n8n omniroute obsidian + presets"]
+    end
+
+    OWUI <-->|Tools/Pipes/API| UAI
+    OWUI <-->|model provider| OMNI
+    OWUI <-->|chat completions| HERMES
+    HERMES <-->|sub-agent tools| OCLAW
+    HERMES <-->|trigger/status| N8N
+    AGENTOS --> OMNI
+    AGENTOS --> OLLAMA
+    AGENTOS --> DS
+    N8N --> AGENTOS
+    SUP --> HERMES & OCLAW & N8N & OMNI & OBS
+    GRAF -.metrics.-> SUP
+```
+
+### Live service map (dev defaults)
+
+| Service | Port | Role | Control |
+|---------|------|------|---------|
+| Ultra AI Web | :3000 (`/zeroai`) | Primary UI shell | — |
+| core-api | :4000 | REST API + `/api/apps` + `/api/engines` | dashboard API |
+| Hermes Agent | :9119 dashboard · :8642 api_server | Agent engine (R5) | engine supervisor |
+| OpenClaw | :18789 | Background assistant (R8) | engine supervisor |
+| n8n | :5678 | Workflow automation (SUL, connect-only) | engine supervisor |
+| OmniRoute | :20128 | OpenAI-compatible model gateway | engine supervisor |
+| Open WebUI | :8080 | Chat surface / secondary shell | Docker |
+| Ollama | :11434 | Local model runtime | engine supervisor |
+| AirLLM | :8090 | Low-VRAM inference | engine supervisor |
+| Obsidian | :27123 (REST plugin) | Vault memory — detect-only | never auto-installed |
+| Prometheus / Grafana | :9090 / :3001 | Metrics & dashboards | Docker |
+| Engine Supervisor | — | Lifecycle for all engines above | `platform/services/engine-supervisor` |
+
 
 ## ✨ Key Features
 
@@ -335,6 +397,11 @@ brain-stack/
 | **P1A-01 — Hermes embed spike** | ✅ Done (WSL2) | Hermes Agent v0.23.1 installed in WSL2; `/v1/*` OpenAI-compatible API verified live on `127.0.0.1:8642` via `platforms.api_server` (`hermes gateway run`); `hermes serve` dashboard backend on `:9119` is separate. Reports: `docs/spikes/hermes-embed-wsl2-rerun-2026-11-15.md`. Bare-Linux + Windows-native runs still open |
 | **P3/P4 — Gate-OS & Ultra Core** | 🔒 Owner-gated | Readiness contracts + bridges shipped (gate-os-bridge, ultra-core-bridge signed hash-chained outbox); actual integration requires owner decision; any crypto stays behind legal gate |
 
+| **V3-P6a — Legal** | ✅ Done | Root `LICENSE` (Ultra AI Proprietary) + `docs/legal/THIRD_PARTY_NOTICES.md` (R31) |
+| **V3-P1.5 — OSS scan** | ✅ Done | `docs/audit/oss-candidates.md` — adopt/defer/reject per component incl. kiri eval (R30, R34) |
+| **V3-P2.6 — Agent teams** | ✅ Done | `hermes-runtime/src/teams.ts` — Dot / Muse / GrokBot / SkillTree / AnyModelBot profiles (R9) |
+| **V3-P2.11 — Engine supervisor** | ✅ Done | hermes (:9119/:8642) + obsidian (:27123 detect-only) registered in manifests + core-api (R23) |
+
 ### Implemented system — current state
 
 ```mermaid
@@ -433,6 +500,86 @@ docker build -t ultra-ai-platform .
 docker run -p 3000:3000 -p 5432:5432 ultra-ai-platform
 ```
 
+## Running the project
+
+### Prerequisites
+
+- Node.js >= 20
+- npm (workspaces are used — do not use pnpm/yarn)
+- Docker + Docker Compose (for the full stack)
+- Optional: WSL2 on Windows for the Linux dev environment
+
+### 1. Install dependencies
+
+```bash
+git clone https://github.com/Ultra-Cube/Ultra-AI.git
+cd Ultra-AI
+npm install
+```
+
+### 2. Environment
+
+```bash
+cp .env.example .env   # fill in DATABASE_URL, REDIS_URL, API keys as needed
+```
+
+### 3. Start infrastructure (Postgres, Redis, Mongo, n8n, Grafana, Open WebUI)
+
+```bash
+npm run docker:dev     # docker compose up for the supporting stack
+npm run docker:logs    # optional: follow logs
+docker:down            # stop everything when done
+```
+
+### 4. Run the apps (development mode)
+
+```bash
+npm run dev            # turbo dev — starts frontend (:3000) + core-api (:4000) + services
+```
+
+Or run pieces individually:
+
+```bash
+# Frontend only (Next.js dev server)
+cd platform/frontend && npm run dev        # http://localhost:3000
+
+# Core API only (Fastify/Express backend on :4000)
+cd platform/api && npm run dev
+```
+
+### 5. Verify
+
+```bash
+npm run type-check     # TypeScript across all workspaces
+npm run lint           # ESLint
+npm run test           # unit + integration tests
+npm run build          # production build (turbo)
+```
+
+### 6. Durable / production-like run
+
+`next dev` and `core-api` started manually do **not** survive a WSL/machine restart. For a durable setup use the Docker stack:
+
+```bash
+npm run docker:dev     # containers restart with Docker; add restart: unless-stopped in compose for boot persistence
+```
+
+For systemd-style persistence inside WSL, create user units for `core-api` and the frontend, e.g. `~/.config/systemd/user/ultra-core-api.service` with `WorkingDirectory=/home/pc/ucube/project/Ultra-AI/platform/api` and `ExecStart=npm run dev`, then `systemctl --user enable --now ultra-core-api`. Note WSL requires `systemd=true` in `/etc/wsl.conf` and the distro must stay running.
+
+### Key URLs (dev defaults)
+
+| Surface        | URL                          |
+|----------------|------------------------------|
+| Ultra AI UI    | http://localhost:3000         |
+| core-api       | http://localhost:4000         |
+| Open WebUI     | http://localhost:8080         |
+| n8n            | http://localhost:5678         |
+| Grafana        | http://localhost:3001         |
+| OmniRoute      | http://localhost:20128        |
+
+### Copyright & integrity
+
+Every source file carries the UCUBETECH banner (see `copy.txt`). `scripts/apply-copyright.mjs` re-applies it; `scripts/file-guard.mjs` + `security/file-manifest.sha256` detect unauthorized deletion/modification (`npm run guard:check`). Details: `docs/OWNERSHIP_AND_INTEGRITY.md`.
 ## 📊 Use Cases
 
 ### For Regular Users
@@ -636,7 +783,6 @@ graph LR
     J --> L[Local Compliance]
     K --> M[GDPR Compliance]
 ```
-
 ## 📞 Support and Contact
 
 ### Support Channels
@@ -654,7 +800,7 @@ graph LR
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the **Ultra AI Proprietary License** - see the [LICENSE](LICENSE) file for details. Third-party components retain their own licenses; see [docs/legal/THIRD_PARTY_NOTICES.md](docs/legal/THIRD_PARTY_NOTICES.md).
 
 ## 🙏 Acknowledgments
 
@@ -666,7 +812,11 @@ We thank all contributors and developers who help make this platform a reality. 
 
 ---
 
-# 📋 Detailed Project Requirements - Ultra AI Platform
+
+---
+
+# 📋 Appendix — Detailed Project Requirements (legacy spec)
+
 
 ## 🎯 Overview
 
@@ -912,83 +1062,3 @@ graph TB
 **✨ Developed by Ultra Cube Tech** - [www.ucubetech.com](https://www.ucubetech.com)
 ---
 
-## Running the project
-
-### Prerequisites
-
-- Node.js >= 20
-- npm (workspaces are used — do not use pnpm/yarn)
-- Docker + Docker Compose (for the full stack)
-- Optional: WSL2 on Windows for the Linux dev environment
-
-### 1. Install dependencies
-
-```bash
-git clone https://github.com/Ultra-Cube/Ultra-AI.git
-cd Ultra-AI
-npm install
-```
-
-### 2. Environment
-
-```bash
-cp .env.example .env   # fill in DATABASE_URL, REDIS_URL, API keys as needed
-```
-
-### 3. Start infrastructure (Postgres, Redis, Mongo, n8n, Grafana, Open WebUI)
-
-```bash
-npm run docker:dev     # docker compose up for the supporting stack
-npm run docker:logs    # optional: follow logs
-docker:down            # stop everything when done
-```
-
-### 4. Run the apps (development mode)
-
-```bash
-npm run dev            # turbo dev — starts frontend (:3000) + core-api (:4000) + services
-```
-
-Or run pieces individually:
-
-```bash
-# Frontend only (Next.js dev server)
-cd platform/frontend && npm run dev        # http://localhost:3000
-
-# Core API only (Fastify/Express backend on :4000)
-cd platform/api && npm run dev
-```
-
-### 5. Verify
-
-```bash
-npm run type-check     # TypeScript across all workspaces
-npm run lint           # ESLint
-npm run test           # unit + integration tests
-npm run build          # production build (turbo)
-```
-
-### 6. Durable / production-like run
-
-`next dev` and `core-api` started manually do **not** survive a WSL/machine restart. For a durable setup use the Docker stack:
-
-```bash
-npm run docker:dev     # containers restart with Docker; add restart: unless-stopped in compose for boot persistence
-```
-
-For systemd-style persistence inside WSL, create user units for `core-api` and the frontend, e.g. `~/.config/systemd/user/ultra-core-api.service` with `WorkingDirectory=/home/pc/ucube/project/Ultra-AI/platform/api` and `ExecStart=npm run dev`, then `systemctl --user enable --now ultra-core-api`. Note WSL requires `systemd=true` in `/etc/wsl.conf` and the distro must stay running.
-
-### Key URLs (dev defaults)
-
-| Surface        | URL                          |
-|----------------|------------------------------|
-| Ultra AI UI    | http://localhost:3000         |
-| core-api       | http://localhost:4000         |
-| Open WebUI     | http://localhost:8080         |
-| n8n            | http://localhost:5678         |
-| Grafana        | http://localhost:3001         |
-| OmniRoute      | http://localhost:20128        |
-
-### Copyright & integrity
-
-Every source file carries the UCUBETECH banner (see `copy.txt`). `scripts/apply-copyright.mjs` re-applies it; `scripts/file-guard.mjs` + `security/file-manifest.sha256` detect unauthorized deletion/modification (`npm run guard:check`). Details: `docs/OWNERSHIP_AND_INTEGRITY.md`.
