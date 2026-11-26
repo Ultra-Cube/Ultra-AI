@@ -116,15 +116,15 @@ is served through the proxy at `/static/custom.css`.
 
 ## Platform tools (Open WebUI Functions)
 
- is mounted
-into the container at  and calls the core-api
-(, default ) so chat can
+`control/config/docker/open-webui/functions/ultra_ai_tools.py` is mounted
+into the container at `/app/backend/data/functions` and calls the core-api
+(`ULTRA_CORE_API`, default `http://host.docker.internal:4000`) so chat can
 reach Ultra AI surfaces directly: agent teams, model families, apps,
 engines, Hermes state and n8n workflows.
 
 Enable it per workspace: Admin Panel -> Functions -> "Ultra AI Platform"
-toggle on. Requires  (bundled in the image).
+toggle on. Requires `requests` (bundled in the image).
 
-Feature pages (, , , ,
-) remain Ultra AI routes; chat-side access is via the tools
-above plus the  iframe shell (ADR-003).
+Feature pages (`/models`, `/customers`, `/brain-stack`, `/settings`,
+`/agent-os`) remain Ultra AI routes; chat-side access is via the tools
+above plus the `/webui` iframe shell (ADR-003).
