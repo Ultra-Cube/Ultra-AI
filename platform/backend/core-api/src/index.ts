@@ -1155,6 +1155,8 @@ export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
     { id: 'n8n', label: 'n8n', port: 5678, state: 'unknown', healthOk: false, manifest: { port: 5678, healthPath: '/healthz' } },
     { id: 'airllm', label: 'airllm (low-VRAM LLM inference)', port: 8090, state: 'unknown', healthOk: false, manifest: { port: 8090, healthPath: '/health' } },
     { id: 'open-webui', label: 'Open WebUI (chat surface)', port: 8080, state: 'unknown', healthOk: false, manifest: { port: 8080, healthPath: '/' } },
+    { id: 'hermes', label: 'Hermes Agent (NousResearch hermes-agent, customized)', port: 9119, state: 'unknown', healthOk: false, manifest: { port: 9119 } },
+    { id: 'obsidian', label: 'Obsidian (detect-only vault memory)', port: 27123, state: 'unknown', healthOk: false, manifest: { port: 27123 } },
   ];
 
   const enginesUnavailable = {

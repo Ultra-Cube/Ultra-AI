@@ -171,6 +171,32 @@ export const ENGINE_PRESETS: EngineManifest[] = [
     managed: false,
     licenseNote: 'BSD-3-Clause with branding clause; keep Ultra AI attribution',
   },
+  {
+    id: 'hermes',
+    label: 'Hermes Agent (NousResearch hermes-agent, customized)',
+    command: 'hermes',
+    args: ['serve'],
+    port: 9119,
+    portEnvVar: 'HERMES_PORT',
+    probe: 'tcp',
+    startupTimeoutMs: 30000,
+    managed: false,
+    licenseNote:
+      'MIT (NousResearch/hermes-agent); api_server bridge on :8642, dashboard on :9119',
+  },
+  {
+    id: 'obsidian',
+    label: 'Obsidian (detect-only vault memory)',
+    command: 'obsidian',
+    args: [],
+    port: 27123,
+    portEnvVar: 'OBSIDIAN_REST_PORT',
+    probe: 'tcp',
+    startupTimeoutMs: 10000,
+    managed: false,
+    licenseNote:
+      'Proprietary; detect-only via Local REST API plugin :27123 — never auto-install',
+  },
 ];
 
 export function presetById(id: string): EngineManifest | undefined {
