@@ -19,5 +19,6 @@
 
 export * from './types';
 export * from './catalog';
+export * from './families';
 export * from './providers';
 export * from './engine';

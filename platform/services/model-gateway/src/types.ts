@@ -28,9 +28,44 @@ export type ProviderId =
 
 export type DataClass = 'public' | 'internal' | 'sensitive' | 'regulated';
 
+/**
+ * Specialized model families (R11) — Agent OS groups and routes
+ * models by architecture family, not just provider.
+ * LLM  = large language model (general chat/reasoning)
+ * LCM  = long-context model (extended context windows)
+ * LAM  = large action/actionable model (tool use, agents)
+ * MoE  = mixture-of-experts (sparse routing, efficient scale)
+ * VLM  = vision-language model (multimodal)
+ * SLM  = small language model (on-device/edge)
+ * MLM  = masked language model (embeddings, classification)
+ * SAM  = segment-anything model (image segmentation)
+ */
+export type ModelFamily =
+  | 'LLM'
+  | 'LCM'
+  | 'LAM'
+  | 'MoE'
+  | 'VLM'
+  | 'SLM'
+  | 'MLM'
+  | 'SAM';
+
+export const MODEL_FAMILIES: readonly ModelFamily[] = [
+  'LLM',
+  'LCM',
+  'LAM',
+  'MoE',
+  'VLM',
+  'SLM',
+  'MLM',
+  'SAM',
+] as const;
+
 export interface ModelEntry {
   provider: ProviderId;
   model: string;
+  /** architecture family for Agent OS grouping/routing */
+  family: ModelFamily;
   /** 0-1 quality tier for routing */
   quality: number;
   /** relative cost per 1k tokens, lower is cheaper */
