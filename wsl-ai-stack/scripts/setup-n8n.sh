@@ -34,7 +34,7 @@ load_node_runtime() {
     . "$HOME/.nvm/nvm.sh"
     if command -v nvm >/dev/null 2>&1; then
       local nvm_node_bin
-      nvm_node_bin="$(nvm which --lts 2>/dev/null || true)"
+      nvm_node_bin="$(nvm which --lts 2>/dev/null || nvm which default 2>/dev/null || true)"
       if [ -x "$nvm_node_bin" ]; then
         PATH="$(dirname "$nvm_node_bin"):$PATH"
       fi
