@@ -38,11 +38,13 @@ export interface RegistryOptions {
 }
 
 const FRONTMATTER_RE = /^---\s*\n([\s\S]*?)\n---\s*\n?/;
+const LEADING_COMMENT_RE = /^(?:<!--[\s\S]*?-->\s*)+/;
 
 export function parseSkillMarkdown(
   raw: string
 ): { frontmatter: SkillFrontmatter; body: string } | null {
-  const m = raw.match(FRONTMATTER_RE);
+  const stripped = raw.replace(LEADING_COMMENT_RE, '');
+  const m = stripped.match(FRONTMATTER_RE);
   if (!m) return null;
   const fm: Record<string, unknown> = {};
   for (const line of m[1].split('\n')) {
@@ -62,7 +64,7 @@ export function parseSkillMarkdown(
     return null;
   return {
     frontmatter: fm as unknown as SkillFrontmatter,
-    body: raw.slice(m[0].length),
+    body: stripped.slice(m[0].length),
   };
 }
 
