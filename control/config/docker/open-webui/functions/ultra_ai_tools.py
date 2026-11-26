@@ -12,6 +12,17 @@ import os
 import requests
 from pydantic import BaseModel
 
+__manifest__ = {
+    "name": "Ultra AI Platform",
+    "description": (
+        "Exposes the Ultra AI control plane (agent teams, model families, "
+        "apps, engines, Hermes, n8n) as chat tools inside Open WebUI."
+    ),
+    "version": "1.0.0",
+    "author": "Ultra Cube Tech",
+    "requirements": ["requests"],
+}
+
 CORE_API = os.environ.get("ULTRA_CORE_API", "http://host.docker.internal:4000")
 TIMEOUT = 5
 
