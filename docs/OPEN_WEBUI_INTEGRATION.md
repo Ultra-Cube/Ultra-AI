@@ -125,6 +125,29 @@ engines, Hermes state and n8n workflows.
 Enable it per workspace: Admin Panel -> Functions -> "Ultra AI Platform"
 toggle on. Requires `requests` (bundled in the image).
 
+## Model providers (R6b)
+
+Two OpenAI-compatible providers are registered in WebUI's `config` table
+(`openai.api_base_urls` + `openai.api_keys`, parallel arrays — DB-managed,
+not env). Both reach the container via `host.docker.internal`:
+
+| Provider | URL | Model ids | Upstream |
+|---|---|---|---|
+| OmniRoute | `http://host.docker.internal:20128/v1` | `auto/*` combos (~100) | gateway `external/github-forks/OmniRoute` (webpack dev mode; better-sqlite3 rebuilt for Node 24 — see note below) |
+| Hermes bridge | `http://host.docker.internal:8642/v1` | `hermes` | `platform/services/hermes-openai-bridge` (`HERMES_UPSTREAM_URL` decides the real backend; MockProvider default) |
+
+Verified live: `GET /api/v1/models` lists 100 models including `hermes`.
+
+**OmniRoute launch note (R25):** dev server must run with webpack —
+`turbopack` breaks `better-sqlite3` (`MODULE_NOT_FOUND ./db/omp` →
+`Database closed` fatal). Use `OMNIROUTE_USE_TURBOPACK=0` with
+`scripts/dev/run-next.mjs dev`; if SQLite fails again, rebuild
+better-sqlite3 for the active Node ABI (`npm rebuild better-sqlite3`).
+
+**Locale/theme:** admin user `locale` set to `ar` in `webui.db`; the
+Ultra theme is `custom.css` (dark gray + orange tokens) served at
+`/static/custom.css` and auto-applied by WebUI.
+
 Feature pages (`/models`, `/customers`, `/brain-stack`, `/settings`,
 `/agent-os`) remain Ultra AI routes; chat-side access is via the tools
 above plus the `/webui` iframe shell (ADR-003).
