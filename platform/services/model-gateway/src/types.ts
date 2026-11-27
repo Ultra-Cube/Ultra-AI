@@ -92,6 +92,8 @@ export interface ChatRequest {
   temperature?: number;
   /** routing hints */
   taskClass?: 'chat' | 'code' | 'reasoning' | 'agent' | 'summarize';
+  /** Agent OS family hint — restrict routing to one architecture family */
+  family?: ModelFamily;
   dataClass?: DataClass;
   preferLocal?: boolean;
   timeoutMs?: number;

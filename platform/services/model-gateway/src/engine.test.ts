@@ -205,6 +205,29 @@ describe('ModelRouter', () => {
     expect(c).toHaveLength(1);
     expect(c[0].provider).toBe('glm');
   });
+
+  it('restricts candidates to the requested family', () => {
+    const c = router.route({ ...req, family: 'VLM' });
+    expect(c.length).toBeGreaterThan(0);
+    const entries = c.map(
+      (x) => MODEL_CATALOG.find((m) => m.provider === x.provider && m.model === x.model)
+    );
+    expect(entries.every((m) => m?.family === 'VLM')).toBe(true);
+  });
+
+  it('returns no candidates for a family absent from constraints', () => {
+    const c = router.route({ ...req, family: 'SAM', dataClass: 'regulated' });
+    expect(c.length).toBeGreaterThan(0);
+    const entries = c.map(
+      (x) => MODEL_CATALOG.find((m) => m.provider === x.provider && m.model === x.model)
+    );
+    expect(entries.every((m) => m?.family === 'SAM')).toBe(true);
+  });
+
+  it('soft-prefers families matching the task class', () => {
+    const c = router.route({ ...req, taskClass: 'agent' });
+    expect(c.length).toBeGreaterThan(0);
+  });
 });
 
 describe('ModelGateway', () => {

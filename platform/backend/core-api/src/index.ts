@@ -1487,14 +1487,24 @@ export async function buildApp(context?: AppContext): Promise<FastifyInstance> {
   // and gateway.usage over the desktop bridge JSON-RPC (P1B).
   // ---------------------------------------------------------------------------
   app.get('/models', async (request) => {
-    const query = request.query as { dataClass?: string };
+    const query = request.query as { dataClass?: string; family?: string };
     try {
       const models = await edgeBridge.call<unknown[]>('models.list', {
         dataClass: query.dataClass,
+        family: query.family,
       });
       return { connected: true, models };
     } catch {
       return { connected: false, models: [] as unknown[] };
+    }
+  });
+
+  app.get('/models/families', async () => {
+    try {
+      const families = await edgeBridge.call<unknown>('models.families');
+      return { connected: true, families };
+    } catch {
+      return { connected: false, families: [] as unknown[] };
     }
   });
 

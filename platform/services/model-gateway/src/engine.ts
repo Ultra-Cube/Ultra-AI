@@ -18,6 +18,7 @@
 // ╚══════════════════════════════════════════════════════════════════════════╝
 
 import { MODEL_CATALOG } from './catalog';
+import { MODEL_FAMILY_REGISTRY } from './families';
 import type {
   ProviderAdapter,
   BreakerState,
@@ -25,6 +26,7 @@ import type {
   ChatResponse,
   DataClass,
   MeterRecord,
+  ModelFamily,
   ProviderId,
   Usage,
 } from './types';
@@ -175,8 +177,8 @@ export class ModelRouter {
   /**
    * Pick the best catalog entry for a request.
    * Constraints (hard): enabled, data-class allowed, preferLocal,
-   * provider+model override. Scoring (soft): task capability match,
-   * quality, cost, latency — weighted by request hints.
+   * provider+model override, family. Scoring (soft): task capability match,
+   * family-preferred task classes, quality, cost, latency.
    */
   route(
     req: ChatRequest,
@@ -195,6 +197,7 @@ export class ModelRouter {
       (m) =>
         m.enabled &&
         m.allowedDataClasses.includes(dataClass) &&
+        (!req.family || m.family === req.family) &&
         (!req.preferLocal || m.provider === 'ollama' || m.costPer1k === 0) &&
         (!req.model || m.model === req.model) &&
         (!req.provider || m.provider === req.provider)
@@ -219,11 +222,19 @@ export class ModelRouter {
           req.taskClass && m.capabilities.includes(req.taskClass as never)
             ? 0.1
             : 0;
+        const familyPref =
+          req.taskClass &&
+          MODEL_FAMILY_REGISTRY[m.family]?.preferredTaskClasses.includes(
+            req.taskClass
+          )
+            ? 0.05
+            : 0;
         const score =
           m.quality * wQ +
           (1 - m.costPer1k / maxCost) * wC +
           (1 - m.latencyClass / 2) * wL +
-          capMatch;
+          capMatch +
+          familyPref;
         return { provider: m.provider, model: m.model, score };
       })
       .sort((a, b) => b.score - a.score);
@@ -345,9 +356,12 @@ export class ModelGateway {
     return this.meter;
   }
 
-  availableModels(dataClass: DataClass = 'internal') {
+  availableModels(dataClass: DataClass = 'internal', family?: ModelFamily) {
     return MODEL_CATALOG.filter(
-      (m) => m.enabled && m.allowedDataClasses.includes(dataClass)
+      (m) =>
+        m.enabled &&
+        m.allowedDataClasses.includes(dataClass) &&
+        (!family || m.family === family)
     );
   }
 

@@ -31,8 +31,11 @@ import {
   ModelGateway,
   OpenAICompatibleProvider,
   ManusProvider,
+  MODEL_FAMILY_REGISTRY,
+  catalogByFamily,
   type GatewayOptions,
   type ChatRequest as GatewayChatRequest,
+  type ModelFamily,
 } from '@ultra-ai/model-gateway';
 import {
   WorkDispatcher,
@@ -513,10 +516,16 @@ export class DesktopBridgeServer {
                 | 'internal'
                 | 'sensitive'
                 | 'regulated'
-                | undefined
+                | undefined,
+              params.family as ModelFamily | undefined
             )
           : [];
       }
+      case 'models.families':
+        return Object.values(MODEL_FAMILY_REGISTRY).map((def) => ({
+          ...def,
+          catalogCount: catalogByFamily(def.family).length,
+        }));
       case 'gateway.chat': {
         if (!this.gateway)
           throw new BridgeError(INVALID_PARAMS, 'model gateway disabled');
