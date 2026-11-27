@@ -1,3 +1,24 @@
+<!--
+╔══════════════════════════════════════════════════════════════════════════╗
+║                                                                          ║
+║ ██╗   ██╗ ██╗      ███████╗ ██████╗   █████╗                             ║
+║ ██║   ██║ ██║      ╚══██╔══╝ ██╔══██╗ ██╔══██╗                           ║
+║ ██║   ██║ ██║         ██║    ██████╔╝ ███████║                           ║
+║ ╚██╗ ██╔╝ ██║         ██║    ██╔══██║ ██╔══██║                           ║
+║  ╚████╔╝ ███████╗    ██║    ██║  ██║ ██║  ██║                            ║
+║   ╚═══╝  ╚══════╝    ╚═╝    ╚═╝  ╚═╝ ╚═╝  ╚═╝                            ║
+║                                                                          ║
+║ Project   : Ultra AI — Proprietary AI Platform                           ║
+║ Developer : Ultra Cube Tech — ucubetech.com                              ║
+║ Team      : Ultra Zone Team — ultra-zone.ucubetech.com                   ║
+║ GitHub Org: github.com/Ultra-Cube                                        ║
+║ Repository: github.com/Ultra-Cube/Ultra-AI                               ║
+║ Copyright : (c) Ultra Cube Tech — All rights reserved                    ║
+║ [UCUBETECH-COPYRIGHT]                                                    ║
+║                                                                          ║
+╚══════════════════════════════════════════════════════════════════════════╝
+-->
+
 # 🏗️ System Architecture - Ultra AI Platform
 
 ## 🎯 Overview
@@ -129,12 +150,12 @@ graph TB
 - Trigger local tools, local model generation, or n8n workflows
 - Escalate to Ultra AI only when shared or distributed capabilities are needed
 
-**Current supporting stack**:
+**Current supporting stack** (pre-WP-0 paths; target layout per `docs/planning/layout-map.yaml`: `platform/backend/core-api → platform/backend/core-api`, `platform/frontend → platform/frontend`, `wsl-ai-stack/` stays pending manifest-local):
 - Speech-to-text: `wsl-ai-stack/scripts/transcribe-audio.py`
 - Voice bridge: `wsl-ai-stack/scripts/voice-bridge.sh`
-- Memory store: `packages/api/src/services/zeroai/zeroai-store.ts`
-- Control surface: `apps/web/app/zeroai/page.tsx`
-- Workflow API: `packages/api/src/routes/workflows.routes.ts`
+- Memory store: `platform/backend/core-api/src/services/zeroai/zeroai-store.ts`
+- Control surface: `platform/frontend/app/zeroai/page.tsx`
+- Workflow API: `platform/backend/core-api/src/routes/workflows.routes.ts`
 
 ### Adaptive Interface Subsystem
 

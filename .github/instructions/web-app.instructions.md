@@ -1,10 +1,31 @@
+<!--
+╔══════════════════════════════════════════════════════════════════════════╗
+║                                                                          ║
+║ ██╗   ██╗ ██╗      ███████╗ ██████╗   █████╗                             ║
+║ ██║   ██║ ██║      ╚══██╔══╝ ██╔══██╗ ██╔══██╗                           ║
+║ ██║   ██║ ██║         ██║    ██████╔╝ ███████║                           ║
+║ ╚██╗ ██╔╝ ██║         ██║    ██╔══██║ ██╔══██║                           ║
+║  ╚████╔╝ ███████╗    ██║    ██║  ██║ ██║  ██║                            ║
+║   ╚═══╝  ╚══════╝    ╚═╝    ╚═╝  ╚═╝ ╚═╝  ╚═╝                            ║
+║                                                                          ║
+║ Project   : Ultra AI — Proprietary AI Platform                           ║
+║ Developer : Ultra Cube Tech — ucubetech.com                              ║
+║ Team      : Ultra Zone Team — ultra-zone.ucubetech.com                   ║
+║ GitHub Org: github.com/Ultra-Cube                                        ║
+║ Repository: github.com/Ultra-Cube/Ultra-AI                               ║
+║ Copyright : (c) Ultra Cube Tech — All rights reserved                    ║
+║ [UCUBETECH-COPYRIGHT]                                                    ║
+║                                                                          ║
+╚══════════════════════════════════════════════════════════════════════════╝
+-->
+
 # Web App Instructions
 
-**applyTo**: `apps/web/**`
+**applyTo**: `platform/frontend/**`
 
 ## Overview
 
-The web application (`apps/web`) is the primary user interface for Ultra AI. It serves as both a control center and a demonstration platform.
+The web application (`platform/frontend`) is the primary user interface for Ultra AI. It serves as both a control center and a demonstration platform.
 
 ## Key Principles
 
@@ -42,7 +63,7 @@ The web application (`apps/web`) is the primary user interface for Ultra AI. It 
 
 ### Styling
 - Use Tailwind CSS for styling
-- Follow the design system tokens in `apps/web/app/design-system.css`
+- Follow the design system tokens in `platform/frontend/app/design-system.css`
 - Use CSS modules for component-specific styles
 - Ensure RTL support for all layouts
 

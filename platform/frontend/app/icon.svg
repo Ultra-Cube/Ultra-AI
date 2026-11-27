@@ -1,0 +1,44 @@
+<!--
+╔══════════════════════════════════════════════════════════════════════════╗
+║                                                                          ║
+║ ██╗   ██╗ ██╗      ███████╗ ██████╗   █████╗                             ║
+║ ██║   ██║ ██║      ╚══██╔══╝ ██╔══██╗ ██╔══██╗                           ║
+║ ██║   ██║ ██║         ██║    ██████╔╝ ███████║                           ║
+║ ╚██╗ ██╔╝ ██║         ██║    ██╔══██║ ██╔══██║                           ║
+║  ╚████╔╝ ███████╗    ██║    ██║  ██║ ██║  ██║                            ║
+║   ╚═══╝  ╚══════╝    ╚═╝    ╚═╝  ╚═╝ ╚═╝  ╚═╝                            ║
+║                                                                          ║
+║ Project   : Ultra AI — Proprietary AI Platform                           ║
+║ Developer : Ultra Cube Tech — ucubetech.com                              ║
+║ Team      : Ultra Zone Team — ultra-zone.ucubetech.com                   ║
+║ GitHub Org: github.com/Ultra-Cube                                        ║
+║ Repository: github.com/Ultra-Cube/Ultra-AI                               ║
+║ Copyright : (c) Ultra Cube Tech — All rights reserved                    ║
+║ [UCUBETECH-COPYRIGHT]                                                    ║
+║                                                                          ║
+╚══════════════════════════════════════════════════════════════════════════╝
+-->
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <rect width="32" height="32" rx="7" fill="#14161c"/>
+  <g fill="none" stroke="#f97316" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M16 3.5 L26.5 8.75 L16 14 L5.5 8.75 Z" fill="#23262f"/>
+    <path d="M5.5 8.75 L16 14 L16 26.5 L5.5 21.25 Z" fill="#1b1e26"/>
+    <path d="M26.5 8.75 L16 14 L16 26.5 L26.5 21.25 Z" fill="#20242e"/>
+    <path d="M16 3.5 L26.5 8.75 L16 14 L5.5 8.75 Z"/>
+    <path d="M5.5 8.75 L16 14 L16 26.5 L5.5 21.25 Z"/>
+    <path d="M26.5 8.75 L16 14 L16 26.5 L26.5 21.25 Z"/>
+    <path d="M16 8.5 L20.5 6.4 L23.5 8.2" stroke-width="1"/>
+    <circle cx="23.5" cy="8.2" r="0.9" fill="#f97316" stroke="none"/>
+    <path d="M11.5 10.8 L14 8.9" stroke-width="1"/>
+    <circle cx="11.5" cy="10.8" r="0.9" fill="#f97316" stroke="none"/>
+    <path d="M8.5 15.5 L12 15.5 L12 18.5" stroke-width="1"/>
+    <circle cx="8.5" cy="15.5" r="0.9" fill="#f97316" stroke="none"/>
+    <circle cx="12" cy="18.5" r="0.9" fill="#f97316" stroke="none"/>
+    <path d="M23.5 15.5 L20 15.5 L20 18.5" stroke-width="1"/>
+    <circle cx="23.5" cy="15.5" r="0.9" fill="#f97316" stroke="none"/>
+    <circle cx="20" cy="18.5" r="0.9" fill="#f97316" stroke="none"/>
+    <path d="M16 19 L16 23.5 L13.5 25.5" stroke-width="1"/>
+    <circle cx="13.5" cy="25.5" r="0.9" fill="#f97316" stroke="none"/>
+  </g>
+</svg>

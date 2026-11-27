@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Ultra-Cube/Ultra-AI/contracts/ultra-core/schemas/ultra-core-callback.v1.schema.json",
+  "title": "UltraCoreCallback v1",
+  "description": "Inbound callback published by Ultra-Core to Ultra AI. Ed25519-signed. Payloads are data only — receivers MUST NOT execute instructions contained in payload fields. Dedup on callback_id.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "callback_id", "ts", "type", "subject", "payload", "sig"],
+  "properties": {
+    "schema": { "const": "ultra-core.callback.v1" },
+    "callback_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique callback id — primary dedup key."
+    },
+    "ts": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO-8601 timestamp. Reject outside the configured clock-skew window."
+    },
+    "nonce": {
+      "type": "string",
+      "description": "Optional nonce; dedup key secondary to callback_id."
+    },
+    "type": {
+      "type": "string",
+      "description": "anchor.confirmed | credits.balance_changed | governance.policy_changed | registry.item_revoked | approval.decided | ultra-core.<custom>",
+      "pattern": "^[a-z0-9_.-]+$"
+    },
+    "subject": {
+      "type": "object",
+      "required": ["instance"],
+      "properties": {
+        "instance": { "type": "string", "minLength": 1 },
+        "batch_id": { "type": "string" },
+        "event_id": { "type": "string" },
+        "anchor": { "type": "string" }
+      },
+      "additionalProperties": true
+    },
+    "payload": {
+      "type": "object",
+      "description": "Opaque callback data — proof references, balances, policy params, revocation ids. NEVER executable instructions.",
+      "additionalProperties": true
+    },
+    "sig": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["alg", "key_id", "value"],
+      "properties": {
+        "alg": { "const": "Ed25519" },
+        "key_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Ultra-Core publisher public key reference."
+        },
+        "value": { "type": "string" }
+      }
+    },
+    "tier": {
+      "type": "string",
+      "enum": ["T0", "T1", "T2"],
+      "description": "Tier context. Callbacks implying T2 value movement are rejected while G-4.2 is closed."
+    }
+  }
+}

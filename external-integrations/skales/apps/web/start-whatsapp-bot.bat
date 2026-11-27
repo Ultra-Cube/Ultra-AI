@@ -1,3 +1,22 @@
+REM  ╔══════════════════════════════════════════════════════════════════════════╗
+REM  ║                                                                          ║
+REM  ║ ██╗   ██╗ ██╗      ███████╗ ██████╗   █████╗                             ║
+REM  ║ ██║   ██║ ██║      ╚══██╔══╝ ██╔══██╗ ██╔══██╗                           ║
+REM  ║ ██║   ██║ ██║         ██║    ██████╔╝ ███████║                           ║
+REM  ║ ╚██╗ ██╔╝ ██║         ██║    ██╔══██║ ██╔══██║                           ║
+REM  ║  ╚████╔╝ ███████╗    ██║    ██║  ██║ ██║  ██║                            ║
+REM  ║   ╚═══╝  ╚══════╝    ╚═╝    ╚═╝  ╚═╝ ╚═╝  ╚═╝                            ║
+REM  ║                                                                          ║
+REM  ║ Project   : Ultra AI — Proprietary AI Platform                           ║
+REM  ║ Developer : Ultra Cube Tech — ucubetech.com                              ║
+REM  ║ Team      : Ultra Zone Team — ultra-zone.ucubetech.com                   ║
+REM  ║ GitHub Org: github.com/Ultra-Cube                                        ║
+REM  ║ Repository: github.com/Ultra-Cube/Ultra-AI                               ║
+REM  ║ Copyright : (c) Ultra Cube Tech — All rights reserved                    ║
+REM  ║ [UCUBETECH-COPYRIGHT]                                                    ║
+REM  ║                                                                          ║
+REM  ╚══════════════════════════════════════════════════════════════════════════╝
+
 @echo off
 title Skales WhatsApp Bot
 echo.

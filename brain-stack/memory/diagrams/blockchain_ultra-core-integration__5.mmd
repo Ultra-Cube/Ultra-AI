@@ -1,0 +1,44 @@
+%% ╔══════════════════════════════════════════════════════════════════════════╗
+%% ║                                                                          ║
+%% ║ ██╗   ██╗ ██╗      ███████╗ ██████╗   █████╗                             ║
+%% ║ ██║   ██║ ██║      ╚══██╔══╝ ██╔══██╗ ██╔══██╗                           ║
+%% ║ ██║   ██║ ██║         ██║    ██████╔╝ ███████║                           ║
+%% ║ ╚██╗ ██╔╝ ██║         ██║    ██╔══██║ ██╔══██║                           ║
+%% ║  ╚████╔╝ ███████╗    ██║    ██║  ██║ ██║  ██║                            ║
+%% ║   ╚═══╝  ╚══════╝    ╚═╝    ╚═╝  ╚═╝ ╚═╝  ╚═╝                            ║
+%% ║                                                                          ║
+%% ║ Project   : Ultra AI — Proprietary AI Platform                           ║
+%% ║ Developer : Ultra Cube Tech — ucubetech.com                              ║
+%% ║ Team      : Ultra Zone Team — ultra-zone.ucubetech.com                   ║
+%% ║ GitHub Org: github.com/Ultra-Cube                                        ║
+%% ║ Repository: github.com/Ultra-Cube/Ultra-AI                               ║
+%% ║ Copyright : (c) Ultra Cube Tech — All rights reserved                    ║
+%% ║ [UCUBETECH-COPYRIGHT]                                                    ║
+%% ║                                                                          ║
+%% ╚══════════════════════════════════════════════════════════════════════════╝
+
+flowchart LR
+  subgraph UAZ["Ultra AI zone: holds NO chain keys"]
+    AGS["Agents and skills"]
+    SIG["Event signer<br/>instance Ed25519 key in OS keychain or vault"]
+    OBX["Outbox"]
+    AGS --> OBX
+    SIG --> OBX
+  end
+  subgraph GATE["Control gate"]
+    POL["Policy and allow-list"]
+    HUM["Human approval for any value movement"]
+    KILL["Kill switch and spending caps"]
+  end
+  subgraph UCZ["Ultra-Core zone: only place with chain keys"]
+    API["Authenticated API<br/>scoped JWT or mTLS"]
+    CUS["Key custody and signing service"]
+    LDG["Ledger and chain adapters"]
+  end
+  OBX -->|"events only"| API
+  API --> POL
+  POL --> HUM
+  HUM --> CUS
+  KILL --> API
+  CUS --> LDG
+  AGS -. "no path" .-x CUS

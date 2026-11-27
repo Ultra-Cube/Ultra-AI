@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Ultra-Cube/Ultra-AI/contracts/ultra-core/schemas/ingest-response.schema.json",
+  "title": "IngestBatchesResponse",
+  "description": "POST /v1/ingest/batches response. 200 = all accepted; 207 = partial acceptance; rejected items must be retried or dead-lettered.",
+  "type": "object",
+  "required": ["accepted"],
+  "properties": {
+    "accepted": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Event ids accepted by the target."
+    },
+    "rejected": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "reason"],
+        "properties": {
+          "id": { "type": "string" },
+          "reason": { "type": "string" }
+        }
+      }
+    },
+    "instance": { "type": "string" },
+    "head": {
+      "type": "string",
+      "description": "sha256:<hex> of the anchored head after this ingest, when applicable."
+    },
+    "tier": {
+      "type": "string",
+      "enum": ["T0", "T1", "T2"],
+      "description": "Tier this ingest was recorded under. T2 must be absent until G-4.2 approval."
+    }
+  }
+}

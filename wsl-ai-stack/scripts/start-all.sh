@@ -1,4 +1,23 @@
 #!/usr/bin/env bash
+# ╔══════════════════════════════════════════════════════════════════════════╗
+# ║                                                                          ║
+# ║ ██╗   ██╗ ██╗      ███████╗ ██████╗   █████╗                             ║
+# ║ ██║   ██║ ██║      ╚══██╔══╝ ██╔══██╗ ██╔══██╗                           ║
+# ║ ██║   ██║ ██║         ██║    ██████╔╝ ███████║                           ║
+# ║ ╚██╗ ██╔╝ ██║         ██║    ██╔══██║ ██╔══██║                           ║
+# ║  ╚████╔╝ ███████╗    ██║    ██║  ██║ ██║  ██║                            ║
+# ║   ╚═══╝  ╚══════╝    ╚═╝    ╚═╝  ╚═╝ ╚═╝  ╚═╝                            ║
+# ║                                                                          ║
+# ║ Project   : Ultra AI — Proprietary AI Platform                           ║
+# ║ Developer : Ultra Cube Tech — ucubetech.com                              ║
+# ║ Team      : Ultra Zone Team — ultra-zone.ucubetech.com                   ║
+# ║ GitHub Org: github.com/Ultra-Cube                                        ║
+# ║ Repository: github.com/Ultra-Cube/Ultra-AI                               ║
+# ║ Copyright : (c) Ultra Cube Tech — All rights reserved                    ║
+# ║ [UCUBETECH-COPYRIGHT]                                                    ║
+# ║                                                                          ║
+# ╚══════════════════════════════════════════════════════════════════════════╝
+
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -18,7 +37,7 @@ load_node_runtime() {
     . "$HOME/.nvm/nvm.sh"
     if command -v nvm >/dev/null 2>&1; then
       local nvm_node_bin
-      nvm_node_bin="$(nvm which --lts 2>/dev/null || true)"
+      nvm_node_bin="$(nvm which --lts 2>/dev/null || nvm which default 2>/dev/null || true)"
       if [ -x "$nvm_node_bin" ]; then
         PATH="$(dirname "$nvm_node_bin"):$PATH"
       fi
@@ -51,8 +70,15 @@ start_n8n() {
   export N8N_PROTOCOL="http"
   export N8N_SECURE_COOKIE="false"
 
-  if [ ! -x "$ROOT_DIR/node_modules/.bin/n8n" ]; then
-    echo "[MISS] n8n binary not found under $ROOT_DIR/node_modules/.bin/n8n"
+  local n8n_bin=""
+  if [ -x "$N8N_DIR/node_modules/.bin/n8n" ]; then
+    n8n_bin="$N8N_DIR/node_modules/.bin/n8n"
+  elif [ -x "$ROOT_DIR/node_modules/.bin/n8n" ]; then
+    n8n_bin="$ROOT_DIR/node_modules/.bin/n8n"
+  fi
+
+  if [ -z "$n8n_bin" ]; then
+    echo "[MISS] n8n binary not found (checked $N8N_DIR and $ROOT_DIR node_modules)"
     return 0
   fi
 
@@ -61,7 +87,7 @@ start_n8n() {
     return 0
   fi
 
-  nohup "$ROOT_DIR/node_modules/.bin/n8n" start >"$N8N_LOG" 2>&1 &
+  setsid nohup "$n8n_bin" start >"$N8N_LOG" 2>&1 < /dev/null &
   echo "[OK] n8n starting on http://127.0.0.1:$N8N_PORT"
   echo "     log: $N8N_LOG"
 }
@@ -74,14 +100,14 @@ start_ultra_ai() {
   if pgrep -f 'tsx src/server.ts' >/dev/null 2>&1; then
     echo "[OK] API already running on port 4000"
   else
-    nohup npm run start:dev --workspace=@ultra-ai/api >"$LOG_DIR/zeroai-api.log" 2>&1 &
+    setsid nohup npm run start:dev --workspace=@ultra-ai/api >"$LOG_DIR/zeroai-api.log" 2>&1 < /dev/null &
     echo "[OK] API starting on http://127.0.0.1:4000"
   fi
 
   if pgrep -f 'next dev -p 3000' >/dev/null 2>&1; then
     echo "[OK] ZeroAI web UI already running on port 3000"
   else
-    nohup npm run dev --workspace=@ultra-ai/web >"$LOG_DIR/zeroai-web.log" 2>&1 &
+    setsid nohup npm run dev --workspace=@ultra-ai/web >"$LOG_DIR/zeroai-web.log" 2>&1 < /dev/null &
     echo "[OK] ZeroAI web UI starting on http://127.0.0.1:3000/zeroai"
   fi
 

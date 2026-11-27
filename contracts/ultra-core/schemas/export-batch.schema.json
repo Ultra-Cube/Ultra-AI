@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Ultra-Cube/Ultra-AI/contracts/ultra-core/schemas/export-batch.schema.json",
+  "title": "ExportBatch",
+  "description": "POST /v1/ingest/batches request body — wrapper for a batch of ultra.event.v1 events.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["batch_id", "target", "events"],
+  "properties": {
+    "batch_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique batch id. Must equal the Idempotency-Key header."
+    },
+    "target": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Target identifier; 'ultra-core' for Ultra-Core ingest."
+    },
+    "events": {
+      "type": "array",
+      "items": { "$ref": "ultra-event.v1.schema.json" }
+    }
+  }
+}

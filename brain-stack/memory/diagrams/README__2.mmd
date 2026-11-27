@@ -1,0 +1,32 @@
+%% ╔══════════════════════════════════════════════════════════════════════════╗
+%% ║                                                                          ║
+%% ║ ██╗   ██╗ ██╗      ███████╗ ██████╗   █████╗                             ║
+%% ║ ██║   ██║ ██║      ╚══██╔══╝ ██╔══██╗ ██╔══██╗                           ║
+%% ║ ██║   ██║ ██║         ██║    ██████╔╝ ███████║                           ║
+%% ║ ╚██╗ ██╔╝ ██║         ██║    ██╔══██║ ██╔══██║                           ║
+%% ║  ╚████╔╝ ███████╗    ██║    ██║  ██║ ██║  ██║                            ║
+%% ║   ╚═══╝  ╚══════╝    ╚═╝    ╚═╝  ╚═╝ ╚═╝  ╚═╝                            ║
+%% ║                                                                          ║
+%% ║ Project   : Ultra AI — Proprietary AI Platform                           ║
+%% ║ Developer : Ultra Cube Tech — ucubetech.com                              ║
+%% ║ Team      : Ultra Zone Team — ultra-zone.ucubetech.com                   ║
+%% ║ GitHub Org: github.com/Ultra-Cube                                        ║
+%% ║ Repository: github.com/Ultra-Cube/Ultra-AI                               ║
+%% ║ Copyright : (c) Ultra Cube Tech — All rights reserved                    ║
+%% ║ [UCUBETECH-COPYRIGHT]                                                    ║
+%% ║                                                                          ║
+%% ╚══════════════════════════════════════════════════════════════════════════╝
+
+flowchart LR
+  U[User voice or text] --> Z[ZeroAI]
+  Z --> S[Speech-to-Text]
+  Z --> M[Memory Layer]
+  Z --> O[OpenClaw]
+  O --> L[Local Models]
+  O --> N[n8n]
+  O --> T[Local Tools]
+  O --> X[Ultra AI Network]
+  L --> R[Response]
+  N --> R
+  T --> R
+  X --> R

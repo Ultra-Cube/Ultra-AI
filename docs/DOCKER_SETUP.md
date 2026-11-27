@@ -1,3 +1,24 @@
+<!--
+╔══════════════════════════════════════════════════════════════════════════╗
+║                                                                          ║
+║ ██╗   ██╗ ██╗      ███████╗ ██████╗   █████╗                             ║
+║ ██║   ██║ ██║      ╚══██╔══╝ ██╔══██╗ ██╔══██╗                           ║
+║ ██║   ██║ ██║         ██║    ██████╔╝ ███████║                           ║
+║ ╚██╗ ██╔╝ ██║         ██║    ██╔══██║ ██╔══██║                           ║
+║  ╚████╔╝ ███████╗    ██║    ██║  ██║ ██║  ██║                            ║
+║   ╚═══╝  ╚══════╝    ╚═╝    ╚═╝  ╚═╝ ╚═╝  ╚═╝                            ║
+║                                                                          ║
+║ Project   : Ultra AI — Proprietary AI Platform                           ║
+║ Developer : Ultra Cube Tech — ucubetech.com                              ║
+║ Team      : Ultra Zone Team — ultra-zone.ucubetech.com                   ║
+║ GitHub Org: github.com/Ultra-Cube                                        ║
+║ Repository: github.com/Ultra-Cube/Ultra-AI                               ║
+║ Copyright : (c) Ultra Cube Tech — All rights reserved                    ║
+║ [UCUBETECH-COPYRIGHT]                                                    ║
+║                                                                          ║
+╚══════════════════════════════════════════════════════════════════════════╝
+-->
+
 # Docker Setup Guide for Ultra AI Platform
 
 ## Overview
@@ -37,7 +58,7 @@ This guide explains how to build, run, and manage the Ultra AI Platform using Do
   - Adminer for database management
   - Redis Commander for cache management
 
-- **`.env.example`** - Environment variables template
+- **`environments/.env.example`** - Environment variables template
   - All configurable options with defaults
   - Copy to `.env` for local development
 
@@ -60,7 +81,7 @@ This guide explains how to build, run, and manage the Ultra AI Platform using Do
 
 ```bash
 # Copy environment template
-cp .env.example .env
+cp environments/.env.example .env
 
 # Edit .env with your configuration
 nano .env

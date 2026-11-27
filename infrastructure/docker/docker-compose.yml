@@ -1,3 +1,22 @@
+# ╔══════════════════════════════════════════════════════════════════════════╗
+# ║                                                                          ║
+# ║ ██╗   ██╗ ██╗      ███████╗ ██████╗   █████╗                             ║
+# ║ ██║   ██║ ██║      ╚══██╔══╝ ██╔══██╗ ██╔══██╗                           ║
+# ║ ██║   ██║ ██║         ██║    ██████╔╝ ███████║                           ║
+# ║ ╚██╗ ██╔╝ ██║         ██║    ██╔══██║ ██╔══██║                           ║
+# ║  ╚████╔╝ ███████╗    ██║    ██║  ██║ ██║  ██║                            ║
+# ║   ╚═══╝  ╚══════╝    ╚═╝    ╚═╝  ╚═╝ ╚═╝  ╚═╝                            ║
+# ║                                                                          ║
+# ║ Project   : Ultra AI — Proprietary AI Platform                           ║
+# ║ Developer : Ultra Cube Tech — ucubetech.com                              ║
+# ║ Team      : Ultra Zone Team — ultra-zone.ucubetech.com                   ║
+# ║ GitHub Org: github.com/Ultra-Cube                                        ║
+# ║ Repository: github.com/Ultra-Cube/Ultra-AI                               ║
+# ║ Copyright : (c) Ultra Cube Tech — All rights reserved                    ║
+# ║ [UCUBETECH-COPYRIGHT]                                                    ║
+# ║                                                                          ║
+# ╚══════════════════════════════════════════════════════════════════════════╝
+
 version: '3.8'
 
 services:
@@ -38,7 +57,7 @@ services:
 
   api-gateway:
     build:
-      context: ./packages/api-gateway
+      context: ./platform/api/gateway
       dockerfile: ./Dockerfile
     ports:
       - "20129:20129"
@@ -47,10 +66,44 @@ services:
 
   control-center:
     build:
-      context: ./packages/control-center
+      context: ./platform/devtools/control-center
       dockerfile: ./Dockerfile
     ports:
       - "3000:3000"
+    networks:
+      - ultra-ai-network
+
+  ultra-core-mock:
+    image: node:20-alpine
+    working_dir: /repo
+    command: npx tsx platform/services/ultra-core-bridge/src/mock-server.ts
+    ports:
+      - "4100:4100"
+    volumes:
+      - ../../:/repo
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:4100/v1/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+    networks:
+      - ultra-ai-network
+
+  # Hermes OpenAI bridge — exposes HermesRuntime as /v1/chat/completions
+  # so Open WebUI can use Hermes as a model provider (port 9400).
+  hermes-openai-bridge:
+    image: node:20-alpine
+    working_dir: /repo
+    command: sh -c "npm run build -w @ultra-ai/hermes-runtime --if-present && npx tsx platform/services/hermes-openai-bridge/src/index.ts"
+    ports:
+      - "9400:9400"
+    volumes:
+      - ../../:/repo
+    environment:
+      - HERMES_OPENAI_PORT=9400
+      - HERMES_UPSTREAM_URL=http://host.docker.internal:11434/v1
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     networks:
       - ultra-ai-network
 

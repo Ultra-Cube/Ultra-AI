@@ -1,0 +1,37 @@
+╔══════════════════════════════════════════════════════════════════════════╗
+║                                                                          ║
+║ ██╗   ██╗ ██╗     ███████╗ ██████╗   █████╗            █████╗  ██╗       ║
+║ ██║   ██║ ██║    ╚══██╔══╝ ██╔══██╗ ██╔══██╗          ██╔══██╗ ██║       ║
+║ ██║   ██║ ██║       ██║    ██████╔╝ ███████║          ███████║ ██║       ║
+║ ╚██╗   ██╔╝██║       ██║    ██╔══██║ ██╔══██║          ██╔══██║ ██║      ║
+║  ╚████╔╝  ███████╗  ██║    ██║  ██║ ██║  ██║          ██║  ██║ ██║       ║
+║   ╚═══╝   ╚══════╝  ╚═╝    ╚═╝  ╚═╝ ╚═╝  ╚═╝          ╚═╝  ╚═╝ ╚═╝       ║
+║                                                                          ║
+║ Project   : Ultra AI — Proprietary AI Platform                           ║
+║ Developer : Ultra Cube Tech — ucubetech.com                              ║
+║ Team      : Ultra Zone Team — ultra-zone.ucubetech.com                   ║
+║ GitHub Org: github.com/Ultra-Cube                                        ║
+║ Repository: github.com/Ultra-Cube/Ultra-AI                               ║
+║ Copyright : (c) Ultra Cube Tech — All rights reserved                    ║
+║ [UCUBETECH-COPYRIGHT]                                                    ║
+║                                                                          ║
+╚══════════════════════════════════════════════════════════════════════════╝
+
+Ultra AI — Proprietary License
+Copyright (c) Ultra Cube Tech — All rights reserved
+
+This software and its associated documentation (the "Software") are the
+proprietary and confidential property of Ultra Cube Tech ("Ultra Cube"),
+the owner and supporting company of this project.
+
+The Software is provided for internal use within Ultra Cube and its
+licensed clients only. No part of the Software may be reproduced,
+distributed, modified, sublicensed, or used for any commercial purpose
+without prior written permission from Ultra Cube Tech.
+
+Development team: Ultra Zone Team — https://ultra-zone.ucubetech.com/
+Company website: Ultra Cube Technology — https://ucubetech.com/
+
+Third-party open-source components integrated into this project retain
+their own licenses; see docs/legal/THIRD_PARTY_NOTICES.md for the full
+inventory.
