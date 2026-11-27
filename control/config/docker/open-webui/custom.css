@@ -1,0 +1,149 @@
+/*
+╔══════════════════════════════════════════════════════════════════════════╗
+║                                                                          ║
+║ ██╗   ██╗ ██╗      ███████╗ ██████╗   █████╗                             ║
+║ ██║   ██║ ██║      ╚══██╔══╝ ██╔══██╗ ██╔══██╗                           ║
+║ ██║   ██║ ██║         ██║    ██████╔╝ ███████║                           ║
+║ ╚██╗ ██╔╝ ██║         ██║    ██╔══██║ ██╔══██║                           ║
+║  ╚████╔╝ ███████╗    ██║    ██║  ██║ ██║  ██║                            ║
+║   ╚═══╝  ╚══════╝    ╚═╝    ╚═╝  ╚═╝ ╚═╝  ╚═╝                            ║
+║                                                                          ║
+║ Project   : Ultra AI — Proprietary AI Platform                           ║
+║ Developer : Ultra Cube Tech — ucubetech.com                              ║
+║ Team      : Ultra Zone Team — ultra-zone.ucubetech.com                   ║
+║ GitHub Org: github.com/Ultra-Cube                                        ║
+║ Repository: github.com/Ultra-Cube/Ultra-AI                               ║
+║ Copyright : (c) Ultra Cube Tech — All rights reserved                    ║
+║ [UCUBETECH-COPYRIGHT]                                                    ║
+║                                                                          ║
+╚══════════════════════════════════════════════════════════════════════════╝
+*/
+
+/* Ultra AI brand theme — dark gray + orange (R15/R16) */
+
+:root {
+  --ultra-bg-0: #0b0d10;
+  --ultra-bg-1: #12151a;
+  --ultra-bg-2: #1a1f27;
+  --ultra-accent: #ff7a1a;
+  --ultra-accent-2: #ffa14d;
+  --ultra-accent-3: #ff5e1a;
+}
+
+html.dark {
+  --color-gray-50: #f2f4f7;
+  --color-gray-100: #e4e8ee;
+  --color-gray-200: #cdd4de;
+  --color-gray-300: #aeb8c6;
+  --color-gray-400: #8b96a8;
+  --color-gray-500: #6f7b8f;
+  --color-gray-600: #55617a;
+  --color-gray-700: #3d475e;
+  --color-gray-800: #242b3a;
+  --color-gray-850: #1a1f27;
+  --color-gray-900: #12151a;
+  --color-gray-950: #0b0d10;
+
+  --color-indigo-300: #ffb066;
+  --color-indigo-400: #ff9440;
+  --color-indigo-500: #ff7a1a;
+  --color-indigo-600: #e85f00;
+  --color-violet-300: #ffc48f;
+  --color-violet-400: #ffa14d;
+  --color-violet-500: #ff8a2a;
+  --color-violet-600: #e56f10;
+  --color-teal-400: #ff9440;
+  --color-teal-700: #c25e00;
+  --color-cyan-500: #ff7a1a;
+  --color-cyan-600: #e85f00;
+  --color-cyan-700: #c25e00;
+
+  --border-radius: 0.75rem;
+  --radius-lg: 0.875rem;
+  --radius-md: 0.75rem;
+  --radius-sm: 0.5rem;
+}
+
+html.light {
+  --color-gray-50: #fafbfc;
+  --color-gray-100: #f1f3f6;
+  --color-gray-200: #e2e6ec;
+  --color-gray-300: #c6cdd8;
+  --color-gray-400: #9aa5b5;
+  --color-gray-500: #6f7b8f;
+  --color-gray-600: #55617a;
+  --color-gray-700: #3d475e;
+  --color-gray-800: #242b3a;
+  --color-gray-850: #1a1f27;
+  --color-gray-900: #12151a;
+  --color-gray-950: #0b0d10;
+
+  --color-indigo-300: #b35c00;
+  --color-indigo-400: #c96a00;
+  --color-indigo-500: #e05f00;
+  --color-indigo-600: #b84d00;
+  --color-violet-300: #a34d00;
+  --color-violet-400: #c25e00;
+  --color-violet-500: #9a4a00;
+  --color-violet-600: #7d3c00;
+  --color-teal-400: #c96a00;
+  --color-teal-700: #8f4a00;
+  --color-cyan-500: #c96a00;
+  --color-cyan-600: #a85400;
+  --color-cyan-700: #8f4a00;
+}
+
+html.dark body {
+  background-color: var(--ultra-bg-0);
+  color: var(--color-gray-100);
+}
+
+html.dark ::selection {
+  background: color-mix(in srgb, var(--ultra-accent) 35%, transparent);
+  color: #fff;
+}
+
+html.dark * {
+  scrollbar-color: var(--color-gray-700) var(--ultra-bg-0);
+  scrollbar-width: thin;
+}
+
+html.dark *::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+html.dark *::-webkit-scrollbar-thumb {
+  border: 2px solid var(--ultra-bg-0);
+  border-radius: 999px;
+  background: var(--color-gray-700);
+}
+
+html.dark *::-webkit-scrollbar-thumb:hover {
+  background: var(--color-gray-600);
+}
+
+html.dark *::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+html.dark button,
+html.dark [role='button'],
+html.dark a {
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+html.dark button:focus-visible,
+html.dark [role='button']:focus-visible,
+html.dark a:focus-visible,
+html.dark input:focus-visible,
+html.dark textarea:focus-visible,
+html.dark select:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--ultra-accent) 70%, transparent);
+  outline-offset: 2px;
+}

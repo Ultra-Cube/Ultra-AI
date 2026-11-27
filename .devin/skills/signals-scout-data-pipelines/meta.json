@@ -1,0 +1,48 @@
+{
+  "slug": "signals-scout-data-pipelines",
+  "name": "Signals Scout Data Pipelines",
+  "description": "A collection of PostHog skills for enhancing AI-assisted workflows. Add this repo as a Claude Code plugin marketplace to get access to all PostHog skills: Then install individual plugins: Or browse available plugins: Copy any skill directory to .claude/skills/ in your project: Any directory under skills/ that contains a .claude-plugin/plugin.json is automatically discovered and added to the market",
+  "owner": "PostHog",
+  "repo": "skills",
+  "skill_path": "skills/omnibus/signals-scout-data-pipelines",
+  "github_url": "https://github.com/PostHog/skills/tree/main/skills/omnibus/signals-scout-data-pipelines",
+  "weekly_installs": 0,
+  "downloads": 0,
+  "tags": [
+    "json"
+  ],
+  "platforms": [
+    ">"
+  ],
+  "artifact_type": "skill_pack",
+  "format_standard": "skill_md",
+  "skill_type": "hybrid",
+  "github_stars": 54,
+  "github_forks": 4,
+  "license": "MIT",
+  "image_url": null,
+  "is_paid": false,
+  "price_amount": null,
+  "price_currency": "usd",
+  "purchase_url": null,
+  "updated_at": "2026-07-15T17:43:37.849132+00:00",
+  "category": {
+    "slug": "data-analytics",
+    "name": "Data & Analytics"
+  },
+  "clients": [
+    {
+      "client_slug": "claude-code",
+      "client_name": "Claude Code",
+      "install_instructions": "npx mdskills install PostHog/signals-scout-data-pipelines",
+      "is_primary": true
+    }
+  ],
+  "permissions": {
+    "filesystem_read": true,
+    "filesystem_write": true,
+    "shell_exec": true,
+    "network_access": true,
+    "git_write": false
+  }
+}

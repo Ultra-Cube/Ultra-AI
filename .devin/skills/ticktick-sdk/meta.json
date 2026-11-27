@@ -1,0 +1,153 @@
+{
+  "slug": "ticktick-sdk",
+  "name": "ticktick-sdk: A TickTick MCP Server & Full Python SDK",
+  "description": "A comprehensive async Python SDK for TickTick with MCP (Model Context Protocol) server support. Includes full support for Dida365 (滴答清单) as well. Use TickTick programmatically from Python, or let AI assistants manage your tasks. - Why This Library? - Installation - MCP Server Setup & Usage - Step 1: Register Your App - Step 2: Get OAuth2 Access Token - Step 3: Configure Your AI Assistant - CLI Ref",
+  "owner": "dev-mirzabicer",
+  "repo": "ticktick-sdk",
+  "skill_path": "README.md",
+  "github_url": "https://github.com/dev-mirzabicer/ticktick-sdk",
+  "weekly_installs": 0,
+  "downloads": 0,
+  "tags": [
+    "ai-task-manager",
+    "mcp",
+    "task-manager",
+    "ticktick",
+    "ticktick-api",
+    "ticktick-mcp",
+    "todo",
+    "python"
+  ],
+  "platforms": [
+    "claude-code",
+    "claude-desktop",
+    "cursor",
+    "vscode-copilot",
+    "windsurf",
+    "continue-dev",
+    "codex",
+    "gemini-cli",
+    "amp",
+    "roo-code",
+    "goose",
+    "opencode",
+    "trae",
+    "qodo",
+    "command-code"
+  ],
+  "artifact_type": "skill_pack",
+  "format_standard": "generic",
+  "skill_type": "skill",
+  "github_stars": 85,
+  "github_forks": 23,
+  "license": "MIT",
+  "image_url": null,
+  "is_paid": false,
+  "price_amount": null,
+  "price_currency": "usd",
+  "purchase_url": null,
+  "updated_at": "2026-02-24T15:40:09.580347+00:00",
+  "category": {
+    "slug": "productivity",
+    "name": "Productivity"
+  },
+  "clients": [
+    {
+      "client_slug": "claude-desktop",
+      "client_name": "Claude Desktop",
+      "install_instructions": "npx mdskills install dev-mirzabicer/ticktick-sdk",
+      "is_primary": false
+    },
+    {
+      "client_slug": "continue-dev",
+      "client_name": "Continue",
+      "install_instructions": "npx mdskills install dev-mirzabicer/ticktick-sdk",
+      "is_primary": false
+    },
+    {
+      "client_slug": "goose",
+      "client_name": "Goose",
+      "install_instructions": "npx mdskills install dev-mirzabicer/ticktick-sdk",
+      "is_primary": false
+    },
+    {
+      "client_slug": "claude-code",
+      "client_name": "Claude Code",
+      "install_instructions": "npx mdskills install dev-mirzabicer/ticktick-sdk",
+      "is_primary": true
+    },
+    {
+      "client_slug": "vscode-copilot",
+      "client_name": "VS Code Copilot",
+      "install_instructions": "npx mdskills install dev-mirzabicer/ticktick-sdk",
+      "is_primary": false
+    },
+    {
+      "client_slug": "amp",
+      "client_name": "Amp",
+      "install_instructions": "npx mdskills install dev-mirzabicer/ticktick-sdk",
+      "is_primary": false
+    },
+    {
+      "client_slug": "qodo",
+      "client_name": "Qodo",
+      "install_instructions": "npx mdskills install dev-mirzabicer/ticktick-sdk",
+      "is_primary": false
+    },
+    {
+      "client_slug": "codex",
+      "client_name": "OpenAI Codex",
+      "install_instructions": "npx mdskills install dev-mirzabicer/ticktick-sdk",
+      "is_primary": false
+    },
+    {
+      "client_slug": "opencode",
+      "client_name": "OpenCode",
+      "install_instructions": "npx mdskills install dev-mirzabicer/ticktick-sdk",
+      "is_primary": false
+    },
+    {
+      "client_slug": "cursor",
+      "client_name": "Cursor",
+      "install_instructions": "npx mdskills install dev-mirzabicer/ticktick-sdk",
+      "is_primary": false
+    },
+    {
+      "client_slug": "gemini-cli",
+      "client_name": "Gemini CLI",
+      "install_instructions": "npx mdskills install dev-mirzabicer/ticktick-sdk",
+      "is_primary": false
+    },
+    {
+      "client_slug": "trae",
+      "client_name": "TRAE",
+      "install_instructions": "npx mdskills install dev-mirzabicer/ticktick-sdk",
+      "is_primary": false
+    },
+    {
+      "client_slug": "windsurf",
+      "client_name": "Windsurf",
+      "install_instructions": "npx mdskills install dev-mirzabicer/ticktick-sdk",
+      "is_primary": false
+    },
+    {
+      "client_slug": "roo-code",
+      "client_name": "Roo Code",
+      "install_instructions": "npx mdskills install dev-mirzabicer/ticktick-sdk",
+      "is_primary": false
+    },
+    {
+      "client_slug": "command-code",
+      "client_name": "Command Code",
+      "install_instructions": "npx mdskills install dev-mirzabicer/ticktick-sdk",
+      "is_primary": false
+    }
+  ],
+  "permissions": {
+    "filesystem_read": true,
+    "filesystem_write": true,
+    "shell_exec": true,
+    "network_access": true,
+    "git_write": false
+  }
+}

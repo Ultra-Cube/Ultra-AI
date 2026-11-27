@@ -1,3 +1,24 @@
+<!--
+╔══════════════════════════════════════════════════════════════════════════╗
+║                                                                          ║
+║ ██╗   ██╗ ██╗      ███████╗ ██████╗   █████╗                             ║
+║ ██║   ██║ ██║      ╚══██╔══╝ ██╔══██╗ ██╔══██╗                           ║
+║ ██║   ██║ ██║         ██║    ██████╔╝ ███████║                           ║
+║ ╚██╗ ██╔╝ ██║         ██║    ██╔══██║ ██╔══██║                           ║
+║  ╚████╔╝ ███████╗    ██║    ██║  ██║ ██║  ██║                            ║
+║   ╚═══╝  ╚══════╝    ╚═╝    ╚═╝  ╚═╝ ╚═╝  ╚═╝                            ║
+║                                                                          ║
+║ Project   : Ultra AI — Proprietary AI Platform                           ║
+║ Developer : Ultra Cube Tech — ucubetech.com                              ║
+║ Team      : Ultra Zone Team — ultra-zone.ucubetech.com                   ║
+║ GitHub Org: github.com/Ultra-Cube                                        ║
+║ Repository: github.com/Ultra-Cube/Ultra-AI                               ║
+║ Copyright : (c) Ultra Cube Tech — All rights reserved                    ║
+║ [UCUBETECH-COPYRIGHT]                                                    ║
+║                                                                          ║
+╚══════════════════════════════════════════════════════════════════════════╝
+-->
+
 # CLI & Settings Reference
 
 Command-line settings for the two user-facing programs: the **`coli`** CLI and the **`openai_server.py`** server. The underlying `glm` engine is driven by environment variables — see [ENVIRONMENT.md](ENVIRONMENT.md).

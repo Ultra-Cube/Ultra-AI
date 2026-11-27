@@ -1,0 +1,162 @@
+{
+  "slug": "ai-research-skills",
+  "name": "AI Research Engineering Skills Library",
+  "description": "View All 21 Categories - Our Mission - Path Towards AI Research Agent - Available AI Research Engineering Skills - Skill Structure - Repository Structure - Use Cases - Contributing - Community We provide the layer of Engineering Ability that enable your coding agent to write and conduct AI research experiments, including preparing datasets, executing training pipelines, deploying models, and build",
+  "owner": "Orchestra-Research",
+  "repo": "AI-research-SKILLs",
+  "skill_path": "README.md",
+  "github_url": "https://github.com/Orchestra-Research/AI-research-SKILLs",
+  "weekly_installs": 6,
+  "downloads": 10,
+  "tags": [
+    "ai",
+    "ai-research",
+    "claude",
+    "claude-code",
+    "skills",
+    "codex",
+    "gemini",
+    "gpt-5",
+    "grpo",
+    "huggingface"
+  ],
+  "platforms": [
+    "claude-code",
+    "claude-desktop",
+    "cursor",
+    "vscode-copilot",
+    "windsurf",
+    "continue-dev",
+    "codex",
+    "gemini-cli",
+    "amp",
+    "roo-code",
+    "goose",
+    "opencode",
+    "trae",
+    "qodo",
+    "command-code",
+    "factory"
+  ],
+  "artifact_type": "skill_pack",
+  "format_standard": "generic",
+  "skill_type": "skill",
+  "github_stars": 3811,
+  "github_forks": 303,
+  "license": "MIT",
+  "image_url": null,
+  "is_paid": false,
+  "price_amount": null,
+  "price_currency": "usd",
+  "purchase_url": null,
+  "updated_at": "2026-02-24T06:21:46.292361+00:00",
+  "category": {
+    "slug": "data-analytics",
+    "name": "Data & Analytics"
+  },
+  "clients": [
+    {
+      "client_slug": "claude-code",
+      "client_name": "Claude Code",
+      "install_instructions": "npx mdskills install Orchestra-Research/ai-research-skills",
+      "is_primary": true
+    },
+    {
+      "client_slug": "claude-desktop",
+      "client_name": "Claude Desktop",
+      "install_instructions": "npx mdskills install Orchestra-Research/ai-research-skills",
+      "is_primary": false
+    },
+    {
+      "client_slug": "cursor",
+      "client_name": "Cursor",
+      "install_instructions": "npx mdskills install Orchestra-Research/ai-research-skills",
+      "is_primary": false
+    },
+    {
+      "client_slug": "vscode-copilot",
+      "client_name": "VS Code Copilot",
+      "install_instructions": "npx mdskills install Orchestra-Research/ai-research-skills",
+      "is_primary": false
+    },
+    {
+      "client_slug": "windsurf",
+      "client_name": "Windsurf",
+      "install_instructions": "npx mdskills install Orchestra-Research/ai-research-skills",
+      "is_primary": false
+    },
+    {
+      "client_slug": "continue-dev",
+      "client_name": "Continue",
+      "install_instructions": "npx mdskills install Orchestra-Research/ai-research-skills",
+      "is_primary": false
+    },
+    {
+      "client_slug": "codex",
+      "client_name": "OpenAI Codex",
+      "install_instructions": "npx mdskills install Orchestra-Research/ai-research-skills",
+      "is_primary": false
+    },
+    {
+      "client_slug": "gemini-cli",
+      "client_name": "Gemini CLI",
+      "install_instructions": "npx mdskills install Orchestra-Research/ai-research-skills",
+      "is_primary": false
+    },
+    {
+      "client_slug": "amp",
+      "client_name": "Amp",
+      "install_instructions": "npx mdskills install Orchestra-Research/ai-research-skills",
+      "is_primary": false
+    },
+    {
+      "client_slug": "roo-code",
+      "client_name": "Roo Code",
+      "install_instructions": "npx mdskills install Orchestra-Research/ai-research-skills",
+      "is_primary": false
+    },
+    {
+      "client_slug": "trae",
+      "client_name": "TRAE",
+      "install_instructions": "npx mdskills install Orchestra-Research/ai-research-skills",
+      "is_primary": false
+    },
+    {
+      "client_slug": "command-code",
+      "client_name": "Command Code",
+      "install_instructions": "npx mdskills install Orchestra-Research/ai-research-skills",
+      "is_primary": false
+    },
+    {
+      "client_slug": "qodo",
+      "client_name": "Qodo",
+      "install_instructions": "npx mdskills install Orchestra-Research/ai-research-skills",
+      "is_primary": false
+    },
+    {
+      "client_slug": "factory",
+      "client_name": "Factory",
+      "install_instructions": "npx mdskills install Orchestra-Research/ai-research-skills",
+      "is_primary": false
+    },
+    {
+      "client_slug": "goose",
+      "client_name": "Goose",
+      "install_instructions": "npx mdskills install Orchestra-Research/ai-research-skills",
+      "is_primary": false
+    },
+    {
+      "client_slug": "opencode",
+      "client_name": "OpenCode",
+      "install_instructions": "npx mdskills install Orchestra-Research/ai-research-skills",
+      "is_primary": false
+    }
+  ],
+  "permissions": {
+    "filesystem_read": true,
+    "filesystem_write": true,
+    "shell_exec": true,
+    "network_access": true,
+    "git_write": false
+  }
+}

@@ -1,3 +1,24 @@
+<!--
+╔══════════════════════════════════════════════════════════════════════════╗
+║                                                                          ║
+║ ██╗   ██╗ ██╗      ███████╗ ██████╗   █████╗                             ║
+║ ██║   ██║ ██║      ╚══██╔══╝ ██╔══██╗ ██╔══██╗                           ║
+║ ██║   ██║ ██║         ██║    ██████╔╝ ███████║                           ║
+║ ╚██╗ ██╔╝ ██║         ██║    ██╔══██║ ██╔══██║                           ║
+║  ╚████╔╝ ███████╗    ██║    ██║  ██║ ██║  ██║                            ║
+║   ╚═══╝  ╚══════╝    ╚═╝    ╚═╝  ╚═╝ ╚═╝  ╚═╝                            ║
+║                                                                          ║
+║ Project   : Ultra AI — Proprietary AI Platform                           ║
+║ Developer : Ultra Cube Tech — ucubetech.com                              ║
+║ Team      : Ultra Zone Team — ultra-zone.ucubetech.com                   ║
+║ GitHub Org: github.com/Ultra-Cube                                        ║
+║ Repository: github.com/Ultra-Cube/Ultra-AI                               ║
+║ Copyright : (c) Ultra Cube Tech — All rights reserved                    ║
+║ [UCUBETECH-COPYRIGHT]                                                    ║
+║                                                                          ║
+╚══════════════════════════════════════════════════════════════════════════╝
+-->
+
 # Team E2E Specs
 
 > 本文件是 ciwei（测试）和 laochui（开发）的共同规范。动手前必读。

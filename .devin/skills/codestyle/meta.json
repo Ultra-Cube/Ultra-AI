@@ -1,0 +1,155 @@
+{
+  "slug": "codestyle",
+  "name": "Bear Notes Claude Extension (aka MCP Bundle)",
+  "description": "Check code style compliance. Use when asked to validate code style, check naming conventions, review comments quality, or ensure file naming follows conventions. Works on whole codebase or specific changes (branch, PR, uncommitted).",
+  "owner": "vasylenko",
+  "repo": "claude-desktop-extension-bear-notes",
+  "skill_path": ".claude/skills/codestyle",
+  "github_url": "https://github.com/vasylenko/claude-desktop-extension-bear-notes",
+  "weekly_installs": 0,
+  "downloads": 1,
+  "tags": [
+    "bear",
+    "bear-notes",
+    "claude",
+    "claude-desktop",
+    "mcp-bundle",
+    "mcp",
+    "notes",
+    "notetaking",
+    "productivity",
+    "github"
+  ],
+  "platforms": [
+    "claude-code",
+    "claude-desktop",
+    "cursor",
+    "vscode-copilot",
+    "windsurf",
+    "continue-dev",
+    "codex",
+    "gemini-cli",
+    "amp",
+    "roo-code",
+    "goose",
+    "opencode",
+    "trae",
+    "qodo",
+    "command-code"
+  ],
+  "artifact_type": "skill_pack",
+  "format_standard": "skill_md",
+  "skill_type": "hybrid",
+  "github_stars": 93,
+  "github_forks": 11,
+  "license": "MIT",
+  "image_url": null,
+  "is_paid": false,
+  "price_amount": null,
+  "price_currency": "usd",
+  "purchase_url": null,
+  "updated_at": "2026-02-24T15:37:10.428348+00:00",
+  "category": {
+    "slug": "testing-qa",
+    "name": "Testing & QA"
+  },
+  "clients": [
+    {
+      "client_slug": "opencode",
+      "client_name": "OpenCode",
+      "install_instructions": "npx mdskills install vasylenko/codestyle",
+      "is_primary": false
+    },
+    {
+      "client_slug": "claude-code",
+      "client_name": "Claude Code",
+      "install_instructions": "npx mdskills install vasylenko/codestyle",
+      "is_primary": true
+    },
+    {
+      "client_slug": "continue-dev",
+      "client_name": "Continue",
+      "install_instructions": "npx mdskills install vasylenko/codestyle",
+      "is_primary": false
+    },
+    {
+      "client_slug": "goose",
+      "client_name": "Goose",
+      "install_instructions": "npx mdskills install vasylenko/codestyle",
+      "is_primary": false
+    },
+    {
+      "client_slug": "qodo",
+      "client_name": "Qodo",
+      "install_instructions": "npx mdskills install vasylenko/codestyle",
+      "is_primary": false
+    },
+    {
+      "client_slug": "claude-desktop",
+      "client_name": "Claude Desktop",
+      "install_instructions": "npx mdskills install vasylenko/codestyle",
+      "is_primary": false
+    },
+    {
+      "client_slug": "codex",
+      "client_name": "OpenAI Codex",
+      "install_instructions": "npx mdskills install vasylenko/codestyle",
+      "is_primary": false
+    },
+    {
+      "client_slug": "trae",
+      "client_name": "TRAE",
+      "install_instructions": "npx mdskills install vasylenko/codestyle",
+      "is_primary": false
+    },
+    {
+      "client_slug": "cursor",
+      "client_name": "Cursor",
+      "install_instructions": "npx mdskills install vasylenko/codestyle",
+      "is_primary": false
+    },
+    {
+      "client_slug": "gemini-cli",
+      "client_name": "Gemini CLI",
+      "install_instructions": "npx mdskills install vasylenko/codestyle",
+      "is_primary": false
+    },
+    {
+      "client_slug": "command-code",
+      "client_name": "Command Code",
+      "install_instructions": "npx mdskills install vasylenko/codestyle",
+      "is_primary": false
+    },
+    {
+      "client_slug": "windsurf",
+      "client_name": "Windsurf",
+      "install_instructions": "npx mdskills install vasylenko/codestyle",
+      "is_primary": false
+    },
+    {
+      "client_slug": "roo-code",
+      "client_name": "Roo Code",
+      "install_instructions": "npx mdskills install vasylenko/codestyle",
+      "is_primary": false
+    },
+    {
+      "client_slug": "vscode-copilot",
+      "client_name": "VS Code Copilot",
+      "install_instructions": "npx mdskills install vasylenko/codestyle",
+      "is_primary": false
+    },
+    {
+      "client_slug": "amp",
+      "client_name": "Amp",
+      "install_instructions": "npx mdskills install vasylenko/codestyle",
+      "is_primary": false
+    }
+  ],
+  "permissions": {
+    "filesystem_read": true,
+    "filesystem_write": true,
+    "shell_exec": false,
+    "network_access": true,
+    "git_write": false
+  }
+}

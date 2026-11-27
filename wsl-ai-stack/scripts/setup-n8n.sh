@@ -1,4 +1,23 @@
 #!/usr/bin/env bash
+# ╔══════════════════════════════════════════════════════════════════════════╗
+# ║                                                                          ║
+# ║ ██╗   ██╗ ██╗      ███████╗ ██████╗   █████╗                             ║
+# ║ ██║   ██║ ██║      ╚══██╔══╝ ██╔══██╗ ██╔══██╗                           ║
+# ║ ██║   ██║ ██║         ██║    ██████╔╝ ███████║                           ║
+# ║ ╚██╗ ██╔╝ ██║         ██║    ██╔══██║ ██╔══██║                           ║
+# ║  ╚████╔╝ ███████╗    ██║    ██║  ██║ ██║  ██║                            ║
+# ║   ╚═══╝  ╚══════╝    ╚═╝    ╚═╝  ╚═╝ ╚═╝  ╚═╝                            ║
+# ║                                                                          ║
+# ║ Project   : Ultra AI — Proprietary AI Platform                           ║
+# ║ Developer : Ultra Cube Tech — ucubetech.com                              ║
+# ║ Team      : Ultra Zone Team — ultra-zone.ucubetech.com                   ║
+# ║ GitHub Org: github.com/Ultra-Cube                                        ║
+# ║ Repository: github.com/Ultra-Cube/Ultra-AI                               ║
+# ║ Copyright : (c) Ultra Cube Tech — All rights reserved                    ║
+# ║ [UCUBETECH-COPYRIGHT]                                                    ║
+# ║                                                                          ║
+# ╚══════════════════════════════════════════════════════════════════════════╝
+
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -15,7 +34,7 @@ load_node_runtime() {
     . "$HOME/.nvm/nvm.sh"
     if command -v nvm >/dev/null 2>&1; then
       local nvm_node_bin
-      nvm_node_bin="$(nvm which --lts 2>/dev/null || true)"
+      nvm_node_bin="$(nvm which --lts 2>/dev/null || nvm which default 2>/dev/null || true)"
       if [ -x "$nvm_node_bin" ]; then
         PATH="$(dirname "$nvm_node_bin"):$PATH"
       fi

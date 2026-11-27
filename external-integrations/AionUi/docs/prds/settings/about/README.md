@@ -1,3 +1,24 @@
+<!--
+╔══════════════════════════════════════════════════════════════════════════╗
+║                                                                          ║
+║ ██╗   ██╗ ██╗      ███████╗ ██████╗   █████╗                             ║
+║ ██║   ██║ ██║      ╚══██╔══╝ ██╔══██╗ ██╔══██╗                           ║
+║ ██║   ██║ ██║         ██║    ██████╔╝ ███████║                           ║
+║ ╚██╗ ██╔╝ ██║         ██║    ██╔══██║ ██╔══██║                           ║
+║  ╚████╔╝ ███████╗    ██║    ██║  ██║ ██║  ██║                            ║
+║   ╚═══╝  ╚══════╝    ╚═╝    ╚═╝  ╚═╝ ╚═╝  ╚═╝                            ║
+║                                                                          ║
+║ Project   : Ultra AI — Proprietary AI Platform                           ║
+║ Developer : Ultra Cube Tech — ucubetech.com                              ║
+║ Team      : Ultra Zone Team — ultra-zone.ucubetech.com                   ║
+║ GitHub Org: github.com/Ultra-Cube                                        ║
+║ Repository: github.com/Ultra-Cube/Ultra-AI                               ║
+║ Copyright : (c) Ultra Cube Tech — All rights reserved                    ║
+║ [UCUBETECH-COPYRIGHT]                                                    ║
+║                                                                          ║
+╚══════════════════════════════════════════════════════════════════════════╝
+-->
+
 # 设置页 → 关于 & 检查更新 PRD 索引
 
 > 本目录下的文档覆盖「设置 → 关于」页面的全部功能。

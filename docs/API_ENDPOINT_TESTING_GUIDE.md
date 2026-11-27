@@ -1,3 +1,24 @@
+<!--
+╔══════════════════════════════════════════════════════════════════════════╗
+║                                                                          ║
+║ ██╗   ██╗ ██╗      ███████╗ ██████╗   █████╗                             ║
+║ ██║   ██║ ██║      ╚══██╔══╝ ██╔══██╗ ██╔══██╗                           ║
+║ ██║   ██║ ██║         ██║    ██████╔╝ ███████║                           ║
+║ ╚██╗ ██╔╝ ██║         ██║    ██╔══██║ ██╔══██║                           ║
+║  ╚████╔╝ ███████╗    ██║    ██║  ██║ ██║  ██║                            ║
+║   ╚═══╝  ╚══════╝    ╚═╝    ╚═╝  ╚═╝ ╚═╝  ╚═╝                            ║
+║                                                                          ║
+║ Project   : Ultra AI — Proprietary AI Platform                           ║
+║ Developer : Ultra Cube Tech — ucubetech.com                              ║
+║ Team      : Ultra Zone Team — ultra-zone.ucubetech.com                   ║
+║ GitHub Org: github.com/Ultra-Cube                                        ║
+║ Repository: github.com/Ultra-Cube/Ultra-AI                               ║
+║ Copyright : (c) Ultra Cube Tech — All rights reserved                    ║
+║ [UCUBETECH-COPYRIGHT]                                                    ║
+║                                                                          ║
+╚══════════════════════════════════════════════════════════════════════════╝
+-->
+
 # Ultra AI Platform - API Endpoint Testing Guide
 
 **Date**: March 5, 2026  
@@ -15,7 +36,7 @@ This guide demonstrates how to test all the features implemented in Phases 6-9:
 
 ```bash
 cd /home/pc/ucube/project/Ultra-AI
-npm run dev --workspace=packages/api
+npm run dev --workspace=platform/backend/core-api
 ```
 
 The API server will start on: **http://localhost:4000**
@@ -684,7 +705,7 @@ All Phase 6-9 features are now fully integrated and testable:
 - ✅ **RBAC**: 4-level role hierarchy with protected endpoints
 
 **Next Steps**:
-- Start API server: `npm run dev --workspace=packages/api`
+- Start API server: `npm run dev --workspace=platform/backend/core-api`
 - Open Swagger UI: http://localhost:4000/api-docs
 - Monitor metrics: http://localhost:4000/metrics
 - Test admin endpoints with different roles

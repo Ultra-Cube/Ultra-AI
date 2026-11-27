@@ -1,3 +1,22 @@
+# ╔══════════════════════════════════════════════════════════════════════════╗
+# ║                                                                          ║
+# ║ ██╗   ██╗ ██╗      ███████╗ ██████╗   █████╗                             ║
+# ║ ██║   ██║ ██║      ╚══██╔══╝ ██╔══██╗ ██╔══██╗                           ║
+# ║ ██║   ██║ ██║         ██║    ██████╔╝ ███████║                           ║
+# ║ ╚██╗ ██╔╝ ██║         ██║    ██╔══██║ ██╔══██║                           ║
+# ║  ╚████╔╝ ███████╗    ██║    ██║  ██║ ██║  ██║                            ║
+# ║   ╚═══╝  ╚══════╝    ╚═╝    ╚═╝  ╚═╝ ╚═╝  ╚═╝                            ║
+# ║                                                                          ║
+# ║ Project   : Ultra AI — Proprietary AI Platform                           ║
+# ║ Developer : Ultra Cube Tech — ucubetech.com                              ║
+# ║ Team      : Ultra Zone Team — ultra-zone.ucubetech.com                   ║
+# ║ GitHub Org: github.com/Ultra-Cube                                        ║
+# ║ Repository: github.com/Ultra-Cube/Ultra-AI                               ║
+# ║ Copyright : (c) Ultra Cube Tech — All rights reserved                    ║
+# ║ [UCUBETECH-COPYRIGHT]                                                    ║
+# ║                                                                          ║
+# ╚══════════════════════════════════════════════════════════════════════════╝
+
 """Inefficiency / regression tests for the colibri engine (tiny model, asserted).
 
 These run against the bundled glm_tiny model (~0.6 MB resident, ~0.1s/run) and

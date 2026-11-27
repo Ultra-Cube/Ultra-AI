@@ -1,3 +1,22 @@
+# ╔══════════════════════════════════════════════════════════════════════════╗
+# ║                                                                          ║
+# ║ ██╗   ██╗ ██╗      ███████╗ ██████╗   █████╗                             ║
+# ║ ██║   ██║ ██║      ╚══██╔══╝ ██╔══██╗ ██╔══██╗                           ║
+# ║ ██║   ██║ ██║         ██║    ██████╔╝ ███████║                           ║
+# ║ ╚██╗ ██╔╝ ██║         ██║    ██╔══██║ ██╔══██║                           ║
+# ║  ╚████╔╝ ███████╗    ██║    ██║  ██║ ██║  ██║                            ║
+# ║   ╚═══╝  ╚══════╝    ╚═╝    ╚═╝  ╚═╝ ╚═╝  ╚═╝                            ║
+# ║                                                                          ║
+# ║ Project   : Ultra AI — Proprietary AI Platform                           ║
+# ║ Developer : Ultra Cube Tech — ucubetech.com                              ║
+# ║ Team      : Ultra Zone Team — ultra-zone.ucubetech.com                   ║
+# ║ GitHub Org: github.com/Ultra-Cube                                        ║
+# ║ Repository: github.com/Ultra-Cube/Ultra-AI                               ║
+# ║ Copyright : (c) Ultra Cube Tech — All rights reserved                    ║
+# ║ [UCUBETECH-COPYRIGHT]                                                    ║
+# ║                                                                          ║
+# ╚══════════════════════════════════════════════════════════════════════════╝
+
 """Genera tok_unicode.h: tabelle di range per le classi Unicode usate dal
 pre-tokenizer cl100k (regex del tokenizer GLM-5.2):
   - \\p{L}  lettere   (categoria Unicode che inizia per 'L')

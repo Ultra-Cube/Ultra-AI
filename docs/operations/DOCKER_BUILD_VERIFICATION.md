@@ -1,3 +1,24 @@
+<!--
+╔══════════════════════════════════════════════════════════════════════════╗
+║                                                                          ║
+║ ██╗   ██╗ ██╗      ███████╗ ██████╗   █████╗                             ║
+║ ██║   ██║ ██║      ╚══██╔══╝ ██╔══██╗ ██╔══██╗                           ║
+║ ██║   ██║ ██║         ██║    ██████╔╝ ███████║                           ║
+║ ╚██╗ ██╔╝ ██║         ██║    ██╔══██║ ██╔══██║                           ║
+║  ╚████╔╝ ███████╗    ██║    ██║  ██║ ██║  ██║                            ║
+║   ╚═══╝  ╚══════╝    ╚═╝    ╚═╝  ╚═╝ ╚═╝  ╚═╝                            ║
+║                                                                          ║
+║ Project   : Ultra AI — Proprietary AI Platform                           ║
+║ Developer : Ultra Cube Tech — ucubetech.com                              ║
+║ Team      : Ultra Zone Team — ultra-zone.ucubetech.com                   ║
+║ GitHub Org: github.com/Ultra-Cube                                        ║
+║ Repository: github.com/Ultra-Cube/Ultra-AI                               ║
+║ Copyright : (c) Ultra Cube Tech — All rights reserved                    ║
+║ [UCUBETECH-COPYRIGHT]                                                    ║
+║                                                                          ║
+╚══════════════════════════════════════════════════════════════════════════╝
+-->
+
 # Docker Build & Test Verification Guide
 
 ## Build Status
@@ -11,7 +32,7 @@ All Docker configuration files have been created and are ready for use:
 ✅ Dockerfile.web              - Frontend containerization
 ✅ docker-compose.yml          - Multi-service orchestration
 ✅ .dockerignore               - Build context optimization
-✅ .env.example                - Environment template
+✅ environments/.env.example                - Environment template
 ✅ docker-manage.sh            - Service management script
 ✅ docker-entrypoint.sh        - Backend initialization
 ✅ docs/DOCKER_SETUP.md        - Complete Docker documentation
@@ -41,7 +62,7 @@ docker ps
 
 ```bash
 # Copy environment template
-cp .env.example .env
+cp environments/.env.example .env
 
 # Edit variables as needed (optional for development)
 nano .env
@@ -238,7 +259,7 @@ cd /path/to/Ultra-AI
 ls -la package.json
 
 # Verify monorepo structure
-ls -la packages/api/
+ls -la platform/backend/core-api/
 ls -la packages/web/
 ```
 
@@ -352,7 +373,7 @@ When ready to move to Kubernetes:
 
 3. Deploy to Kubernetes cluster:
    ```bash
-   kubectl apply -f k8s/
+   kubectl apply -f control/templates/kubernetes/
    ```
 
 ## Success Criteria ✅

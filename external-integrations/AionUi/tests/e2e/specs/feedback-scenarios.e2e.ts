@@ -1,3 +1,22 @@
+// ╔══════════════════════════════════════════════════════════════════════════╗
+// ║                                                                          ║
+// ║ ██╗   ██╗ ██╗      ███████╗ ██████╗   █████╗                             ║
+// ║ ██║   ██║ ██║      ╚══██╔══╝ ██╔══██╗ ██╔══██╗                           ║
+// ║ ██║   ██║ ██║         ██║    ██████╔╝ ███████║                           ║
+// ║ ╚██╗ ██╔╝ ██║         ██║    ██╔══██║ ██╔══██║                           ║
+// ║  ╚████╔╝ ███████╗    ██║    ██║  ██║ ██║  ██║                            ║
+// ║   ╚═══╝  ╚══════╝    ╚═╝    ╚═╝  ╚═╝ ╚═╝  ╚═╝                            ║
+// ║                                                                          ║
+// ║ Project   : Ultra AI — Proprietary AI Platform                           ║
+// ║ Developer : Ultra Cube Tech — ucubetech.com                              ║
+// ║ Team      : Ultra Zone Team — ultra-zone.ucubetech.com                   ║
+// ║ GitHub Org: github.com/Ultra-Cube                                        ║
+// ║ Repository: github.com/Ultra-Cube/Ultra-AI                               ║
+// ║ Copyright : (c) Ultra Cube Tech — All rights reserved                    ║
+// ║ [UCUBETECH-COPYRIGHT]                                                    ║
+// ║                                                                          ║
+// ╚══════════════════════════════════════════════════════════════════════════╝
+
 /**
  * Feedback button scenarios — walks each place in the product where the
  * "一键反馈" pill appears, verifies the pill shows up, clicks it, and

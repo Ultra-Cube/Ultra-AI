@@ -1,3 +1,22 @@
+// ╔══════════════════════════════════════════════════════════════════════════╗
+// ║                                                                          ║
+// ║ ██╗   ██╗ ██╗      ███████╗ ██████╗   █████╗                             ║
+// ║ ██║   ██║ ██║      ╚══██╔══╝ ██╔══██╗ ██╔══██╗                           ║
+// ║ ██║   ██║ ██║         ██║    ██████╔╝ ███████║                           ║
+// ║ ╚██╗ ██╔╝ ██║         ██║    ██╔══██║ ██╔══██║                           ║
+// ║  ╚████╔╝ ███████╗    ██║    ██║  ██║ ██║  ██║                            ║
+// ║   ╚═══╝  ╚══════╝    ╚═╝    ╚═╝  ╚═╝ ╚═╝  ╚═╝                            ║
+// ║                                                                          ║
+// ║ Project   : Ultra AI — Proprietary AI Platform                           ║
+// ║ Developer : Ultra Cube Tech — ucubetech.com                              ║
+// ║ Team      : Ultra Zone Team — ultra-zone.ucubetech.com                   ║
+// ║ GitHub Org: github.com/Ultra-Cube                                        ║
+// ║ Repository: github.com/Ultra-Cube/Ultra-AI                               ║
+// ║ Copyright : (c) Ultra Cube Tech — All rights reserved                    ║
+// ║ [UCUBETECH-COPYRIGHT]                                                    ║
+// ║                                                                          ║
+// ╚══════════════════════════════════════════════════════════════════════════╝
+
 /* Parser JSON minimale, header-only. Serve per:
  *  - l'header dei file safetensors (un grande oggetto nome->{dtype,shape,data_offsets})
  *  - ref.json (per leggere prompt_ids / full_ids)

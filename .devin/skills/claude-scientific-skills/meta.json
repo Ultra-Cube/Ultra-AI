@@ -1,0 +1,156 @@
+{
+  "slug": "claude-scientific-skills",
+  "name": "Claude Scientific Skills",
+  "description": "A comprehensive collection of 146+ ready-to-use scientific and research skills (now including financial/SEC research, U.S. Treasury fiscal data, OFR Hedge Fund Monitor, and Alpha Vantage market data) for any AI agent that supports the open Agent Skills standard, created by K-Dense. Works with Cursor, Claude Code, Codex, and more. Transform your AI agent into a research assistant capable of executi",
+  "owner": "K-Dense-AI",
+  "repo": "claude-scientific-skills",
+  "skill_path": "README.md",
+  "github_url": "https://github.com/K-Dense-AI/claude-scientific-skills",
+  "weekly_installs": 1,
+  "downloads": 7,
+  "tags": [
+    "ai-scientist",
+    "bioinformatics",
+    "chemoinformatics",
+    "claude",
+    "skills",
+    "claudecode",
+    "clinical-research",
+    "computational-biology",
+    "data-analysis",
+    "drug-discovery",
+    "cursor"
+  ],
+  "platforms": [
+    "claude-code",
+    "claude-desktop",
+    "cursor",
+    "vscode-copilot",
+    "windsurf",
+    "continue-dev",
+    "codex",
+    "gemini-cli",
+    "amp",
+    "roo-code",
+    "goose",
+    "opencode",
+    "trae",
+    "qodo",
+    "command-code"
+  ],
+  "artifact_type": "skill_pack",
+  "format_standard": "generic",
+  "skill_type": "skill",
+  "github_stars": 9182,
+  "github_forks": 1087,
+  "license": "MIT",
+  "image_url": null,
+  "is_paid": false,
+  "price_amount": null,
+  "price_currency": "usd",
+  "purchase_url": null,
+  "updated_at": "2026-02-20T07:28:27.470951+00:00",
+  "category": {
+    "slug": "databases",
+    "name": "Databases"
+  },
+  "clients": [
+    {
+      "client_slug": "vscode-copilot",
+      "client_name": "VS Code Copilot",
+      "install_instructions": "npx mdskills install K-Dense-AI/claude-scientific-skills",
+      "is_primary": false
+    },
+    {
+      "client_slug": "codex",
+      "client_name": "OpenAI Codex",
+      "install_instructions": "npx mdskills install K-Dense-AI/claude-scientific-skills",
+      "is_primary": false
+    },
+    {
+      "client_slug": "roo-code",
+      "client_name": "Roo Code",
+      "install_instructions": "npx mdskills install K-Dense-AI/claude-scientific-skills",
+      "is_primary": false
+    },
+    {
+      "client_slug": "trae",
+      "client_name": "TRAE",
+      "install_instructions": "npx mdskills install K-Dense-AI/claude-scientific-skills",
+      "is_primary": false
+    },
+    {
+      "client_slug": "windsurf",
+      "client_name": "Windsurf",
+      "install_instructions": "npx mdskills install K-Dense-AI/claude-scientific-skills",
+      "is_primary": false
+    },
+    {
+      "client_slug": "gemini-cli",
+      "client_name": "Gemini CLI",
+      "install_instructions": "npx mdskills install K-Dense-AI/claude-scientific-skills",
+      "is_primary": false
+    },
+    {
+      "client_slug": "goose",
+      "client_name": "Goose",
+      "install_instructions": "npx mdskills install K-Dense-AI/claude-scientific-skills",
+      "is_primary": false
+    },
+    {
+      "client_slug": "qodo",
+      "client_name": "Qodo",
+      "install_instructions": "npx mdskills install K-Dense-AI/claude-scientific-skills",
+      "is_primary": false
+    },
+    {
+      "client_slug": "continue-dev",
+      "client_name": "Continue",
+      "install_instructions": "npx mdskills install K-Dense-AI/claude-scientific-skills",
+      "is_primary": false
+    },
+    {
+      "client_slug": "amp",
+      "client_name": "Amp",
+      "install_instructions": "npx mdskills install K-Dense-AI/claude-scientific-skills",
+      "is_primary": false
+    },
+    {
+      "client_slug": "opencode",
+      "client_name": "OpenCode",
+      "install_instructions": "npx mdskills install K-Dense-AI/claude-scientific-skills",
+      "is_primary": false
+    },
+    {
+      "client_slug": "command-code",
+      "client_name": "Command Code",
+      "install_instructions": "npx mdskills install K-Dense-AI/claude-scientific-skills",
+      "is_primary": false
+    },
+    {
+      "client_slug": "claude-code",
+      "client_name": "Claude Code",
+      "install_instructions": "npx mdskills install K-Dense-AI/claude-scientific-skills",
+      "is_primary": true
+    },
+    {
+      "client_slug": "claude-desktop",
+      "client_name": "Claude Desktop",
+      "install_instructions": "npx mdskills install K-Dense-AI/claude-scientific-skills",
+      "is_primary": false
+    },
+    {
+      "client_slug": "cursor",
+      "client_name": "Cursor",
+      "install_instructions": "npx mdskills install K-Dense-AI/claude-scientific-skills",
+      "is_primary": false
+    }
+  ],
+  "permissions": {
+    "filesystem_read": true,
+    "filesystem_write": true,
+    "shell_exec": true,
+    "network_access": true,
+    "git_write": true
+  }
+}

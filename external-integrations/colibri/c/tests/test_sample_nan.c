@@ -1,3 +1,22 @@
+// ╔══════════════════════════════════════════════════════════════════════════╗
+// ║                                                                          ║
+// ║ ██╗   ██╗ ██╗      ███████╗ ██████╗   █████╗                             ║
+// ║ ██║   ██║ ██║      ╚══██╔══╝ ██╔══██╗ ██╔══██╗                           ║
+// ║ ██║   ██║ ██║         ██║    ██████╔╝ ███████║                           ║
+// ║ ╚██╗ ██╔╝ ██║         ██║    ██╔══██║ ██╔══██║                           ║
+// ║  ╚████╔╝ ███████╗    ██║    ██║  ██║ ██║  ██║                            ║
+// ║   ╚═══╝  ╚══════╝    ╚═╝    ╚═╝  ╚═╝ ╚═╝  ╚═╝                            ║
+// ║                                                                          ║
+// ║ Project   : Ultra AI — Proprietary AI Platform                           ║
+// ║ Developer : Ultra Cube Tech — ucubetech.com                              ║
+// ║ Team      : Ultra Zone Team — ultra-zone.ucubetech.com                   ║
+// ║ GitHub Org: github.com/Ultra-Cube                                        ║
+// ║ Repository: github.com/Ultra-Cube/Ultra-AI                               ║
+// ║ Copyright : (c) Ultra Cube Tech — All rights reserved                    ║
+// ║ [UCUBETECH-COPYRIGHT]                                                    ║
+// ║                                                                          ║
+// ╚══════════════════════════════════════════════════════════════════════════╝
+
 /* Regressione #369: un solo logit NaN o +Inf faceva emettere a dist_build/dist_sample
  * il token 0 PER SEMPRE, in silenzio (il fallback `g_pbuf[i]>0` e' falso su NaN ovunque).
  * Ora la distribuzione degenere ripiega sull'argmax dei logit FINITI e avvisa una volta.

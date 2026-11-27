@@ -1,3 +1,22 @@
+// ╔══════════════════════════════════════════════════════════════════════════╗
+// ║                                                                          ║
+// ║ ██╗   ██╗ ██╗      ███████╗ ██████╗   █████╗                             ║
+// ║ ██║   ██║ ██║      ╚══██╔══╝ ██╔══██╗ ██╔══██╗                           ║
+// ║ ██║   ██║ ██║         ██║    ██████╔╝ ███████║                           ║
+// ║ ╚██╗ ██╔╝ ██║         ██║    ██╔══██║ ██╔══██║                           ║
+// ║  ╚████╔╝ ███████╗    ██║    ██║  ██║ ██║  ██║                            ║
+// ║   ╚═══╝  ╚══════╝    ╚═╝    ╚═╝  ╚═╝ ╚═╝  ╚═╝                            ║
+// ║                                                                          ║
+// ║ Project   : Ultra AI — Proprietary AI Platform                           ║
+// ║ Developer : Ultra Cube Tech — ucubetech.com                              ║
+// ║ Team      : Ultra Zone Team — ultra-zone.ucubetech.com                   ║
+// ║ GitHub Org: github.com/Ultra-Cube                                        ║
+// ║ Repository: github.com/Ultra-Cube/Ultra-AI                               ║
+// ║ Copyright : (c) Ultra Cube Tech — All rights reserved                    ║
+// ║ [UCUBETECH-COPYRIGHT]                                                    ║
+// ║                                                                          ║
+// ╚══════════════════════════════════════════════════════════════════════════╝
+
 import { describe, expect, it } from 'vitest';
 import { FONT_SIZE_SPECS, FONT_SIZE_KEYS, clampFontSize, defaultFontSizes } from '@/common/config/fontSizes';
 

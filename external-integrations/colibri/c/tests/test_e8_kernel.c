@@ -1,3 +1,22 @@
+// ╔══════════════════════════════════════════════════════════════════════════╗
+// ║                                                                          ║
+// ║ ██╗   ██╗ ██╗      ███████╗ ██████╗   █████╗                             ║
+// ║ ██║   ██║ ██║      ╚══██╔══╝ ██╔══██╗ ██╔══██╗                           ║
+// ║ ██║   ██║ ██║         ██║    ██████╔╝ ███████║                           ║
+// ║ ╚██╗ ██╔╝ ██║         ██║    ██╔══██║ ██╔══██║                           ║
+// ║  ╚████╔╝ ███████╗    ██║    ██║  ██║ ██║  ██║                            ║
+// ║   ╚═══╝  ╚══════╝    ╚═╝    ╚═╝  ╚═╝ ╚═╝  ╚═╝                            ║
+// ║                                                                          ║
+// ║ Project   : Ultra AI — Proprietary AI Platform                           ║
+// ║ Developer : Ultra Cube Tech — ucubetech.com                              ║
+// ║ Team      : Ultra Zone Team — ultra-zone.ucubetech.com                   ║
+// ║ GitHub Org: github.com/Ultra-Cube                                        ║
+// ║ Repository: github.com/Ultra-Cube/Ultra-AI                               ║
+// ║ Copyright : (c) Ultra Cube Tech — All rights reserved                    ║
+// ║ [UCUBETECH-COPYRIGHT]                                                    ║
+// ║                                                                          ║
+// ╚══════════════════════════════════════════════════════════════════════════╝
+
 /* fmt=6 (E8/IQ3 lattice) CPU kernel oracle — #452 ladder step 3.
  *
  * tools/iq3_pack.py is the format's reference implementation; this checks that

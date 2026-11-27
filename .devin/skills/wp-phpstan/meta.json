@@ -1,0 +1,50 @@
+{
+  "slug": "wp-phpstan",
+  "name": "Wp Phpstan",
+  "description": "Use when configuring, running, or fixing PHPStan static analysis in WordPress projects (plugins/themes/sites): phpstan.neon setup, baselines, WordPress-specific typing, and handling third-party plugin classes.",
+  "owner": "WordPress",
+  "repo": "agent-skills",
+  "skill_path": "skills/wp-phpstan",
+  "github_url": "https://github.com/WordPress/agent-skills/tree/trunk/skills/wp-phpstan",
+  "weekly_installs": 0,
+  "downloads": 1,
+  "tags": [
+    "wordpress",
+    "cursor",
+    "documentation"
+  ],
+  "platforms": [
+    "targets-wordpress-6.9+-(php-7.2.24+).-requires-composer-based-phpstan."
+  ],
+  "artifact_type": "skill_pack",
+  "format_standard": "skill_md",
+  "skill_type": "skill",
+  "github_stars": 696,
+  "github_forks": 99,
+  "license": "GPL-2.0",
+  "image_url": null,
+  "is_paid": false,
+  "price_amount": null,
+  "price_currency": "usd",
+  "purchase_url": null,
+  "updated_at": "2026-02-24T06:09:44.739642+00:00",
+  "category": {
+    "slug": "writing-docs",
+    "name": "Writing & Docs"
+  },
+  "clients": [
+    {
+      "client_slug": "claude-code",
+      "client_name": "Claude Code",
+      "install_instructions": "npx mdskills install WordPress/wp-phpstan",
+      "is_primary": true
+    }
+  ],
+  "permissions": {
+    "filesystem_read": true,
+    "filesystem_write": true,
+    "shell_exec": true,
+    "network_access": true,
+    "git_write": false
+  }
+}

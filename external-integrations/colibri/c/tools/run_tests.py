@@ -1,4 +1,23 @@
 #!/usr/bin/env python3
+# ╔══════════════════════════════════════════════════════════════════════════╗
+# ║                                                                          ║
+# ║ ██╗   ██╗ ██╗      ███████╗ ██████╗   █████╗                             ║
+# ║ ██║   ██║ ██║      ╚══██╔══╝ ██╔══██╗ ██╔══██╗                           ║
+# ║ ██║   ██║ ██║         ██║    ██████╔╝ ███████║                           ║
+# ║ ╚██╗ ██╔╝ ██║         ██║    ██╔══██║ ██╔══██║                           ║
+# ║  ╚████╔╝ ███████╗    ██║    ██║  ██║ ██║  ██║                            ║
+# ║   ╚═══╝  ╚══════╝    ╚═╝    ╚═╝  ╚═╝ ╚═╝  ╚═╝                            ║
+# ║                                                                          ║
+# ║ Project   : Ultra AI — Proprietary AI Platform                           ║
+# ║ Developer : Ultra Cube Tech — ucubetech.com                              ║
+# ║ Team      : Ultra Zone Team — ultra-zone.ucubetech.com                   ║
+# ║ GitHub Org: github.com/Ultra-Cube                                        ║
+# ║ Repository: github.com/Ultra-Cube/Ultra-AI                               ║
+# ║ Copyright : (c) Ultra Cube Tech — All rights reserved                    ║
+# ║ [UCUBETECH-COPYRIGHT]                                                    ║
+# ║                                                                          ║
+# ╚══════════════════════════════════════════════════════════════════════════╝
+
 """Run C test binaries, exiting non-zero on the first failure.
 
 Used by `make test-c` so the test runner works from any shell (cmd.exe,

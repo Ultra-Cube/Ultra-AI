@@ -1,0 +1,154 @@
+{
+  "slug": "autoresearch-ml",
+  "name": "Autoresearch ML",
+  "description": "Edit code → commit → run benchmark → measure metric → keep improvement or revert → repeat forever. Works for any optimization target: LLM training loss, test speed, bundle size, build time, Lighthouse scores, and more. Inspired by Karpathy's autoresearch, pi-autoresearch, and litesearch. This plugin provides two skills that work together. Autoresearch is the core engine (works for any metric), and",
+  "owner": "proyecto26",
+  "repo": "autoresearch-ai-plugin",
+  "skill_path": "skills/autoresearch-ml",
+  "github_url": "https://github.com/proyecto26/autoresearch-ai-plugin",
+  "weekly_installs": 0,
+  "downloads": 2,
+  "tags": [
+    "ai-agents",
+    "autonomous-agents",
+    "autoresearch",
+    "benchmarking",
+    "claude",
+    "claude-code",
+    "skills",
+    "llm",
+    "github"
+  ],
+  "platforms": [
+    "claude-code",
+    "claude-desktop",
+    "cursor",
+    "vscode-copilot",
+    "windsurf",
+    "continue-dev",
+    "codex",
+    "gemini-cli",
+    "amp",
+    "roo-code",
+    "goose",
+    "opencode",
+    "trae",
+    "qodo",
+    "command-code"
+  ],
+  "artifact_type": "skill_pack",
+  "format_standard": "skill_md",
+  "skill_type": "hybrid",
+  "github_stars": 7,
+  "github_forks": 0,
+  "license": "MIT",
+  "image_url": null,
+  "is_paid": false,
+  "price_amount": null,
+  "price_currency": "usd",
+  "purchase_url": null,
+  "updated_at": "2026-04-06T07:57:36.106067+00:00",
+  "category": {
+    "slug": "data-analytics",
+    "name": "Data & Analytics"
+  },
+  "clients": [
+    {
+      "client_slug": "claude-code",
+      "client_name": "Claude Code",
+      "install_instructions": "npx mdskills install proyecto26/autoresearch-ml",
+      "is_primary": true
+    },
+    {
+      "client_slug": "claude-desktop",
+      "client_name": "Claude Desktop",
+      "install_instructions": "npx mdskills install proyecto26/autoresearch-ml",
+      "is_primary": false
+    },
+    {
+      "client_slug": "cursor",
+      "client_name": "Cursor",
+      "install_instructions": "npx mdskills install proyecto26/autoresearch-ml",
+      "is_primary": false
+    },
+    {
+      "client_slug": "vscode-copilot",
+      "client_name": "VS Code Copilot",
+      "install_instructions": "npx mdskills install proyecto26/autoresearch-ml",
+      "is_primary": false
+    },
+    {
+      "client_slug": "windsurf",
+      "client_name": "Windsurf",
+      "install_instructions": "npx mdskills install proyecto26/autoresearch-ml",
+      "is_primary": false
+    },
+    {
+      "client_slug": "continue-dev",
+      "client_name": "Continue",
+      "install_instructions": "npx mdskills install proyecto26/autoresearch-ml",
+      "is_primary": false
+    },
+    {
+      "client_slug": "codex",
+      "client_name": "OpenAI Codex",
+      "install_instructions": "npx mdskills install proyecto26/autoresearch-ml",
+      "is_primary": false
+    },
+    {
+      "client_slug": "gemini-cli",
+      "client_name": "Gemini CLI",
+      "install_instructions": "npx mdskills install proyecto26/autoresearch-ml",
+      "is_primary": false
+    },
+    {
+      "client_slug": "amp",
+      "client_name": "Amp",
+      "install_instructions": "npx mdskills install proyecto26/autoresearch-ml",
+      "is_primary": false
+    },
+    {
+      "client_slug": "roo-code",
+      "client_name": "Roo Code",
+      "install_instructions": "npx mdskills install proyecto26/autoresearch-ml",
+      "is_primary": false
+    },
+    {
+      "client_slug": "goose",
+      "client_name": "Goose",
+      "install_instructions": "npx mdskills install proyecto26/autoresearch-ml",
+      "is_primary": false
+    },
+    {
+      "client_slug": "opencode",
+      "client_name": "OpenCode",
+      "install_instructions": "npx mdskills install proyecto26/autoresearch-ml",
+      "is_primary": false
+    },
+    {
+      "client_slug": "trae",
+      "client_name": "TRAE",
+      "install_instructions": "npx mdskills install proyecto26/autoresearch-ml",
+      "is_primary": false
+    },
+    {
+      "client_slug": "qodo",
+      "client_name": "Qodo",
+      "install_instructions": "npx mdskills install proyecto26/autoresearch-ml",
+      "is_primary": false
+    },
+    {
+      "client_slug": "command-code",
+      "client_name": "Command Code",
+      "install_instructions": "npx mdskills install proyecto26/autoresearch-ml",
+      "is_primary": false
+    }
+  ],
+  "permissions": {
+    "filesystem_read": true,
+    "filesystem_write": true,
+    "shell_exec": true,
+    "network_access": true,
+    "git_write": true
+  }
+}

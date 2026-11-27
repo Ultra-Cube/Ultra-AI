@@ -1,0 +1,152 @@
+{
+  "slug": "agentic-longterm-memory",
+  "name": "Notion MCP Server V2 🚀",
+  "description": "A comprehensive Model Context Protocol (MCP) server for Notion integration with enhanced functionality, robust error handling, production-ready features, and bulletproof validation. - ✅ Search: Find pages and databases with advanced filtering - ✅ Page Operations: Create, read, update pages with full content support - ✅ Content Management: Add paragraphs, headings, bullet points, todos, links, and ",
+  "owner": "ankitmalik84",
+  "repo": "Agentic_Longterm_Memory",
+  "skill_path": "README.md",
+  "github_url": "https://github.com/ankitmalik84/Agentic_Longterm_Memory/tree/main/src/notion_mcp_server",
+  "weekly_installs": 0,
+  "downloads": 1,
+  "tags": [
+    "ai",
+    "aiagent",
+    "langchain",
+    "mcp",
+    "notion",
+    "openai",
+    "vector-database"
+  ],
+  "platforms": [
+    "claude-code",
+    "claude-desktop",
+    "cursor",
+    "vscode-copilot",
+    "windsurf",
+    "continue-dev",
+    "codex",
+    "gemini-cli",
+    "amp",
+    "roo-code",
+    "goose",
+    "opencode",
+    "trae",
+    "qodo",
+    "command-code"
+  ],
+  "artifact_type": "skill_pack",
+  "format_standard": "generic",
+  "skill_type": "skill",
+  "github_stars": 3,
+  "github_forks": 2,
+  "license": null,
+  "image_url": null,
+  "is_paid": false,
+  "price_amount": null,
+  "price_currency": "usd",
+  "purchase_url": null,
+  "updated_at": "2026-02-24T15:38:40.269926+00:00",
+  "category": {
+    "slug": "productivity",
+    "name": "Productivity"
+  },
+  "clients": [
+    {
+      "client_slug": "cursor",
+      "client_name": "Cursor",
+      "install_instructions": "npx mdskills install ankitmalik84/agentic-longterm-memory",
+      "is_primary": false
+    },
+    {
+      "client_slug": "gemini-cli",
+      "client_name": "Gemini CLI",
+      "install_instructions": "npx mdskills install ankitmalik84/agentic-longterm-memory",
+      "is_primary": false
+    },
+    {
+      "client_slug": "vscode-copilot",
+      "client_name": "VS Code Copilot",
+      "install_instructions": "npx mdskills install ankitmalik84/agentic-longterm-memory",
+      "is_primary": false
+    },
+    {
+      "client_slug": "amp",
+      "client_name": "Amp",
+      "install_instructions": "npx mdskills install ankitmalik84/agentic-longterm-memory",
+      "is_primary": false
+    },
+    {
+      "client_slug": "command-code",
+      "client_name": "Command Code",
+      "install_instructions": "npx mdskills install ankitmalik84/agentic-longterm-memory",
+      "is_primary": false
+    },
+    {
+      "client_slug": "windsurf",
+      "client_name": "Windsurf",
+      "install_instructions": "npx mdskills install ankitmalik84/agentic-longterm-memory",
+      "is_primary": false
+    },
+    {
+      "client_slug": "roo-code",
+      "client_name": "Roo Code",
+      "install_instructions": "npx mdskills install ankitmalik84/agentic-longterm-memory",
+      "is_primary": false
+    },
+    {
+      "client_slug": "opencode",
+      "client_name": "OpenCode",
+      "install_instructions": "npx mdskills install ankitmalik84/agentic-longterm-memory",
+      "is_primary": false
+    },
+    {
+      "client_slug": "claude-desktop",
+      "client_name": "Claude Desktop",
+      "install_instructions": "npx mdskills install ankitmalik84/agentic-longterm-memory",
+      "is_primary": false
+    },
+    {
+      "client_slug": "codex",
+      "client_name": "OpenAI Codex",
+      "install_instructions": "npx mdskills install ankitmalik84/agentic-longterm-memory",
+      "is_primary": false
+    },
+    {
+      "client_slug": "claude-code",
+      "client_name": "Claude Code",
+      "install_instructions": "npx mdskills install ankitmalik84/agentic-longterm-memory",
+      "is_primary": true
+    },
+    {
+      "client_slug": "continue-dev",
+      "client_name": "Continue",
+      "install_instructions": "npx mdskills install ankitmalik84/agentic-longterm-memory",
+      "is_primary": false
+    },
+    {
+      "client_slug": "goose",
+      "client_name": "Goose",
+      "install_instructions": "npx mdskills install ankitmalik84/agentic-longterm-memory",
+      "is_primary": false
+    },
+    {
+      "client_slug": "trae",
+      "client_name": "TRAE",
+      "install_instructions": "npx mdskills install ankitmalik84/agentic-longterm-memory",
+      "is_primary": false
+    },
+    {
+      "client_slug": "qodo",
+      "client_name": "Qodo",
+      "install_instructions": "npx mdskills install ankitmalik84/agentic-longterm-memory",
+      "is_primary": false
+    }
+  ],
+  "permissions": {
+    "filesystem_read": true,
+    "filesystem_write": true,
+    "shell_exec": true,
+    "network_access": true,
+    "git_write": false
+  }
+}

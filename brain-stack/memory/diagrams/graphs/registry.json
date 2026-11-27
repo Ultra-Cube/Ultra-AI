@@ -1,0 +1,1162 @@
+[
+ {
+  "id": "README__1",
+  "file": "README__1.mmd",
+  "sourceDoc": "README.md",
+  "diagramType": "graph:TB",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 26,
+  "bytes": 918
+ },
+ {
+  "id": "README__10",
+  "file": "README__10.mmd",
+  "sourceDoc": "README.md",
+  "diagramType": "graph:TB",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 13,
+  "bytes": 475
+ },
+ {
+  "id": "README__2",
+  "file": "README__2.mmd",
+  "sourceDoc": "README.md",
+  "diagramType": "graph:LR",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 12,
+  "bytes": 261
+ },
+ {
+  "id": "README__3",
+  "file": "README__3.mmd",
+  "sourceDoc": "README.md",
+  "diagramType": "graph:LR",
+  "title": "",
+  "subgraphs": 1,
+  "approxEdges": 6,
+  "bytes": 475
+ },
+ {
+  "id": "README__4",
+  "file": "README__4.mmd",
+  "sourceDoc": "README.md",
+  "diagramType": "sequenceDiagram",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 1,
+  "bytes": 506
+ },
+ {
+  "id": "README__5",
+  "file": "README__5.mmd",
+  "sourceDoc": "README.md",
+  "diagramType": "gantt",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 0,
+  "bytes": 1384
+ },
+ {
+  "id": "README__6",
+  "file": "README__6.mmd",
+  "sourceDoc": "README.md",
+  "diagramType": "graph:TB",
+  "title": "",
+  "subgraphs": 1,
+  "approxEdges": 7,
+  "bytes": 467
+ },
+ {
+  "id": "README__7",
+  "file": "README__7.mmd",
+  "sourceDoc": "README.md",
+  "diagramType": "graph:TB",
+  "title": "",
+  "subgraphs": 1,
+  "approxEdges": 8,
+  "bytes": 473
+ },
+ {
+  "id": "README__8",
+  "file": "README__8.mmd",
+  "sourceDoc": "README.md",
+  "diagramType": "graph:LR",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 16,
+  "bytes": 376
+ },
+ {
+  "id": "README__9",
+  "file": "README__9.mmd",
+  "sourceDoc": "README.md",
+  "diagramType": "gantt",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 0,
+  "bytes": 520
+ },
+ {
+  "id": "docs_DEPLOYMENT_DEVOPS_STRATEGY__1",
+  "file": "docs_DEPLOYMENT_DEVOPS_STRATEGY__1.mmd",
+  "sourceDoc": "docs/DEPLOYMENT/DEVOPS/STRATEGY.md",
+  "diagramType": "graph:TB",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 7,
+  "bytes": 695
+ },
+ {
+  "id": "docs_DEPLOYMENT_DEVOPS_STRATEGY__2",
+  "file": "docs_DEPLOYMENT_DEVOPS_STRATEGY__2.mmd",
+  "sourceDoc": "docs/DEPLOYMENT/DEVOPS/STRATEGY.md",
+  "diagramType": "gantt",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 0,
+  "bytes": 749
+ },
+ {
+  "id": "docs_IMPLEMENTATION_READINESS__1",
+  "file": "docs_IMPLEMENTATION_READINESS__1.mmd",
+  "sourceDoc": "docs/IMPLEMENTATION/READINESS.md",
+  "diagramType": "graph:LR",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 10,
+  "bytes": 408
+ },
+ {
+  "id": "docs_IMPLEMENTATION_READINESS__2",
+  "file": "docs_IMPLEMENTATION_READINESS__2.mmd",
+  "sourceDoc": "docs/IMPLEMENTATION/READINESS.md",
+  "diagramType": "graph:TB",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 6,
+  "bytes": 242
+ },
+ {
+  "id": "docs_IMPLEMENTATION_READINESS__3",
+  "file": "docs_IMPLEMENTATION_READINESS__3.mmd",
+  "sourceDoc": "docs/IMPLEMENTATION/READINESS.md",
+  "diagramType": "graph:TB",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 7,
+  "bytes": 337
+ },
+ {
+  "id": "docs_IMPLEMENTATION_READINESS__4",
+  "file": "docs_IMPLEMENTATION_READINESS__4.mmd",
+  "sourceDoc": "docs/IMPLEMENTATION/READINESS.md",
+  "diagramType": "pie",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 0,
+  "bytes": 240
+ },
+ {
+  "id": "docs_IMPLEMENTATION_READINESS__5",
+  "file": "docs_IMPLEMENTATION_READINESS__5.mmd",
+  "sourceDoc": "docs/IMPLEMENTATION/READINESS.md",
+  "diagramType": "graph:TB",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 6,
+  "bytes": 316
+ },
+ {
+  "id": "docs_IMPLEMENTATION_READINESS__6",
+  "file": "docs_IMPLEMENTATION_READINESS__6.mmd",
+  "sourceDoc": "docs/IMPLEMENTATION/READINESS.md",
+  "diagramType": "graph:TB",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 9,
+  "bytes": 450
+ },
+ {
+  "id": "docs_LEGAL_COMPLIANCE_FRAMEWORK__1",
+  "file": "docs_LEGAL_COMPLIANCE_FRAMEWORK__1.mmd",
+  "sourceDoc": "docs/LEGAL/COMPLIANCE/FRAMEWORK.md",
+  "diagramType": "graph:TB",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 11,
+  "bytes": 492
+ },
+ {
+  "id": "docs_LEGAL_COMPLIANCE_FRAMEWORK__2",
+  "file": "docs_LEGAL_COMPLIANCE_FRAMEWORK__2.mmd",
+  "sourceDoc": "docs/LEGAL/COMPLIANCE/FRAMEWORK.md",
+  "diagramType": "graph:TB",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 11,
+  "bytes": 500
+ },
+ {
+  "id": "docs_LEGAL_COMPLIANCE_FRAMEWORK__3",
+  "file": "docs_LEGAL_COMPLIANCE_FRAMEWORK__3.mmd",
+  "sourceDoc": "docs/LEGAL/COMPLIANCE/FRAMEWORK.md",
+  "diagramType": "gantt",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 0,
+  "bytes": 749
+ },
+ {
+  "id": "docs_MASTER_ARCHITECTURE__1",
+  "file": "docs_MASTER_ARCHITECTURE__1.mmd",
+  "sourceDoc": "docs/MASTER/ARCHITECTURE.md",
+  "diagramType": "graph:TB",
+  "title": "",
+  "subgraphs": 6,
+  "approxEdges": 16,
+  "bytes": 1768
+ },
+ {
+  "id": "docs_PERFORMANCE_MONITORING_STRATEGY__1",
+  "file": "docs_PERFORMANCE_MONITORING_STRATEGY__1.mmd",
+  "sourceDoc": "docs/PERFORMANCE/MONITORING/STRATEGY.md",
+  "diagramType": "graph:TB",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 19,
+  "bytes": 655
+ },
+ {
+  "id": "docs_PERFORMANCE_MONITORING_STRATEGY__2",
+  "file": "docs_PERFORMANCE_MONITORING_STRATEGY__2.mmd",
+  "sourceDoc": "docs/PERFORMANCE/MONITORING/STRATEGY.md",
+  "diagramType": "graph:TB",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 12,
+  "bytes": 732
+ },
+ {
+  "id": "docs_PERFORMANCE_MONITORING_STRATEGY__3",
+  "file": "docs_PERFORMANCE_MONITORING_STRATEGY__3.mmd",
+  "sourceDoc": "docs/PERFORMANCE/MONITORING/STRATEGY.md",
+  "diagramType": "gantt",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 0,
+  "bytes": 759
+ },
+ {
+  "id": "docs_POC_VALIDATION_STRATEGY__1",
+  "file": "docs_POC_VALIDATION_STRATEGY__1.mmd",
+  "sourceDoc": "docs/POC/VALIDATION/STRATEGY.md",
+  "diagramType": "graph:TB",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 10,
+  "bytes": 893
+ },
+ {
+  "id": "docs_POC_VALIDATION_STRATEGY__2",
+  "file": "docs_POC_VALIDATION_STRATEGY__2.mmd",
+  "sourceDoc": "docs/POC/VALIDATION/STRATEGY.md",
+  "diagramType": "graph:TB",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 0,
+  "bytes": 771
+ },
+ {
+  "id": "docs_POC_VALIDATION_STRATEGY__3",
+  "file": "docs_POC_VALIDATION_STRATEGY__3.mmd",
+  "sourceDoc": "docs/POC/VALIDATION/STRATEGY.md",
+  "diagramType": "gantt",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 0,
+  "bytes": 786
+ },
+ {
+  "id": "docs_PROJECT_GOVERNANCE_FRAMEWORK__1",
+  "file": "docs_PROJECT_GOVERNANCE_FRAMEWORK__1.mmd",
+  "sourceDoc": "docs/PROJECT/GOVERNANCE/FRAMEWORK.md",
+  "diagramType": "graph:TB",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 17,
+  "bytes": 1099
+ },
+ {
+  "id": "docs_PROJECT_GOVERNANCE_FRAMEWORK__2",
+  "file": "docs_PROJECT_GOVERNANCE_FRAMEWORK__2.mmd",
+  "sourceDoc": "docs/PROJECT/GOVERNANCE/FRAMEWORK.md",
+  "diagramType": "gantt",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 0,
+  "bytes": 453
+ },
+ {
+  "id": "docs_PROJECT_GOVERNANCE_FRAMEWORK__3",
+  "file": "docs_PROJECT_GOVERNANCE_FRAMEWORK__3.mmd",
+  "sourceDoc": "docs/PROJECT/GOVERNANCE/FRAMEWORK.md",
+  "diagramType": "graph:LR",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 8,
+  "bytes": 753
+ },
+ {
+  "id": "docs_PROJECT_GOVERNANCE_FRAMEWORK__4",
+  "file": "docs_PROJECT_GOVERNANCE_FRAMEWORK__4.mmd",
+  "sourceDoc": "docs/PROJECT/GOVERNANCE/FRAMEWORK.md",
+  "diagramType": "graph:LR",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 12,
+  "bytes": 487
+ },
+ {
+  "id": "docs_PROJECT_GOVERNANCE_FRAMEWORK__5",
+  "file": "docs_PROJECT_GOVERNANCE_FRAMEWORK__5.mmd",
+  "sourceDoc": "docs/PROJECT/GOVERNANCE/FRAMEWORK.md",
+  "diagramType": "graph:TB",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 8,
+  "bytes": 683
+ },
+ {
+  "id": "docs_PROJECT_GOVERNANCE_FRAMEWORK__6",
+  "file": "docs_PROJECT_GOVERNANCE_FRAMEWORK__6.mmd",
+  "sourceDoc": "docs/PROJECT/GOVERNANCE/FRAMEWORK.md",
+  "diagramType": "gantt",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 0,
+  "bytes": 450
+ },
+ {
+  "id": "docs_RESOURCE_ACQUISITION_STRATEGY__1",
+  "file": "docs_RESOURCE_ACQUISITION_STRATEGY__1.mmd",
+  "sourceDoc": "docs/RESOURCE/ACQUISITION/STRATEGY.md",
+  "diagramType": "pie",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 0,
+  "bytes": 252
+ },
+ {
+  "id": "docs_RESOURCE_ACQUISITION_STRATEGY__2",
+  "file": "docs_RESOURCE_ACQUISITION_STRATEGY__2.mmd",
+  "sourceDoc": "docs/RESOURCE/ACQUISITION/STRATEGY.md",
+  "diagramType": "gantt",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 0,
+  "bytes": 548
+ },
+ {
+  "id": "docs_RESOURCE_ACQUISITION_STRATEGY__3",
+  "file": "docs_RESOURCE_ACQUISITION_STRATEGY__3.mmd",
+  "sourceDoc": "docs/RESOURCE/ACQUISITION/STRATEGY.md",
+  "diagramType": "graph:LR",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 6,
+  "bytes": 301
+ },
+ {
+  "id": "docs_RESOURCE_ACQUISITION_STRATEGY__4",
+  "file": "docs_RESOURCE_ACQUISITION_STRATEGY__4.mmd",
+  "sourceDoc": "docs/RESOURCE/ACQUISITION/STRATEGY.md",
+  "diagramType": "timeline",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 0,
+  "bytes": 646
+ },
+ {
+  "id": "docs_architecture_distributed-processing__1",
+  "file": "docs_architecture_distributed-processing__1.mmd",
+  "sourceDoc": "docs/architecture/distributed-processing.md",
+  "diagramType": "graph:TB",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 14,
+  "bytes": 1176
+ },
+ {
+  "id": "docs_architecture_distributed-processing__2",
+  "file": "docs_architecture_distributed-processing__2.mmd",
+  "sourceDoc": "docs/architecture/distributed-processing.md",
+  "diagramType": "sequenceDiagram",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 3,
+  "bytes": 1435
+ },
+ {
+  "id": "docs_architecture_distributed-processing__3",
+  "file": "docs_architecture_distributed-processing__3.mmd",
+  "sourceDoc": "docs/architecture/distributed-processing.md",
+  "diagramType": "graph:TB",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 14,
+  "bytes": 731
+ },
+ {
+  "id": "docs_architecture_distributed-processing__4",
+  "file": "docs_architecture_distributed-processing__4.mmd",
+  "sourceDoc": "docs/architecture/distributed-processing.md",
+  "diagramType": "graph:LR",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 11,
+  "bytes": 500
+ },
+ {
+  "id": "docs_architecture_distributed-processing__5",
+  "file": "docs_architecture_distributed-processing__5.mmd",
+  "sourceDoc": "docs/architecture/distributed-processing.md",
+  "diagramType": "graph:TB",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 10,
+  "bytes": 592
+ },
+ {
+  "id": "docs_architecture_distributed-processing__6",
+  "file": "docs_architecture_distributed-processing__6.mmd",
+  "sourceDoc": "docs/architecture/distributed-processing.md",
+  "diagramType": "graph:TB",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 8,
+  "bytes": 1003
+ },
+ {
+  "id": "docs_architecture_system-architecture__1",
+  "file": "docs_architecture_system-architecture__1.mmd",
+  "sourceDoc": "docs/architecture/system-architecture.md",
+  "diagramType": "graph:TB",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 34,
+  "bytes": 2411
+ },
+ {
+  "id": "docs_architecture_system-architecture__2",
+  "file": "docs_architecture_system-architecture__2.mmd",
+  "sourceDoc": "docs/architecture/system-architecture.md",
+  "diagramType": "graph:TB",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 7,
+  "bytes": 778
+ },
+ {
+  "id": "docs_architecture_system-architecture__3",
+  "file": "docs_architecture_system-architecture__3.mmd",
+  "sourceDoc": "docs/architecture/system-architecture.md",
+  "diagramType": "graph:TB",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 11,
+  "bytes": 566
+ },
+ {
+  "id": "docs_architecture_system-architecture__4",
+  "file": "docs_architecture_system-architecture__4.mmd",
+  "sourceDoc": "docs/architecture/system-architecture.md",
+  "diagramType": "sequenceDiagram",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 0,
+  "bytes": 819
+ },
+ {
+  "id": "docs_architecture_system-architecture__5",
+  "file": "docs_architecture_system-architecture__5.mmd",
+  "sourceDoc": "docs/architecture/system-architecture.md",
+  "diagramType": "graph:TB",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 4,
+  "bytes": 575
+ },
+ {
+  "id": "docs_architecture_zero-ai-integration__1",
+  "file": "docs_architecture_zero-ai-integration__1.mmd",
+  "sourceDoc": "docs/architecture/zero-ai-integration.md",
+  "diagramType": "graph:LR",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 13,
+  "bytes": 380
+ },
+ {
+  "id": "docs_business_business-model__1",
+  "file": "docs_business_business-model__1.mmd",
+  "sourceDoc": "docs/business/business-model.md",
+  "diagramType": "graph:TB",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 9,
+  "bytes": 1084
+ },
+ {
+  "id": "docs_business_business-model__2",
+  "file": "docs_business_business-model__2.mmd",
+  "sourceDoc": "docs/business/business-model.md",
+  "diagramType": "gantt",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 0,
+  "bytes": 521
+ },
+ {
+  "id": "docs_business_business-model__3",
+  "file": "docs_business_business-model__3.mmd",
+  "sourceDoc": "docs/business/business-model.md",
+  "diagramType": "pie",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 0,
+  "bytes": 197
+ },
+ {
+  "id": "docs_business_business-model__4",
+  "file": "docs_business_business-model__4.mmd",
+  "sourceDoc": "docs/business/business-model.md",
+  "diagramType": "graph:TB",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 11,
+  "bytes": 596
+ },
+ {
+  "id": "docs_business_business-model__5",
+  "file": "docs_business_business-model__5.mmd",
+  "sourceDoc": "docs/business/business-model.md",
+  "diagramType": "graph:LR",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 12,
+  "bytes": 538
+ },
+ {
+  "id": "docs_business_business-model__6",
+  "file": "docs_business_business-model__6.mmd",
+  "sourceDoc": "docs/business/business-model.md",
+  "diagramType": "graph:TB",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 9,
+  "bytes": 337
+ },
+ {
+  "id": "docs_business_competitive-analysis__1",
+  "file": "docs_business_competitive-analysis__1.mmd",
+  "sourceDoc": "docs/business/competitive-analysis.md",
+  "diagramType": "graph:TB",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 20,
+  "bytes": 681
+ },
+ {
+  "id": "docs_business_competitive-analysis__2",
+  "file": "docs_business_competitive-analysis__2.mmd",
+  "sourceDoc": "docs/business/competitive-analysis.md",
+  "diagramType": "graph:LR",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 16,
+  "bytes": 555
+ },
+ {
+  "id": "docs_business_go-to-market__1",
+  "file": "docs_business_go-to-market__1.mmd",
+  "sourceDoc": "docs/business/go-to-market.md",
+  "diagramType": "timeline",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 0,
+  "bytes": 979
+ },
+ {
+  "id": "docs_business_go-to-market__2",
+  "file": "docs_business_go-to-market__2.mmd",
+  "sourceDoc": "docs/business/go-to-market.md",
+  "diagramType": "graph:TB",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 4,
+  "bytes": 878
+ },
+ {
+  "id": "docs_business_go-to-market__3",
+  "file": "docs_business_go-to-market__3.mmd",
+  "sourceDoc": "docs/business/go-to-market.md",
+  "diagramType": "graph:LR",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 8,
+  "bytes": 339
+ },
+ {
+  "id": "docs_business_go-to-market__4",
+  "file": "docs_business_go-to-market__4.mmd",
+  "sourceDoc": "docs/business/go-to-market.md",
+  "diagramType": "gantt",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 0,
+  "bytes": 496
+ },
+ {
+  "id": "docs_business_go-to-market__5",
+  "file": "docs_business_go-to-market__5.mmd",
+  "sourceDoc": "docs/business/go-to-market.md",
+  "diagramType": "graph:TB",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 8,
+  "bytes": 460
+ },
+ {
+  "id": "docs_business_go-to-market__6",
+  "file": "docs_business_go-to-market__6.mmd",
+  "sourceDoc": "docs/business/go-to-market.md",
+  "diagramType": "graph:TB",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 3,
+  "bytes": 588
+ },
+ {
+  "id": "docs_business_go-to-market__7",
+  "file": "docs_business_go-to-market__7.mmd",
+  "sourceDoc": "docs/business/go-to-market.md",
+  "diagramType": "graph:TB",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 10,
+  "bytes": 499
+ },
+ {
+  "id": "docs_business_go-to-market__8",
+  "file": "docs_business_go-to-market__8.mmd",
+  "sourceDoc": "docs/business/go-to-market.md",
+  "diagramType": "graph:TB",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 11,
+  "bytes": 405
+ },
+ {
+  "id": "docs_business_go-to-market__9",
+  "file": "docs_business_go-to-market__9.mmd",
+  "sourceDoc": "docs/business/go-to-market.md",
+  "diagramType": "graph:LR",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 7,
+  "bytes": 422
+ },
+ {
+  "id": "docs_business_market-analysis__1",
+  "file": "docs_business_market-analysis__1.mmd",
+  "sourceDoc": "docs/business/market-analysis.md",
+  "diagramType": "graph:LR",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 6,
+  "bytes": 245
+ },
+ {
+  "id": "docs_business_market-analysis__2",
+  "file": "docs_business_market-analysis__2.mmd",
+  "sourceDoc": "docs/business/market-analysis.md",
+  "diagramType": "graph:TB",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 7,
+  "bytes": 360
+ },
+ {
+  "id": "docs_business_market-analysis__3",
+  "file": "docs_business_market-analysis__3.mmd",
+  "sourceDoc": "docs/business/market-analysis.md",
+  "diagramType": "pie",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 0,
+  "bytes": 135
+ },
+ {
+  "id": "docs_business_market-analysis__4",
+  "file": "docs_business_market-analysis__4.mmd",
+  "sourceDoc": "docs/business/market-analysis.md",
+  "diagramType": "graph:LR",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 4,
+  "bytes": 165
+ },
+ {
+  "id": "docs_business_market-analysis__5",
+  "file": "docs_business_market-analysis__5.mmd",
+  "sourceDoc": "docs/business/market-analysis.md",
+  "diagramType": "graph:TB",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 11,
+  "bytes": 337
+ },
+ {
+  "id": "docs_business_market-analysis__6",
+  "file": "docs_business_market-analysis__6.mmd",
+  "sourceDoc": "docs/business/market-analysis.md",
+  "diagramType": "graph:TB",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 7,
+  "bytes": 256
+ },
+ {
+  "id": "docs_planning_DEVELOPMENT_ROADMAP__1",
+  "file": "docs_planning_DEVELOPMENT_ROADMAP__1.mmd",
+  "sourceDoc": "docs/planning/DEVELOPMENT/ROADMAP.md",
+  "diagramType": "gantt",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 0,
+  "bytes": 749
+ },
+ {
+  "id": "docs_planning_DEVELOPMENT_ROADMAP__2",
+  "file": "docs_planning_DEVELOPMENT_ROADMAP__2.mmd",
+  "sourceDoc": "docs/planning/DEVELOPMENT/ROADMAP.md",
+  "diagramType": "gantt",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 0,
+  "bytes": 1402
+ },
+ {
+  "id": "docs_security_security-framework__1",
+  "file": "docs_security_security-framework__1.mmd",
+  "sourceDoc": "docs/security/security-framework.md",
+  "diagramType": "graph:TB",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 4,
+  "bytes": 998
+ },
+ {
+  "id": "docs_security_security-framework__2",
+  "file": "docs_security_security-framework__2.mmd",
+  "sourceDoc": "docs/security/security-framework.md",
+  "diagramType": "sequenceDiagram",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 0,
+  "bytes": 1043
+ },
+ {
+  "id": "docs_security_security-framework__3",
+  "file": "docs_security_security-framework__3.mmd",
+  "sourceDoc": "docs/security/security-framework.md",
+  "diagramType": "graph:TB",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 9,
+  "bytes": 587
+ },
+ {
+  "id": "docs_security_security-framework__4",
+  "file": "docs_security_security-framework__4.mmd",
+  "sourceDoc": "docs/security/security-framework.md",
+  "diagramType": "graph:LR",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 9,
+  "bytes": 437
+ },
+ {
+  "id": "docs_security_security-framework__5",
+  "file": "docs_security_security-framework__5.mmd",
+  "sourceDoc": "docs/security/security-framework.md",
+  "diagramType": "graph:TB",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 7,
+  "bytes": 930
+ },
+ {
+  "id": "docs_security_security-framework__6",
+  "file": "docs_security_security-framework__6.mmd",
+  "sourceDoc": "docs/security/security-framework.md",
+  "diagramType": "graph:TB",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 8,
+  "bytes": 464
+ },
+ {
+  "id": "docs_security_security-framework__7",
+  "file": "docs_security_security-framework__7.mmd",
+  "sourceDoc": "docs/security/security-framework.md",
+  "diagramType": "graph:TB",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 8,
+  "bytes": 378
+ },
+ {
+  "id": "docs_security_security-framework__8",
+  "file": "docs_security_security-framework__8.mmd",
+  "sourceDoc": "docs/security/security-framework.md",
+  "diagramType": "graph:TB",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 8,
+  "bytes": 681
+ },
+ {
+  "id": "docs_ui_zeroai-ui-spec__1",
+  "file": "docs_ui_zeroai-ui-spec__1.mmd",
+  "sourceDoc": "docs/ui/zeroai-ui-spec.md",
+  "diagramType": "graph:TB",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 9,
+  "bytes": 338
+ },
+ {
+  "id": "docs_ux-design_user-journeys__1",
+  "file": "docs_ux-design_user-journeys__1.mmd",
+  "sourceDoc": "docs/ux-design/user-journeys.md",
+  "diagramType": "journey",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 0,
+  "bytes": 771
+ },
+ {
+  "id": "docs_ux-design_user-journeys__10",
+  "file": "docs_ux-design_user-journeys__10.mmd",
+  "sourceDoc": "docs/ux-design/user-journeys.md",
+  "diagramType": "graph:LR",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 7,
+  "bytes": 422
+ },
+ {
+  "id": "docs_ux-design_user-journeys__11",
+  "file": "docs_ux-design_user-journeys__11.mmd",
+  "sourceDoc": "docs/ux-design/user-journeys.md",
+  "diagramType": "graph:TB",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 9,
+  "bytes": 487
+ },
+ {
+  "id": "docs_ux-design_user-journeys__12",
+  "file": "docs_ux-design_user-journeys__12.mmd",
+  "sourceDoc": "docs/ux-design/user-journeys.md",
+  "diagramType": "graph:TB",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 8,
+  "bytes": 397
+ },
+ {
+  "id": "docs_ux-design_user-journeys__13",
+  "file": "docs_ux-design_user-journeys__13.mmd",
+  "sourceDoc": "docs/ux-design/user-journeys.md",
+  "diagramType": "graph:TB",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 8,
+  "bytes": 449
+ },
+ {
+  "id": "docs_ux-design_user-journeys__2",
+  "file": "docs_ux-design_user-journeys__2.mmd",
+  "sourceDoc": "docs/ux-design/user-journeys.md",
+  "diagramType": "graph:LR",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 7,
+  "bytes": 340
+ },
+ {
+  "id": "docs_ux-design_user-journeys__3",
+  "file": "docs_ux-design_user-journeys__3.mmd",
+  "sourceDoc": "docs/ux-design/user-journeys.md",
+  "diagramType": "journey",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 0,
+  "bytes": 792
+ },
+ {
+  "id": "docs_ux-design_user-journeys__4",
+  "file": "docs_ux-design_user-journeys__4.mmd",
+  "sourceDoc": "docs/ux-design/user-journeys.md",
+  "diagramType": "graph:TB",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 5,
+  "bytes": 314
+ },
+ {
+  "id": "docs_ux-design_user-journeys__5",
+  "file": "docs_ux-design_user-journeys__5.mmd",
+  "sourceDoc": "docs/ux-design/user-journeys.md",
+  "diagramType": "journey",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 0,
+  "bytes": 820
+ },
+ {
+  "id": "docs_ux-design_user-journeys__6",
+  "file": "docs_ux-design_user-journeys__6.mmd",
+  "sourceDoc": "docs/ux-design/user-journeys.md",
+  "diagramType": "graph:TB",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 8,
+  "bytes": 348
+ },
+ {
+  "id": "docs_ux-design_user-journeys__7",
+  "file": "docs_ux-design_user-journeys__7.mmd",
+  "sourceDoc": "docs/ux-design/user-journeys.md",
+  "diagramType": "journey",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 1,
+  "bytes": 901
+ },
+ {
+  "id": "docs_ux-design_user-journeys__8",
+  "file": "docs_ux-design_user-journeys__8.mmd",
+  "sourceDoc": "docs/ux-design/user-journeys.md",
+  "diagramType": "graph:LR",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 4,
+  "bytes": 295
+ },
+ {
+  "id": "docs_ux-design_user-journeys__9",
+  "file": "docs_ux-design_user-journeys__9.mmd",
+  "sourceDoc": "docs/ux-design/user-journeys.md",
+  "diagramType": "graph:TB",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 11,
+  "bytes": 458
+ },
+ {
+  "id": "docs_ux-design_user-personas__1",
+  "file": "docs_ux-design_user-personas__1.mmd",
+  "sourceDoc": "docs/ux-design/user-personas.md",
+  "diagramType": "graph:LR",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 8,
+  "bytes": 394
+ },
+ {
+  "id": "docs_ux-design_user-personas__2",
+  "file": "docs_ux-design_user-personas__2.mmd",
+  "sourceDoc": "docs/ux-design/user-personas.md",
+  "diagramType": "graph:LR",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 8,
+  "bytes": 395
+ },
+ {
+  "id": "docs_ux-design_user-personas__3",
+  "file": "docs_ux-design_user-personas__3.mmd",
+  "sourceDoc": "docs/ux-design/user-personas.md",
+  "diagramType": "graph:LR",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 8,
+  "bytes": 415
+ },
+ {
+  "id": "docs_ux-design_user-personas__4",
+  "file": "docs_ux-design_user-personas__4.mmd",
+  "sourceDoc": "docs/ux-design/user-personas.md",
+  "diagramType": "graph:LR",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 8,
+  "bytes": 400
+ },
+ {
+  "id": "docs_ux-design_user-personas__5",
+  "file": "docs_ux-design_user-personas__5.mmd",
+  "sourceDoc": "docs/ux-design/user-personas.md",
+  "diagramType": "graph:TB",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 8,
+  "bytes": 749
+ },
+ {
+  "id": "docs_ux-design_user-personas__6",
+  "file": "docs_ux-design_user-personas__6.mmd",
+  "sourceDoc": "docs/ux-design/user-personas.md",
+  "diagramType": "graph:LR",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 9,
+  "bytes": 423
+ },
+ {
+  "id": "docs_ux-design_user-personas__7",
+  "file": "docs_ux-design_user-personas__7.mmd",
+  "sourceDoc": "docs/ux-design/user-personas.md",
+  "diagramType": "pie",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 0,
+  "bytes": 96
+ },
+ {
+  "id": "docs_ux-design_user-personas__8",
+  "file": "docs_ux-design_user-personas__8.mmd",
+  "sourceDoc": "docs/ux-design/user-personas.md",
+  "diagramType": "timeline",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 0,
+  "bytes": 514
+ },
+ {
+  "id": "wsl-ai-stack_AIRLLM__1",
+  "file": "wsl-ai-stack_AIRLLM__1.mmd",
+  "sourceDoc": "wsl-ai-stack/AIRLLM.md",
+  "diagramType": "graph:LR",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 7,
+  "bytes": 163
+ },
+ {
+  "id": "wsl-ai-stack_FLOW__1",
+  "file": "wsl-ai-stack_FLOW__1.mmd",
+  "sourceDoc": "wsl-ai-stack/FLOW.md",
+  "diagramType": "graph:LR",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 7,
+  "bytes": 207
+ },
+ {
+  "id": "wsl-ai-stack_FLOW__2",
+  "file": "wsl-ai-stack_FLOW__2.mmd",
+  "sourceDoc": "wsl-ai-stack/FLOW.md",
+  "diagramType": "sequenceDiagram",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 3,
+  "bytes": 509
+ },
+ {
+  "id": "wsl-ai-stack_PLAN__1",
+  "file": "wsl-ai-stack_PLAN__1.mmd",
+  "sourceDoc": "wsl-ai-stack/PLAN.md",
+  "diagramType": "graph:LR",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 5,
+  "bytes": 165
+ },
+ {
+  "id": "wsl-ai-stack_PLAN__2",
+  "file": "wsl-ai-stack_PLAN__2.mmd",
+  "sourceDoc": "wsl-ai-stack/PLAN.md",
+  "diagramType": "graph:TD",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 6,
+  "bytes": 213
+ },
+ {
+  "id": "wsl-ai-stack_README__1",
+  "file": "wsl-ai-stack_README__1.mmd",
+  "sourceDoc": "wsl-ai-stack/README.md",
+  "diagramType": "graph:LR",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 5,
+  "bytes": 161
+ },
+ {
+  "id": "wsl-ai-stack_VOICE__1",
+  "file": "wsl-ai-stack_VOICE__1.mmd",
+  "sourceDoc": "wsl-ai-stack/VOICE.md",
+  "diagramType": "graph:LR",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 6,
+  "bytes": 181
+ },
+ {
+  "id": "wsl-ai-stack_ZeroAI_ARCHITECTURE__1",
+  "file": "wsl-ai-stack_ZeroAI_ARCHITECTURE__1.mmd",
+  "sourceDoc": "wsl-ai-stack/ZeroAI/ARCHITECTURE.md",
+  "diagramType": "graph:LR",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 12,
+  "bytes": 317
+ },
+ {
+  "id": "wsl-ai-stack_ZeroAI_FLOW__1",
+  "file": "wsl-ai-stack_ZeroAI_FLOW__1.mmd",
+  "sourceDoc": "wsl-ai-stack/ZeroAI/FLOW.md",
+  "diagramType": "sequenceDiagram",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 3,
+  "bytes": 500
+ },
+ {
+  "id": "wsl-ai-stack_ZeroAI_README__1",
+  "file": "wsl-ai-stack_ZeroAI_README__1.mmd",
+  "sourceDoc": "wsl-ai-stack/ZeroAI/README.md",
+  "diagramType": "graph:LR",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 6,
+  "bytes": 157
+ },
+ {
+  "id": "wsl-ai-stack_ZeroAI_UI_DESIGN__1",
+  "file": "wsl-ai-stack_ZeroAI_UI_DESIGN__1.mmd",
+  "sourceDoc": "wsl-ai-stack/ZeroAI/UI/DESIGN.md",
+  "diagramType": "graph:TB",
+  "title": "",
+  "subgraphs": 0,
+  "approxEdges": 9,
+  "bytes": 299
+ }
+]

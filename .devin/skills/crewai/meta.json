@@ -1,0 +1,42 @@
+{
+  "slug": "crewai",
+  "name": "CrewAI",
+  "description": "Role-playing multi-agent framework in Python. Define agents with roles, goals, and tools; assemble them into crews that collaborate on tasks. Widely adopted as the default \"let me try multi-agent\" starting point.",
+  "owner": "crewAIInc",
+  "repo": "crewAI",
+  "skill_path": "",
+  "github_url": "https://github.com/crewAIInc/crewAI",
+  "weekly_installs": 0,
+  "downloads": 0,
+  "tags": [
+    "python",
+    "multi-agent",
+    "roles",
+    "framework",
+    "agent-framework"
+  ],
+  "platforms": [
+    "python"
+  ],
+  "artifact_type": "agent_framework",
+  "format_standard": "skill_md",
+  "skill_type": "skill",
+  "github_stars": 0,
+  "github_forks": 0,
+  "license": "MIT",
+  "image_url": null,
+  "is_paid": false,
+  "price_amount": null,
+  "price_currency": "usd",
+  "purchase_url": null,
+  "updated_at": "2026-08-09T23:11:35.954811+00:00",
+  "category": null,
+  "clients": [],
+  "permissions": {
+    "filesystem_read": false,
+    "filesystem_write": false,
+    "shell_exec": false,
+    "network_access": false,
+    "git_write": false
+  }
+}

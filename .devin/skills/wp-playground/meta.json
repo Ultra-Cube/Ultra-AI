@@ -1,0 +1,52 @@
+{
+  "slug": "wp-playground",
+  "name": "Wp Playground",
+  "description": "Use for WordPress Playground workflows: fast disposable WP instances in the browser or locally via @wp-playground/cli (server, run-blueprint, build-snapshot), auto-mounting plugins/themes, switching WP/PHP versions, blueprints, and debugging (Xdebug).",
+  "owner": "WordPress",
+  "repo": "agent-skills",
+  "skill_path": "skills/wp-playground",
+  "github_url": "https://github.com/WordPress/agent-skills/tree/trunk/skills/wp-playground",
+  "weekly_installs": 0,
+  "downloads": 2,
+  "tags": [
+    "wordpress",
+    "php",
+    "cursor",
+    "documentation",
+    "browser"
+  ],
+  "platforms": [
+    "targets-wordpress-6.9+-(php-7.2.24+).-playground-cli-requires-node.js-20.18+;-runs-wp-in-webassembly-with-sqlite."
+  ],
+  "artifact_type": "skill_pack",
+  "format_standard": "skill_md",
+  "skill_type": "skill",
+  "github_stars": 696,
+  "github_forks": 99,
+  "license": "GPL-2.0",
+  "image_url": null,
+  "is_paid": false,
+  "price_amount": null,
+  "price_currency": "usd",
+  "purchase_url": null,
+  "updated_at": "2026-02-24T06:09:47.438056+00:00",
+  "category": {
+    "slug": "writing-docs",
+    "name": "Writing & Docs"
+  },
+  "clients": [
+    {
+      "client_slug": "claude-code",
+      "client_name": "Claude Code",
+      "install_instructions": "npx mdskills install WordPress/wp-playground",
+      "is_primary": true
+    }
+  ],
+  "permissions": {
+    "filesystem_read": true,
+    "filesystem_write": true,
+    "shell_exec": true,
+    "network_access": true,
+    "git_write": false
+  }
+}

@@ -1,0 +1,159 @@
+{
+  "slug": "content-modeling-best-practices",
+  "name": "Content Modeling Best Practices",
+  "description": "General principles for structured content modeling that apply across CMSs, with Sanity-specific guidance. Use when designing content schemas, planning content architecture, or evaluating content reuse strategies.",
+  "owner": "sanity-io",
+  "repo": "agent-toolkit",
+  "skill_path": "skills/content-modeling-best-practices",
+  "github_url": "https://github.com/sanity-io/agent-toolkit/tree/main/skills/content-modeling-best-practices",
+  "weekly_installs": 0,
+  "downloads": 0,
+  "tags": [
+    "agent-rules",
+    "ai-rules",
+    "claude-code",
+    "cursor-ai",
+    "mcp",
+    "vscode",
+    "cursor"
+  ],
+  "platforms": [
+    "claude-code",
+    "claude-desktop",
+    "cursor",
+    "vscode-copilot",
+    "windsurf",
+    "continue-dev",
+    "codex",
+    "gemini-cli",
+    "amp",
+    "roo-code",
+    "goose",
+    "opencode",
+    "trae",
+    "qodo",
+    "command-code",
+    "replit"
+  ],
+  "artifact_type": "skill_pack",
+  "format_standard": "skill_md",
+  "skill_type": "hybrid",
+  "github_stars": 88,
+  "github_forks": 5,
+  "license": "MIT",
+  "image_url": null,
+  "is_paid": false,
+  "price_amount": null,
+  "price_currency": "usd",
+  "purchase_url": null,
+  "updated_at": "2026-02-24T06:09:02.39521+00:00",
+  "category": {
+    "slug": "git-workflow",
+    "name": "Git & Workflow"
+  },
+  "clients": [
+    {
+      "client_slug": "codex",
+      "client_name": "OpenAI Codex",
+      "install_instructions": "npx mdskills install sanity-io/content-modeling-best-practices",
+      "is_primary": false
+    },
+    {
+      "client_slug": "cursor",
+      "client_name": "Cursor",
+      "install_instructions": "npx mdskills install sanity-io/content-modeling-best-practices",
+      "is_primary": false
+    },
+    {
+      "client_slug": "opencode",
+      "client_name": "OpenCode",
+      "install_instructions": "npx mdskills install sanity-io/content-modeling-best-practices",
+      "is_primary": false
+    },
+    {
+      "client_slug": "command-code",
+      "client_name": "Command Code",
+      "install_instructions": "npx mdskills install sanity-io/content-modeling-best-practices",
+      "is_primary": false
+    },
+    {
+      "client_slug": "windsurf",
+      "client_name": "Windsurf",
+      "install_instructions": "npx mdskills install sanity-io/content-modeling-best-practices",
+      "is_primary": false
+    },
+    {
+      "client_slug": "gemini-cli",
+      "client_name": "Gemini CLI",
+      "install_instructions": "npx mdskills install sanity-io/content-modeling-best-practices",
+      "is_primary": false
+    },
+    {
+      "client_slug": "roo-code",
+      "client_name": "Roo Code",
+      "install_instructions": "npx mdskills install sanity-io/content-modeling-best-practices",
+      "is_primary": false
+    },
+    {
+      "client_slug": "qodo",
+      "client_name": "Qodo",
+      "install_instructions": "npx mdskills install sanity-io/content-modeling-best-practices",
+      "is_primary": false
+    },
+    {
+      "client_slug": "continue-dev",
+      "client_name": "Continue",
+      "install_instructions": "npx mdskills install sanity-io/content-modeling-best-practices",
+      "is_primary": false
+    },
+    {
+      "client_slug": "claude-desktop",
+      "client_name": "Claude Desktop",
+      "install_instructions": "npx mdskills install sanity-io/content-modeling-best-practices",
+      "is_primary": false
+    },
+    {
+      "client_slug": "goose",
+      "client_name": "Goose",
+      "install_instructions": "npx mdskills install sanity-io/content-modeling-best-practices",
+      "is_primary": false
+    },
+    {
+      "client_slug": "vscode-copilot",
+      "client_name": "VS Code Copilot",
+      "install_instructions": "npx mdskills install sanity-io/content-modeling-best-practices",
+      "is_primary": false
+    },
+    {
+      "client_slug": "trae",
+      "client_name": "TRAE",
+      "install_instructions": "npx mdskills install sanity-io/content-modeling-best-practices",
+      "is_primary": false
+    },
+    {
+      "client_slug": "claude-code",
+      "client_name": "Claude Code",
+      "install_instructions": "npx mdskills install sanity-io/content-modeling-best-practices",
+      "is_primary": true
+    },
+    {
+      "client_slug": "amp",
+      "client_name": "Amp",
+      "install_instructions": "npx mdskills install sanity-io/content-modeling-best-practices",
+      "is_primary": false
+    },
+    {
+      "client_slug": "replit",
+      "client_name": "Replit Agent",
+      "install_instructions": "npx mdskills install sanity-io/content-modeling-best-practices",
+      "is_primary": false
+    }
+  ],
+  "permissions": {
+    "filesystem_read": false,
+    "filesystem_write": false,
+    "shell_exec": false,
+    "network_access": false,
+    "git_write": false
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "slug": "wp-performance",
+  "name": "Wp Performance",
+  "description": "Use when investigating or improving WordPress performance (backend-only agent): profiling and measurement (WP-CLI profile/doctor, Server-Timing, Query Monitor via REST headers), database/query optimization, autoloaded options, object caching, cron, HTTP API calls, and safe verification.",
+  "owner": "WordPress",
+  "repo": "agent-skills",
+  "skill_path": "skills/wp-performance",
+  "github_url": "https://github.com/WordPress/agent-skills/tree/trunk/skills/wp-performance",
+  "weekly_installs": 1,
+  "downloads": 6,
+  "tags": [
+    "wordpress",
+    "cron",
+    "cursor",
+    "documentation"
+  ],
+  "platforms": [
+    "targets-wordpress-6.9+-(php-7.2.24+).-backend-only-agent;-prefers-wp-cli-(doctor/profile)-when-available."
+  ],
+  "artifact_type": "skill_pack",
+  "format_standard": "skill_md",
+  "skill_type": "skill",
+  "github_stars": 696,
+  "github_forks": 99,
+  "license": "GPL-2.0",
+  "image_url": null,
+  "is_paid": false,
+  "price_amount": null,
+  "price_currency": "usd",
+  "purchase_url": null,
+  "updated_at": "2026-02-24T06:09:42.278586+00:00",
+  "category": {
+    "slug": "writing-docs",
+    "name": "Writing & Docs"
+  },
+  "clients": [
+    {
+      "client_slug": "claude-code",
+      "client_name": "Claude Code",
+      "install_instructions": "npx mdskills install WordPress/wp-performance",
+      "is_primary": true
+    }
+  ],
+  "permissions": {
+    "filesystem_read": true,
+    "filesystem_write": true,
+    "shell_exec": false,
+    "network_access": true,
+    "git_write": false
+  }
+}

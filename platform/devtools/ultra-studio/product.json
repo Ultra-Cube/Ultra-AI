@@ -1,0 +1,23 @@
+{
+  "$comment": "Ultra Studio product overrides for a clean Code-OSS build (G-2.2 Option 2). Merge over vscode product.json at build time. No Microsoft branding, telemetry, update, or Marketplace endpoints; extensions resolve via Open VSX.",
+  "nameShort": "Ultra Studio",
+  "nameLong": "Ultra Studio",
+  "applicationName": "ultra-studio",
+  "dataFolderName": ".ultra-studio",
+  "win32MutexName": "ultrastudio",
+  "licenseName": "MIT",
+  "serverApplicationName": "ultra-studio-server",
+  "serverDataFolderName": ".ultra-studio-server",
+  "extensionsGallery": {
+    "serviceUrl": "https://open-vsx.org/vscode/gallery",
+    "itemUrl": "https://open-vsx.org/vscode/item",
+    "controlUrl": "https://open-vsx.org/vscode/item"
+  },
+  "telemetryEndpoint": "",
+  "enabledTelemetryLevels": { "error": false, "usage": false },
+  "enableTelemetry": false,
+  "linkProtectionTrustedDomains": ["https://open-vsx.org"],
+  "extensionsEnabledWithApiProposalVersion": [],
+  "builtInExtensions": [],
+  "removeTelemetryFromTelemetryEvents": true
+}

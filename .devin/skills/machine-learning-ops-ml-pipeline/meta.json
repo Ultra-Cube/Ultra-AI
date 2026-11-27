@@ -1,0 +1,153 @@
+{
+  "slug": "machine-learning-ops-ml-pipeline",
+  "name": "Machine Learning Ops ML Pipeline",
+  "description": "Design and implement a complete ML pipeline for: $ARGUMENTS",
+  "owner": "sickn33",
+  "repo": "antigravity-awesome-skills",
+  "skill_path": "skills/machine-learning-ops-ml-pipeline",
+  "github_url": "https://github.com/sickn33/antigravity-awesome-skills/tree/main/skills/machine-learning-ops-ml-pipeline",
+  "weekly_installs": 4,
+  "downloads": 2,
+  "tags": [
+    "machine-learning"
+  ],
+  "platforms": [
+    "claude-code",
+    "claude-desktop",
+    "cursor",
+    "vscode-copilot",
+    "windsurf",
+    "continue-dev",
+    "codex",
+    "gemini-cli",
+    "amp",
+    "roo-code",
+    "goose",
+    "opencode",
+    "trae",
+    "qodo",
+    "command-code",
+    "databricks"
+  ],
+  "artifact_type": "skill_pack",
+  "format_standard": "skill_md",
+  "skill_type": "skill",
+  "github_stars": 13166,
+  "github_forks": 2453,
+  "license": "MIT",
+  "image_url": null,
+  "is_paid": false,
+  "price_amount": null,
+  "price_currency": "usd",
+  "purchase_url": null,
+  "updated_at": "2026-02-20T07:48:17.500268+00:00",
+  "category": {
+    "slug": "devops-cloud",
+    "name": "DevOps & Cloud"
+  },
+  "clients": [
+    {
+      "client_slug": "claude-desktop",
+      "client_name": "Claude Desktop",
+      "install_instructions": "npx mdskills install sickn33/machine-learning-ops-ml-pipeline",
+      "is_primary": false
+    },
+    {
+      "client_slug": "windsurf",
+      "client_name": "Windsurf",
+      "install_instructions": "npx mdskills install sickn33/machine-learning-ops-ml-pipeline",
+      "is_primary": false
+    },
+    {
+      "client_slug": "gemini-cli",
+      "client_name": "Gemini CLI",
+      "install_instructions": "npx mdskills install sickn33/machine-learning-ops-ml-pipeline",
+      "is_primary": false
+    },
+    {
+      "client_slug": "goose",
+      "client_name": "Goose",
+      "install_instructions": "npx mdskills install sickn33/machine-learning-ops-ml-pipeline",
+      "is_primary": false
+    },
+    {
+      "client_slug": "qodo",
+      "client_name": "Qodo",
+      "install_instructions": "npx mdskills install sickn33/machine-learning-ops-ml-pipeline",
+      "is_primary": false
+    },
+    {
+      "client_slug": "cursor",
+      "client_name": "Cursor",
+      "install_instructions": "npx mdskills install sickn33/machine-learning-ops-ml-pipeline",
+      "is_primary": false
+    },
+    {
+      "client_slug": "continue-dev",
+      "client_name": "Continue",
+      "install_instructions": "npx mdskills install sickn33/machine-learning-ops-ml-pipeline",
+      "is_primary": false
+    },
+    {
+      "client_slug": "amp",
+      "client_name": "Amp",
+      "install_instructions": "npx mdskills install sickn33/machine-learning-ops-ml-pipeline",
+      "is_primary": false
+    },
+    {
+      "client_slug": "opencode",
+      "client_name": "OpenCode",
+      "install_instructions": "npx mdskills install sickn33/machine-learning-ops-ml-pipeline",
+      "is_primary": false
+    },
+    {
+      "client_slug": "command-code",
+      "client_name": "Command Code",
+      "install_instructions": "npx mdskills install sickn33/machine-learning-ops-ml-pipeline",
+      "is_primary": false
+    },
+    {
+      "client_slug": "claude-code",
+      "client_name": "Claude Code",
+      "install_instructions": "npx mdskills install sickn33/machine-learning-ops-ml-pipeline",
+      "is_primary": true
+    },
+    {
+      "client_slug": "vscode-copilot",
+      "client_name": "VS Code Copilot",
+      "install_instructions": "npx mdskills install sickn33/machine-learning-ops-ml-pipeline",
+      "is_primary": false
+    },
+    {
+      "client_slug": "codex",
+      "client_name": "OpenAI Codex",
+      "install_instructions": "npx mdskills install sickn33/machine-learning-ops-ml-pipeline",
+      "is_primary": false
+    },
+    {
+      "client_slug": "roo-code",
+      "client_name": "Roo Code",
+      "install_instructions": "npx mdskills install sickn33/machine-learning-ops-ml-pipeline",
+      "is_primary": false
+    },
+    {
+      "client_slug": "trae",
+      "client_name": "TRAE",
+      "install_instructions": "npx mdskills install sickn33/machine-learning-ops-ml-pipeline",
+      "is_primary": false
+    },
+    {
+      "client_slug": "databricks",
+      "client_name": "Databricks",
+      "install_instructions": "npx mdskills install sickn33/machine-learning-ops-ml-pipeline",
+      "is_primary": false
+    }
+  ],
+  "permissions": {
+    "filesystem_read": true,
+    "filesystem_write": true,
+    "shell_exec": true,
+    "network_access": true,
+    "git_write": false
+  }
+}

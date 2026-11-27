@@ -1,0 +1,218 @@
+// ╔══════════════════════════════════════════════════════════════════════════╗
+// ║                                                                          ║
+// ║ ██╗   ██╗ ██╗      ███████╗ ██████╗   █████╗                             ║
+// ║ ██║   ██║ ██║      ╚══██╔══╝ ██╔══██╗ ██╔══██╗                           ║
+// ║ ██║   ██║ ██║         ██║    ██████╔╝ ███████║                           ║
+// ║ ╚██╗ ██╔╝ ██║         ██║    ██╔══██║ ██╔══██║                           ║
+// ║  ╚████╔╝ ███████╗    ██║    ██║  ██║ ██║  ██║                            ║
+// ║   ╚═══╝  ╚══════╝    ╚═╝    ╚═╝  ╚═╝ ╚═╝  ╚═╝                            ║
+// ║                                                                          ║
+// ║ Project   : Ultra AI — Proprietary AI Platform                           ║
+// ║ Developer : Ultra Cube Tech — ucubetech.com                              ║
+// ║ Team      : Ultra Zone Team — ultra-zone.ucubetech.com                   ║
+// ║ GitHub Org: github.com/Ultra-Cube                                        ║
+// ║ Repository: github.com/Ultra-Cube/Ultra-AI                               ║
+// ║ Copyright : (c) Ultra Cube Tech — All rights reserved                    ║
+// ║ [UCUBETECH-COPYRIGHT]                                                    ║
+// ║                                                                          ║
+// ╚══════════════════════════════════════════════════════════════════════════╝
+
+import type { EngineManifest } from './types';
+
+/**
+ * Engine manifests for the embedded sidecar stack.
+ * Ports mirror docs/v2/technical-spec.md; OpenHands is remapped off :3000
+ * (web app) to :3300 to avoid collisions.
+ */
+export const ENGINE_PRESETS: EngineManifest[] = [
+  {
+    id: 'ollama',
+    label: 'Ollama',
+    command: 'ollama',
+    args: ['serve'],
+    port: 11434,
+    portEnvVar: 'OLLAMA_HOST',
+    healthPath: '/api/tags',
+    probe: 'http',
+    startupTimeoutMs: 15000,
+    licenseNote: 'MIT',
+  },
+  {
+    id: '9router',
+    label: '9router / OmniRoute',
+    command: 'omniroute',
+    args: ['serve'],
+    port: 20128,
+    portEnvVar: 'OMNIROUTE_PORT',
+    healthPath: '/health',
+    probe: 'http',
+    startupTimeoutMs: 20000,
+    licenseNote: 'MIT',
+  },
+  {
+    id: 'openclaw',
+    label: 'OpenClaw',
+    command: 'openclaw',
+    args: ['gateway'],
+    port: 18789,
+    portEnvVar: 'OPENCLAW_PORT',
+    healthPath: '/health',
+    probe: 'http',
+    startupTimeoutMs: 15000,
+  },
+  {
+    id: 'openhands',
+    label: 'OpenHands (agentic coding workspace)',
+    command: 'openhands',
+    args: ['serve'],
+    port: 3300,
+    portEnvVar: 'OPENHANDS_PORT',
+    healthPath: '/health',
+    probe: 'http',
+    runtime: 'wsl2',
+    startupTimeoutMs: 60000,
+    licenseNote: 'MIT core; exclude enterprise/ directory',
+  },
+  {
+    id: 'langflow',
+    label: 'Langflow',
+    command: 'langflow',
+    args: ['run', '--host', '127.0.0.1'],
+    port: 7860,
+    portEnvVar: 'LANGFLOW_PORT',
+    healthPath: '/health',
+    probe: 'http',
+    runtime: 'wsl2',
+    startupTimeoutMs: 45000,
+  },
+  {
+    id: 'openvscode-server',
+    label: 'Ultra Studio (Code-OSS web IDE, Open VSX)',
+    command: 'openvscode-server',
+    args: ['--host', '127.0.0.1', '--port', '8443'],
+    port: 8443,
+    portEnvVar: 'ULTRA_STUDIO_PORT',
+    healthPath: '/',
+    probe: 'http',
+    runtime: 'wsl2',
+    startupTimeoutMs: 60000,
+    licenseNote:
+      'MIT (Code-OSS); clean product.json, extensions via Open VSX only',
+  },
+  {
+    id: 'dify',
+    label: 'Dify',
+    command: 'docker',
+    args: [
+      'compose',
+      '-f',
+      'control/config/docker/docker-compose.yml',
+      'up',
+      '-d',
+      'dify-api',
+    ],
+    port: 5001,
+    portEnvVar: 'DIFY_PORT',
+    healthPath: '/health',
+    probe: 'http',
+    startupTimeoutMs: 90000,
+    managed: false,
+  },
+  {
+    id: 'n8n',
+    label: 'n8n',
+    command: 'docker',
+    args: [
+      'compose',
+      '-f',
+      'control/config/docker/docker-compose.yml',
+      'up',
+      '-d',
+      'n8n',
+    ],
+    port: 5678,
+    portEnvVar: 'N8N_PORT',
+    healthPath: '/healthz',
+    probe: 'http',
+    startupTimeoutMs: 90000,
+    managed: false,
+  },
+  {
+    id: 'airllm',
+    label: 'airllm (low-VRAM LLM inference)',
+    command: 'python3',
+    args: ['-m', 'airllm'],
+    port: 8090,
+    portEnvVar: 'AIRLLM_PORT',
+    healthPath: '/health',
+    probe: 'http',
+    runtime: 'wsl2',
+    startupTimeoutMs: 60000,
+    managed: false,
+    licenseNote: 'Apache-2.0; requires airllm installed in a venv',
+  },
+  {
+    id: 'open-webui',
+    label: 'Open WebUI (chat surface)',
+    command: 'docker',
+    args: [
+      'compose',
+      '-f',
+      'control/config/docker/docker-compose.yml',
+      'up',
+      '-d',
+      'open-webui',
+    ],
+    port: 8080,
+    portEnvVar: 'OPEN_WEBUI_PORT',
+    healthPath: '/',
+    probe: 'http',
+    startupTimeoutMs: 120000,
+    managed: false,
+    licenseNote: 'BSD-3-Clause with branding clause; keep Ultra AI attribution',
+  },
+  {
+    id: 'hermes',
+    label: 'Hermes Agent backend (NousResearch hermes-agent, `hermes serve` JSON-RPC/WebSocket)',
+    command: 'hermes',
+    args: ['serve', '--port', '9119', '--host', '127.0.0.1', '--skip-build'],
+    port: 9119,
+    portEnvVar: 'HERMES_PORT',
+    probe: 'tcp',
+    startupTimeoutMs: 30000,
+    managed: false,
+    licenseNote:
+      'MIT (NousResearch/hermes-agent); headless api_server backend on :9119',
+  },
+  {
+    id: 'hermes-dashboard',
+    label: 'Hermes Dashboard (web UI, `hermes dashboard --isolated`)',
+    command: 'hermes',
+    args: ['dashboard', '--isolated', '--port', '9120', '--skip-build'],
+    port: 9120,
+    portEnvVar: 'HERMES_DASHBOARD_PORT',
+    probe: 'http',
+    healthPath: '/api/health',
+    startupTimeoutMs: 30000,
+    managed: false,
+    licenseNote:
+      'MIT (NousResearch/hermes-agent); web UI on :9120, coexists with :9119 backend',
+  },
+  {
+    id: 'obsidian',
+    label: 'Obsidian (detect-only vault memory)',
+    command: 'obsidian',
+    args: [],
+    port: 27123,
+    portEnvVar: 'OBSIDIAN_REST_PORT',
+    probe: 'tcp',
+    startupTimeoutMs: 10000,
+    managed: false,
+    licenseNote:
+      'Proprietary; detect-only via Local REST API plugin :27123 — never auto-install',
+  },
+];
+
+export function presetById(id: string): EngineManifest | undefined {
+  return ENGINE_PRESETS.find((m) => m.id === id);
+}

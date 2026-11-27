@@ -1,0 +1,62 @@
+<!--
+╔══════════════════════════════════════════════════════════════════════════╗
+║                                                                          ║
+║ ██╗   ██╗ ██╗      ███████╗ ██████╗   █████╗                             ║
+║ ██║   ██║ ██║      ╚══██╔══╝ ██╔══██╗ ██╔══██╗                           ║
+║ ██║   ██║ ██║         ██║    ██████╔╝ ███████║                           ║
+║ ╚██╗ ██╔╝ ██║         ██║    ██╔══██║ ██╔══██║                           ║
+║  ╚████╔╝ ███████╗    ██║    ██║  ██║ ██║  ██║                            ║
+║   ╚═══╝  ╚══════╝    ╚═╝    ╚═╝  ╚═╝ ╚═╝  ╚═╝                            ║
+║                                                                          ║
+║ Project   : Ultra AI — Proprietary AI Platform                           ║
+║ Developer : Ultra Cube Tech — ucubetech.com                              ║
+║ Team      : Ultra Zone Team — ultra-zone.ucubetech.com                   ║
+║ GitHub Org: github.com/Ultra-Cube                                        ║
+║ Repository: github.com/Ultra-Cube/Ultra-AI                               ║
+║ Copyright : (c) Ultra Cube Tech — All rights reserved                    ║
+║ [UCUBETECH-COPYRIGHT]                                                    ║
+║                                                                          ║
+╚══════════════════════════════════════════════════════════════════════════╝
+-->
+
+# Decision Ledger — Ultra-AI v2
+
+Every owner answer to a Question Card is recorded here: id, date, choice, rationale.
+Cards are issued by A00 (Lead Orchestrator); answers come only from the owner.
+
+| ID | Date | Class | Question (short) | Choice | Rationale |
+|----|------|-------|------------------|--------|-----------|
+| G-0.1 | 2026-11-11 | R1 | Runtime executing the Crew A00–A15 | **Hermes Agent + Claude Code (hybrid)** | Brain/brain-stack/memory/planning/skills built on Hermes Agent; Claude Code used for parallel implementation work. Highest flexibility. |
+| G-0.2 | 2026-11-11 | R2 | Planning release tag name | **`v0.2.0-planning`** | Clearly marks a pre-experiment planning/study release; does not confuse product versioning. |
+| G-0.3 | 2026-11-11 | R2 | License of Ultra AI code | **Apache-2.0** | Permissive open license with explicit patent grant; suitable for large infrastructure project. LICENSE file to be added in Phase 0 (post-baseline). |
+
+| G-0.4 | 2026-11-11 | R1 | Hermes name collision (monitoring vs agent) | **Rename monitoring stack to Sentinel** (copy, keep old files) | Clear naming for Hermes Agent; old monitoring files preserved untouched. |
+| G-0.5 | 2026-11-11 | R2 | Where new v2 code lives | **New `platform/` tree beside legacy** | Clean separation, preserves everything, dual maintenance during transition. |
+| G-0.6 | 2026-11-11 | R2 | 5 orphan gitlinks | **Mirror forks into Ultra-Cube + add .gitmodules** (after release) | Recovers content; record SHAs in `external-integrations/_PINS.md` now. |
+| G-0.7 | 2026-11-11 | R1 | Agent write-approval granularity | **Class-based R0/R1/R2 + protected paths for baseline/release** | Balances speed and safety; per-file approval on preservation-critical paths. |
+| G-1.9 | 2026-11-11 | R1 | Single control plane | **Hermes brain + OpenClaw engine** | Hermes Agent = brain (memory/skills/reasoning); OpenClaw = channel/tool engine under it; gateway enforces data policy. Consistent with G-0.1. |
+| G-0.9 | 2026-11-11 | R2 | Move baseline files into new layout | **Move everything (all steps authorized)** | Full migration to target layout approved; still executed via WP-0 procedure (dry-run → commit A git mv → verify-moves → commit B rewrite → verify-rewrites → tests). `manifest-local` prerequisite for external-integrations/wsl-ai-stack. |
+| — | 2026-11-11 | — | Missing `v2/foundation` branch | **Re-produce its fixes as new tasks** | package-lock fix, monitoring/sentinel, port fixes, 103-test re-run, LICENSE/NOTICE, README rewrite folded into WP-0/WP-2 scope. |
+| — | 2026-11-11 | — | WP↔S phase mapping | **Merge WPs into S-phases** | Build prompt v1.0 adopted; WPs tracked inside S-phase commits. |
+
+## Pending cards
+G-0.7 answered above (class-based). Remaining open: G-1.1…G-1.8, G-2.x, G-3.1, G-4.x per `ULTRA_AI_BUILD_PROMPT.md` §5.
+
+## Owner directive (2026-11-11) — post-S2b reorganization
+- **Note:** All files under `brain-stack/` are temporary staging. After S2b finishes AND the project is verified working end-to-end, everything must be redistributed into proper root-level folders organized by purpose — e.g. docs folder, runtime/platform folder, config, etc. — matching the existing repo layout (`apps/`, `packages/`, `services/`, `docs/`, `config/`). `brain-stack/` must not remain as a permanent root directory.
+- Recorded as pending gate: applies after S2 completion + S3 release verification.
+
+| G-4.1 | 2026-11-19 | R2 | Ultra Core interface spec | **Owner-approved: contracts/ultra-core package is the agreed interface** (openapi.yaml + JSON Schemas); real calls stay mock-validated until live endpoint supplied | Ultra-AI is producer/readiness side; Ultra-Core is receiver of ultra.event.v1 and publisher of ultra-core.callback.v1 |
+| G-4.2 | 2026-11-19 | R2 | T2 on-chain/value functions | **Owner approved building credits/rewards/tokens where needed (team owns platform); T2 remains contract-BLOCKED pending written legal opinion** | Tier rollout T0 evidence / T1 off-chain credits behind approvals / T2 value layer gated |
+
+| QC-P4B-15 | 2026-11-19 | R2 | First live Ultra-Core call + T1 | **Owner: approve live now (Option 1)** — pending base URL + credentials from Ultra-Core team; rollback via ULTRA_CORE_ENABLED=false | Live anchoring irreversible once anchored; contract openapi.yaml v0.1.0-draft is the agreed interface (G-4.1) |
+| G-4.2-dir | 2026-11-19 | R2 | T2 scope while legal opinion pending | **Owner: design T2 fully but DO NOT enable** — spec/design docs only, no on-chain/value code paths activated | Keeps momentum on design while honoring the legal gate |
+
+## MASTER PROMPT v2.0 — setup interview (2026-11-21)
+| ID | Date | Class | Question | Choice | Rationale |
+|----|------|-------|----------|--------|-----------|
+| MP-0.1 | 2026-11-21 | R1 | Run scope | **Full plan (Phases 1–5)** | Owner: "أكملها بالكامل" |
+| MP-0.2 | 2026-11-21 | R1 | External-service posture | **Confirmed default** — internal build; OSS apps as updatable pinned sidecars, never forked | Owner confirmed |
+| MP-0.3 | 2026-11-21 | R2 | Dashboard mount | **Open WebUI at /** — console pages become panels/iframe routes | Owner selected WebUI at root; same-origin /webui/* rewrites already landed in a15bd290 — ADR to reconcile mount topology in Phase 3 |
+| MP-0.4 | 2026-11-21 | R1 | Brand palette | **Locked** dark gray #1a1a1a-family + orange #ff7a00-family | Already in ultra-theme.css; logo per Ultra-Zone-scale dark cube + orange electron dots |
+| MP-0.5 | 2026-11-21 | R2 | Gates unblocked now | **P0-02/15 tag push, QC-P4B-15, P0-18** | Tag baseline/pre-planning-20261111 verified already on origin → P0-02 effectively DONE; P0-15 needs gh/release auth (gh CLI not installed); P0-18 executed (archive+replace); QC-P4B-15 still needs Ultra-Core URL+credentials from owner |

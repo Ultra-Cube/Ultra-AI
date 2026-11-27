@@ -1,3 +1,24 @@
+<!--
+╔══════════════════════════════════════════════════════════════════════════╗
+║                                                                          ║
+║ ██╗   ██╗ ██╗      ███████╗ ██████╗   █████╗                             ║
+║ ██║   ██║ ██║      ╚══██╔══╝ ██╔══██╗ ██╔══██╗                           ║
+║ ██║   ██║ ██║         ██║    ██████╔╝ ███████║                           ║
+║ ╚██╗ ██╔╝ ██║         ██║    ██╔══██║ ██╔══██║                           ║
+║  ╚████╔╝ ███████╗    ██║    ██║  ██║ ██║  ██║                            ║
+║   ╚═══╝  ╚══════╝    ╚═╝    ╚═╝  ╚═╝ ╚═╝  ╚═╝                            ║
+║                                                                          ║
+║ Project   : Ultra AI — Proprietary AI Platform                           ║
+║ Developer : Ultra Cube Tech — ucubetech.com                              ║
+║ Team      : Ultra Zone Team — ultra-zone.ucubetech.com                   ║
+║ GitHub Org: github.com/Ultra-Cube                                        ║
+║ Repository: github.com/Ultra-Cube/Ultra-AI                               ║
+║ Copyright : (c) Ultra Cube Tech — All rights reserved                    ║
+║ [UCUBETECH-COPYRIGHT]                                                    ║
+║                                                                          ║
+╚══════════════════════════════════════════════════════════════════════════╝
+-->
+
 # Upstream Integration Inventory
 
 > Inventory of the 8 fadhel-sh upstream forks that back the Ultra-AI catalog
@@ -5,7 +26,7 @@
 > no installs run, no files in the upstreams modified. Produced 2026-10-31.
 
 ## How Ultra-AI probes sub-projects today
-`packages/api/src/services/integration-service.ts` → `probeAdapterStatus()` does
+`platform/backend/core-api/src/services/integration-service.ts` → `probeAdapterStatus()` does
 `GET ${MOCK_ADAPTERS_URL}/adapters/${id}/health` (default `http://localhost:4100`,
 1500 ms timeout). Non-OK / unreachable → `offline`. Every sub-project depends on
 `9router`, so 9router is the keystone to health-gate first.

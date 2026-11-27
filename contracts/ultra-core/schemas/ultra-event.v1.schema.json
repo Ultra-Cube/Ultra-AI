@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Ultra-Cube/Ultra-AI/contracts/ultra-core/schemas/ultra-event.v1.schema.json",
+  "title": "UltraEvent v1",
+  "description": "Exact wire copy of platform/services/ultra-core-bridge/src/types.ts UltraEvent. Signed, hash-chained event emitted by Ultra AI. No tokens, wallets, mining, rewards, or chain data.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "id", "ts", "type", "subject", "payload", "prev_hash", "sig"],
+  "properties": {
+    "schema": { "const": "ultra.event.v1" },
+    "id": {
+      "type": "string",
+      "description": "ULID — sortable, unique event id.",
+      "pattern": "^[0-9A-HJKMNP-TV-Z]{26}$"
+    },
+    "ts": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO-8601 timestamp."
+    },
+    "type": {
+      "type": "string",
+      "description": "usage.* | contribution.* | provenance.* — namespaced event type.",
+      "pattern": "^(usage|contribution|provenance)\\.[A-Za-z0-9_.-]+$"
+    },
+    "subject": {
+      "type": "object",
+      "description": "Platform instance / deployment identifier plus optional agent and session ids.",
+      "required": ["instance"],
+      "properties": {
+        "instance": { "type": "string", "minLength": 1 },
+        "agent": { "type": "string" },
+        "session": { "type": "string" }
+      },
+      "additionalProperties": true
+    },
+    "payload": {
+      "type": "object",
+      "description": "Event payload. Treated as opaque data by Ultra-Core; must never carry chain keys, wallet material, or executable instructions.",
+      "additionalProperties": true
+    },
+    "prev_hash": {
+      "type": "string",
+      "description": "Hash of the previous event in the chain (sha256:<hex>); genesis is sha256: + 64 zeroes.",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "sig": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["alg", "key_id", "value"],
+      "properties": {
+        "alg": { "const": "Ed25519" },
+        "key_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Public key reference — never private material."
+        },
+        "value": {
+          "type": "string",
+          "description": "base64url Ed25519 signature over the canonical wire form (ADR-0001); base64 tolerated by receivers during transition."
+        }
+      }
+    }
+  }
+}

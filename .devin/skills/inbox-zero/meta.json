@@ -1,0 +1,155 @@
+{
+  "slug": "inbox-zero",
+  "name": "Inbox Zero - your 24/7 AI email assistant",
+  "description": "Runtime debugging workflow with automated log collection. Use when fixing bugs that require runtime evidence (values, types, flow), when you'd otherwise ask user to \"open DevTools, reproduce X, tell me what you see\", or when bug depends on user interaction that can't be simulated. This skill automates log collection - logs are captured server-side and accessible programmatically.",
+  "owner": "elie222",
+  "repo": "inbox-zero",
+  "skill_path": ".claude/skills",
+  "github_url": "https://github.com/elie222/inbox-zero/tree/main/apps/mcp-server",
+  "weekly_installs": 0,
+  "downloads": 3,
+  "tags": [
+    "ai",
+    "email",
+    "gmail",
+    "loops",
+    "nextjs",
+    "openai",
+    "postgresql",
+    "posthog",
+    "prisma",
+    "productivity"
+  ],
+  "platforms": [
+    "claude-code",
+    "claude-desktop",
+    "cursor",
+    "vscode-copilot",
+    "windsurf",
+    "continue-dev",
+    "codex",
+    "gemini-cli",
+    "amp",
+    "roo-code",
+    "goose",
+    "opencode",
+    "trae",
+    "qodo",
+    "command-code"
+  ],
+  "artifact_type": "skill_pack",
+  "format_standard": "skill_md",
+  "skill_type": "hybrid",
+  "github_stars": 10120,
+  "github_forks": 1219,
+  "license": "AGPL-3.0",
+  "image_url": null,
+  "is_paid": false,
+  "price_amount": null,
+  "price_currency": "usd",
+  "purchase_url": null,
+  "updated_at": "2026-02-24T07:25:17.948128+00:00",
+  "category": {
+    "slug": "databases",
+    "name": "Databases"
+  },
+  "clients": [
+    {
+      "client_slug": "cursor",
+      "client_name": "Cursor",
+      "install_instructions": "npx mdskills install elie222/inbox-zero",
+      "is_primary": false
+    },
+    {
+      "client_slug": "gemini-cli",
+      "client_name": "Gemini CLI",
+      "install_instructions": "npx mdskills install elie222/inbox-zero",
+      "is_primary": false
+    },
+    {
+      "client_slug": "command-code",
+      "client_name": "Command Code",
+      "install_instructions": "npx mdskills install elie222/inbox-zero",
+      "is_primary": false
+    },
+    {
+      "client_slug": "claude-desktop",
+      "client_name": "Claude Desktop",
+      "install_instructions": "npx mdskills install elie222/inbox-zero",
+      "is_primary": false
+    },
+    {
+      "client_slug": "codex",
+      "client_name": "OpenAI Codex",
+      "install_instructions": "npx mdskills install elie222/inbox-zero",
+      "is_primary": false
+    },
+    {
+      "client_slug": "trae",
+      "client_name": "TRAE",
+      "install_instructions": "npx mdskills install elie222/inbox-zero",
+      "is_primary": false
+    },
+    {
+      "client_slug": "vscode-copilot",
+      "client_name": "VS Code Copilot",
+      "install_instructions": "npx mdskills install elie222/inbox-zero",
+      "is_primary": false
+    },
+    {
+      "client_slug": "amp",
+      "client_name": "Amp",
+      "install_instructions": "npx mdskills install elie222/inbox-zero",
+      "is_primary": false
+    },
+    {
+      "client_slug": "opencode",
+      "client_name": "OpenCode",
+      "install_instructions": "npx mdskills install elie222/inbox-zero",
+      "is_primary": false
+    },
+    {
+      "client_slug": "continue-dev",
+      "client_name": "Continue",
+      "install_instructions": "npx mdskills install elie222/inbox-zero",
+      "is_primary": false
+    },
+    {
+      "client_slug": "goose",
+      "client_name": "Goose",
+      "install_instructions": "npx mdskills install elie222/inbox-zero",
+      "is_primary": false
+    },
+    {
+      "client_slug": "windsurf",
+      "client_name": "Windsurf",
+      "install_instructions": "npx mdskills install elie222/inbox-zero",
+      "is_primary": false
+    },
+    {
+      "client_slug": "roo-code",
+      "client_name": "Roo Code",
+      "install_instructions": "npx mdskills install elie222/inbox-zero",
+      "is_primary": false
+    },
+    {
+      "client_slug": "qodo",
+      "client_name": "Qodo",
+      "install_instructions": "npx mdskills install elie222/inbox-zero",
+      "is_primary": false
+    },
+    {
+      "client_slug": "claude-code",
+      "client_name": "Claude Code",
+      "install_instructions": "npx mdskills install elie222/inbox-zero",
+      "is_primary": true
+    }
+  ],
+  "permissions": {
+    "filesystem_read": true,
+    "filesystem_write": true,
+    "shell_exec": true,
+    "network_access": true,
+    "git_write": false
+  }
+}

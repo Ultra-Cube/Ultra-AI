@@ -1,3 +1,24 @@
+<!--
+╔══════════════════════════════════════════════════════════════════════════╗
+║                                                                          ║
+║ ██╗   ██╗ ██╗      ███████╗ ██████╗   █████╗                             ║
+║ ██║   ██║ ██║      ╚══██╔══╝ ██╔══██╗ ██╔══██╗                           ║
+║ ██║   ██║ ██║         ██║    ██████╔╝ ███████║                           ║
+║ ╚██╗ ██╔╝ ██║         ██║    ██╔══██║ ██╔══██║                           ║
+║  ╚████╔╝ ███████╗    ██║    ██║  ██║ ██║  ██║                            ║
+║   ╚═══╝  ╚══════╝    ╚═╝    ╚═╝  ╚═╝ ╚═╝  ╚═╝                            ║
+║                                                                          ║
+║ Project   : Ultra AI — Proprietary AI Platform                           ║
+║ Developer : Ultra Cube Tech — ucubetech.com                              ║
+║ Team      : Ultra Zone Team — ultra-zone.ucubetech.com                   ║
+║ GitHub Org: github.com/Ultra-Cube                                        ║
+║ Repository: github.com/Ultra-Cube/Ultra-AI                               ║
+║ Copyright : (c) Ultra Cube Tech — All rights reserved                    ║
+║ [UCUBETECH-COPYRIGHT]                                                    ║
+║                                                                          ║
+╚══════════════════════════════════════════════════════════════════════════╝
+-->
+
 # Ultra AI Platform - Production Deployment Guide
 
 ## Executive Summary
@@ -100,9 +121,9 @@ This guide covers the complete deployment strategy for the Ultra AI Platform acr
 ### Build & Push Docker Images
 ```bash
 # Build images
-docker build -t ultra-ai/api:latest -f packages/api/Dockerfile .
+docker build -t ultra-ai/api:latest -f platform/backend/core-api/Dockerfile .
 docker build -t ultra-ai/web:latest -f packages/web/Dockerfile .
-docker build -t ultra-ai/distributed:latest -f packages/distributed/Dockerfile .
+docker build -t ultra-ai/distributed:latest -f platform/backend/distributed/Dockerfile .
 
 # Push to registry
 docker push ultra-ai/api:latest
@@ -121,13 +142,13 @@ kubectl create secret generic db-creds \\
   -n ultra-ai
 
 # Apply manifests
-kubectl apply -f k8s/namespace.yaml
-kubectl apply -f k8s/configmap.yaml
-kubectl apply -f k8s/deployment-api.yaml
-kubectl apply -f k8s/deployment-web.yaml
-kubectl apply -f k8s/deployment-p2p.yaml
-kubectl apply -f k8s/service-api.yaml
-kubectl apply -f k8s/ingress.yaml
+kubectl apply -f control/templates/kubernetes/namespace.yaml
+kubectl apply -f control/templates/kubernetes/configmap.yaml
+kubectl apply -f control/templates/kubernetes/deployment-api.yaml
+kubectl apply -f control/templates/kubernetes/deployment-web.yaml
+kubectl apply -f control/templates/kubernetes/deployment-p2p.yaml
+kubectl apply -f control/templates/kubernetes/service-api.yaml
+kubectl apply -f control/templates/kubernetes/ingress.yaml
 
 # Verify deployment
 kubectl get pods -n ultra-ai
@@ -312,7 +333,7 @@ kubectl logs deployment/api -n ultra-ai
 ### Manual Rollback
 1. Identify last known good version
 2. Update image tag in manifest
-3. Apply manifest: `kubectl apply -f k8s/deployment-api.yaml`
+3. Apply manifest: `kubectl apply -f control/templates/kubernetes/deployment-api.yaml`
 4. Monitor metrics and logs
 5. Verify service health
 

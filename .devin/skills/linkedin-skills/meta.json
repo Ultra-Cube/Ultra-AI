@@ -1,0 +1,120 @@
+{
+  "slug": "linkedin-skills",
+  "name": "Linkedin Marketing",
+  "description": "Plan, draft, audit, and publish LinkedIn posts and comments. Use when the user wants to write a viral LinkedIn post, draft a comment or reply on any LinkedIn post URL, audit a draft against 2026 algorithm heuristics, remove AI tells, extract hook formulas from viral posts, or plan a week of content. Powered by the Publora API for publishing. User provides post/comment URLs, skill drafts content, user approves, then publishes.",
+  "owner": "sergebulaev",
+  "repo": "linkedin-skills",
+  "skill_path": "SKILL.md",
+  "github_url": "https://github.com/sergebulaev/linkedin-skills",
+  "weekly_installs": 0,
+  "downloads": 2,
+  "tags": [
+    "agent-skill",
+    "ai-agents",
+    "ai-content",
+    "ai-marketing",
+    "anthropic",
+    "awesome-claude",
+    "claude-code",
+    "skills",
+    "content-creation",
+    "github"
+  ],
+  "platforms": [
+    "claude-code",
+    "claude-desktop",
+    "cursor",
+    "vscode-copilot",
+    "windsurf",
+    "continue-dev",
+    "gemini-cli",
+    "amp",
+    "roo-code",
+    "goose"
+  ],
+  "artifact_type": "skill_pack",
+  "format_standard": "skill_md",
+  "skill_type": "skill",
+  "github_stars": 379,
+  "github_forks": 55,
+  "license": "MIT",
+  "image_url": null,
+  "is_paid": false,
+  "price_amount": null,
+  "price_currency": "usd",
+  "purchase_url": null,
+  "updated_at": "2026-07-15T08:27:39.872021+00:00",
+  "category": {
+    "slug": "marketing-sales",
+    "name": "Marketing & Sales"
+  },
+  "clients": [
+    {
+      "client_slug": "claude-code",
+      "client_name": "Claude Code",
+      "install_instructions": "npx mdskills install sergebulaev/linkedin-skills",
+      "is_primary": true
+    },
+    {
+      "client_slug": "claude-desktop",
+      "client_name": "Claude Desktop",
+      "install_instructions": "npx mdskills install sergebulaev/linkedin-skills",
+      "is_primary": false
+    },
+    {
+      "client_slug": "cursor",
+      "client_name": "Cursor",
+      "install_instructions": "npx mdskills install sergebulaev/linkedin-skills",
+      "is_primary": false
+    },
+    {
+      "client_slug": "vscode-copilot",
+      "client_name": "VS Code Copilot",
+      "install_instructions": "npx mdskills install sergebulaev/linkedin-skills",
+      "is_primary": false
+    },
+    {
+      "client_slug": "windsurf",
+      "client_name": "Windsurf",
+      "install_instructions": "npx mdskills install sergebulaev/linkedin-skills",
+      "is_primary": false
+    },
+    {
+      "client_slug": "continue-dev",
+      "client_name": "Continue",
+      "install_instructions": "npx mdskills install sergebulaev/linkedin-skills",
+      "is_primary": false
+    },
+    {
+      "client_slug": "gemini-cli",
+      "client_name": "Gemini CLI",
+      "install_instructions": "npx mdskills install sergebulaev/linkedin-skills",
+      "is_primary": false
+    },
+    {
+      "client_slug": "amp",
+      "client_name": "Amp",
+      "install_instructions": "npx mdskills install sergebulaev/linkedin-skills",
+      "is_primary": false
+    },
+    {
+      "client_slug": "roo-code",
+      "client_name": "Roo Code",
+      "install_instructions": "npx mdskills install sergebulaev/linkedin-skills",
+      "is_primary": false
+    },
+    {
+      "client_slug": "goose",
+      "client_name": "Goose",
+      "install_instructions": "npx mdskills install sergebulaev/linkedin-skills",
+      "is_primary": false
+    }
+  ],
+  "permissions": {
+    "filesystem_read": true,
+    "filesystem_write": true,
+    "shell_exec": true,
+    "network_access": true,
+    "git_write": false
+  }
+}

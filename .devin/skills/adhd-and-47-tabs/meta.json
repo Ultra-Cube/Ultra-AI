@@ -1,0 +1,163 @@
+{
+  "slug": "adhd-and-47-tabs",
+  "name": "ADHD & 47 Tabs",
+  "description": "A cross-platform AI skill for clearer answers, smaller active workloads, and fewer cognitive dead ends. ADHD & 47 Tabs makes the useful part of an AI response easier to find, start, and finish. It is not a medical tool and does not diagnose or treat ADHD. No diagnosis is required. The skill uses four response contracts: 1. Answer: conclusion first, then necessary evidence and caveats. 2. Action: s",
+  "owner": "zgbrenner",
+  "repo": "adhd-and-47-tabs",
+  "skill_path": "README.md",
+  "github_url": "https://github.com/zgbrenner/adhd-and-47-tabs",
+  "weekly_installs": 0,
+  "downloads": 0,
+  "tags": [
+    "adhd",
+    "adhd-friendly",
+    "agent-skills",
+    "ai-skills",
+    "chatgpt",
+    "chatgpt-skills",
+    "claude",
+    "claude-skills",
+    "codex",
+    "custom-gpt",
+    "github"
+  ],
+  "platforms": [
+    "claude-code",
+    "claude-desktop",
+    "cursor",
+    "vscode-copilot",
+    "windsurf",
+    "continue-dev",
+    "codex",
+    "gemini-cli",
+    "amp",
+    "roo-code",
+    "goose",
+    "opencode",
+    "trae",
+    "qodo",
+    "command-code",
+    "chatgpt"
+  ],
+  "artifact_type": "skill_pack",
+  "format_standard": "generic",
+  "skill_type": "skill",
+  "github_stars": 20,
+  "github_forks": 0,
+  "license": "MIT",
+  "image_url": null,
+  "is_paid": false,
+  "price_amount": null,
+  "price_currency": "usd",
+  "purchase_url": null,
+  "updated_at": "2026-08-03T05:18:12.207602+00:00",
+  "category": {
+    "slug": "productivity",
+    "name": "Productivity"
+  },
+  "clients": [
+    {
+      "client_slug": "claude-code",
+      "client_name": "Claude Code",
+      "install_instructions": "npx mdskills install zgbrenner/adhd-and-47-tabs",
+      "is_primary": true
+    },
+    {
+      "client_slug": "continue-dev",
+      "client_name": "Continue",
+      "install_instructions": "npx mdskills install zgbrenner/adhd-and-47-tabs",
+      "is_primary": false
+    },
+    {
+      "client_slug": "goose",
+      "client_name": "Goose",
+      "install_instructions": "npx mdskills install zgbrenner/adhd-and-47-tabs",
+      "is_primary": false
+    },
+    {
+      "client_slug": "chatgpt",
+      "client_name": "ChatGPT",
+      "install_instructions": "npx mdskills install zgbrenner/adhd-and-47-tabs",
+      "is_primary": false
+    },
+    {
+      "client_slug": "claude-desktop",
+      "client_name": "Claude Desktop",
+      "install_instructions": "npx mdskills install zgbrenner/adhd-and-47-tabs",
+      "is_primary": false
+    },
+    {
+      "client_slug": "codex",
+      "client_name": "OpenAI Codex",
+      "install_instructions": "npx mdskills install zgbrenner/adhd-and-47-tabs",
+      "is_primary": false
+    },
+    {
+      "client_slug": "cursor",
+      "client_name": "Cursor",
+      "install_instructions": "npx mdskills install zgbrenner/adhd-and-47-tabs",
+      "is_primary": false
+    },
+    {
+      "client_slug": "gemini-cli",
+      "client_name": "Gemini CLI",
+      "install_instructions": "npx mdskills install zgbrenner/adhd-and-47-tabs",
+      "is_primary": false
+    },
+    {
+      "client_slug": "trae",
+      "client_name": "TRAE",
+      "install_instructions": "npx mdskills install zgbrenner/adhd-and-47-tabs",
+      "is_primary": false
+    },
+    {
+      "client_slug": "vscode-copilot",
+      "client_name": "VS Code Copilot",
+      "install_instructions": "npx mdskills install zgbrenner/adhd-and-47-tabs",
+      "is_primary": false
+    },
+    {
+      "client_slug": "amp",
+      "client_name": "Amp",
+      "install_instructions": "npx mdskills install zgbrenner/adhd-and-47-tabs",
+      "is_primary": false
+    },
+    {
+      "client_slug": "qodo",
+      "client_name": "Qodo",
+      "install_instructions": "npx mdskills install zgbrenner/adhd-and-47-tabs",
+      "is_primary": false
+    },
+    {
+      "client_slug": "windsurf",
+      "client_name": "Windsurf",
+      "install_instructions": "npx mdskills install zgbrenner/adhd-and-47-tabs",
+      "is_primary": false
+    },
+    {
+      "client_slug": "roo-code",
+      "client_name": "Roo Code",
+      "install_instructions": "npx mdskills install zgbrenner/adhd-and-47-tabs",
+      "is_primary": false
+    },
+    {
+      "client_slug": "command-code",
+      "client_name": "Command Code",
+      "install_instructions": "npx mdskills install zgbrenner/adhd-and-47-tabs",
+      "is_primary": false
+    },
+    {
+      "client_slug": "opencode",
+      "client_name": "OpenCode",
+      "install_instructions": "npx mdskills install zgbrenner/adhd-and-47-tabs",
+      "is_primary": false
+    }
+  ],
+  "permissions": {
+    "filesystem_read": true,
+    "filesystem_write": true,
+    "shell_exec": true,
+    "network_access": true,
+    "git_write": false
+  }
+}

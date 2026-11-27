@@ -1,0 +1,36 @@
+<!--
+╔══════════════════════════════════════════════════════════════════════════╗
+║                                                                          ║
+║ ██╗   ██╗ ██╗      ███████╗ ██████╗   █████╗                             ║
+║ ██║   ██║ ██║      ╚══██╔══╝ ██╔══██╗ ██╔══██╗                           ║
+║ ██║   ██║ ██║         ██║    ██████╔╝ ███████║                           ║
+║ ╚██╗ ██╔╝ ██║         ██║    ██╔══██║ ██╔══██║                           ║
+║  ╚████╔╝ ███████╗    ██║    ██║  ██║ ██║  ██║                            ║
+║   ╚═══╝  ╚══════╝    ╚═╝    ╚═╝  ╚═╝ ╚═╝  ╚═╝                            ║
+║                                                                          ║
+║ Project   : Ultra AI — Proprietary AI Platform                           ║
+║ Developer : Ultra Cube Tech — ucubetech.com                              ║
+║ Team      : Ultra Zone Team — ultra-zone.ucubetech.com                   ║
+║ GitHub Org: github.com/Ultra-Cube                                        ║
+║ Repository: github.com/Ultra-Cube/Ultra-AI                               ║
+║ Copyright : (c) Ultra Cube Tech — All rights reserved                    ║
+║ [UCUBETECH-COPYRIGHT]                                                    ║
+║                                                                          ║
+╚══════════════════════════════════════════════════════════════════════════╝
+-->
+
+---
+name: test-strategy
+description: Define test strategy per phase: unit/integration/contract/e2e, coverage >=80% lines for new packages, Playwright AR+EN smoke tests.
+platforms: [hermes, claude-code, generic]
+version: 0.1.0
+---
+
+## When to use
+Planning tests for any package or phase (A14).
+
+## Ultra-AI context
+- Pyramid today: 409 unit/integration tests across turbo tasks (api 306*, distributed 55, api-gateway 45, ai-core 3) + infrastructure/automation/smoke-test.sh 8/8 E2E smoke.
+- *api 306 claimed-not-verified (Prisma engine); re-run with engine available before trusting.
+- BUILD_PLAN Phase A verified: type-check 9/9, build 10/10 — keep these as PR gates alongside lint.
+- v2 additions needing tests: outbox signing/ordering, adapter contract conformance, ZeroAI edge-gate escalation rules, i18n AR/EN rendering. Facts: brain-stack/memory/planning/facts/architecture-master.md, brain-stack/memory/planning/facts/root-docs-build-state.md, brain-stack/memory/planning/facts/planning.yaml (F4).

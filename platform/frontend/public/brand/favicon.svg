@@ -1,0 +1,32 @@
+<!--
+╔══════════════════════════════════════════════════════════════════════════╗
+║                                                                          ║
+║ ██╗   ██╗ ██╗     ███████╗ ██████╗   █████╗            █████╗  ██╗       ║
+║ ██║   ██║ ██║    ╚══██╔══╝ ██╔══██╗ ██╔══██╗          ██╔══██╗ ██║       ║
+║ ██║   ██║ ██║       ██║    ██████╔╝ ███████║          ███████║ ██║       ║
+║ ╚██╗   ██╔╝██║       ██║    ██╔══██║ ██╔══██║          ██╔══██║ ██║      ║
+║  ╚████╔╝  ███████╗  ██║    ██║  ██║ ██║  ██║          ██║  ██║ ██║       ║
+║   ╚═══╝   ╚══════╝  ╚═╝    ╚═╝  ╚═╝ ╚═╝  ╚═╝          ╚═╝  ╚═╝ ╚═╝       ║
+║                                                                          ║
+║ Project   : Ultra AI — Proprietary AI Platform                           ║
+║ Developer : Ultra Cube Tech — ucubetech.com                              ║
+║ Team      : Ultra Zone Team — ultra-zone.ucubetech.com                   ║
+║ GitHub Org: github.com/Ultra-Cube                                        ║
+║ Repository: github.com/Ultra-Cube/Ultra-AI                               ║
+║ Copyright : (c) Ultra Cube Tech — All rights reserved                    ║
+║ [UCUBETECH-COPYRIGHT]                                                    ║
+║                                                                          ║
+╚══════════════════════════════════════════════════════════════════════════╝
+-->
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Ultra AI favicon">
+  <rect width="64" height="64" rx="14" fill="#1a1a1a"/>
+  <polygon points="32,14 45,21 32,28 19,21" fill="#262626" stroke="#3a3a3a" stroke-width="1"/>
+  <polygon points="19,21 32,28 32,46 19,39" fill="#232323" stroke="#333" stroke-width="1"/>
+  <polygon points="45,21 32,28 32,46 45,39" fill="#1f1f1f" stroke="#3a3a3a" stroke-width="1"/>
+  <circle cx="26" cy="18" r="2.2" fill="#ff7a00"/>
+  <circle cx="38" cy="18" r="2.2" fill="#ff7a00"/>
+  <circle cx="32" cy="14.5" r="2.8" fill="#ff9a3d"/>
+  <circle cx="21" cy="33" r="1.8" fill="#ff7a00"/>
+  <circle cx="43" cy="33" r="1.8" fill="#ff7a00"/>
+</svg>

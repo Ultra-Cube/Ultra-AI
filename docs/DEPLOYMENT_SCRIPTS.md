@@ -1,3 +1,24 @@
+<!--
+╔══════════════════════════════════════════════════════════════════════════╗
+║                                                                          ║
+║ ██╗   ██╗ ██╗      ███████╗ ██████╗   █████╗                             ║
+║ ██║   ██║ ██║      ╚══██╔══╝ ██╔══██╗ ██╔══██╗                           ║
+║ ██║   ██║ ██║         ██║    ██████╔╝ ███████║                           ║
+║ ╚██╗ ██╔╝ ██║         ██║    ██╔══██║ ██╔══██║                           ║
+║  ╚████╔╝ ███████╗    ██║    ██║  ██║ ██║  ██║                            ║
+║   ╚═══╝  ╚══════╝    ╚═╝    ╚═╝  ╚═╝ ╚═╝  ╚═╝                            ║
+║                                                                          ║
+║ Project   : Ultra AI — Proprietary AI Platform                           ║
+║ Developer : Ultra Cube Tech — ucubetech.com                              ║
+║ Team      : Ultra Zone Team — ultra-zone.ucubetech.com                   ║
+║ GitHub Org: github.com/Ultra-Cube                                        ║
+║ Repository: github.com/Ultra-Cube/Ultra-AI                               ║
+║ Copyright : (c) Ultra Cube Tech — All rights reserved                    ║
+║ [UCUBETECH-COPYRIGHT]                                                    ║
+║                                                                          ║
+╚══════════════════════════════════════════════════════════════════════════╝
+-->
+
 # Ultra AI Platform - Deployment Scripts
 
 ## Quick Start Scripts
@@ -63,9 +84,9 @@ echo "Environment: $ENVIRONMENT"
 
 # Build images
 echo "Building Docker images..."
-docker build -t ultra-ai/api:$VERSION -f packages/api/Dockerfile .
+docker build -t ultra-ai/api:$VERSION -f platform/backend/core-api/Dockerfile .
 docker build -t ultra-ai/web:$VERSION -f packages/web/Dockerfile .
-docker build -t ultra-ai/distributed:$VERSION -f packages/distributed/Dockerfile .
+docker build -t ultra-ai/distributed:$VERSION -f platform/backend/distributed/Dockerfile .
 
 # Push to registry
 echo "Pushing to container registry..."
@@ -75,13 +96,13 @@ docker push ultra-ai/distributed:$VERSION
 
 # Update Kubernetes manifests
 echo "Updating Kubernetes manifests..."
-sed -i "s|ultra-ai/api:latest|ultra-ai/api:$VERSION|g" k8s/manifests.yaml
-sed -i "s|ultra-ai/web:latest|ultra-ai/web:$VERSION|g" k8s/manifests.yaml
-sed -i "s|ultra-ai/distributed:latest|ultra-ai/distributed:$VERSION|g" k8s/manifests.yaml
+sed -i "s|ultra-ai/api:latest|ultra-ai/api:$VERSION|g" control/templates/kubernetes/manifests.yaml
+sed -i "s|ultra-ai/web:latest|ultra-ai/web:$VERSION|g" control/templates/kubernetes/manifests.yaml
+sed -i "s|ultra-ai/distributed:latest|ultra-ai/distributed:$VERSION|g" control/templates/kubernetes/manifests.yaml
 
 # Deploy to Kubernetes
 echo "Deploying to Kubernetes..."
-kubectl apply -f k8s/manifests.yaml
+kubectl apply -f control/templates/kubernetes/manifests.yaml
 
 # Wait for rollout
 echo "Waiting for rollout..."

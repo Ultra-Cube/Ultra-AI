@@ -1,3 +1,24 @@
+<!--
+╔══════════════════════════════════════════════════════════════════════════╗
+║                                                                          ║
+║ ██╗   ██╗ ██╗      ███████╗ ██████╗   █████╗                             ║
+║ ██║   ██║ ██║      ╚══██╔══╝ ██╔══██╗ ██╔══██╗                           ║
+║ ██║   ██║ ██║         ██║    ██████╔╝ ███████║                           ║
+║ ╚██╗ ██╔╝ ██║         ██║    ██╔══██║ ██╔══██║                           ║
+║  ╚████╔╝ ███████╗    ██║    ██║  ██║ ██║  ██║                            ║
+║   ╚═══╝  ╚══════╝    ╚═╝    ╚═╝  ╚═╝ ╚═╝  ╚═╝                            ║
+║                                                                          ║
+║ Project   : Ultra AI — Proprietary AI Platform                           ║
+║ Developer : Ultra Cube Tech — ucubetech.com                              ║
+║ Team      : Ultra Zone Team — ultra-zone.ucubetech.com                   ║
+║ GitHub Org: github.com/Ultra-Cube                                        ║
+║ Repository: github.com/Ultra-Cube/Ultra-AI                               ║
+║ Copyright : (c) Ultra Cube Tech — All rights reserved                    ║
+║ [UCUBETECH-COPYRIGHT]                                                    ║
+║                                                                          ║
+╚══════════════════════════════════════════════════════════════════════════╝
+-->
+
 # 🚀 Deployment Infrastructure & DevOps Strategy - Ultra AI Platform
 
 ## 🎯 Overview
@@ -324,7 +345,7 @@ resource "kubernetes_secret" "app_secrets" {
 #### **Application Deployment**
 
 ```yaml
-# k8s/deployments/api-gateway.yaml
+# control/templates/kubernetes/deployments/api-gateway.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -440,7 +461,7 @@ spec:
 #### **AI Processing Deployment**
 
 ```yaml
-# k8s/deployments/ai-processor.yaml
+# control/templates/kubernetes/deployments/ai-processor.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -758,7 +779,7 @@ deploy:production:
 
 ```bash
 #!/bin/bash
-# scripts/blue-green-deploy.sh
+# infrastructure/automation/blue-green-deploy.sh
 
 set -euo pipefail
 

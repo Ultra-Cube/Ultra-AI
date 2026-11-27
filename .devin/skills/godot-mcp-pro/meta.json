@@ -1,0 +1,153 @@
+{
+  "slug": "godot-mcp-pro",
+  "name": "Godot MCP Pro",
+  "description": "84 AI-powered tools connecting Claude, Cursor, and other AI assistants directly to your Godot editor. Real-time bidirectional communication. No file polling. No CLI subprocess spawning. - Full Undo/Redo - All mutations go through Godot's UndoRedo system - Smart Type Parsing - \"Vector2(100,200)\", \"ff0000\", \"Color(1,0,0)\" auto-converted - Auto-Reconnect - Exponential backoff (1s -> 60s max) - Heartb",
+  "owner": "youichi-uda",
+  "repo": "godot-mcp-pro",
+  "skill_path": "README.md",
+  "github_url": "https://github.com/youichi-uda/godot-mcp-pro",
+  "weekly_installs": 0,
+  "downloads": 6,
+  "tags": [
+    "ai",
+    "claude",
+    "cursor",
+    "game-development",
+    "godot",
+    "godot-engine",
+    "mcp",
+    "websocket"
+  ],
+  "platforms": [
+    "claude-code",
+    "claude-desktop",
+    "cursor",
+    "vscode-copilot",
+    "windsurf",
+    "continue-dev",
+    "codex",
+    "gemini-cli",
+    "amp",
+    "roo-code",
+    "goose",
+    "opencode",
+    "trae",
+    "qodo",
+    "command-code"
+  ],
+  "artifact_type": "skill_pack",
+  "format_standard": "generic",
+  "skill_type": "skill",
+  "github_stars": 1,
+  "github_forks": 0,
+  "license": null,
+  "image_url": null,
+  "is_paid": false,
+  "price_amount": null,
+  "price_currency": "usd",
+  "purchase_url": null,
+  "updated_at": "2026-02-24T15:32:07.522831+00:00",
+  "category": {
+    "slug": "games-3d",
+    "name": "Games & 3D"
+  },
+  "clients": [
+    {
+      "client_slug": "claude-code",
+      "client_name": "Claude Code",
+      "install_instructions": "npx mdskills install youichi-uda/godot-mcp-pro",
+      "is_primary": true
+    },
+    {
+      "client_slug": "claude-desktop",
+      "client_name": "Claude Desktop",
+      "install_instructions": "npx mdskills install youichi-uda/godot-mcp-pro",
+      "is_primary": false
+    },
+    {
+      "client_slug": "vscode-copilot",
+      "client_name": "VS Code Copilot",
+      "install_instructions": "npx mdskills install youichi-uda/godot-mcp-pro",
+      "is_primary": false
+    },
+    {
+      "client_slug": "continue-dev",
+      "client_name": "Continue",
+      "install_instructions": "npx mdskills install youichi-uda/godot-mcp-pro",
+      "is_primary": false
+    },
+    {
+      "client_slug": "codex",
+      "client_name": "OpenAI Codex",
+      "install_instructions": "npx mdskills install youichi-uda/godot-mcp-pro",
+      "is_primary": false
+    },
+    {
+      "client_slug": "amp",
+      "client_name": "Amp",
+      "install_instructions": "npx mdskills install youichi-uda/godot-mcp-pro",
+      "is_primary": false
+    },
+    {
+      "client_slug": "goose",
+      "client_name": "Goose",
+      "install_instructions": "npx mdskills install youichi-uda/godot-mcp-pro",
+      "is_primary": false
+    },
+    {
+      "client_slug": "qodo",
+      "client_name": "Qodo",
+      "install_instructions": "npx mdskills install youichi-uda/godot-mcp-pro",
+      "is_primary": false
+    },
+    {
+      "client_slug": "cursor",
+      "client_name": "Cursor",
+      "install_instructions": "npx mdskills install youichi-uda/godot-mcp-pro",
+      "is_primary": false
+    },
+    {
+      "client_slug": "windsurf",
+      "client_name": "Windsurf",
+      "install_instructions": "npx mdskills install youichi-uda/godot-mcp-pro",
+      "is_primary": false
+    },
+    {
+      "client_slug": "gemini-cli",
+      "client_name": "Gemini CLI",
+      "install_instructions": "npx mdskills install youichi-uda/godot-mcp-pro",
+      "is_primary": false
+    },
+    {
+      "client_slug": "roo-code",
+      "client_name": "Roo Code",
+      "install_instructions": "npx mdskills install youichi-uda/godot-mcp-pro",
+      "is_primary": false
+    },
+    {
+      "client_slug": "opencode",
+      "client_name": "OpenCode",
+      "install_instructions": "npx mdskills install youichi-uda/godot-mcp-pro",
+      "is_primary": false
+    },
+    {
+      "client_slug": "trae",
+      "client_name": "TRAE",
+      "install_instructions": "npx mdskills install youichi-uda/godot-mcp-pro",
+      "is_primary": false
+    },
+    {
+      "client_slug": "command-code",
+      "client_name": "Command Code",
+      "install_instructions": "npx mdskills install youichi-uda/godot-mcp-pro",
+      "is_primary": false
+    }
+  ],
+  "permissions": {
+    "filesystem_read": true,
+    "filesystem_write": true,
+    "shell_exec": true,
+    "network_access": true,
+    "git_write": false
+  }
+}

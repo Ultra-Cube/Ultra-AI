@@ -1,0 +1,62 @@
+{
+  "slug": "x-twitter-scraper",
+  "name": "X Twitter Scraper",
+  "description": "Use Xquik for X/Twitter REST, MCP, SDKs, search, filtered exports, monitoring & approved publishing. Not affiliated with X Corp. Trigger for X API alternatives, pricing comparisons, tweet search, user lookup, timelines, follower exports, media, webhooks, bulk extraction, giveaways, or MCP setup. Read-only by default. Require explicit approval for writes, private reads, monitors, webhooks & metered bulk jobs.",
+  "owner": "Xquik-dev",
+  "repo": "x-twitter-scraper",
+  "skill_path": "skills/x-twitter-scraper",
+  "github_url": "https://github.com/Xquik-dev/x-twitter-scraper/tree/master/skills/x-twitter-scraper",
+  "weekly_installs": 0,
+  "downloads": 2,
+  "tags": [
+    "[twitter",
+    "x",
+    "social-media",
+    "api-development",
+    "scraping]",
+    "advanced-search",
+    "agent-skill",
+    "ai-agent",
+    "data-extraction",
+    "follower-export",
+    "mcp",
+    "mcp-server",
+    "profile-tweets",
+    "sdk",
+    "send-tweets"
+  ],
+  "platforms": [
+    "requires-internet-access-to-call-the-first-party-xquik-rest-api."
+  ],
+  "artifact_type": "skill_pack",
+  "format_standard": "skill_md",
+  "skill_type": "skill",
+  "github_stars": 174,
+  "github_forks": 17,
+  "license": "MIT",
+  "image_url": null,
+  "is_paid": false,
+  "price_amount": null,
+  "price_currency": "usd",
+  "purchase_url": null,
+  "updated_at": "2026-03-30T05:53:26.694491+00:00",
+  "category": {
+    "slug": "api-backend",
+    "name": "API & Backend"
+  },
+  "clients": [
+    {
+      "client_slug": "claude-code",
+      "client_name": "Claude Code",
+      "install_instructions": "npx mdskills install Xquik-dev/x-twitter-scraper",
+      "is_primary": true
+    }
+  ],
+  "permissions": {
+    "filesystem_read": true,
+    "filesystem_write": true,
+    "shell_exec": true,
+    "network_access": true,
+    "git_write": false
+  }
+}

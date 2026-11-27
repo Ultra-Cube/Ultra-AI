@@ -43,7 +43,8 @@ htmlcov/
 .vercel
 
 # Local runtime state (logs, pids, service data from the orchestrator)
-runtime/
+/runtime/
+infrastructure/runtime/
 
 # Environment variables
 .env
@@ -63,11 +64,17 @@ runtime/
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+!.vscode/mcp.json
 .idea/
 *.swp
 *.swo
 *~
 .DS_Store
+
+# AI assistants (Claude, Cortex, etc.)
+.claude/
+.cortex/
+CLAUDE.md
 
 # Logs
 logs
@@ -153,3 +160,17 @@ ehthumbs.db
 .directory
 .Trash-*
 external/
+
+# Devin local MCP config (may contain secrets)
+.devin/mcp_config.local.json
+.devin/config.local.json
+
+# Local release bundles (not for VCS)
+release-assets/
+
+# sentinel runtime state
+infrastructure/monitoring/stack/sentinel/status.json
+
+# Generated release bundles
+distribution/assets/releases/
+.cortex/

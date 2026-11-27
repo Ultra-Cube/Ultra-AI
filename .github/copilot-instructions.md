@@ -1,63 +1,58 @@
-# Ultra AI Platform - Copilot Instructions
+<!--
+╔══════════════════════════════════════════════════════════════════════════╗
+║                                                                          ║
+║ ██╗   ██╗ ██╗     ███████╗ ██████╗   █████╗            █████╗  ██╗       ║
+║ ██║   ██║ ██║    ╚══██╔══╝ ██╔══██╗ ██╔══██╗          ██╔══██╗ ██║       ║
+║ ██║   ██║ ██║       ██║    ██████╔╝ ███████║          ███████║ ██║       ║
+║ ╚██╗   ██╔╝██║       ██║    ██╔══██║ ██╔══██║          ██╔══██║ ██║      ║
+║  ╚████╔╝  ███████╗  ██║    ██║  ██║ ██║  ██║          ██║  ██║ ██║       ║
+║   ╚═══╝   ╚══════╝  ╚═╝    ╚═╝  ╚═╝ ╚═╝  ╚═╝          ╚═╝  ╚═╝ ╚═╝       ║
+║                                                                          ║
+║ Project   : Ultra AI — Proprietary AI Platform                           ║
+║ Developer : Ultra Cube Tech — ucubetech.com                              ║
+║ Team      : Ultra Zone Team — ultra-zone.ucubetech.com                   ║
+║ GitHub Org: github.com/Ultra-Cube                                        ║
+║ Repository: github.com/Ultra-Cube/Ultra-AI                               ║
+║ Copyright : (c) Ultra Cube Tech — All rights reserved                    ║
+║ [UCUBETECH-COPYRIGHT]                                                    ║
+║                                                                          ║
+╚══════════════════════════════════════════════════════════════════════════╝
+-->
 
-## Project Overview
-This is an **early-stage distributed AI platform** (idea phase) combining natural language interfaces with blockchain-based distributed processing. The project is currently in planning/documentation phase with no implementation code yet.
+<!--
+╔══════════════════════════════════════════════════════════════════════════╗
+║ ██╗   ██╗ ██╗      ███████╗ ██████╗   █████╗                             ║
+║ ██║   ██║ ██║      ╚══██╔══╝ ██╔══██╗ ██╔══██╗                           ║
+║ ██║   ██║ ██║         ██║    ██████╔╝ ███████║                           ║
+║ ╚██╗ ██╔╝ ██║         ██║    ██╔══██║ ██╔══██║                           ║
+║  ╚████╔╝ ███████╗    ██║    ██║  ██║ ██║  ██║                            ║
+║   ╚═══╝  ╚══════╝    ╚═╝    ╚═╝  ╚═╝ ╚═╝  ╚═╝                            ║
+║ Project: Ultra AI · Developer: Ultra Cube Tech · Team: Ultra Zone Team  ║
+╚══════════════════════════════════════════════════════════════════════════╝
+-->
 
-## Architecture Principles
-- **Distributed Processing**: User requests are chunked, encrypted, and processed across a volunteer user network
-- **Natural Interface**: Conversational AI that auto-configures tools based on user requests in Arabic/English
-- **Reward System**: CS digital currency rewards users for contributing processing power
-- **Gata-OS Integration**: Tight integration with a custom operating system via secure APIs
-- **Privacy-First**: End-to-end encryption with data chunking to prevent any single node from accessing complete data
+# Copilot Instructions — Ultra AI
 
-## Key Components (Planned)
-```mermaid
-User Request → AI Core → Request Chunking → User Network → Parallel Processing → Result Aggregation → User
-```
+TypeScript monorepo (Turborepo, npm workspaces). See `AGENTS.md` for the full
+guide — this file is the short version for GitHub Copilot.
 
-## Technology Stack (from README.md config)
-- **Frontend**: React 18+, Next.js 14+, TypeScript, Tailwind CSS
-- **Backend**: Node.js 18+, NestJS, Python 3.10+, FastAPI
-- **AI/ML**: TensorFlow, PyTorch, Transformers, LangChain
-- **Blockchain**: Ethereum, IPFS, Web3.js, Solidity
-- **Database**: PostgreSQL, MongoDB, Redis, S3
-- **Infrastructure**: Docker, Kubernetes, AWS/GCP/Azure
+## Layout
+- `platform/` — frontend (Next.js), backend (`core-api`, :4000), api, shared, services, devtools, apps
+- `brain-stack/` — skills, prompts, memory, workflows (file-backed; managed via `/api/brain-stack/*`)
+- `contracts/` — Ultra Core contract package (openapi.yaml + JSON Schemas; interface of record, G-4.1)
+- `docs/` — plans, ADRs, runbooks (`docs/MASTER_AGENT_PROMPT.md` is the 8h orchestrator spec)
+- `external-integrations/` — pinned upstream apps (Hermes, OmniRoute, n8n, Open WebUI, Grafana, Obsidian); embedded as sidecars, never vendored
+- `infrastructure/` — docker-compose, systemd units
 
-## Documentation Structure
-- `README.md` - Comprehensive project vision with technical requirements and deployment plans
-- `docs/business/` - Market analysis and competitive research (partially populated)
-- `docs/architecture/` - Technical specs (empty - needs development)
-- `docs/security/` - Security framework (empty - needs development) 
-- `docs/ux-design/` - User experience design (empty - needs development)
+## Commands
+- Dev: `npm run dev` · Build: `npm run build` · Test: `npm run test` · Lint: `npm run lint` · Type-check: `npm run type-check`
+- Stack: `npm run docker:dev` / `docker:down`
 
-## Development Workflow (Current Phase)
-Since this is idea-stage, focus on:
-1. **Documentation First**: Complete architecture docs before any code
-2. **Market Validation**: Expand business analysis in `docs/business/`
-3. **Security Planning**: Develop threat models given distributed/crypto nature
-4. **Prototype Planning**: Define MVP scope from the comprehensive feature list
-
-## Project-Specific Patterns
-- **Mermaid Diagrams**: Extensive use for system flows, deployment timelines, and architecture
-- **Bilingual Support**: Arabic/English as core requirement (not typical)
-- **Crypto Integration**: Built-in reward system with CS currency
-- **Distributed-First**: Unlike typical cloud apps, designed for peer-to-peer processing
-- **Configuration-Driven**: See `config/default.js` example in README for modular settings
-
-## Critical Considerations
-- **No Implementation Yet**: Avoid creating code files - focus on planning/documentation
-- **Regulatory Compliance**: Crypto rewards system needs legal review
-- **Performance Targets**: <200ms response time, 99.9% uptime, 1000+ TPS
-- **Security-Critical**: Distributed processing of potentially sensitive data requires robust encryption
-
-## File Organization Conventions
-- Configuration examples use nested objects (see README config section)
-- Gantt charts for all planning timelines
-- Comprehensive feature checklists with checkboxes
-- Technical requirements tables with specific versions
-
-## When Contributing
-- Prioritize completing `docs/architecture/` specifications
-- Reference the detailed tech stack requirements in README.md
-- Follow the 3-phase deployment plan (Prototype → Distributed → Maturity)
-- Consider the $1.25M-$1.9M budget constraints for Year 1
+## Rules that matter
+- **Honest states** — never fabricate service availability; offline/degraded UI states are required, not bugs.
+- **Gates** — no live Ultra-Core calls or T1 until owner provides endpoint+credentials (QC-P4B-15); T2 value layer stays disabled pending G-4.2 counsel sign-off.
+- **Upstream apps** — pin versions, keep update path open, never fork their code into our tree.
+- **Secrets** — never commit; `.env.example` only.
+- **Commits** — conventional: `type(scope): description`.
+- **Baseline-locked docs** — archive-and-replace, never silent edits.
+- Verify with `npm run lint` + `npm run type-check` before declaring done.

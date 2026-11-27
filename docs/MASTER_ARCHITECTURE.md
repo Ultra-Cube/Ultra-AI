@@ -1,3 +1,24 @@
+<!--
+╔══════════════════════════════════════════════════════════════════════════╗
+║                                                                          ║
+║ ██╗   ██╗ ██╗      ███████╗ ██████╗   █████╗                             ║
+║ ██║   ██║ ██║      ╚══██╔══╝ ██╔══██╗ ██╔══██╗                           ║
+║ ██║   ██║ ██║         ██║    ██████╔╝ ███████║                           ║
+║ ╚██╗ ██╔╝ ██║         ██║    ██╔══██║ ██╔══██║                           ║
+║  ╚████╔╝ ███████╗    ██║    ██║  ██║ ██║  ██║                            ║
+║   ╚═══╝  ╚══════╝    ╚═╝    ╚═╝  ╚═╝ ╚═╝  ╚═╝                            ║
+║                                                                          ║
+║ Project   : Ultra AI — Proprietary AI Platform                           ║
+║ Developer : Ultra Cube Tech — ucubetech.com                              ║
+║ Team      : Ultra Zone Team — ultra-zone.ucubetech.com                   ║
+║ GitHub Org: github.com/Ultra-Cube                                        ║
+║ Repository: github.com/Ultra-Cube/Ultra-AI                               ║
+║ Copyright : (c) Ultra Cube Tech — All rights reserved                    ║
+║ [UCUBETECH-COPYRIGHT]                                                    ║
+║                                                                          ║
+╚══════════════════════════════════════════════════════════════════════════╝
+-->
+
 # Ultra AI — Master Architecture & Plan
 
 **Status:** Authoritative. Supersedes the conflicting status claims scattered across
@@ -6,7 +27,7 @@
 This document is the single source of truth for what Ultra AI **actually is today**,
 how its layers fit together, and what the plan forward is. It is written from a
 ground-truth read of the code (not the aspirational docs): every "✅ real" claim
-below was verified against source in `packages/*` and `apps/web`, and the full
+below was verified against source in `packages/*` and `platform/frontend`, and the full
 build/test suite (**409 tests, 20/20 turbo tasks green**).
 
 ---
@@ -26,7 +47,7 @@ platform with four ambitions, in descending order of how real they are today:
    contract.** Aspirational.
 
 The monitoring layer (**Hermes**) and the unified full-system launcher
-(`scripts/ultra-stack.sh`) were added recently and are real.
+(`infrastructure/automation/ultra-stack.sh`) were added recently and are real.
 
 ---
 
@@ -38,36 +59,36 @@ real runtime call path (solid = implemented, dashed = planned/not wired).
 ```mermaid
 graph TB
     subgraph L1["1 · Experience Layer"]
-        WEB["apps/web (Next.js 14)<br/>landing · dashboard · gateway · control-center · zeroai"]
-        DESK["packages/desktop-ui<br/>Electron-style shell (stub)"]
+        WEB["platform/frontend (Next.js 14)<br/>landing · dashboard · gateway · control-center · zeroai"]
+        DESK["platform/platform/apps/desktop-ui-ui<br/>Electron-style shell (stub)"]
     end
 
     subgraph L2["2 · Edge / Local Control (ZeroAI)"]
         ZERO["ZeroAI control surface<br/>simple + professional modes"]
-        VOICE["packages/voice-recognition (stub)"]
+        VOICE["platform/services/voice-recognition (stub)"]
     end
 
     subgraph L3["3 · Intelligence Layer"]
-        AICORE["packages/ai-core<br/>NLP · intent · planner · model-router"]
+        AICORE["platform/backend/ai-core<br/>NLP · intent · planner · model-router"]
         CATALOG["models.ts — canonical catalog<br/>GPT-5/4.1 · Claude 4.x · Ollama"]
         PROVS["providers: OpenAI · Anthropic · Mock"]
     end
 
     subgraph L4["4 · Platform API Layer"]
-        API["packages/api (Fastify)<br/>auth/RBAC · /ai/process · zeroai · metrics · swagger"]
-        GW["packages/api-gateway<br/>provider CRUD · routing · /health"]
-        SHARED["packages/shared"]
+        API["platform/backend/core-api (Fastify)<br/>auth/RBAC · /ai/process · zeroai · metrics · swagger"]
+        GW["platform/api/gateway<br/>provider CRUD · routing · /health"]
+        SHARED["platform/shared"]
     end
 
     subgraph L5["5 · Distributed / Rewards"]
-        DIST["packages/distributed<br/>chunker · P2P · orchestrator · rewards"]
+        DIST["platform/backend/distributed<br/>chunker · P2P · orchestrator · rewards"]
     end
 
     subgraph L6["6 · Data & Ops"]
         PG[("PostgreSQL + Prisma")]
         REDIS[("Redis (cache)")]
-        HERMES["monitoring/hermes<br/>Prometheus · Grafana · Alertmanager"]
-        K8S["k8s/ · Dockerfiles · ultra-stack.sh"]
+        HERMES["infrastructure/monitoring/legacy-hermes<br/>Prometheus · Grafana · Alertmanager"]
+        K8S["control/templates/kubernetes/ · Dockerfiles · ultra-stack.sh"]
     end
 
     WEB --> API
@@ -90,22 +111,38 @@ graph TB
     K8S --- API
 ```
 
+> **Repository layout note (WP-0, `docs/planning/layout-map.yaml`):** the paths
+> shown above are the *current* locations. The adopted target layout moves them
+> to: `platform/frontend → platform/frontend`, `platform/backend/core-api → platform/backend/core-api`,
+> `platform/api/gateway → platform/api/gateway`, `platform/backend/ai-core →
+> platform/backend/ai-core`, `platform/shared → platform/shared`,
+> `platform/platform/apps/desktop-ui-ui → platform/platform/apps/desktop-ui-ui`, `platform/services/voice-recognition`
+> and `platform/services/memory-optimizer → platform/services/`, `platform/devtools/control-center
+> → platform/devtools/`, `platform/backend/distributed → platform/backend/distributed`
+> (parked), `packages/blockchain → platform/backend/blockchain` (deferred),
+> `infrastructure/monitoring/legacy-hermes → infrastructure/monitoring/legacy-hermes`,
+> `control/templates/kubernetes/ + docker assets → control/config|templates`, `infrastructure/automation/* →
+> infrastructure/automation/`, `memory/ → brain-stack/memory/ops/`,
+> `skills/ → brain-stack/skills/legacy/`, `contracts/ → platform/api/contracts/`.
+> Package names (`@ultra-ai/*`) and runtime behavior do not change — only
+> directories move, per step-gated `git mv` in WP-0.
+
 ### Layer responsibilities & ground-truth status
 
 | Layer | Package(s) | Real? | LOC (src) | Notes |
 |-------|-----------|-------|-----------|-------|
-| 1 Experience | `apps/web` | ✅ real | ~1.8k | 5 pages + API proxy routes; now has global nav + live health strip |
-| 1 Experience | `packages/desktop-ui` | 🟡 stub | 255 | EventEmitter shell, `ControlPanel`/`SystemTray`; **no real window yet** |
-| 2 Edge/ZeroAI | in `apps/web` + `packages/api` | ✅ demo | — | dual-mode surface; JSON state file; **no auth** |
-| 2 Edge/Voice | `packages/voice-recognition` | 🟡 stub | 227 | types + skeletons only |
-| 3 Intelligence | `packages/ai-core` | ✅ real | 468 | upgraded catalog, 3 providers, router w/ task affinity |
-| 4 API | `packages/api` | ✅ real | 10.7k | 44 src files, 16 test files, Fastify + Prisma + RBAC |
-| 4 Gateway | `packages/api-gateway` | ✅ real | 655 | provider CRUD + health HTTP server |
-| 4 Shared | `packages/shared` | ✅ seed | 1 | shared types placeholder |
-| 5 Distributed | `packages/distributed` | 🟡 real-but-unwired | 1.0k | chunker, P2P, orchestrator, rewards; not behind API yet |
-| 5 Memory-opt | `packages/memory-optimizer` | 🟡 stub | 268 | GC/optimizer skeletons |
-| 6 Monitoring | `monitoring/hermes` | ✅ real | — | Prometheus+Grafana+Alertmanager+node-exporter |
-| 6 Ops | `k8s/`, `scripts/ultra-stack.sh` | ✅ real | — | manifests validated (not cluster-deployed); launcher boots full stack |
+| 1 Experience | `platform/frontend` | ✅ real | ~1.8k | 5 pages + API proxy routes; now has global nav + live health strip |
+| 1 Experience | `platform/platform/apps/desktop-ui-ui` | 🟡 stub | 255 | EventEmitter shell, `ControlPanel`/`SystemTray`; **no real window yet** |
+| 2 Edge/ZeroAI | in `platform/frontend` + `platform/backend/core-api` | ✅ demo | — | dual-mode surface; JSON state file; **no auth** |
+| 2 Edge/Voice | `platform/services/voice-recognition` | 🟡 stub | 227 | types + skeletons only |
+| 3 Intelligence | `platform/backend/ai-core` | ✅ real | 468 | upgraded catalog, 3 providers, router w/ task affinity |
+| 4 API | `platform/backend/core-api` | ✅ real | 10.7k | 44 src files, 16 test files, Fastify + Prisma + RBAC |
+| 4 Gateway | `platform/api/gateway` | ✅ real | 655 | provider CRUD + health HTTP server |
+| 4 Shared | `platform/shared` | ✅ seed | 1 | shared types placeholder |
+| 5 Distributed | `platform/backend/distributed` | 🟡 real-but-unwired | 1.0k | chunker, P2P, orchestrator, rewards; not behind API yet |
+| 5 Memory-opt | `platform/services/memory-optimizer` | 🟡 stub | 268 | GC/optimizer skeletons |
+| 6 Monitoring | `infrastructure/monitoring/legacy-hermes` | ✅ real | — | Prometheus+Grafana+Alertmanager+node-exporter |
+| 6 Ops | `control/templates/kubernetes/`, `infrastructure/automation/ultra-stack.sh` | ✅ real | — | manifests validated (not cluster-deployed); launcher boots full stack |
 
 **Dependency graph (verified from package.json):**
 `api → ai-core`; `api-gateway → shared`; `desktop-ui → shared + control-center`;
@@ -116,7 +153,7 @@ graph TB
 ## 3. Canonical runtime (the "run everything together" model)
 
 The `wsl-ai-stack` idea — several projects running together as one system — is
-implemented as **`scripts/ultra-stack.sh`**, which boots every layer in
+implemented as **`infrastructure/automation/ultra-stack.sh`**, which boots every layer in
 dependency order with health gates:
 
 ```
@@ -125,10 +162,10 @@ Postgres (:5432) → API (:4000) → Gateway (:20129) → Web (:3000)
 ```
 
 ```bash
-./scripts/ultra-stack.sh up --with-hermes   # full system + monitoring
-./scripts/ultra-stack.sh status             # health board
-./scripts/ultra-stack.sh smoke              # 8/8 MVP smoke tests
-./scripts/ultra-stack.sh down               # stop everything
+./infrastructure/automation/ultra-stack.sh up --with-hermes   # full system + monitoring
+./infrastructure/automation/ultra-stack.sh status             # health board
+./infrastructure/automation/ultra-stack.sh smoke              # 8/8 MVP smoke tests
+./infrastructure/automation/ultra-stack.sh down               # stop everything
 ```
 
 Canonical ports are fixed: **API 4000, Gateway 20129, Web 3000, Grafana 3001,
@@ -138,7 +175,7 @@ Prometheus 9090.** (This resolves the 4000-vs-5555 drift — see §8.)
 
 ## 4. Model catalog (single source of truth)
 
-`packages/ai-core/src/models.ts` is now the only place model ids live, killing the
+`platform/backend/ai-core/src/models.ts` is now the only place model ids live, killing the
 drift the docs repeatedly flagged:
 
 - **OpenAI:** `gpt-5`, `gpt-5-mini`, `gpt-4.1`, `gpt-4.1-mini`, `gpt-4o`, `gpt-4o-mini`
@@ -154,10 +191,11 @@ drift the docs repeatedly flagged:
 
 Hermes is the observability layer. Two parts:
 
-1. **`monitoring/hermes/`** — the infra stack (Prometheus scrapes the API's 40+
+1. **`infrastructure/monitoring/legacy-hermes/`** (target: `infrastructure/monitoring/legacy-hermes/`)
+   — the infra stack (Prometheus scrapes the API's 40+
    prom-client metrics + gateway health + host metrics; Grafana auto-provisions
    the "Ultra-AI Overview" dashboard; Alertmanager routes alerts).
-2. **In-app Hermes UI** (`apps/web/app/hermes`) — a native monitoring page inside
+2. **In-app Hermes UI** (`platform/frontend/app/hermes`) — a native monitoring page inside
    the platform so operators don't have to leave the app to see service health,
    latency, alerts, and a jump-off to Grafana. Linked from the global nav and
    surfaced in the desktop shell.
@@ -198,7 +236,7 @@ the planning docs landed on, re-grounded against real code:
 - CI (GitHub Actions: install → type-check → test → build).
 
 ### Phase 2 — Distributed Network (wire the parked power)
-- Put `packages/distributed` behind the API task path (chunk → dispatch → aggregate).
+- Put `platform/backend/distributed` behind the API task path (chunk → dispatch → aggregate).
 - Redis-backed task queue; node health + failover; consensus hardening.
 - Load/perf validation against the documented targets (<500ms p95, 1000+ concurrent).
 
@@ -220,7 +258,7 @@ The old docs contradict each other. Resolved positions:
 | Test totals (104 / 191 / 306…) | **409 tests** pass today (verified): api 306, distributed 55, api-gateway 45, ai-core 3. |
 | API port 4000 vs 5555 | **4000** everywhere (k8s + Dockerfile already updated). |
 | Postgres 15 vs 16 | **15** (pinned in compose + k8s). |
-| `packages/web` vs `apps/web` | **`apps/web`** is the real path. |
+| `packages/web` vs `platform/frontend` | **`platform/frontend`** is the real path. |
 | Blockchain "done" vs stub | **Off-chain only.** No deployed contract. |
 | Missing `PROJECT_PHASES_AND_STATUS.md` | Superseded by **this** document. |
 
@@ -237,6 +275,6 @@ The old docs contradict each other. Resolved positions:
 | Web | Next.js 14, :3000 |
 | Monitoring | Grafana :3001, Prometheus :9090 |
 | DB | PostgreSQL 15 + Prisma (embedded binaries locally, see BUILD_PLAN.md) |
-| Full-system launcher | `scripts/ultra-stack.sh` |
-| Smoke tests | `scripts/smoke-test.sh` (8/8) |
+| Full-system launcher | `infrastructure/automation/ultra-stack.sh` |
+| Smoke tests | `infrastructure/automation/smoke-test.sh` (8/8) |
 | Verified health | 409 tests, 20/20 turbo tasks green |

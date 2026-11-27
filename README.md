@@ -1,12 +1,36 @@
+<!--
+╔══════════════════════════════════════════════════════════════════════════╗
+║                                                                          ║
+║ ██╗   ██╗ ██╗      ███████╗ ██████╗   █████╗                             ║
+║ ██║   ██║ ██║      ╚══██╔══╝ ██╔══██╗ ██╔══██╗                           ║
+║ ██║   ██║ ██║         ██║    ██████╔╝ ███████║                           ║
+║ ╚██╗ ██╔╝ ██║         ██║    ██╔══██║ ██╔══██║                           ║
+║  ╚████╔╝ ███████╗    ██║    ██║  ██║ ██║  ██║                            ║
+║   ╚═══╝  ╚══════╝    ╚═╝    ╚═╝  ╚═╝ ╚═╝  ╚═╝                            ║
+║                                                                          ║
+║ Project   : Ultra AI — Proprietary AI Platform                           ║
+║ Developer : Ultra Cube Tech — ucubetech.com                              ║
+║ Team      : Ultra Zone Team — ultra-zone.ucubetech.com                   ║
+║ GitHub Org: github.com/Ultra-Cube                                        ║
+║ Repository: github.com/Ultra-Cube/Ultra-AI                               ║
+║ Copyright : (c) Ultra Cube Tech — All rights reserved                    ║
+║ [UCUBETECH-COPYRIGHT]                                                    ║
+║                                                                          ║
+╚══════════════════════════════════════════════════════════════════════════╝
+-->
+
+
 # 🚀 Ultra AI Platform - Innovative AI Platform
 
 ![Ultra Cube Tech Logo](https://www.ucubetech.com/logo.svg)
 
-**Version**: 1.0.0 | **Status**: Under Development 🔧 | **Architecture**: Distributed AI Platform | **Quality Score**: 10/10
+**Version**: `0.1.0` (workspace) · `v0.3.0-planning` (planning tag) · `v0.9.0-p2` (desktop artifacts) · **V3** in progress | **Status**: Under Development 🔧 | **Architecture**: Distributed AI Platform | **Branch**: `release/planning-study`
 
 [![Ultra Cube Tech](https://img.shields.io/badge/by-Ultra%20Cube%20Tech-blue.svg)](https://www.ucubetech.com)
 [![Documentation](https://img.shields.io/badge/Docs-Comprehensive-blue)](docs/README.md)
 [![Security](https://img.shields.io/badge/Security-Built--in-red)](docs/security/security-framework.md)
+
+> **v2 planning status:** the current authoritative build specification is [`ULTRA_AI_BUILD_PROMPT.md`](ULTRA_AI_BUILD_PROMPT.md) (adopted 2026-11-11). The repo has been physically reorganized into the seven-tree layout (`brain-stack/`, `platform/`, `control/`, `environments/`, `distribution/`, `infrastructure/`, `docs/`) under `layout-map.yaml`. Latest planning release: `v0.3.0-planning` (2026-11-12, post-migration); prior `v0.2.0-planning` covered the planning corpus + skills. Baseline tag `baseline/pre-planning-20261111` preserves the pre-planning tree. Agent-facing tracking: [`ULTRA_AI_TODO.md`](ULTRA_AI_TODO.md).
 
 ## 🌟 Overview
 
@@ -51,6 +75,68 @@ graph TB
     Z --> R[Local Tools and Apps]
     Z --> V[Ultra AI Network]
 ```
+
+## 🔗 Integration Layer (V3-P2 — the largest phase)
+
+All external engines run as separate services, updated from upstream, and are controlled **only** through the dashboard API (`/api/apps`, `/api/engines`). Ultra AI never forks their UI — features are exposed via API proxies and Open WebUI Tools/Functions.
+
+```mermaid
+flowchart TB
+    subgraph UI["Ultra AI UI Layer"]
+        OWUI["Open WebUI :8080<br/>(primary shell — all features via API)"]
+        UAI["Ultra AI Frontend<br/>/models /workspace /studio /customers<br/>/brain-stack /settings /about /agent-os"]
+    end
+
+    subgraph AGENTS["Agent Engine Layer"]
+        HERMES["Hermes Agent :9119<br/>api_server :8642<br/>profiles: dot muse grok-bot skilltree anymodelbot"]
+        OCLAW["OpenClaw (fadhel-sh)<br/>background backend assistant"]
+        N8N["n8n :5678<br/>workflows: reviews, routing, schedules"]
+    end
+
+    subgraph MODELS["Model Layer"]
+        OMNI["OmniRoute :20128<br/>OpenAI-compatible gateway"]
+        AGENTOS["Agent OS<br/>registry / router / policy / lifecycle"]
+        OLLAMA["Ollama + AirLLM<br/>local inference"]
+        DS["DeepSeek harness<br/>Kimi K2/K3 open weights"]
+    end
+
+    subgraph OPS["Ops Layer"]
+        GRAF["Grafana + Prometheus (Docker)"]
+        OBS["Obsidian (detect-only)"]
+        DCS["Directory-Control-Systems"]
+        SUP["Engine Supervisor<br/>catalog: hermes openclaw n8n omniroute obsidian + presets"]
+    end
+
+    OWUI <-->|Tools/Pipes/API| UAI
+    OWUI <-->|model provider| OMNI
+    OWUI <-->|chat completions| HERMES
+    HERMES <-->|sub-agent tools| OCLAW
+    HERMES <-->|trigger/status| N8N
+    AGENTOS --> OMNI
+    AGENTOS --> OLLAMA
+    AGENTOS --> DS
+    N8N --> AGENTOS
+    SUP --> HERMES & OCLAW & N8N & OMNI & OBS
+    GRAF -.metrics.-> SUP
+```
+
+### Live service map (dev defaults)
+
+| Service | Port | Role | Control |
+|---------|------|------|---------|
+| Ultra AI Web | :3000 (`/zeroai`) | Primary UI shell | — |
+| core-api | :4000 | REST API + `/api/apps` + `/api/engines` | dashboard API |
+| Hermes Agent | :9119 dashboard · :8642 api_server | Agent engine (R5) | engine supervisor |
+| OpenClaw | :18789 | Background assistant (R8) | engine supervisor |
+| n8n | :5678 | Workflow automation (SUL, connect-only) | engine supervisor |
+| OmniRoute | :20128 | OpenAI-compatible model gateway | engine supervisor |
+| Open WebUI | :8080 | Chat surface / secondary shell | Docker |
+| Ollama | :11434 | Local model runtime | engine supervisor |
+| AirLLM | :8090 | Low-VRAM inference | engine supervisor |
+| Obsidian | :27123 (REST plugin) | Vault memory — detect-only | never auto-installed |
+| Prometheus / Grafana | :9090 / :3001 | Metrics & dashboards | Docker |
+| Engine Supervisor | — | Lifecycle for all engines above | `platform/services/engine-supervisor` |
+
 
 ## ✨ Key Features
 
@@ -173,6 +259,210 @@ sequenceDiagram
 | **Storage** | PostgreSQL, MongoDB, Redis, S3 |
 | **Deployment** | Docker, Kubernetes, AWS, GitHub Actions |
 
+## 🗂️ Repository Layout (post-migration, WP-0/WP-0b)
+
+The repository was reorganized into seven top-level trees. The canonical machine-readable map lives in [`docs/planning/layout-map.yaml`](docs/planning/layout-map.yaml) and the agent-facing project map in [`brain-stack/memory/ops/project-map.md`](brain-stack/memory/ops/project-map.md).
+
+```text
+Ultra-AI/
+├── brain-stack/            # The "mind" of the project: AI memory, skills, agents, plugins
+│   ├── memory/             # Persistent AI memory (planning facts, decisions, diagrams, ops status)
+│   ├── skills/             # Project skills: ultra-ai-v2/ (33 packs) + legacy/devops
+│   ├── agents/             # A00–A15 agent definitions (orchestrator → docs/i18n)
+│   ├── commands/           # Slash commands: ultra-gate, ultra-release, ultra-status, ultra-verify
+│   ├── hooks/              # hooks.json — lifecycle hook configuration
+│   ├── mcp/                # MCP server registry for the agent stack
+│   ├── rules/              # Project-level agent rules
+│   ├── prompts/            # Master build prompts (ultra-ai-build-prompt, ultra-ai-master-build)
+│   ├── workflows/          # Agent workflow definitions (incl. ULTRA_AI_TODO.md tracking)
+│   ├── models/             # Model registry / policy placeholders
+│   └── plugin/ultra-ai-builder/  # Plugin manifest + runtime-neutral AGENTS.md/README
+├── platform/               # The product monorepo (npm workspaces + Turborepo)
+│   ├── frontend/           # Main web app (React/Next.js)
+│   ├── api/                # API gateway & marketplace services (+ api/contracts stubs)
+│   ├── backend/            # Core backend services & AI engine
+│   ├── apps/               # Secondary applications (e.g. mobile)
+│   ├── devtools/           # Developer tools & portal
+│   ├── services/           # Business-logic microservices
+│   ├── shared/             # Shared packages/utilities
+│   ├── database/           # Database schemas & configurations (placeholder; prisma still under backend)
+│   ├── testing/            # Testing infrastructure (e2e, integration, performance)
+│   └── enterprise/         # Enterprise tier: dashboard, multi-tenant, white-label, expansion
+├── control/                # Governance, ops & delivery control plane
+│   ├── config/             # docker/, env/, monitoring/, security/, database/, nginx/
+│   ├── policies/           # dao-governance/, access-control/, token-policies/, voting-mechanisms/
+│   ├── compliance/         # kyc-aml/, audit-trails/, regulatory-reports/, risk-assessment/
+│   ├── templates/          # terraform/, cloudformation/, kubernetes/, helm-charts/
+│   ├── workflows/          # github-actions/, deployment-pipelines/, testing-workflows/, security-scans/
+│   └── operations/         # incident-response/, maintenance-procedures/, backup-strategies/, disaster-recovery/
+├── environments/           # Per-environment configuration & lifecycle
+│   ├── manage-environment.sh
+│   ├── development/  staging/  production/  testing/
+│   └── (each: configs/, scripts|deployment/, tools|logs|monitoring|backups)
+├── distribution/           # Release & brand distribution
+│   └── assets/
+│       ├── branding/       # Full brand system: logos, colors, fonts, templates, social, patterns, icons
+│       └── releases/       # Release artifacts
+├── infrastructure/         # Ops & observability infrastructure
+│   ├── automation/         # Ops scripts & tools (incl. preservation.sh, gen-moves.mjs)
+│   ├── docker/             # Container definitions
+│   ├── terraform/          # IaC environments
+│   ├── Test/               # Test environment: master-test.js, test.config.js, unit/integration/e2e/performance/security/blockchain suites, reports/, alerts/
+│   └── monitoring/         # dashboards/ (grafana, kibana, custom), metrics/, health-checks/, alerts/, logs/, stack/
+├── docs/                   # All documentation (incl. docs/v2 planning specs, docs/planning/layout-map.yaml)
+└── external/               # Imported third-party material (mdskills catalog, github-forks reference)
+```
+
+### Section functions
+
+| Section | Function |
+|---------|----------|
+| `brain-stack/` | The project's AI "mind": persistent memory, skill packs, agent roster, commands, hooks, MCP config, prompts, workflows. This is where agent-facing knowledge lives — start at `memory/ops/project-map.md`. |
+| `platform/` | The shippable product: all TypeScript workspaces (frontend, api, backend, services, shared, apps, devtools) plus database/testing/enterprise extension points. |
+| `control/` | Governance & operations: configs, policies (incl. deferred token/DAO areas), compliance, IaC templates, CI/CD workflows, incident & DR procedures. |
+| `environments/` | Environment lifecycle: development/staging/production/testing configs, scripts, and the `manage-environment.sh` entry point. |
+| `distribution/` | What ships to users: brand assets under `assets/branding/` and release artifacts under `assets/releases/`. |
+| `infrastructure/` | Operations plane: automation scripts, docker, terraform, the `Test/` harness, and the `monitoring/` observability tree. |
+| `docs/` | Human documentation: architecture, planning, v2 specs, reports. |
+| `external/` | Reference-only imports (skill catalogs, forked repos); not part of the build. |
+
+### brain-stack in detail — memory, skills & agents
+
+`brain-stack/` is the canonical home for everything agent-related in this repository. It consolidates what was previously scattered (and what used to live inside `plugin/ultra-ai-builder/`).
+
+```text
+brain-stack/
+├── memory/
+│   ├── planning/     # Long-term planning memory: facts/, decisions/ (ADRs + ledger),
+│   │                 #   notes/, glossary.md, timeline.md, coverage.md, contradictions.md,
+│   │                 #   sources.jsonl, headings-digest.txt
+│   ├── diagrams/     # 116 Mermaid diagrams + graphs/registry.json
+│   └── ops/          # Operational memory: README.md, status.md, project-map.md (live repo map)
+├── skills/
+│   ├── ultra-ai-v2/  # 33 project skill packs (adaptive-ui-spec, contract-first-api,
+│   │                 #   engine-adapter, gate-os-contract, hermes-integration, memory-bank,
+│   │                 #   model-foundry, plugin-packaging, preservation-guard, ...)
+│   └── legacy/       # Legacy devops skills retained for reference
+├── agents/           # A00 orchestrator … A15 docs-i18n (16 role definitions)
+├── commands/         # ultra-gate / ultra-release / ultra-status / ultra-verify
+├── hooks/hooks.json  # Agent lifecycle hooks
+├── mcp/mcp.json      # MCP server wiring for the agent stack
+├── rules/            # Project agent rules
+├── prompts/          # Master prompts that drive the build
+├── workflows/        # Workflow defs + ULTRA_AI_TODO.md (agent task tracking)
+├── models/           # Model registry placeholders
+└── plugin/ultra-ai-builder/  # Plugin-facing manifest only (plugin.json + AGENTS.md + README)
+```
+
+| brain-stack folder | Contents | Docs / key files |
+|--------------------|----------|------------------|
+| `memory/planning/` | Facts, ADRs, decisions ledger, coverage, glossary, timeline | `facts/architecture-master.md`, `decisions/ADR-0001-runtime-hybrid.md`, `decisions/ledger.md` |
+| `memory/diagrams/` | Mermaid diagram corpus + registry | `graphs/registry.json` |
+| `memory/ops/` | Live operational memory & repo map | `README.md`, `status.md`, `project-map.md` |
+| `skills/ultra-ai-v2/` | 33 project skill packs | each `<skill>/SKILL.md` |
+| `skills/legacy/` | Legacy devops skills | `devops/` packs |
+| `agents/` | A00–A15 agent personas | `a00-orchestrator.md` … `a15-docs-i18n.md` |
+| `commands/` | Operator slash commands | `ultra-gate.md`, `ultra-release.md`, `ultra-status.md`, `ultra-verify.md` |
+| `hooks/` | Lifecycle hook config | `hooks.json` |
+| `mcp/` | MCP server registry | `mcp.json`, `README.md` |
+| `rules/` | Agent rules | `README.md` |
+| `prompts/` | Master build prompts | `ultra-ai-build-prompt.md`, `ultra-ai-master-build.md` |
+| `workflows/` | Workflow definitions & task tracking | `ULTRA_AI_TODO.md` |
+| `models/` | Model registry placeholders | — |
+| `plugin/ultra-ai-builder/` | Plugin manifest surface | `plugin.json` (via AGENTS.md/README) |
+
+> **Note:** `.devin/skills/` (~2,269 imported skill packs) and `.devin/agents/` are the *tooling* skill library used by the Devin/Cursor harness; `brain-stack/skills/` holds the *project-domain* skills authored for Ultra-AI itself. Both coexist by design.
+
+## 🧭 Development & Release Status (as of 2026-11-14)
+
+| Stage | State | Details |
+|-------|-------|---------|
+| **S1/S2 — Planning corpus** | ✅ Done | Facts, ADRs, decisions ledger, 116 Mermaid diagrams, `sources.jsonl` (122 entries) under `brain-stack/memory/planning/` |
+| **v0.2.0-planning** | ✅ Tagged & pushed | 236 files, additions-only vs `baseline/pre-planning-20261111` |
+| **WP-0 — Repository migration** | ✅ Done | Seven-tree layout; `verify-moves --post`: 58/58 moves, 0 violations; lint 9/9, type-check 10/10, tests 21/21 |
+| **WP-0b — Layout conformance** | ✅ Done | All `layout-map.yaml` paths exist as placeholders; `brain-stack/memory/ops/project-map.md` live repo map; legacy dirs removed |
+| **v0.3.0-planning** | ✅ This release | Post-migration snapshot; see `docs/v2/release-notes-v0.3.0-planning.md` |
+| **WP-2 — monitoring/sentinel** | ✅ Done | `infrastructure/monitoring/stack/sentinel/` — zero-dep Node watchdog: HTTP+TCP target polling, UP/DEGRADED/DOWN state machine, `/status`+`/health` on :9200, Alertmanager-compatible webhook alerts |
+| **WP-2b — monitoring expansion** | ✅ Done | `stack/hermes/` compose stack (Prometheus+Grafana+Alertmanager, relocated from legacy-hermes), sentinel `/metrics` endpoint, monitoring dirs populated under `infrastructure/monitoring/` |
+| **S4-P1 — platform core** | ✅ Done | `platform/backend/hermes-runtime` (`@ultra-ai/hermes-runtime`): HermesRuntime with sessions/tasks, adapter contracts (`EngineAdapter`, `ProviderAdapter`, `ToolAdapter`), `InMemoryMemoryStore`, `SkillRegistry`, `ReActReasoner` + `ReasonerEngineAdapter`, runtime events, mock provider; 4/4 tests, ESM+CJS build green |
+| **S4-P4 — Ultra Core bridge** | ✅ Done | `platform/services/ultra-core-bridge` (`@ultra-ai/ultra-core-bridge`): signed `ultra.event.v1` hash-chained outbox (Ed25519, ULID, JSONL persistence), `ExportTarget` idempotent port + `MockExportTarget`; 10/10 Jest tests; lint/type-check/build green; readiness-only — no chain features |
+| **S4 — Phased build** | ✅ P1–P4 Done | P1 platform core → P2 desktop bridge → P3 Gate-OS readiness → P4 Ultra Core bridge — all committed & verified |
+| **S4-P5 — Adapters & integrations** | ✅ Done | Real providers (`OpenAICompatibleProvider` for OpenAI/Ollama/9router, `AnthropicProvider`), `ToolRegistry` + builtin tools + `HttpMCPClient`, engine adapters (n8n/Langflow/Dify/OpenHands/Open WebUI), CLI agent tools (Claude Code/Hermes/OpenClaw) — all native fetch/spawn, zero deps |
+| **WP-1 — Durable outbox** | ✅ Done | `@ultra-ai/outbox`: signed `ultra.event.v1` hash-chained events, JSONL store, per-target cursors, partial acceptance; 20/20 tests incl. 10k-event verify (~0.65s) |
+| **Distribution** | ✅ Done | `package-release.mjs` (14 tarballs + SHA256SUMS) + `package-desktop.mjs` (Linux/Windows desktop bundles); Prisma relocated to `platform/database/prisma/` |
+| **ZeroAI edge chain** | ✅ Done | `@ultra-ai/zeroai-edge` local-first contract → desktop-bridge JSON-RPC (`zeroai.run/trail/routes`) → core-api `/zeroai/edge/*` (503 offline semantics) → `EdgePanel` on `/zeroai` — locality/route/trails visible end-to-end |
+
+| **P1A — Platform Core services** | ✅ Done (11/12) | `platform/services/`: `@ultra-ai/brain` (process mgmt, config merge, readiness; 9 tests), `@ultra-ai/memory-bridge` (Memory Bank↔Hermes pointers, FTS5; 7 tests), `@ultra-ai/skill-registry` (SKILL.md scan, scopes, signing; 9 tests), `@ultra-ai/mcp-hub` (transports, policies, mcp.json; 6 tests), `@ultra-ai/edge-proxy` (single-origin proxy, JWT SSO, CSP; 18 tests), `@ultra-ai/port-registry` (claims, conflict resolution; 11 tests), `@ultra-ai/secrets-vault` (pluggable providers; 9 tests), `@ultra-ai/work-dispatch` (ultra.work-dispatch.v1 contract, agent registry, task bus, delegation policies; wired through desktop-bridge/core-api/UI; 15+ tests), `@ultra-ai/model-gateway` (DeepSeek/GLM/Kimi/Manus adapters, routing, circuit breaker, metering), `@ultra-ai/workflow-engine` (unified engine + probes + conformance; 15 tests), `@ultra-ai/model-foundry` (dataset/recipe registries, model cards, licensing gates; distillation blocked on ToS sign-off; 14 tests) |
+| **P2 — Desktop runtime** | ✅ Done (build+verify) | FirstRunWizard, SystemTray, AutoUpdater, embedded OpenHands workspace (`@ultra-ai/workspace`), WSL2 runtime for Python sidecars, `.deb`/AppImage/Inno Setup artifacts + CycloneDX SBOM; `smoke-desktop.mjs` 47/47 checks on v0.9.0-p2. Residuals need target hosts (physical .deb install, live VS Code server launch, real appimagetool/makensis) |
+| **P1A-01 — Hermes embed spike** | ✅ Done (WSL2) | Hermes Agent v0.23.1 installed in WSL2; `/v1/*` OpenAI-compatible API verified live on `127.0.0.1:8642` via `platforms.api_server` (`hermes gateway run`); `hermes serve` dashboard backend on `:9119` is separate. Reports: `docs/spikes/hermes-embed-wsl2-rerun-2026-11-15.md`. Bare-Linux + Windows-native runs still open |
+| **P3/P4 — Gate-OS & Ultra Core** | 🔒 Owner-gated | Readiness contracts + bridges shipped (gate-os-bridge, ultra-core-bridge signed hash-chained outbox); actual integration requires owner decision; any crypto stays behind legal gate |
+
+| **V3-P6a — Legal** | ✅ Done | Root `LICENSE` (Ultra AI Proprietary) + `docs/legal/THIRD_PARTY_NOTICES.md` (R31) |
+| **V3-P1.5 — OSS scan** | ✅ Done | `docs/audit/oss-candidates.md` — adopt/defer/reject per component incl. kiri eval (R30, R34) |
+| **V3-P2.6 — Agent teams** | ✅ Done | `hermes-runtime/src/teams.ts` — Dot / Muse / GrokBot / SkillTree / AnyModelBot profiles (R9) |
+| **V3-P2.11 — Engine supervisor** | ✅ Done | hermes (:9119/:8642) + obsidian (:27123 detect-only) registered in manifests + core-api (R23) |
+
+### Implemented system — current state
+
+```mermaid
+flowchart TB
+    subgraph Host["Ultra-AI host (WSL2 / desktop runtime)"]
+        UI["Smart UI<br/>(platform/frontend · /zeroai · /chat · /automation · /workspace · /studio · /agents)"]
+        BRIDGE["desktop-bridge<br/>JSON-RPC · edge/dispatch/agents/bus/workspace"]
+        EDGE["@ultra-ai/zeroai-edge<br/>local-first routing"]
+        CORE["core-api · edge-proxy<br/>JWT SSO · CSP · /zeroai/* proxy"]
+    end
+
+    subgraph Platform["platform/services"]
+        BRAIN["@ultra-ai/brain<br/>process mgmt · config merge"]
+        MEMP["@ultra-ai/memory-bridge<br/>Memory Bank ↔ Hermes · FTS5"]
+        SKILL["@ultra-ai/skill-registry<br/>scopes · signing · packs"]
+        MCP["@ultra-ai/mcp-hub<br/>transports · policies"]
+        GW["@ultra-ai/model-gateway<br/>DeepSeek/GLM/Kimi/Manus · circuit breaker · metering"]
+        WFE["@ultra-ai/workflow-engine<br/>probes · conformance suite"]
+        FOUND["@ultra-ai/model-foundry<br/>datasets · recipes · cards · license gates"]
+        DISP["@ultra-ai/work-dispatch<br/>agent registry · task bus · delegation"]
+        HR["@ultra-ai/hermes-runtime<br/>sessions · adapters · reasoner"]
+        OUT["@ultra-ai/outbox<br/>signed hash-chained events"]
+        PORTS["@ultra-ai/port-registry"]
+        VAULT["@ultra-ai/secrets-vault"]
+        WS["@ultra-ai/workspace<br/>OpenHands client"]
+        UCB["ultra-core-bridge<br/>ExportTarget port"]
+    end
+
+    subgraph External["Sidecars & external engines"]
+        HERMES["Hermes Agent v0.23.1<br/>gateway API :8642 · dashboard :9119"]
+        OLLAMA["Ollama / 9router OmniRoute"]
+        ENGINES["n8n · Langflow · Dify · OpenHands :3300 · Open WebUI"]
+        CONTROL["control/ Directory-Control-Systems<br/>4 controllers · health · multi-env"]
+        MON["infrastructure/monitoring<br/>sentinel :9200 · Prometheus/Grafana"]
+    end
+
+    subgraph Contract["Readiness contracts (GATED)"]
+        GO["ultra.gateos-readiness.v1<br/>gate-os-bridge"]
+        COREU["ultra.event.v1 signed outbox<br/>(no chain — deferred)"]
+    end
+
+    UI --> BRIDGE --> EDGE --> CORE
+    CORE --> BRAIN & MEMP & SKILL & MCP & GW & WFE & FOUND & DISP & HR & OUT & PORTS & VAULT & WS
+    DISP --> HERMES
+    HR --> HERMES
+    GW --> OLLAMA
+    WFE --> ENGINES
+    WS --> ENGINES
+    UCB --> COREU
+    CONTROL -. monitors .-> Platform
+    MON -. scrapes .-> Platform
+    GO -.-> Contract
+    COREU -.-> Contract
+```
+
+**Data flow:** user input → Smart UI → desktop-bridge → `@ultra-ai/zeroai-edge` (local-first decision) → either local services (`@ultra-ai/*`) or escalation to Hermes gateway (`:8642`) / model-gateway providers. Every run emits `ultra.event.v1` signed events into the outbox and a visible execution trail (`zeroai.run/trail/routes`).
+
+**Upcoming / deferred (planned, not yet built):**
+- Hermes runtime deep integration, 3D control center, real Ultra Core/Gate-OS endpoints (contracts ready)
+- Blockchain/crypto/token layers — intentionally deferred to later phases (interfaces preserved only)
+
 ## 🚀 Getting Started
 
 ### Prerequisites
@@ -210,6 +500,86 @@ docker build -t ultra-ai-platform .
 docker run -p 3000:3000 -p 5432:5432 ultra-ai-platform
 ```
 
+## Running the project
+
+### Prerequisites
+
+- Node.js >= 20
+- npm (workspaces are used — do not use pnpm/yarn)
+- Docker + Docker Compose (for the full stack)
+- Optional: WSL2 on Windows for the Linux dev environment
+
+### 1. Install dependencies
+
+```bash
+git clone https://github.com/Ultra-Cube/Ultra-AI.git
+cd Ultra-AI
+npm install
+```
+
+### 2. Environment
+
+```bash
+cp .env.example .env   # fill in DATABASE_URL, REDIS_URL, API keys as needed
+```
+
+### 3. Start infrastructure (Postgres, Redis, Mongo, n8n, Grafana, Open WebUI)
+
+```bash
+npm run docker:dev     # docker compose up for the supporting stack
+npm run docker:logs    # optional: follow logs
+docker:down            # stop everything when done
+```
+
+### 4. Run the apps (development mode)
+
+```bash
+npm run dev            # turbo dev — starts frontend (:3000) + core-api (:4000) + services
+```
+
+Or run pieces individually:
+
+```bash
+# Frontend only (Next.js dev server)
+cd platform/frontend && npm run dev        # http://localhost:3000
+
+# Core API only (Fastify/Express backend on :4000)
+cd platform/api && npm run dev
+```
+
+### 5. Verify
+
+```bash
+npm run type-check     # TypeScript across all workspaces
+npm run lint           # ESLint
+npm run test           # unit + integration tests
+npm run build          # production build (turbo)
+```
+
+### 6. Durable / production-like run
+
+`next dev` and `core-api` started manually do **not** survive a WSL/machine restart. For a durable setup use the Docker stack:
+
+```bash
+npm run docker:dev     # containers restart with Docker; add restart: unless-stopped in compose for boot persistence
+```
+
+For systemd-style persistence inside WSL, create user units for `core-api` and the frontend, e.g. `~/.config/systemd/user/ultra-core-api.service` with `WorkingDirectory=/home/pc/ucube/project/Ultra-AI/platform/api` and `ExecStart=npm run dev`, then `systemctl --user enable --now ultra-core-api`. Note WSL requires `systemd=true` in `/etc/wsl.conf` and the distro must stay running.
+
+### Key URLs (dev defaults)
+
+| Surface        | URL                          |
+|----------------|------------------------------|
+| Ultra AI UI    | http://localhost:3000         |
+| core-api       | http://localhost:4000         |
+| Open WebUI     | http://localhost:8080         |
+| n8n            | http://localhost:5678         |
+| Grafana        | http://localhost:3001         |
+| OmniRoute      | http://localhost:20128        |
+
+### Copyright & integrity
+
+Every source file carries the UCUBETECH banner (see `copy.txt`). `scripts/apply-copyright.mjs` re-applies it; `scripts/file-guard.mjs` + `security/file-manifest.sha256` detect unauthorized deletion/modification (`npm run guard:check`). Details: `docs/OWNERSHIP_AND_INTEGRITY.md`.
 ## 📊 Use Cases
 
 ### For Regular Users
@@ -413,7 +783,6 @@ graph LR
     J --> L[Local Compliance]
     K --> M[GDPR Compliance]
 ```
-
 ## 📞 Support and Contact
 
 ### Support Channels
@@ -431,7 +800,7 @@ graph LR
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the **Ultra AI Proprietary License** - see the [LICENSE](LICENSE) file for details. Third-party components retain their own licenses; see [docs/legal/THIRD_PARTY_NOTICES.md](docs/legal/THIRD_PARTY_NOTICES.md).
 
 ## 🙏 Acknowledgments
 
@@ -443,7 +812,11 @@ We thank all contributors and developers who help make this platform a reality. 
 
 ---
 
-# 📋 Detailed Project Requirements - Ultra AI Platform
+
+---
+
+# 📋 Appendix — Detailed Project Requirements (legacy spec)
+
 
 ## 🎯 Overview
 
@@ -687,3 +1060,5 @@ graph TB
 ---
 
 **✨ Developed by Ultra Cube Tech** - [www.ucubetech.com](https://www.ucubetech.com)
+---
+

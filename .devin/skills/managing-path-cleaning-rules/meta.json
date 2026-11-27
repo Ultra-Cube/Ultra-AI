@@ -1,0 +1,144 @@
+{
+  "slug": "managing-path-cleaning-rules",
+  "name": "Managing Path Cleaning Rules",
+  "description": "Inspects URL paths and proposes, tests, orders, and applies project-level path cleaning rules so dynamic segments (numeric IDs, UUIDs, slugs, dates) collapse into readable aliases. Use when the user says \"clean the paths\", \"normalize URLs\", \"group similar pages\", \"too many distinct paths\", \"/users/123 and /users/456 are the same page\", \"set up path cleaning\", or asks why a Web analytics or Paths breakdown is fragmented across thousands of nearly-identical URLs.",
+  "owner": "PostHog",
+  "repo": "skills",
+  "skill_path": "skills/omnibus/managing-path-cleaning-rules",
+  "github_url": "https://github.com/PostHog/skills/tree/main/skills/omnibus/managing-path-cleaning-rules",
+  "weekly_installs": 0,
+  "downloads": 0,
+  "tags": [],
+  "platforms": [
+    "claude-code",
+    "claude-desktop",
+    "cursor",
+    "vscode-copilot",
+    "windsurf",
+    "continue-dev",
+    "codex",
+    "gemini-cli",
+    "amp",
+    "roo-code",
+    "goose",
+    "opencode",
+    "trae",
+    "qodo",
+    "command-code"
+  ],
+  "artifact_type": "skill_pack",
+  "format_standard": "skill_md",
+  "skill_type": "hybrid",
+  "github_stars": 54,
+  "github_forks": 4,
+  "license": "MIT",
+  "image_url": null,
+  "is_paid": false,
+  "price_amount": null,
+  "price_currency": "usd",
+  "purchase_url": null,
+  "updated_at": "2026-07-15T17:42:16.356519+00:00",
+  "category": {
+    "slug": "data-analytics",
+    "name": "Data & Analytics"
+  },
+  "clients": [
+    {
+      "client_slug": "vscode-copilot",
+      "client_name": "VS Code Copilot",
+      "install_instructions": "npx mdskills install PostHog/managing-path-cleaning-rules",
+      "is_primary": false
+    },
+    {
+      "client_slug": "amp",
+      "client_name": "Amp",
+      "install_instructions": "npx mdskills install PostHog/managing-path-cleaning-rules",
+      "is_primary": false
+    },
+    {
+      "client_slug": "claude-desktop",
+      "client_name": "Claude Desktop",
+      "install_instructions": "npx mdskills install PostHog/managing-path-cleaning-rules",
+      "is_primary": false
+    },
+    {
+      "client_slug": "codex",
+      "client_name": "OpenAI Codex",
+      "install_instructions": "npx mdskills install PostHog/managing-path-cleaning-rules",
+      "is_primary": false
+    },
+    {
+      "client_slug": "opencode",
+      "client_name": "OpenCode",
+      "install_instructions": "npx mdskills install PostHog/managing-path-cleaning-rules",
+      "is_primary": false
+    },
+    {
+      "client_slug": "cursor",
+      "client_name": "Cursor",
+      "install_instructions": "npx mdskills install PostHog/managing-path-cleaning-rules",
+      "is_primary": false
+    },
+    {
+      "client_slug": "gemini-cli",
+      "client_name": "Gemini CLI",
+      "install_instructions": "npx mdskills install PostHog/managing-path-cleaning-rules",
+      "is_primary": false
+    },
+    {
+      "client_slug": "trae",
+      "client_name": "TRAE",
+      "install_instructions": "npx mdskills install PostHog/managing-path-cleaning-rules",
+      "is_primary": false
+    },
+    {
+      "client_slug": "claude-code",
+      "client_name": "Claude Code",
+      "install_instructions": "npx mdskills install PostHog/managing-path-cleaning-rules",
+      "is_primary": true
+    },
+    {
+      "client_slug": "continue-dev",
+      "client_name": "Continue",
+      "install_instructions": "npx mdskills install PostHog/managing-path-cleaning-rules",
+      "is_primary": false
+    },
+    {
+      "client_slug": "goose",
+      "client_name": "Goose",
+      "install_instructions": "npx mdskills install PostHog/managing-path-cleaning-rules",
+      "is_primary": false
+    },
+    {
+      "client_slug": "windsurf",
+      "client_name": "Windsurf",
+      "install_instructions": "npx mdskills install PostHog/managing-path-cleaning-rules",
+      "is_primary": false
+    },
+    {
+      "client_slug": "roo-code",
+      "client_name": "Roo Code",
+      "install_instructions": "npx mdskills install PostHog/managing-path-cleaning-rules",
+      "is_primary": false
+    },
+    {
+      "client_slug": "command-code",
+      "client_name": "Command Code",
+      "install_instructions": "npx mdskills install PostHog/managing-path-cleaning-rules",
+      "is_primary": false
+    },
+    {
+      "client_slug": "qodo",
+      "client_name": "Qodo",
+      "install_instructions": "npx mdskills install PostHog/managing-path-cleaning-rules",
+      "is_primary": false
+    }
+  ],
+  "permissions": {
+    "filesystem_read": true,
+    "filesystem_write": true,
+    "shell_exec": true,
+    "network_access": true,
+    "git_write": false
+  }
+}
