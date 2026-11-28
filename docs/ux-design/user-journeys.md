@@ -279,6 +279,7 @@ journey
     section Client Work
       Pitches AI services      : 4: Emma
       Delivers first project   : 3: Emma
+```
 
 ---
 
